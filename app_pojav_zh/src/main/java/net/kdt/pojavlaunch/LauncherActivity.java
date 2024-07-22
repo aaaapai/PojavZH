@@ -1,21 +1,19 @@
 package net.kdt.pojavlaunch;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
 
 import android.Manifest;
+import android.content.Intent;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -28,9 +26,9 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.kdt.mcgui.ProgressLayout;
+import com.kdt.mcgui.mcAccountSpinner;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.feature.UpdateLauncher;
-import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.feature.accounts.LocalAccountUtils;
 import com.movtery.pojavzh.feature.mod.modpack.install.InstallExtra;
@@ -39,11 +37,9 @@ import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
 import com.movtery.pojavzh.ui.activity.SettingsActivity;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
+import com.movtery.pojavzh.utils.AnimUtils;
 import com.movtery.pojavzh.utils.ZHTools;
-import com.movtery.pojavzh.utils.stringutils.ShiftDirection;
-import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
-import net.kdt.pojavlaunch.authenticator.microsoft.MicrosoftBackgroundLogin;
 import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
@@ -65,25 +61,24 @@ import net.kdt.pojavlaunch.tasks.AsyncMinecraftDownloader;
 import net.kdt.pojavlaunch.tasks.AsyncVersionList;
 import net.kdt.pojavlaunch.tasks.MinecraftDownloader;
 import net.kdt.pojavlaunch.utils.NotificationUtils;
-import net.kdt.pojavlaunch.value.MinecraftAccount;
 import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 public class LauncherActivity extends BaseActivity {
-    private final AccountsManager accountsManager = AccountsManager.getInstance();
     public final ActivityResultLauncher<Object> modInstallerLauncher =
             registerForActivityResult(new OpenDocumentWithExtension("jar"), (data)->{
                 if(data != null) Tools.launchModInstaller(this, data);
             });
 
     private View mBackgroundView;
-    private TextView mAppTitle;
+    private mcAccountSpinner mAccountSpinner;
     private FragmentContainerView mFragmentView;
-    private ImageButton mSettingsButton;
+    private ImageButton mSettingsButton, mDeleteAccountButton;
     private ImageView mHair;
     private ProgressLayout mProgressLayout;
     private ProgressServiceKeeper mProgressServiceKeeper;
@@ -118,22 +113,34 @@ public class LauncherActivity extends BaseActivity {
         }
 
         File dirGameModpackFile = new File(value.modpackPath);
-        ModPackUtils.ModPackEnum type;
-        type = ModPackUtils.determineModpack(dirGameModpackFile);
+        int type;
+        try {
+            type = ModPackUtils.determineModpack(dirGameModpackFile);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
-        ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.global_waiting);
-        PojavApplication.sExecutorService.execute(() -> {
-            try {
-                ModLoader loaderInfo = InstallLocalModPack.installModPack(this, type, dirGameModpackFile, () -> runOnUiThread(value.dialog::dismiss));
-                if (loaderInfo == null) return;
-                loaderInfo.getDownloadTask(new NotificationDownloadListener(this, loaderInfo)).run();
-            }catch (Exception e) {
-                value.dialog.dismiss();
-                Tools.showErrorRemote(this, R.string.modpack_install_download_failed, e);
-            }finally {
-                ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
-            }
-        });
+        if (type != 0) {
+            ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.global_waiting);
+            PojavApplication.sExecutorService.execute(() -> {
+                try {
+                    ModLoader loaderInfo = InstallLocalModPack.installModPack(this, type, dirGameModpackFile, () -> runOnUiThread(value.dialog::dismiss));
+                    if (loaderInfo == null) return;
+                    loaderInfo.getDownloadTask(new NotificationDownloadListener(this, loaderInfo)).run();
+                }catch (Exception e) {
+                    Tools.showErrorRemote(this, R.string.modpack_install_download_failed, e);
+                }finally {
+                    ProgressLayout.clearProgress(ProgressLayout.INSTALL_MODPACK);
+                }
+            });
+        } else {
+            FileUtils.deleteQuietly(dirGameModpackFile);
+            runOnUiThread(() -> new TipDialog.Builder(this)
+                    .setMessage(R.string.zh_select_modpack_local_not_supported) //弹窗提醒
+                    .setShowCancel(true)
+                    .setShowConfirm(false)
+                    .buildDialog());
+        }
 
         return false;
     };
@@ -149,45 +156,15 @@ public class LauncherActivity extends BaseActivity {
         }
     };
 
-    private final ExtraListener<Uri> mMicrosoftLoginListener = (key, value) -> {
-        new MicrosoftBackgroundLogin(false, value.getQueryParameter("code")).performLogin(
-                accountsManager.getProgressListener(), accountsManager.getDoneListener(), accountsManager.getErrorListener());
-        return false;
-    };
+    /* Listener for account deletion */
+    private final View.OnClickListener mAccountDeleteButtonListener = v -> new TipDialog.Builder(this)
+        .setMessage(R.string.warning_remove_account)
+            .setConfirm(R.string.global_delete)
+            .setConfirmClickListener(() -> mAccountSpinner.removeCurrentAccount())
+            .buildDialog();
 
-    // Test mode
-    private final ExtraListener<String[]> mLocalLoginListener = (key, value) -> {
-        if (value[1].isEmpty()) { // Test mode
-            MinecraftAccount account = new MinecraftAccount();
-            account.username = value[0];
-            try {
-                account.save();
-            } catch (IOException e) {
-                Log.e("McAccountSpinner", "Failed to save the account : " + e);
-            }
-
-            accountsManager.getDoneListener().onLoginDone(account);
-        }
-        return false;
-    };
-
-    private final ExtraListener<MinecraftAccount> mOtherLoginListener = (key, value) -> {
-        try {
-            value.save();
-        } catch (IOException e) {
-            Log.e("McAccountSpinner", "Failed to save the account : " + e);
-        }
-        accountsManager.getDoneListener().onLoginDone(value);
-        return false;
-    };
-
-    private final ExtraListener<Boolean> mAccountUpdateListener = (key, value) -> {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof AccountUpdateListener) {
-                ((AccountUpdateListener) fragment).onUpdate();
-                return false;
-            }
-        }
+    private final ExtraListener<Boolean> mAccountChangeListener = (key, value) -> {
+        runOnUiThread(() -> refreshDeleteAccountButton(true));
         return false;
     };
 
@@ -197,7 +174,7 @@ public class LauncherActivity extends BaseActivity {
             return false;
         }
 
-        String selectedProfile = DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE,"");
+        String selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE,"");
         if (LauncherProfiles.mainProfileJson == null || !LauncherProfiles.mainProfileJson.profiles.containsKey(selectedProfile)){
             Toast.makeText(this, R.string.error_no_version, Toast.LENGTH_LONG).show();
             return false;
@@ -208,7 +185,7 @@ public class LauncherActivity extends BaseActivity {
             return false;
         }
 
-        if (accountsManager.getAllAccount().isEmpty()) {
+        if(mAccountSpinner.getSelectedAccount() == null){
             Toast.makeText(this, R.string.no_saved_accounts, Toast.LENGTH_LONG).show();
             ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
             return false;
@@ -282,6 +259,7 @@ public class LauncherActivity extends BaseActivity {
         );
         bindViews();
         ZHTools.setBackgroundImage(this, BackgroundType.MAIN_MENU, mBackgroundView);
+        refreshDeleteAccountButton(false);
 
         checkNotificationPermission();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -289,19 +267,13 @@ public class LauncherActivity extends BaseActivity {
         ProgressKeeper.addTaskCountListener((mProgressServiceKeeper = new ProgressServiceKeeper(this)));
 
         mSettingsButton.setOnClickListener(mSettingButtonListener);
-        mAppTitle.setOnClickListener(v -> mAppTitle.setText(StringUtils.shiftString(mAppTitle.getText().toString(), ShiftDirection.RIGHT, 1)));
-
+        mDeleteAccountButton.setOnClickListener(mAccountDeleteButtonListener);
         ProgressKeeper.addTaskCountListener(mProgressLayout);
-
-        ExtraCore.addExtraListener(ExtraConstants.MICROSOFT_LOGIN_TODO, mMicrosoftLoginListener);
-        ExtraCore.addExtraListener(ZHExtraConstants.LOCAL_LOGIN_TODO, mLocalLoginListener);
-        ExtraCore.addExtraListener(ZHExtraConstants.OTHER_LOGIN_TODO, mOtherLoginListener);
-        ExtraCore.addExtraListener(ZHExtraConstants.ACCOUNT_UPDATE, mAccountUpdateListener);
-
         ExtraCore.addExtraListener(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethod);
 
         ExtraCore.addExtraListener(ExtraConstants.LAUNCH_GAME, mLaunchGameListener);
 
+        ExtraCore.addExtraListener(ZHExtraConstants.ACCOUNT_CHANGE, mAccountChangeListener);
         ExtraCore.addExtraListener(ZHExtraConstants.INSTALL_LOCAL_MODPACK, mInstallLocalModpack);
 
         new AsyncVersionList().getVersionList(versions -> ExtraCore.setValue(ExtraConstants.RELEASE_TABLE, versions), false);
@@ -350,11 +322,8 @@ public class LauncherActivity extends BaseActivity {
         ProgressKeeper.removeTaskCountListener(mProgressServiceKeeper);
         ExtraCore.removeExtraListenerFromValue(ExtraConstants.SELECT_AUTH_METHOD, mSelectAuthMethod);
         ExtraCore.removeExtraListenerFromValue(ExtraConstants.LAUNCH_GAME, mLaunchGameListener);
+        ExtraCore.removeExtraListenerFromValue(ZHExtraConstants.ACCOUNT_CHANGE, mAccountChangeListener);
         ExtraCore.removeExtraListenerFromValue(ZHExtraConstants.INSTALL_LOCAL_MODPACK, mInstallLocalModpack);
-        ExtraCore.removeExtraListenerFromValue(ExtraConstants.MICROSOFT_LOGIN_TODO, mMicrosoftLoginListener);
-        ExtraCore.removeExtraListenerFromValue(ZHExtraConstants.LOCAL_LOGIN_TODO, mLocalLoginListener);
-        ExtraCore.removeExtraListenerFromValue(ZHExtraConstants.OTHER_LOGIN_TODO, mOtherLoginListener);
-        ExtraCore.removeExtraListenerFromValue(ZHExtraConstants.ACCOUNT_UPDATE, mAccountUpdateListener);
 
         getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(mFragmentCallbackListener);
     }
@@ -437,7 +406,7 @@ public class LauncherActivity extends BaseActivity {
 
     private void handleNoNotificationPermission() {
         LauncherPreferences.PREF_SKIP_NOTIFICATION_PERMISSION_CHECK = true;
-        DEFAULT_PREF.edit()
+        LauncherPreferences.DEFAULT_PREF.edit()
                 .putBoolean(LauncherPreferences.PREF_KEY_SKIP_NOTIFICATION_CHECK, true)
                 .apply();
         Toast.makeText(this, R.string.notification_permission_toast, Toast.LENGTH_LONG).show();
@@ -457,14 +426,33 @@ public class LauncherActivity extends BaseActivity {
         mRequestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
     }
 
+    private void refreshDeleteAccountButton(boolean anim) {
+        boolean shouldShow = !AccountsManager.getAllAccount().isEmpty();
+        if (anim) {
+            AnimUtils.setVisibilityAnim(mDeleteAccountButton, shouldShow, new AnimUtils.AnimationListener() {
+                @Override
+                public void onStart() {
+                    mDeleteAccountButton.setClickable(false);
+                }
+                @Override
+                public void onEnd() {
+                    mDeleteAccountButton.setClickable(true);
+                }
+            });
+        } else {
+            mDeleteAccountButton.setVisibility(shouldShow ? View.VISIBLE : View.GONE);
+        }
+    }
+
     /** Stuff all the view boilerplate here */
     private void bindViews(){
         mBackgroundView = findViewById(R.id.background_view);
 
         mFragmentView = findViewById(R.id.container_fragment);
         mSettingsButton = findViewById(R.id.setting_button);
+        mDeleteAccountButton = findViewById(R.id.delete_account_button);
+        mAccountSpinner = findViewById(R.id.account_spinner);
         mProgressLayout = findViewById(R.id.progress_layout);
-        mAppTitle = findViewById(R.id.app_title_text);
 
         mHair = findViewById(R.id.zh_hair);
     }

@@ -1,5 +1,7 @@
 package com.movtery.pojavzh.ui.subassembly.filelist;
 
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -36,7 +38,7 @@ public class FileRecyclerViewCreator {
         this.mainRecyclerView = recyclerView;
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
-        this.mainRecyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
+        if (PREF_ANIMATION) this.mainRecyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
         this.mainRecyclerView.setLayoutManager(layoutManager);
         this.mainRecyclerView.setAdapter(this.fileRecyclerAdapter);
     }
@@ -46,7 +48,7 @@ public class FileRecyclerViewCreator {
         this.mData.clear();
         this.mData.addAll(itemBeans);
         fileRecyclerAdapter.notifyDataSetChanged();
-        this.mainRecyclerView.scheduleLayoutAnimation();
+        if (PREF_ANIMATION) this.mainRecyclerView.scheduleLayoutAnimation();
     }
 
     public void setOnMultiSelectListener(FileRecyclerAdapter.OnMultiSelectListener listener) {

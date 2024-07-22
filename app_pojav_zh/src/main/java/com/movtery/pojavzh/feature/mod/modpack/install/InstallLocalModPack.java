@@ -3,10 +3,10 @@ package com.movtery.pojavzh.feature.mod.modpack.install;
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.movtery.pojavzh.feature.mod.models.MCBBSPackMeta;
 import com.movtery.pojavzh.feature.mod.modpack.MCBBSModPack;
-import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
 
 import net.kdt.pojavlaunch.R;
@@ -25,13 +25,13 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class InstallLocalModPack {
-    public static ModLoader installModPack(Context context, ModPackUtils.ModPackEnum type, File zipFile, OnInstallStartListener onInstallStartListener) throws Exception {
+    public static ModLoader installModPack(Context context, int type, File zipFile, OnInstallStartListener onInstallStartListener) throws Exception {
         try (ZipFile modpackZipFile = new ZipFile(zipFile)) {
             String zipName = zipFile.getName();
             String packName = zipName.substring(0, zipName.lastIndexOf('.'));
             ModLoader modLoader;
             switch (type) {
-                case CURSEFORGE:
+                case 1: //curseforge
                     ZipEntry curseforgeEntry = modpackZipFile.getEntry("manifest.json");
                     CurseManifest curseManifest = Tools.GLOBAL_GSON.fromJson(
                             Tools.read(modpackZipFile.getInputStream(curseforgeEntry)),
@@ -41,7 +41,7 @@ public class InstallLocalModPack {
                     ModPackUtils.createModPackProfiles(packName, curseManifest.name, modLoader.getVersionId());
 
                     return modLoader;
-                case MCBBS:
+                case 2: //mcbbs
                     ZipEntry mcbbsEntry = modpackZipFile.getEntry("mcbbs.packmeta");
 
                     MCBBSPackMeta mcbbsPackMeta = Tools.GLOBAL_GSON.fromJson(
@@ -53,7 +53,7 @@ public class InstallLocalModPack {
                         MCBBSModPack.createModPackProfiles(packName, mcbbsPackMeta, modLoader.getVersionId());
 
                     return modLoader;
-                case MODRINTH:
+                case 3: // modrinth
                     ModrinthIndex modrinthIndex = Tools.GLOBAL_GSON.fromJson(
                             Tools.read(ZipUtils.getEntryStream(modpackZipFile, "modrinth.index.json")),
                             ModrinthIndex.class); // 用于获取创建实例所需的数据
@@ -63,11 +63,7 @@ public class InstallLocalModPack {
 
                     return modLoader;
                 default:
-                    runOnUiThread(() -> new TipDialog.Builder(context)
-                            .setMessage(R.string.zh_select_modpack_local_not_supported) //弹窗提醒
-                            .setShowCancel(true)
-                            .setShowConfirm(false)
-                            .buildDialog());
+                    runOnUiThread(() -> Toast.makeText(context, context.getString(R.string.zh_select_modpack_local_not_supported), Toast.LENGTH_SHORT).show());
                     return null;
             }
         } finally {

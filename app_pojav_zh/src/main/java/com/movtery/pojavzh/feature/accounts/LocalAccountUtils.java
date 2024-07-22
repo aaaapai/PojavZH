@@ -16,7 +16,7 @@ import net.kdt.pojavlaunch.Tools;
 
 public class LocalAccountUtils {
     public static void checkUsageAllowed(CheckResultListener listener) {
-        if (AccountsManager.getInstance().haveMicrosoftAccount()) {
+        if (AccountsManager.haveMicrosoftAccount()) {
             listener.onUsageAllowed();
         } else {
             listener.onUsageDenied();

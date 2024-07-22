@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import net.kdt.pojavlaunch.*;
-
 import java.io.*;
 import com.google.gson.*;
 import com.movtery.pojavzh.utils.ZHTools;

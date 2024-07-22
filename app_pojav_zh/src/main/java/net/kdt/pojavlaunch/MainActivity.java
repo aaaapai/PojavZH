@@ -47,18 +47,12 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.kdt.LoggerView;
-import com.movtery.pojavzh.feature.ProfileLanguageSelector;
-import com.movtery.pojavzh.feature.accounts.AccountsManager;
-import com.movtery.pojavzh.ui.dialog.ControlSettingsDialog;
+import com.movtery.pojavzh.feature.renderer.RendererManager;
+import com.movtery.pojavzh.feature.renderer.RenderersList;
 import com.movtery.pojavzh.ui.dialog.KeyboardDialog;
 import com.movtery.pojavzh.ui.dialog.MouseSettingsDialog;
-import com.movtery.pojavzh.ui.dialog.SelectControlsDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
-import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
-import com.movtery.pojavzh.utils.AnimUtils;
-import com.movtery.pojavzh.utils.ZHTools;
-import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import net.kdt.pojavlaunch.customcontrols.ControlButtonMenuListener;
 import net.kdt.pojavlaunch.customcontrols.ControlData;
@@ -71,8 +65,17 @@ import net.kdt.pojavlaunch.customcontrols.keyboard.LwjglCharSender;
 import net.kdt.pojavlaunch.customcontrols.keyboard.TouchCharInput;
 import net.kdt.pojavlaunch.customcontrols.mouse.GyroControl;
 import net.kdt.pojavlaunch.customcontrols.mouse.Touchpad;
+import com.movtery.pojavzh.ui.dialog.ControlSettingsDialog;
+import com.movtery.pojavzh.ui.dialog.SelectControlsDialog;
+import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.utils.AnimUtils;
+import com.movtery.pojavzh.utils.ZHTools;
+
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
+import com.movtery.pojavzh.feature.ProfileLanguageSelector;
+import com.movtery.pojavzh.utils.stringutils.StringUtils;
+
 import net.kdt.pojavlaunch.services.GameService;
 import net.kdt.pojavlaunch.utils.JREUtils;
 import net.kdt.pojavlaunch.utils.MCOptionUtils;
@@ -377,16 +380,22 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
     private void runCraft(String versionId, JMinecraftVersionList.Version version) throws Throwable {
         if(Tools.LOCAL_RENDERER == null) {
-            Tools.LOCAL_RENDERER = LauncherPreferences.PREF_RENDERER;
+            Tools.LOCAL_RENDERER = LauncherPreferences.PREF_EXP_SETUP ? LauncherPreferences.PREF_EXP_RENDERER : LauncherPreferences.PREF_RENDERER;
         }
-        if(!Tools.checkRendererCompatible(this, Tools.LOCAL_RENDERER)) {
-            Tools.RenderersList renderersList = Tools.getCompatibleRenderers(this);
+        if(RendererManager.MESA_LIBS == null) {
+            RendererManager.MESA_LIBS = LauncherPreferences.PREF_MESA_LIB;
+        }
+        if(RendererManager.DRIVER_MODEL == null) {
+            RendererManager.DRIVER_MODEL = LauncherPreferences.PREF_DRIVER_MODEL;
+        }
+        if(!RendererManager.checkRendererCompatible(this, Tools.LOCAL_RENDERER)) {
+            RenderersList renderersList = RendererManager.getCompatibleRenderers(this);
             String firstCompatibleRenderer = renderersList.rendererIds.get(0);
             Log.w("runCraft","Incompatible renderer "+Tools.LOCAL_RENDERER+ " will be replaced with "+firstCompatibleRenderer);
             Tools.LOCAL_RENDERER = firstCompatibleRenderer;
             Tools.releaseCache();
         }
-        MinecraftAccount minecraftAccount = AccountsManager.getInstance().getCurrentAccount();
+        MinecraftAccount minecraftAccount = PojavProfile.getCurrentProfileContent(this, null);
         Logger.appendToLog("--------- beginning with launcher debug");
         printLauncherInfo(versionId, Tools.isValidString(minecraftProfile.javaArgs) ? minecraftProfile.javaArgs : LauncherPreferences.PREF_CUSTOM_JAVA_ARGS, minecraftProfile.javaDir == null ? "Default" : minecraftProfile.javaDir);
         JREUtils.redirectAndPrintJRELog();
@@ -524,7 +533,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         b.setView(v);
         b.setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
             LauncherPreferences.PREF_GYRO_SENSITIVITY = ((float) tmpGyroSensitivity)/100f;
-            DEFAULT_PREF.edit().putInt("gyroSensitivity", tmpGyroSensitivity).apply();
+            LauncherPreferences.DEFAULT_PREF.edit().putInt("gyroSensitivity", tmpGyroSensitivity).apply();
             dialogInterface.dismiss();
             System.gc();
         });

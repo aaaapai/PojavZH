@@ -1,5 +1,7 @@
 package com.movtery.pojavzh.ui.dialog;
 
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -67,7 +69,7 @@ public class ModDependenciesDialog extends FullScreenDialog {
         ModDependenciesAdapter adapter = new ModDependenciesAdapter(mod, mData);
         adapter.setOnItemCLickListener(this::dismiss);
         modRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        modRecyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
+        if (PREF_ANIMATION) modRecyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
         modRecyclerView.setAdapter(adapter);
 
         mCloseButton.setOnClickListener(v -> this.dismiss());

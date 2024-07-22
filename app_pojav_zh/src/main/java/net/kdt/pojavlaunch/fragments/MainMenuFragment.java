@@ -2,6 +2,7 @@ package net.kdt.pojavlaunch.fragments;
 
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -25,7 +26,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.kdt.mcgui.mcVersionSpinner;
-import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.ui.fragment.AboutFragment;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
 import com.movtery.pojavzh.ui.fragment.FilesFragment;
@@ -38,7 +38,6 @@ import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import com.movtery.pojavzh.ui.dialog.ShareLogDialog;
 import com.movtery.pojavzh.ui.fragment.ProfilePathManagerFragment;
-import com.movtery.pojavzh.ui.subassembly.account.AccountView;
 
 import net.kdt.pojavlaunch.extra.ExtraConstants;
 import net.kdt.pojavlaunch.extra.ExtraCore;
@@ -48,9 +47,8 @@ import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 import java.io.File;
 import java.util.concurrent.Future;
 
-public class MainMenuFragment extends Fragment implements TaskCountListener, AccountUpdateListener {
+public class MainMenuFragment extends Fragment implements TaskCountListener {
     public static final String TAG = "MainMenuFragment";
-    private AccountView accountView;
     private CheckNewNotice.NoticeInfo noticeInfo = null;
     private mcVersionSpinner mVersionSpinner;
     private View mLauncherNoticeView, mDividingLineView;
@@ -115,9 +113,6 @@ public class MainMenuFragment extends Fragment implements TaskCountListener, Acc
             Tools.swapFragment(requireActivity(), FilesFragment.class, FilesFragment.TAG, bundle);
         });
 
-        accountView = new AccountView(view.findViewById(R.id.view_account));
-        accountView.refreshAccountInfo();
-
         initNotice(view);
     }
 
@@ -176,7 +171,7 @@ public class MainMenuFragment extends Fragment implements TaskCountListener, Acc
         if ((params.horizontalBias == 0 && !show) || ((params.horizontalBias > 0 && params.horizontalBias <= 0.5) && show)) return;
         mNoticeCloseButton.setClickable(false);
 
-        if (anim) {
+        if (PREF_ANIMATION && anim) {
             //通过分割线来设置通知栏划出动画
             mLauncherNoticeView.setVisibility(View.VISIBLE);
 
@@ -243,10 +238,5 @@ public class MainMenuFragment extends Fragment implements TaskCountListener, Acc
     @Override
     public void onUpdateTaskCount(int taskCount) {
         mTasksRunning = taskCount != 0;
-    }
-
-    @Override
-    public void onUpdate() {
-        accountView.refreshAccountInfo();
     }
 }

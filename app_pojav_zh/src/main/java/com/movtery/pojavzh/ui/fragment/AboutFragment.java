@@ -8,7 +8,6 @@ import static com.movtery.pojavzh.utils.ZHTools.getVersionStatus;
 import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -112,7 +111,7 @@ public class AboutFragment extends Fragment {
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_lingmuqiuzhu, requireContext().getTheme()),
-                "柃木湫竹",
+                "柃木秋竹",
                 getString(R.string.zh_about_lingmuqiuzhu_desc),
                 null));
     }
@@ -133,17 +132,13 @@ public class AboutFragment extends Fragment {
 
     private void setSponsorVisible(boolean visible) {
         Tools.runOnUiThread(() -> {
-            try {
-                mSponsorView.setVisibility(visible ? View.VISIBLE : View.GONE);
+            mSponsorView.setVisibility(visible ? View.VISIBLE : View.GONE);
 
-                if (visible) {
-                    SponsorRecyclerAdapter sponsorAdapter = new SponsorRecyclerAdapter(CheckSponsor.getSponsorData());
-                    mSponsorRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                    mSponsorRecyclerView.setNestedScrollingEnabled(false); //禁止滑动
-                    mSponsorRecyclerView.setAdapter(sponsorAdapter);
-                }
-            } catch (Exception e) {
-                Log.e("setSponsorVisible", e.toString());
+            if (visible) {
+                SponsorRecyclerAdapter sponsorAdapter = new SponsorRecyclerAdapter(CheckSponsor.getSponsorData());
+                mSponsorRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                mSponsorRecyclerView.setNestedScrollingEnabled(false); //禁止滑动
+                mSponsorRecyclerView.setAdapter(sponsorAdapter);
             }
         });
     }

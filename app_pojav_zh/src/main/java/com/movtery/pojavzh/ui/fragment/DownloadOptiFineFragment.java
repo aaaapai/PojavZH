@@ -1,6 +1,7 @@
 package com.movtery.pojavzh.ui.fragment;
 
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
 
 import android.content.Intent;
 
@@ -109,7 +110,7 @@ public class DownloadOptiFineFragment extends TwoLevelListFragment implements Mo
             }
 
             componentProcessing(false);
-            recyclerView.scheduleLayoutAnimation();
+            if (PREF_ANIMATION) recyclerView.scheduleLayoutAnimation();
         });
     }
 

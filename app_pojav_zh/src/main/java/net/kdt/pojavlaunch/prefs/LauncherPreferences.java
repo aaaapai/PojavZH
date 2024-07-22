@@ -25,6 +25,9 @@ public class LauncherPreferences {
 
     public static SharedPreferences DEFAULT_PREF;
     public static String PREF_RENDERER = "opengles2";
+    public static String PREF_EXP_RENDERER = "opengles2";
+    public static String PREF_MESA_LIB = "default";
+    public static String PREF_DRIVER_MODEL = "driver_zink";
 
 	public static boolean PREF_VERTYPE_RELEASE = true;
 	public static boolean PREF_VERTYPE_SNAPSHOT = false;
@@ -79,6 +82,15 @@ public class LauncherPreferences {
     public static boolean PREF_BUTTON_SNAPPING = true;
     public static int PREF_BUTTON_SNAPPING_DISTANCE = 8;
 
+    public static boolean PREF_EXP_SETUP = false;
+    public static boolean PREF_SPARE_BRIDGE = false;
+    public static boolean PREF_EXP_FRAME_BUFFER = false;
+    public static boolean PREF_EXP_ENABLE_SYSTEM = false;
+    public static boolean PREF_EXP_ENABLE_SPECIFIC = false;
+    public static boolean PREF_EXP_ENABLE_CUSTOM = false;
+
+    public static String PREF_MESA_GL_VERSION;
+    public static String PREF_MESA_GLSL_VERSION;
 
     public static void loadPreferences(Context ctx) {
         //Required for the data folder.
@@ -86,10 +98,11 @@ public class LauncherPreferences {
         ZHTools.initContextConstants(ctx);
 
         PREF_RENDERER = DEFAULT_PREF.getString("renderer", "opengles2");
+        PREF_EXP_RENDERER = DEFAULT_PREF.getString("renderer_exp", "opengles2");
         PREF_BUTTONSIZE = DEFAULT_PREF.getInt("buttonscale", 100);
         PREF_HIDE_SIDEBAR = DEFAULT_PREF.getBoolean("hideSidebar", false);
         PREF_IGNORE_NOTCH = DEFAULT_PREF.getBoolean("ignoreNotch", true);
-        PREF_VERTYPE_RELEASE = DEFAULT_PREF.getBoolean("vertype_release", true);
+		PREF_VERTYPE_RELEASE = DEFAULT_PREF.getBoolean("vertype_release", true);
 		PREF_VERTYPE_SNAPSHOT = DEFAULT_PREF.getBoolean("vertype_snapshot", false);
 		PREF_VERTYPE_OLDALPHA = DEFAULT_PREF.getBoolean("vertype_oldalpha", false);
 		PREF_VERTYPE_OLDBETA = DEFAULT_PREF.getBoolean("vertype_oldbeta", false);
@@ -131,6 +144,19 @@ public class LauncherPreferences {
         PREF_QUILT_LAUNCHER = DEFAULT_PREF.getBoolean("quitLauncher", true);
         PREF_BUTTON_SNAPPING = DEFAULT_PREF.getBoolean("buttonSnapping", true);
         PREF_BUTTON_SNAPPING_DISTANCE = DEFAULT_PREF.getInt("buttonSnappingDistance", 8);
+
+        PREF_SPARE_BRIDGE = DEFAULT_PREF.getBoolean("spareBridge", false);
+        PREF_EXP_FRAME_BUFFER = DEFAULT_PREF.getBoolean("ExpFrameBuffer", false);
+        PREF_EXP_ENABLE_SYSTEM = DEFAULT_PREF.getBoolean("ebSystem", false);
+        PREF_EXP_ENABLE_SPECIFIC = DEFAULT_PREF.getBoolean("ebSpecific", false);
+        PREF_EXP_ENABLE_CUSTOM = DEFAULT_PREF.getBoolean("ebCustom", false);
+
+        PREF_EXP_SETUP = DEFAULT_PREF.getBoolean("ExperimentalSetup", false);
+        PREF_MESA_LIB = DEFAULT_PREF.getString("CMesaLibrary", "default");
+        PREF_DRIVER_MODEL = DEFAULT_PREF.getString("CDriverModels", "driver_zink");
+
+        PREF_MESA_GL_VERSION = DEFAULT_PREF.getString("mesaGLVersion", "4.6");
+        PREF_MESA_GLSL_VERSION = DEFAULT_PREF.getString("mesaGLSLVersion", "460");
 
         String argLwjglLibname = "-Dorg.lwjgl.opengl.libname=";
         for (String arg : JREUtils.parseJavaArguments(PREF_CUSTOM_JAVA_ARGS)) {

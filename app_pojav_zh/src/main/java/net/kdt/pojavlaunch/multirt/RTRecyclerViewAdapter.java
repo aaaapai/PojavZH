@@ -27,43 +27,31 @@ import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import java.io.IOException;
 import java.util.List;
 
-public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RTRecyclerViewAdapter.RTViewHolder> {
     private SelectRuntimeDialog.RuntimeSelectedListener mSelectedListener;
-    private final int TYPE_MODE_SELECT = 0;
-    private final int TYPE_MODE_EDIT = 1;
-    private int mType = TYPE_MODE_EDIT;
+    private boolean mIsSelectMode = false;
+
     private boolean mIsDeleting = false;
 
     public RTRecyclerViewAdapter() {
     }
 
     public RTRecyclerViewAdapter(SelectRuntimeDialog.RuntimeSelectedListener listener) {
-        this.mType = TYPE_MODE_SELECT;
+        this.mIsSelectMode = true;
         this.mSelectedListener = listener;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case TYPE_MODE_SELECT:
-                View recyclableView1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_multirt_runtime, parent,false);
-                return new RTSelectViewHolder(recyclableView1);
-            case TYPE_MODE_EDIT:
-            default:
-                View recyclableView2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_multirt_runtime,parent,false);
-                return new RTEditViewHolder(recyclableView2);
-        }
+    public RTViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View recyclableView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_multirt_runtime,parent,false);
+        return new RTViewHolder(recyclableView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RTViewHolder holder, int position) {
         final List<Runtime> runtimes = MultiRTUtils.getRuntimes();
-        if (getItemViewType(position) == TYPE_MODE_EDIT) {
-            ((RTEditViewHolder) holder).bindRuntime(runtimes.get(position), position);
-        } else {
-            ((RTSelectViewHolder) holder).bindRuntime(runtimes.get(position));
-        }
+        holder.bindRuntime(runtimes.get(position),position);
     }
 
     @Override
@@ -73,17 +61,6 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public boolean isDefaultRuntime(Runtime rt) {
         return LauncherPreferences.PREF_DEFAULT_RUNTIME.equals(rt.name);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        switch (mType) {
-            case TYPE_MODE_SELECT:
-                return TYPE_MODE_SELECT;
-            case TYPE_MODE_EDIT:
-            default:
-                return TYPE_MODE_EDIT;
-        }
     }
 
     @SuppressLint("NotifyDataSetChanged") //not a problem, given the typical size of the list
@@ -103,45 +80,9 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return mIsDeleting;
     }
 
-    private String getJavaVersionName(Runtime runtime) {
-        return runtime.name.replace(".tar.xz", "")
-                .replace("-", " ");
-    }
 
-    public class RTSelectViewHolder extends RecyclerView.ViewHolder {
-        final View mainView;
-        final Context mContext;
-        final TextView mJavaVersionTextView;
-        final TextView mFullJavaVersionTextView;
-
-        public RTSelectViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mainView = itemView;
-            mContext = itemView.getContext();
-            mJavaVersionTextView = itemView.findViewById(R.id.multirt_view_java_version);
-            mFullJavaVersionTextView = itemView.findViewById(R.id.multirt_view_java_version_full);
-        }
-
-        public void bindRuntime(Runtime runtime) {
-            if(runtime.versionString != null && Tools.DEVICE_ARCHITECTURE == Architecture.archAsInt(runtime.arch)) {
-                mJavaVersionTextView.setText(getJavaVersionName(runtime));
-                mFullJavaVersionTextView.setText(runtime.versionString);
-
-                mainView.setOnClickListener(v -> mSelectedListener.onSelected(runtime.name));
-                return;
-            }
-
-            if (runtime.versionString == null) {
-                mFullJavaVersionTextView.setText(R.string.multirt_runtime_corrupt);
-            } else {
-                mFullJavaVersionTextView.setText(mContext.getString(R.string.multirt_runtime_incompatiblearch, runtime.arch));
-            }
-            mJavaVersionTextView.setText(runtime.name);
-            mFullJavaVersionTextView.setTextColor(Color.RED);
-        }
-    }
-
-    public class RTEditViewHolder extends RecyclerView.ViewHolder {
+    public class RTViewHolder extends RecyclerView.ViewHolder {
+        final View mainItemView;
         final TextView mJavaVersionTextView;
         final TextView mFullJavaVersionTextView;
         final ColorStateList mDefaultColors;
@@ -151,8 +92,9 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         Runtime mCurrentRuntime;
         int mCurrentPosition;
 
-        public RTEditViewHolder(View itemView) {
+        public RTViewHolder(View itemView) {
             super(itemView);
+            mainItemView = itemView;
             mJavaVersionTextView = itemView.findViewById(R.id.multirt_view_java_version);
             mFullJavaVersionTextView = itemView.findViewById(R.id.multirt_view_java_version_full);
             mSetDefaultButton = itemView.findViewById(R.id.multirt_view_setdefaultbtn);
@@ -202,10 +144,14 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         public void bindRuntime(Runtime runtime, int pos) {
+            if (mSelectedListener != null) mainItemView.setOnClickListener(v -> mSelectedListener.onSelected(runtime.name));
+
             mCurrentRuntime = runtime;
             mCurrentPosition = pos;
             if(runtime.versionString != null && Tools.DEVICE_ARCHITECTURE == Architecture.archAsInt(runtime.arch)) {
-                mJavaVersionTextView.setText(getJavaVersionName(runtime));
+                mJavaVersionTextView.setText(runtime.name
+                        .replace(".tar.xz", "")
+                        .replace("-", " "));
                 mFullJavaVersionTextView.setText(runtime.versionString);
                 mFullJavaVersionTextView.setTextColor(mDefaultColors);
 
@@ -230,7 +176,7 @@ public class RTRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
 
         private void updateButtonsVisibility(){
-            mSetDefaultButton.setVisibility(mIsDeleting ? View.GONE : View.VISIBLE);
+            mSetDefaultButton.setVisibility(mIsSelectMode || mIsDeleting ? View.GONE : View.VISIBLE);
             mDeleteButton.setVisibility(mIsDeleting ? View.VISIBLE : View.GONE);
         }
     }

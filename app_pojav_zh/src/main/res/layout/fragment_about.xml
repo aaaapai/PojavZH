@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/constraintLayout2"
         app:layout_constraintHorizontal_weight="7"
@@ -19,8 +19,8 @@
 
         <ScrollView
             android:id="@+id/scrollView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="12dp"
@@ -36,7 +36,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout3"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_card"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +125,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout4"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/background_card"
@@ -161,7 +161,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout5"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/background_card"
@@ -210,11 +210,23 @@
                         android:id="@+id/zh_about_sponsor_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginHorizontal="8dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/zh_about_sponsor_desc" />
+
+                    <Button
+                        android:id="@+id/zh_about_support_development"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginHorizontal="4dp"
+                        android:text="@string/zh_about_button_support_development"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/zh_about_sponsor_recycler" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -249,7 +261,8 @@
             android:id="@+id/zh_about_return_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/zh_return"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -261,24 +274,14 @@
             android:id="@+id/zh_about_github_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:text="Github"
             app:layout_constraintBottom_toTopOf="@+id/zh_about_return_button"
             app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
             tools:ignore="HardcodedText" />
-
-        <Button
-            android:id="@+id/zh_about_support_development"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:text="@string/zh_about_button_support_development"
-            app:layout_constraintBottom_toTopOf="@+id/zh_about_github_button"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"/>
 
         <TextView
             android:id="@+id/zh_about_version_name"

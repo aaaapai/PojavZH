@@ -348,6 +348,8 @@ public class MicrosoftBackgroundLogin {
         Log.i("MicrosoftLogin", "Error code: " + conn.getResponseCode() + ": " + conn.getResponseMessage());
         if(conn.getResponseCode() == 429) {
             return new PresentedException(R.string.microsoft_login_retry_later);
+        } else if (conn.getResponseCode() == 400 || conn.getResponseCode() == 401) {
+            return new PresentedException(R.string.zh_account_microsoft_xerr_unauthorized);
         }
         return new RuntimeException(conn.getResponseMessage());
     }
