@@ -75,7 +75,7 @@ public class UpdateLauncher {
 
     private String getDownloadUrl() {
         String fileUrl;
-        String githubUrl = "github.com/MovTery/PojavZenithHorizon/releases/download/" + tagName + "/" + "PojavZenithHorizon-" + versionName + ".apk";
+        String githubUrl = "github.com/Vera-Firefly/PZH-X-PGW/releases/download/" + tagName + "/" + "PZH-X-PGW-" + versionName + ".apk";
         switch (updateSource) {
             case GHPROXY:
                 fileUrl = "https://mirror.ghproxy.com/" + githubUrl;
