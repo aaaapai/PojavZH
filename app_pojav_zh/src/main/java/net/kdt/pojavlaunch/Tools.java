@@ -50,6 +50,7 @@ import com.google.gson.GsonBuilder;
 
 import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog;
+import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathHome;
 import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.utils.ZHTools;
@@ -651,11 +652,12 @@ public final class Tools {
     }
 
     public static void dialog(final Context context, final CharSequence title, final CharSequence message) {
-        new AlertDialog.Builder(context)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .show();
+        new TipDialog.Builder(context)
+                .setTitle(title.toString())
+                .setMessage(message.toString())
+                .setConfirm(android.R.string.ok)
+                .setShowCancel(false)
+                .buildDialog();
     }
 
     public static void openURL(Activity act, String url) {
@@ -703,7 +705,8 @@ public final class Tools {
                 // Early versions of the ASM library get repalced with 5.0.4 because Pojav's LWJGL is compiled for
                 // Java 8, which is not supported by old ASM versions. Mod loaders like Forge, which depend on this
                 // library, often include lwjgl in their class transformations, which causes errors with old ASM versions.
-                if (Integer.parseInt(version[0]) >= 5) continue;
+                if (Integer.parseInt(version[0]) != 6 || Integer.parseInt(version[1]) != 2)
+                    continue;
                 Log.d(APP_NAME, "Library " + libItem.name + " has been changed to version 5.0.4");
                 createLibraryInfo(libItem);
                 libItem.name = "org.ow2.asm:asm-all:5.0.4";
@@ -1058,7 +1061,7 @@ public final class Tools {
     }
 
     public static String getRuntimeName(String prefixedName) {
-        if (prefixedName == null) return prefixedName;
+        if (prefixedName == null) return null;
         if (!prefixedName.startsWith(Tools.LAUNCHERPROFILES_RTPREFIX)) return null;
         return prefixedName.substring(Tools.LAUNCHERPROFILES_RTPREFIX.length());
     }

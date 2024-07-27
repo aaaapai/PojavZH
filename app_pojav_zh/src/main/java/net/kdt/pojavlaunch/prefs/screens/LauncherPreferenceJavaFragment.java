@@ -8,6 +8,7 @@ import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.preference.Preference;
@@ -58,36 +59,26 @@ public class LauncherPreferenceJavaFragment extends LauncherPreferenceFragment {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Context context = getContext();
-                if (context != null && !allocationSeek.isUserSeeking()) {
-                    updateMemoryInfo(context, allocationSeek);
+                try {
+                    if (!allocationSeek.isUserSeeking()) {
+                        updateMemoryInfo(getContext(), allocationSeek);
+                    }
+                } catch (Exception e) {
+                    Log.e("updateMemoryInfo", e.toString());
                 }
             }
         }, 0, 500);
 
-        allocationSeek.setOnPreferenceClickListener(preference -> {
-            //点击此项将弹出输入框以手动输入内存值
-            new EditTextDialog.Builder(requireContext())
-                    .setTitle(R.string.mcl_memory_allocation)
-                    .setMessage(StringUtils.insertNewline(getMemoryInfoText(requireContext()), getString(R.string.zh_setting_java_memory_max, String.format("%s MB", maxRAM))))
-                    .setEditText(String.valueOf(allocationSeek.getValue()))
-                    .setConfirmListener(editBox -> {
-                        int value = Integer.parseInt(editBox.getText().toString());
+        allocationSeek.setOnDialogInitListener(new CustomSeekBarPreference.OnPreferenceClickDialog() {
+            @Override
+            public String getTitle() {
+                return getString(R.string.mcl_memory_allocation);
+            }
 
-                        if (value < 256) {
-                            editBox.setError(getString(R.string.zh_setting_java_memory_too_small, 256));
-                            return false;
-                        }
-                        if (value > maxRAM) {
-                            editBox.setError(getString(R.string.zh_setting_java_memory_too_big, maxRAM));
-                            return false;
-                        }
-
-                        allocationSeek.setValue(value);
-
-                        return true;
-                    }).buildDialog();
-            return true;
+            @Override
+            public String getMessage() {
+                return StringUtils.insertNewline(getMemoryInfoText(requireContext()), getString(R.string.zh_setting_java_memory_max, String.format("%s MB", maxRAM)));
+            }
         });
 
         Preference editJVMArgs = findPreference("javaArgs");

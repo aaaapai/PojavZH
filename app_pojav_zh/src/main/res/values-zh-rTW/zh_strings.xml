@@ -23,6 +23,9 @@
     <string name="zh_yi">億</string>
     <string name="zh_wrong_tip">出現了一些問題</string>
     <string name="zh_no_more_reminders">不再提醒我</string>
+    <string name="zh_input_invalid">填寫的內容不符合要求，請重新輸入</string>
+    <string name="zh_input_too_small">填寫的值過小，至少需要為 %s</string>
+    <string name="zh_input_too_big">填寫的值過大，最大只能為 %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">選擇 Jar 檔案</string>
     <!-- Profiles Path -->
@@ -84,6 +87,7 @@
     <string name="zh_profile_manager_delete">刪除實例</string>
     <string name="zh_profile_manager_delete_message">此操作將會刪除此實例，但並不會刪除實例關聯的遊戲檔案</string>
     <!-- Account -->
+    <string name="zh_account_manager">帳號管理</string>
     <string name="zh_account_text">請選擇一種登錄方式</string>
     <string name="zh_account_microsoft_account">微軟帳號</string>
     <string name="zh_account_microsoft_xerr_unauthorized">你的微軟帳號登入資訊似乎已經過期，這種情況常出現在帳號密碼被修改之後，請移除目前帳號並重新登入你的帳號，以重置你的登入資訊。</string>
@@ -136,6 +140,8 @@
     <string name="zh_controls_info_view">查看資訊</string>
     <string name="zh_controls_info_no_info">此控制佈局沒有描述說明…</string>
     <string name="zh_controls_info_invalid">無效的檔案:</string>
+    <string name="zh_controls_set_default_message">你確定要將此控制佈局設置為預設控制佈局嗎？</string>
+    <string name="zh_controls_nothing">這裡沒有任何控制佈局，重新啟動應用程式將生成一份新的默認控制佈局</string>
     <string name="zh_replacement_customcontrol">更換控制佈局</string>
     <string name="zh_custom_control_title">管理控制佈局</string>
     <!-- Custom Mouse -->
@@ -158,6 +164,7 @@
     <string name="zh_custom_background_dialog_message">點擊 “選擇” 按鈕，將此圖片設置為 %s 的背景圖片</string>
     <string name="zh_custom_background_selected">成功為 %s 設置背景圖片:</string>
     <string name="zh_custom_background_reset">已重置 %s 的背景圖片</string>
+    <string name="zh_custom_background_nothing">這裡沒有任何背景圖片，請先添加一些圖片！</string>
     <!-- File -->
     <string name="zh_file_add_file">新增檔案</string>
     <string name="zh_file_add_file_tip">請選擇一個後綴名為 %s 的檔案</string>
@@ -181,6 +188,7 @@
     <string name="zh_file_multi_select_mode_message">目前共選擇了 %d 個項目</string>
     <string name="zh_file_operation_file">正在操作檔案中… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">跳至路徑</string>
+    <string name="zh_file_nothing">沒有找到任何文件哦！</string>
     <!-- Search View -->
     <string name="zh_search_case_sensitive">大小寫區分</string>
     <string name="zh_search_only_show_results">僅顯示搜尋結果</string>
@@ -201,8 +209,6 @@
     <string name="zh_setting_java_memory_info">目前記憶體使用：%s / %s ，空閒記憶體大小：%s</string>
     <string name="zh_setting_java_memory_max">可設定的最大記憶體大小：%s</string>
     <string name="zh_setting_java_memory_exceeded">目前設定的記憶體大小超過了可用的記憶體大小</string>
-    <string name="zh_setting_java_memory_too_big">目前設定的記憶體空間過大，最多只能設定為 %d MB</string>
-    <string name="zh_setting_java_memory_too_small">目前設定的記憶體空間過小，至少需要設定為 %d MB</string>
     <string name="zh_setting_set_game_language_desc">在遊戲首次啟動時，自動設定遊戲語言為選定的語言</string>
     <string name="zh_setting_set_game_language_title">自動設定遊戲語言</string>
     <string name="zh_setting_set_game_language_list">設定遊戲語言</string>

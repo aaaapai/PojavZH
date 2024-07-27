@@ -46,7 +46,7 @@ public class LauncherPreferences {
     public static boolean PREF_DISABLE_GESTURES = false;
     public static boolean PREF_DISABLE_SWAP_HAND = false;
     public static int PREF_RAM_ALLOCATION;
-    public static String PREF_DEFAULT_RUNTIME;
+    public static String PREF_DEFAULT_RUNTIME = "";
     public static boolean PREF_SUSTAINED_PERFORMANCE = false;
     public static boolean PREF_VIRTUAL_MOUSE_START = true;
     public static boolean PREF_ARC_CAPES = false;
@@ -81,6 +81,7 @@ public class LauncherPreferences {
     public static boolean PREF_QUILT_LAUNCHER = true;
     public static boolean PREF_BUTTON_SNAPPING = true;
     public static int PREF_BUTTON_SNAPPING_DISTANCE = 8;
+    public static long PREF_FIRST_LAUNCH_TIME = 0;
 
     public static boolean PREF_EXP_SETUP = false;
     public static boolean PREF_SPARE_BRIDGE = false;
@@ -167,22 +168,23 @@ public class LauncherPreferences {
             }
         }
 
+        if (!DEFAULT_PREF.contains("firstLaunchTime")) {
+            long currentTimeMillis = ZHTools.getCurrentTimeMillis();
+            DEFAULT_PREF.edit().putLong("firstLaunchTime", currentTimeMillis).apply();
+        }
+        PREF_FIRST_LAUNCH_TIME = DEFAULT_PREF.getLong("firstLaunchTime", 0);
+
         reloadRuntime();
     }
 
     public static void reloadRuntime() {
         if (DEFAULT_PREF.contains("defaultRuntime")) {
             PREF_DEFAULT_RUNTIME = DEFAULT_PREF.getString("defaultRuntime", "");
-            return;
-        } else if (MultiRTUtils.getRuntimes().isEmpty()) {
-            PREF_DEFAULT_RUNTIME = "";
+        } else if (!MultiRTUtils.getRuntimes().isEmpty()) {
+            //设置默认运行环境
+            PREF_DEFAULT_RUNTIME = UnpackJRE.InternalRuntime.JRE_8.name;
             LauncherPreferences.DEFAULT_PREF.edit().putString("defaultRuntime", PREF_DEFAULT_RUNTIME).apply();
-            return;
         }
-
-        //设置默认运行环境
-        PREF_DEFAULT_RUNTIME = UnpackJRE.InternalRuntime.JRE_8.name;
-        LauncherPreferences.DEFAULT_PREF.edit().putString("defaultRuntime", PREF_DEFAULT_RUNTIME).apply();
     }
 
     /**

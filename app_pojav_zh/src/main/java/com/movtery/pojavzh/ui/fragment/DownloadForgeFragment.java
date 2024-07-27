@@ -1,7 +1,6 @@
 package com.movtery.pojavzh.ui.fragment;
 
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
-import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
 
 import android.content.Intent;
 
@@ -119,7 +118,7 @@ public class DownloadForgeFragment extends TwoLevelListFragment implements Modlo
             }
 
             componentProcessing(false);
-            if (PREF_ANIMATION) recyclerView.scheduleLayoutAnimation();
+            recyclerView.scheduleLayoutAnimation();
         });
     }
 
@@ -128,7 +127,7 @@ public class DownloadForgeFragment extends TwoLevelListFragment implements Modlo
         Tools.runOnUiThread(() -> {
             Intent modInstallerStartIntent = new Intent(activity, JavaGUILauncherActivity.class);
             ForgeUtils.addAutoInstallArgs(modInstallerStartIntent, downloadedFile, true);
-            SelectRuntimeDialog selectRuntimeDialog = new SelectRuntimeDialog(requireContext());
+            SelectRuntimeDialog selectRuntimeDialog = new SelectRuntimeDialog(activity);
             selectRuntimeDialog.setListener(jreName -> {
                 modloaderListenerProxy.detachListener();
 

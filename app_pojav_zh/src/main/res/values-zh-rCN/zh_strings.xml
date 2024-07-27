@@ -23,6 +23,9 @@
     <string name="zh_yi">亿</string>
     <string name="zh_wrong_tip">出现了一些问题</string>
     <string name="zh_no_more_reminders">不再提醒</string>
+    <string name="zh_input_invalid">填写的内容不符合要求，请重新输入</string>
+    <string name="zh_input_too_small">填写的值过小，至少需要为 %s</string>
+    <string name="zh_input_too_big">填写的值过大，最大只能为 %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">选择 Jar 文件</string>
     <!-- Profiles Path -->
@@ -84,6 +87,7 @@
     <string name="zh_profile_manager_delete">删除实例</string>
     <string name="zh_profile_manager_delete_message">此操作将会删除此实例，但并不会删除实例关联的游戏文件</string>
     <!-- Account -->
+    <string name="zh_account_manager">账号管理</string>
     <string name="zh_account_text">请选择一种登录方式</string>
     <string name="zh_account_microsoft_account">微软账号</string>
     <string name="zh_account_microsoft_xerr_unauthorized">你的微软账号登录信息貌似已经过期，这种情况常出现在账户密码被修改之后，请移除当前帐号并重新登录你的账号，以重置的你的登录信息。</string>
@@ -136,6 +140,8 @@
     <string name="zh_controls_info_view">查看信息</string>
     <string name="zh_controls_info_no_info">此控制布局没有描述说明…</string>
     <string name="zh_controls_info_invalid">无效的文件:</string>
+    <string name="zh_controls_set_default_message">你确定要将此控制布局设置为默认控制布局吗？</string>
+    <string name="zh_controls_nothing">这里没有任何控制布局，重启应用将生成一份新的默认控制布局</string>
     <string name="zh_replacement_customcontrol">更换控制布局</string>
     <string name="zh_custom_control_title">管理控制布局</string>
     <!-- Custom Mouse -->
@@ -158,6 +164,7 @@
     <string name="zh_custom_background_dialog_message">点击 “选择” 按钮，将此图片设置为 %s 的背景图片</string>
     <string name="zh_custom_background_selected">成功为 %s 设置背景图片:</string>
     <string name="zh_custom_background_reset">已重置 %s 的背景图片</string>
+    <string name="zh_custom_background_nothing">这里没有任何背景图片，请先添加一些图片！</string>
     <!-- File -->
     <string name="zh_file_add_file">添加文件</string>
     <string name="zh_file_add_file_tip">请选择一个后缀名为 %s 的文件</string>
@@ -181,6 +188,7 @@
     <string name="zh_file_multi_select_mode_message">当前总共选择了 %d 个项目</string>
     <string name="zh_file_operation_file">正在操作文件中… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">跳转至路径</string>
+    <string name="zh_file_nothing">没有找到任何文件哦！</string>
     <!-- Search View -->
     <string name="zh_search_case_sensitive">区分大小写</string>
     <string name="zh_search_only_show_results">仅展示搜索结果</string>
@@ -201,8 +209,6 @@
     <string name="zh_setting_java_memory_info">当前内存使用信息：%s / %s ，空闲内存大小：%s</string>
     <string name="zh_setting_java_memory_max">最大可设置的内存大小：%s</string>
     <string name="zh_setting_java_memory_exceeded">当前设置的内存空间超出了可用内存大小</string>
-    <string name="zh_setting_java_memory_too_big">当前设置的内存空间过大，最多只能设置为 %d MB</string>
-    <string name="zh_setting_java_memory_too_small">当前设置的内存空间过小，至少需要设置为 %d MB</string>
     <string name="zh_setting_set_game_language_desc">在游戏首次启动时，自动设置游戏语言为选定的语言</string>
     <string name="zh_setting_set_game_language_title">自动设置游戏语言</string>
     <string name="zh_setting_set_game_language_list">设置游戏语言</string>

@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.movtery.pojavzh.utils.ZHTools;
+
 import java.io.*;
 import java.net.*;
 import java.nio.charset.*;
@@ -67,12 +69,8 @@ public class DownloadUtils {
         FileUtils.ensureParentDirectory(outputFile);
 
         HttpURLConnection conn = (HttpURLConnection) new URL(urlInput).openConnection();
-        conn.setConnectTimeout(10000);
-        conn.setReadTimeout(10000);
-        try (
-                FileOutputStream fos = new FileOutputStream(outputFile);
-                InputStream readStr = conn.getInputStream()
-        ) {
+        InputStream readStr = conn.getInputStream();
+        try (FileOutputStream fos = new FileOutputStream(outputFile)) {
             int current;
             int overall = 0;
             int length = conn.getContentLength();
@@ -93,7 +91,7 @@ public class DownloadUtils {
         File cacheDestination = new File(Tools.DIR_CACHE, "string_cache/"+cacheName);
         if(cacheDestination.isFile() &&
                 cacheDestination.canRead() &&
-                System.currentTimeMillis() < (cacheDestination.lastModified() + 86400000)) {
+                ZHTools.getCurrentTimeMillis() < (cacheDestination.lastModified() + 86400000)) {
             try {
                 String cachedString = Tools.read(new FileInputStream(cacheDestination));
                 return parseCallback.process(cachedString);

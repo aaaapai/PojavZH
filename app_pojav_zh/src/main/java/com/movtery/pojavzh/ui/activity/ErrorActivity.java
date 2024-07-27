@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -50,6 +51,8 @@ public class ErrorActivity extends BaseActivity {
         if (extras.getBoolean(BUNDLE_IS_ERROR, true)) {
             showError(extras);
         } else {
+            //如果不是应用崩溃，那么这个页面就不允许截图
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
             showCrash(extras);
         }
     }
@@ -58,7 +61,11 @@ public class ErrorActivity extends BaseActivity {
         findViewById(R.id.zh_error_buttons).setVisibility(View.GONE);
 
         mTitleText.setText(R.string.zh_wrong_tip);
-        int code = extras.getInt(BUNDLE_CODE,-1);
+        int code = extras.getInt(BUNDLE_CODE,0);
+        if (code == 0) {
+            finish();
+            return;
+        }
         File crashReportFile = ZHTools.getLatestFile(extras.getString(BUNDLE_CRASH_REPORTS_PATH), 15);
         File logFile = new File(Tools.DIR_GAME_HOME, "latestlog.txt");
 

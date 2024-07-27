@@ -23,6 +23,9 @@
     <string name="zh_yi">Миллиард</string>
     <string name="zh_wrong_tip">Произошла ошибка</string>
     <string name="zh_no_more_reminders">Больше не напоминать</string>
+    <string name="zh_input_invalid">Введенное содержимое не соответствует требованиям, пожалуйста, введите снова</string>
+        <string name="zh_input_too_small">Введенное значение слишком мало, оно должно быть не менее %s</string>
+    <string name="zh_input_too_big">Введенное значение слишком велико, оно должно быть не более %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Выбрать файл Jar</string>
     <!-- Profiles Path -->
@@ -84,6 +87,7 @@
     <string name="zh_profile_manager_delete">Удалить экземпляр</string>
     <string name="zh_profile_manager_delete_message">Это действие удалит этот экземпляр, но не удалит связанные с ним файлы игры</string>
     <!-- Account -->
+    <string name="zh_account_manager">Управление учетной записью</string>
     <string name="zh_account_text">Пожалуйста, выберите способ входа</string>
     <string name="zh_account_microsoft_account">Аккаунт Microsoft</string>
     <string name="zh_account_microsoft_xerr_unauthorized">Ваши данные входа в аккаунт Microsoft, похоже, устарели, это часто происходит после изменения пароля. Пожалуйста, удалите текущий аккаунт и войдите снова, чтобы обновить ваши данные входа.</string>
@@ -136,6 +140,8 @@
     <string name="zh_controls_info_view">Просмотр информации</string>
     <string name="zh_controls_info_no_info">Для этой схемы управления нет описания…</string>
     <string name="zh_controls_info_invalid">Неверный файл:</string>
+    <string name="zh_controls_set_default_message">Вы уверены, что хотите установить этот макет управления по умолчанию?</string>
+    <string name="zh_controls_nothing">Здесь нет макетов управления, перезапуск приложения создаст новый макет управления по умолчанию</string>
     <string name="zh_replacement_customcontrol">Замена схемы управления</string>
     <string name="zh_custom_control_title">Управление схемами управления</string>
     <!-- Custom Mouse -->
@@ -158,6 +164,7 @@
     <string name="zh_custom_background_dialog_message">Нажмите кнопку \"Выбрать\", чтобы установить это изображение в качестве фонового изображения для %s</string>
     <string name="zh_custom_background_selected">Успешно установлено фоновое изображение для %s:</string>
     <string name="zh_custom_background_reset">Сброшен фон для %s</string>
+    <string name="zh_custom_background_nothing">Здесь нет фоновых изображений, сначала добавьте несколько изображений!</string>
     <!-- File -->
     <string name="zh_file_add_file">Добавить файл</string>
     <string name="zh_file_add_file_tip">Пожалуйста, выберите файл с расширением %s</string>
@@ -181,6 +188,7 @@
     <string name="zh_file_multi_select_mode_message">Выбрано всего %d элементов</string>
     <string name="zh_file_operation_file">Операция с файлом… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Перейти к пути</string>
+    <string name="zh_file_nothing">Файлы не найдены!</string>
     <!-- Search View -->
     <string name="zh_search_case_sensitive">Учитывать регистр</string>
     <string name="zh_search_only_show_results">Показывать только результаты поиска</string>
@@ -201,8 +209,6 @@
     <string name="zh_setting_java_memory_info">Текущая информация о памяти: %s / %s, свободной памяти: %s</string>
     <string name="zh_setting_java_memory_max">Максимальный доступный объем памяти: %s</string>
     <string name="zh_setting_java_memory_exceeded">Установленный объем памяти превышает доступный</string>
-    <string name="zh_setting_java_memory_too_big">Установленный объем памяти слишком большой, максимум %d МБ</string>
-    <string name="zh_setting_java_memory_too_small">Установленный объем памяти слишком мал, минимум %d МБ</string>
     <string name="zh_setting_set_game_language_desc">Автоматически устанавливать язык игры при первом запуске</string>
     <string name="zh_setting_set_game_language_title">Автоматическая установка языка игры</string>
     <string name="zh_setting_set_game_language_list">Установить язык игры</string>

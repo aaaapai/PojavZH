@@ -23,6 +23,9 @@
     <string name="zh_yi">A Hundred million</string>
     <string name="zh_wrong_tip">Something went wrong</string>
     <string name="zh_no_more_reminders">No more reminders</string>
+    <string name="zh_input_invalid">The content entered does not meet the requirements, please re-enter</string>
+    <string name="zh_input_too_small">The value entered is too small, it must be at least %s</string>
+    <string name="zh_input_too_big">The value entered is too large, it can only be up to %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Select Jar file</string>
     <!-- Profiles Path -->
@@ -84,6 +87,7 @@
     <string name="zh_profile_manager_delete">Delete Instance</string>
     <string name="zh_profile_manager_delete_message">This operation will delete this instance, but it will not delete the game files associated with the instance</string>
     <!-- Account -->
+    <string name="zh_account_manager">Account Management</string>
     <string name="zh_account_text">Please select a login method</string>
     <string name="zh_account_microsoft_account">Microsoft Account</string>
     <string name="zh_account_microsoft_xerr_unauthorized">Your Microsoft account login information seems to have expired. This often happens after the account password has been changed. Please remove the current account and log in again to reset your login information.</string>
@@ -136,6 +140,8 @@
     <string name="zh_controls_info_view">View information</string>
     <string name="zh_controls_info_no_info">There is no description available for this layout…</string>
     <string name="zh_controls_info_invalid">Invalid file:</string>
+    <string name="zh_controls_set_default_message">Are you sure you want to set this control layout as the default control layout?</string>
+    <string name="zh_controls_nothing">There are no control layouts here, restarting the app will generate a new default control layout</string>
     <string name="zh_replacement_customcontrol">Change Control Layout</string>
     <string name="zh_custom_control_title">Control Layout Management</string>
     <!-- Custom Mouse -->
@@ -158,6 +164,7 @@
     <string name="zh_custom_background_dialog_message">Click the \"Select\" button to set this image as the background for %s.</string>
     <string name="zh_custom_background_selected">Successfully set the background image for %s:</string>
     <string name="zh_custom_background_reset">The background image for %s has been reset.</string>
+    <string name="zh_custom_background_nothing">There are no background images here, please add some images first!</string>
     <!-- File -->
     <string name="zh_file_add_file">Add file</string>
     <string name="zh_file_add_file_tip">Please select a file with the suffix %s</string>
@@ -181,6 +188,7 @@
     <string name="zh_file_multi_select_mode_message">Currently, a total of %d items are selected</string>
     <string name="zh_file_operation_file">Operating on file… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Jump to Path</string>
+    <string name="zh_file_nothing">No files found!</string>
     <!-- Search View -->
     <string name="zh_search_case_sensitive">Case Sensitive</string>
     <string name="zh_search_only_show_results">Show Only Search Results</string>
@@ -201,8 +209,6 @@
     <string name="zh_setting_java_memory_info">Current memory usage: %s / %s, Free memory size: %s</string>
     <string name="zh_setting_java_memory_max">Maximum allowable memory size: %s</string>
     <string name="zh_setting_java_memory_exceeded">The current memory allocation exceeds available memory size</string>
-    <string name="zh_setting_java_memory_too_big">The current memory allocation is too large, maximum allowable size is %d MB</string>
-    <string name="zh_setting_java_memory_too_small">The current memory allocation is too small, at least %d MB is required</string>
     <string name="zh_setting_set_game_language_desc">Automatically set the game language to the selected language when the game is first launched</string>
     <string name="zh_setting_set_game_language_title">Automatically Set Game Language</string>
     <string name="zh_setting_set_game_language_list">Set Game Language</string>

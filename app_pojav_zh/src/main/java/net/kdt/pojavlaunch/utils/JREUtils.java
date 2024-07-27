@@ -397,8 +397,8 @@ public class JREUtils {
         final int exitCode = VMLauncher.launchJVM(userArgs.toArray(new String[0]));
         Logger.appendToLog("Java Exit code: " + exitCode);
         if (exitCode != 0) {
-            File crashReportFile = ZHTools.getLatestFile(new File(gameDirectory, "crash-reports"), 30);
-            ErrorActivity.showExitMessage(activity, exitCode, crashReportFile.getAbsolutePath());
+            File crashReportPath = new File(gameDirectory, "crash-reports");
+            ErrorActivity.showExitMessage(activity, exitCode, crashReportPath.getAbsolutePath());
         }
     }
 
@@ -588,11 +588,7 @@ public class JREUtils {
      * @param argStart The argument to purge from the list.
      */
     private static void purgeArg(List<String> argList, String argStart) {
-        Iterator<String> args = argList.iterator();
-        while(args.hasNext()) {
-            String arg = args.next();
-            if(arg.startsWith(argStart)) args.remove();
-        }
+        argList.removeIf(arg -> arg.startsWith(argStart));
     }
     private static final int EGL_OPENGL_ES_BIT = 0x0001;
     private static final int EGL_OPENGL_ES2_BIT = 0x0004;

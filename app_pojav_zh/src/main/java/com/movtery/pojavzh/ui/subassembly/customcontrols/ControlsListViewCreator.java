@@ -1,7 +1,6 @@
 package com.movtery.pojavzh.ui.subassembly.customcontrols;
 
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
-import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ANIMATION;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.movtery.pojavzh.ui.dialog.DeleteDialog;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener;
+import com.movtery.pojavzh.ui.subassembly.filelist.RefreshListener;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.stringutils.StringFilter;
 
@@ -36,6 +36,7 @@ public class ControlsListViewCreator {
 
     private ControlListAdapter controlListAdapter;
     private FileSelectedListener fileSelectedListener;
+    private RefreshListener refreshListener;
     private File fullPath = new File(Tools.CTRLMAP_PATH);
     private String filterString = "";
     private boolean showSearchResultsOnly = false;
@@ -58,6 +59,12 @@ public class ControlsListViewCreator {
             }
 
             @Override
+            public void onLongClick(String name) {
+                File file = new File(fullPath, name);
+                if (ControlsListViewCreator.this.fileSelectedListener != null) fileSelectedListener.onItemLongClick(file, file.getAbsolutePath());
+            }
+
+            @Override
             public void onInvalidItemClick(String name) {
                 File file = new File(fullPath, name);
                 List<File> files = new ArrayList<>();
@@ -68,12 +75,24 @@ public class ControlsListViewCreator {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         mainListView.setLayoutManager(layoutManager);
-        if (PREF_ANIMATION) mainListView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
+        mainListView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(context, R.anim.fade_downwards)));
         mainListView.setAdapter(controlListAdapter);
     }
 
     public void setFileSelectedListener(FileSelectedListener listener) {
         this.fileSelectedListener = listener;
+    }
+
+    public void setRefreshListener(RefreshListener listener) {
+        this.refreshListener = listener;
+    }
+
+    public void setShowSearchResultsOnly(boolean showSearchResultsOnly) {
+        this.showSearchResultsOnly = showSearchResultsOnly;
+    }
+
+    public int getItemCount() {
+        return controlListAdapter.getItemCount();
     }
 
     private void loadInfoData(File path) {
@@ -151,10 +170,6 @@ public class ControlsListViewCreator {
         refresh();
     }
 
-    public void setShowSearchResultsOnly(boolean showSearchResultsOnly) {
-        this.showSearchResultsOnly = showSearchResultsOnly;
-    }
-
     private File controlPath() {
         File ctrlPath = new File(Tools.CTRLMAP_PATH);
         if (!ctrlPath.exists()) ZHTools.mkdirs(ctrlPath);
@@ -168,7 +183,8 @@ public class ControlsListViewCreator {
             filterString = "";
             runOnUiThread(() -> {
                 controlListAdapter.notifyDataSetChanged();
-                if (PREF_ANIMATION) mainListView.scheduleLayoutAnimation();
+                mainListView.scheduleLayoutAnimation();
+                if (refreshListener != null) refreshListener.onRefresh();
             });
         });
     }

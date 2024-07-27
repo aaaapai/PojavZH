@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     env:
       CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-      MOVTERY_KEYSTORE_PASSWORD: ${{ secrets.MOVTERY_KEYSTORE_PASSWORD }}
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
 
     steps:
       - name: Set IS_MAIN_BRANCH if on main branch
@@ -67,7 +67,7 @@ jobs:
           java-version: '17'
 
       - name: Build Release.apk
-        if: github.repository_owner == 'MovTery' && github.ref_name == 'main'
+        if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
         run: |
           gradle :app_pojav_zh:assemblerelease
 
@@ -78,7 +78,7 @@ jobs:
 
       - name: Upload Release
         continue-on-error: true
-        if: github.repository_owner == 'MovTery' && github.ref_name == 'main'
+        if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
         uses: actions/upload-artifact@v4
         with:
           name: PojavZenithHorizon(Release)
@@ -94,7 +94,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-      MOVTERY_KEYSTORE_PASSWORD: ${{ secrets.MOVTERY_KEYSTORE_PASSWORD }}
 
     steps:
       - name: Set IS_MAIN_BRANCH if on main branch

@@ -23,6 +23,9 @@
     <string name="zh_yi">Tỷ</string>
     <string name="zh_wrong_tip">Đã xảy ra sự cố</string>
     <string name="zh_no_more_reminders">Không nhắc lại nữa</string>
+    <string name="zh_input_invalid">Nội dung đã nhập không đáp ứng yêu cầu, vui lòng nhập lại</string>
+        <string name="zh_input_too_small">Giá trị nhập vào quá nhỏ, phải ít nhất là %s</string>
+    <string name="zh_input_too_big">Giá trị nhập vào quá lớn, tối đa chỉ có thể là %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Chọn tệp Jar</string>
     <!-- Profiles Path -->
@@ -84,6 +87,7 @@
     <string name="zh_profile_manager_delete">Xóa thể hiện</string>
     <string name="zh_profile_manager_delete_message">Thao tác này sẽ xóa thể hiện này, nhưng sẽ không xóa các tệp trò chơi liên quan đến thể hiện</string>
     <!-- Account -->
+    <string name="zh_account_manager">Quản lý tài khoản</string>
     <string name="zh_account_text">Vui lòng chọn một phương thức đăng nhập</string>
     <string name="zh_account_microsoft_account">Tài khoản Microsoft</string>
     <string name="zh_account_microsoft_xerr_unauthorized">Thông tin đăng nhập tài khoản Microsoft của bạn có vẻ đã hết hạn, điều này thường xảy ra sau khi mật khẩu tài khoản được thay đổi, vui lòng xóa tài khoản hiện tại và đăng nhập lại để đặt lại thông tin đăng nhập của bạn.</string>
@@ -136,6 +140,8 @@
     <string name="zh_controls_info_view">Xem thông tin</string>
     <string name="zh_controls_info_no_info">Bố cục điều khiển này không có mô tả…</string>
     <string name="zh_controls_info_invalid">Tệp không hợp lệ:</string>
+    <string name="zh_controls_set_default_message">Bạn có chắc chắn muốn đặt bố cục điều khiển này làm bố cục điều khiển mặc định không?</string>
+    <string name="zh_controls_nothing">Không có bố cục điều khiển nào ở đây, khởi động lại ứng dụng sẽ tạo bố cục điều khiển mặc định mới</string>
     <string name="zh_replacement_customcontrol">Thay đổi bố cục điều khiển</string>
     <string name="zh_custom_control_title">Quản lý bố cục điều khiển</string>
     <!-- Custom Mouse -->
@@ -158,6 +164,7 @@
     <string name="zh_custom_background_dialog_message">Nhấn nút \"Chọn\" để đặt hình ảnh này làm hình nền cho %s</string>
     <string name="zh_custom_background_selected">Thiết lập hình nền thành công cho %s:</string>
     <string name="zh_custom_background_reset">Đã đặt lại hình nền cho %s</string>
+    <string name="zh_custom_background_nothing">Không có hình nền nào ở đây, vui lòng thêm một số hình ảnh trước!</string>
     <!-- File -->
     <string name="zh_file_add_file">Thêm tệp</string>
     <string name="zh_file_add_file_tip">Vui lòng chọn một tệp có phần mở rộng %s</string>
@@ -181,6 +188,7 @@
     <string name="zh_file_multi_select_mode_message">Hiện tại đã chọn tổng cộng %d mục</string>
     <string name="zh_file_operation_file">Đang thao tác trên tệp tin… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Nhảy đến đường dẫn</string>
+    <string name="zh_file_nothing">Không tìm thấy tệp nào!</string>
     <!-- Search View -->
     <string name="zh_search_case_sensitive">Phân biệt chữ hoa chữ thường</string>
     <string name="zh_search_only_show_results">Chỉ hiển thị kết quả tìm kiếm</string>
@@ -201,8 +209,6 @@
     <string name="zh_setting_java_memory_info">Thông tin sử dụng bộ nhớ hiện tại: %s / %s, kích thước bộ nhớ trống: %s</string>
     <string name="zh_setting_java_memory_max">Kích thước bộ nhớ tối đa có thể đặt: %s</string>
     <string name="zh_setting_java_memory_exceeded">Kích thước bộ nhớ được đặt hiện vượt quá kích thước bộ nhớ có sẵn</string>
-    <string name="zh_setting_java_memory_too_big">Kích thước bộ nhớ được đặt hiện quá lớn, chỉ có thể đặt tối đa là %d MB</string>
-    <string name="zh_setting_java_memory_too_small">Kích thước bộ nhớ được đặt hiện quá nhỏ, cần đặt ít nhất là %d MB</string>
     <string name="zh_setting_set_game_language_desc">Tự động đặt ngôn ngữ trò chơi thành ngôn ngữ đã chọn khi trò chơi khởi chạy lần đầu</string>
     <string name="zh_setting_set_game_language_title">Tự động đặt ngôn ngữ trò chơi</string>
     <string name="zh_setting_set_game_language_list">Đặt ngôn ngữ trò chơi</string>
