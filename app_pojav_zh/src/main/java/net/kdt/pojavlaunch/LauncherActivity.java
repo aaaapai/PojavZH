@@ -427,6 +427,7 @@ public class LauncherActivity extends BaseActivity {
     }
 
     private void launchGame(boolean downloader) {
+        onStartLaunchGame = false;
         String selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE,"");
         MinecraftProfile prof = LauncherProfiles.mainProfileJson.profiles.get(selectedProfile);
         String normalizedVersionId = AsyncMinecraftDownloader.normalizeVersionId(prof.lastVersionId);
