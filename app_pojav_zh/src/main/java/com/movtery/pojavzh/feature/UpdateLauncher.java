@@ -175,7 +175,7 @@ public class UpdateLauncher {
                 int thisVersionCode = ZHTools.getVersionCode(context);
                 DEFAULT_PREF.edit().putInt("launcherVersionCode", thisVersionCode).apply();
 
-                if (Objects.equals(packageName, "net.kdt.pojavlaunch.zh") && versionCode > thisVersionCode) {
+                if (Objects.equals(packageName, "net.kdt.pojavlaunch.zh.firefly") && versionCode > thisVersionCode) {
                     installApk(context, downloadedFile);
                 } else {
                     FileUtils.deleteQuietly(downloadedFile);
