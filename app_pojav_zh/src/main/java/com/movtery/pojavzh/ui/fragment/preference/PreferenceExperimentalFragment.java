@@ -89,6 +89,7 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences p, String s) {
         super.onSharedPreferenceChanged(p, s);
+        computeVisibility();
     }
 
     private void computeVisibility() {
