@@ -18,6 +18,7 @@ LOCAL_MODULE := tinywrapper
 LOCAL_SHARED_LIBRARIES := angle_gles2
 LOCAL_SRC_FILES := tinywrapper/main.c tinywrapper/string_utils.c
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/tinywrapper
+LOCAL_CFLAGS += -g -rdynamic
 include $(BUILD_SHARED_LIBRARY)
 
 
@@ -26,6 +27,7 @@ include $(CLEAR_VARS)
 LOCAL_LDLIBS := -ldl -llog -landroid
 # -lGLESv2
 LOCAL_MODULE := pojavexec
+LOCAL_CFLAGS += -g -rdynamic
 # LOCAL_CFLAGS += -DDEBUG
 # -DGLES_TEST
 LOCAL_SRC_FILES := \
@@ -40,7 +42,7 @@ LOCAL_SRC_FILES := \
     input_bridge_v3.c \
     jre_launcher.c \
     utils.c \
-    driver_helper.c \
+    driver_helper.c\
     driver_helper/nsbypass.c
 
 ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
