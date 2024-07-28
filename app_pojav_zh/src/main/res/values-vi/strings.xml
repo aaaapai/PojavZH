@@ -32,8 +32,6 @@
     <string name="mcl_setting_category_renderer">Bộ kết xuất</string>
     <string name="mcl_setting_renderer_gles2_4">Holy GL4ES - (Khả dụng cho tất cả các phiên bản, tốc độ nhanh)</string>
     <string name="mcl_setting_renderer_vulkan_zink">Zink (Vulkan) - (Khả dụng cho tất cả các phiên bản, tốc độ trung bình)</string>
-    <string name="mcl_setting_renderer_virgl">Virgl - (Khả dụng cho tất cả các phiên bản, tốc độ trung bình)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (Khả dụng cho tất cả các phiên bản, tốc độ trung bình)</string>
     <string name="mcl_setting_renderer_angle">ANGLE (Vulkan) - (1.17+, tốc độ trung bình)</string>
     <string name="mcl_setting_veroption_release">Phiên bản chính thức</string>
     <string name="mcl_setting_veroption_snapshot">Phiên bản ảnh chụp nhanh</string>
@@ -109,6 +107,7 @@
     <string name="customctrl_forward_lock">Khóa tiến lên</string>
     <string name="customctrl_absolute_tracking">Theo dõi ngón tay tuyệt đối</string>
     <string name="memory_warning_msg">Bộ nhớ có sẵn hiện tại (%d) thấp hơn bộ nhớ được phân bổ (%d), điều này có thể gây ra sự cố vỡ trò chơi, nếu trò chơi bị vỡ hãy thay đổi cấu hình!</string>
+    <string name="address_memory_warning_msg">Dung lượng bộ nhớ trống hiện tại (%d) thấp hơn bộ nhớ đã phân bổ (%d), điều này có thể gây ra sự cố. Nếu trò chơi bị treo, vui lòng điều chỉnh việc phân bổ bộ nhớ.</string>
     <string name="mcl_memory_allocation">Phân bổ bộ nhớ</string>
     <string name="multirt_runtime_corrupt">Môi trường chạy Java bị hỏng</string>
     <string name="multirt_runtime_incompatiblearch">Kiến trúc không tương thích: %s</string>
@@ -120,6 +119,7 @@
     <string name="multirt_config_setdefault">Đặt làm mặc định</string>
     <string name="multirt_config_setdefault_already">Mặc định</string>
     <string name="multirt_config_removeerror_last">Bạn phải cài đặt ít nhất một môi trường chạy Java</string>
+    <string name="multirt_nocompatiblert">Không thể tìm thấy Java Runtime tương thích. Phiên bản này yêu cầu Java %d hoặc mới hơn.</string>
     <string name="multirt_nojava8rt">Không tìm thấy Java 8, để sử dụng tùy chọn này, bạn phải cài đặt Java 8</string>
     <string name="multirt_delete_runtime">Xóa môi trường chạy</string>
     <string name="pvc_jvmArgs">Tham số JVM</string>
@@ -278,4 +278,6 @@ Nếu bạn muốn sử dụng nguồn tải xuống chính thức, nhấn vào 
     <string name="log_view_button_output_off">Đầu ra: Tắt</string>
     <string name="log_view_button_output_on">Đầu ra: Bật</string>
     <string name="log_view_label_log_output">Đầu ra nhật ký:</string>
+    <string name="execute_jar_failed_to_read_file">Không thể đọc tệp .jar</string>
+    <string name="execute_jar_incompatible_runtime">Tính năng thực thi .jar không tương thích với Java %d</string>
 </resources>

@@ -33,8 +33,6 @@
     <string name="mcl_setting_category_renderer">عارض الرسوميات</string>
     <string name="mcl_setting_renderer_gles2_4">Holy Gl4es - (جميع الإصدارات، بسرعة)</string>
     <string name="mcl_setting_renderer_vulkan_zink">Zink (Vulkan) - (جميع الإصدارات، متوسط)</string>
-    <string name="mcl_setting_renderer_virgl">Virgl - (متاح لجميع النسخ، سرعة متوسطة)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (متاح لجميع النسخ، سرعة متوسطة)</string>
     <string name="mcl_setting_renderer_angle">ANGLE (Vulkan) - (1.17+ فقط، متوسط)</string>
     <string name="mcl_setting_veroption_release">إصدار نهائي</string>
     <string name="mcl_setting_veroption_snapshot">اللمحات (سنابشوت)</string>
@@ -110,6 +108,7 @@
     <string name="customctrl_forward_lock">قفل إلى الأمام</string>
     <string name="customctrl_absolute_tracking">تتبع الأصابع بشكل مطلق</string>
     <string name="memory_warning_msg">الكمية الحالية من ذاكرة الوصول العشوائي المجانية (%d) أقل من ذاكرة الوصول العشوائي المحددة (%d)، مما قد يؤدي إلى حدوث أعطال. قم بتغيير التخصيص إذا تحطمت اللعبة.</string>
+    <string name="address_memory_warning_msg">المساحة المتاحة من الذاكرة الفارغة (%d) أقل من الذاكرة المخصصة (%d)، مما قد يؤدي إلى تعطل اللعبة. إذا تعطلت اللعبة، يرجى تعديل تخصيص الذاكرة.</string>
     <string name="mcl_memory_allocation">تخصيص الذاكرة.</string>
     <string name="multirt_runtime_corrupt">مشغل جافا فاسد</string>
     <string name="multirt_runtime_incompatiblearch">بنية غير متوافقة: %s</string>
@@ -121,6 +120,7 @@
     <string name="multirt_config_setdefault">تعيين لإستخدام دائم</string>
     <string name="multirt_config_setdefault_already">مستخدم دائما</string>
     <string name="multirt_config_removeerror_last">يجب ان يكون هناك Java runtime واحد مثبت على الأقل.</string>
+    <string name="multirt_nocompatiblert">لا يمكن العثور على أي Java Runtime متوافق. يتطلب هذا الإصدار Java %d أو أحدث.</string>
     <string name="multirt_nojava8rt">لا يمكن العثور على Java 8. لاستخدام هذا الخيار، تحتاج إلى تثبيت Java 8.</string>
     <string name="multirt_delete_runtime">حذف Runtime</string>
     <string name="pvc_jvmArgs">مدخلات JVM</string>
@@ -273,4 +273,6 @@
     <string name="log_view_button_output_off">الإخراج: مغلق</string>
     <string name="log_view_button_output_on">الإخراج: مفتوح</string>
     <string name="log_view_label_log_output">إخراج السجل:</string>
+    <string name="execute_jar_failed_to_read_file">فشل في قراءة ملف .jar</string>
+    <string name="execute_jar_incompatible_runtime">ميزة تنفيذ .jar غير متوافقة مع Java %d</string>
 </resources>

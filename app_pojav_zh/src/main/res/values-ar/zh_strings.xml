@@ -297,6 +297,8 @@
     <string name="zh_about_version_status_debug">نسخة تجريبية</string>
     <string name="zh_about_version_status_release">نسخة رسمية</string>
     <!-- From Pojav Glow·Worm -->
+    <string name="mcl_setting_renderer_virgl">Virgl - (متاح لجميع النسخ، سرعة متوسطة)</string>
+    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (متاح لجميع النسخ، سرعة متوسطة)</string>
     <!-- Renderer Experimental Setup -->
     <string name="preference_category_renderer_experimental_settings">إعدادات العارض التجريبية</string>
     <string name="preference_renderer_setup_title">تمكين إعدادات العارض التجريبية</string>

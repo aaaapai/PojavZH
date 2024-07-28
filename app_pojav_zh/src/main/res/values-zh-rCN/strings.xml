@@ -39,8 +39,6 @@
     <string name="mcl_setting_category_renderer">渲染器</string>
     <string name="mcl_setting_renderer_gles2_4">Holy GL4ES - (全版本可用，速度较快)</string>
     <string name="mcl_setting_renderer_vulkan_zink">Zink (Vulkan) - (全版本可用，速度中等)</string>
-    <string name="mcl_setting_renderer_virgl">Virgl - (全版本可用，速度中等)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (全版本可用，速度中等)</string>
     <string name="mcl_setting_renderer_angle">ANGLE (Vulkan) - (1.17+，速度中等)</string>
     <string name="mcl_setting_veroption_release">正式版</string>
     <string name="mcl_setting_veroption_snapshot">快照版</string>
@@ -127,6 +125,7 @@
     <string name="customctrl_forward_lock">锁定前进</string>
     <string name="customctrl_absolute_tracking">绝对手指追踪</string>
     <string name="memory_warning_msg">当前可用内存（%d）低于所分配的内存（%d），这可能会导致游戏崩溃，如果游戏崩溃请更改配置！</string>
+    <string name="address_memory_warning_msg">当前可用的空闲内存空间 (%d) 低于分配的内存 (%d)，这会导致崩溃，如果游戏崩溃，请调整内存分配。</string>
     <string name="mcl_memory_allocation">内存分配</string>
     <string name="multirt_runtime_corrupt">Java 运行环境损坏</string>
     <string name="multirt_runtime_incompatiblearch">不兼容的架构：%s</string>
@@ -138,6 +137,7 @@
     <string name="multirt_config_setdefault">设为默认</string>
     <string name="multirt_config_setdefault_already">默认</string>
     <string name="multirt_config_removeerror_last">你必须至少安装一个 Java 运行环境</string>
+    <string name="multirt_nocompatiblert">找不到任何兼容的 Java 运行环境，此版本需要 Java %d 或更新版本</string>
     <string name="multirt_nojava8rt">无法找到 Java 8，要使用此选项，你必须安装 Java 8</string>
     <string name="multirt_delete_runtime">删除运行环境</string>
     <string name="pvc_jvmArgs">JVM 参数</string>
@@ -309,4 +309,6 @@
     <string name="log_view_button_output_off">输出: 关闭</string>
     <string name="log_view_button_output_on">输出: 开启</string>
     <string name="log_view_label_log_output">日志输出:</string>
+    <string name="execute_jar_failed_to_read_file">读取 .jar 文件失败</string>
+    <string name="execute_jar_incompatible_runtime">执行 .jar 功能与 Java %d 不兼容</string>
 </resources>

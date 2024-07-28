@@ -297,6 +297,8 @@
     <string name="zh_about_version_status_debug">Debug</string>
     <string name="zh_about_version_status_release">Release</string>
     <!-- From Pojav Glow·Worm -->
+    <string name="mcl_setting_renderer_virgl">Virgl - (all versions, mid)</string>
+    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (all versions, mid)</string>
     <!-- Renderer Experimental Setup -->
     <string name="preference_category_renderer_experimental_settings">Renderer Experimental Settings</string>
     <string name="preference_renderer_setup_title">Enable Renderer Experimental Settings</string>

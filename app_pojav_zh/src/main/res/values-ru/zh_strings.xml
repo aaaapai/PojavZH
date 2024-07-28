@@ -297,6 +297,8 @@
     <string name="zh_about_version_status_debug">Тестовая версия</string>
     <string name="zh_about_version_status_release">Релизная версия</string>
     <!-- From Pojav Glow·Worm -->
+    <string name="mcl_setting_renderer_virgl">Virgl - (доступен для всех версий, средняя скорость)</string>
+    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (доступен для всех версий, средняя скорость)</string>
     <!-- Renderer Experimental Setup -->
     <string name="preference_category_renderer_experimental_settings">Экспериментальные настройки рендерера</string>
     <string name="preference_renderer_setup_title">Включить экспериментальные настройки рендерера</string>

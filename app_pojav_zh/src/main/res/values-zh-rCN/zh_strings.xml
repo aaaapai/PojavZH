@@ -297,6 +297,8 @@
     <string name="zh_about_version_status_debug">测试版</string>
     <string name="zh_about_version_status_release">正式版</string>
     <!-- From Pojav Glow·Worm -->
+    <string name="mcl_setting_renderer_virgl">Virgl - (全版本可用，速度中等)</string>
+    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (全版本可用，速度中等)</string>
     <!-- Renderer Experimental Setup -->
     <string name="preference_category_renderer_experimental_settings">渲染器实验性设置</string>
     <string name="preference_renderer_setup_title">启用渲染器实验性设置</string>
