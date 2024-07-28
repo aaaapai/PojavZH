@@ -44,6 +44,16 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
             return true;
         });
 
+        SwitchPreference expRendererPref = requirePreference("ExperimentalSetup", SwitchPreference.class);
+        expRendererPref.setOnPreferenceChangeListener((p, v) -> {
+            // onChangeRenderer(); Don't need it.
+            boolean isExpRenderer = (boolean) v;
+            if (isExpRenderer) {
+                onExpRendererDialog(p);
+            }
+            return true;
+        });
+
         // Custom GL/GLSL
         final PreferenceCategory customMesaVersionPref = requirePreference("customMesaVersionPref", PreferenceCategory.class);
         SwitchPreference setSystemVersion = requirePreference("ebSystem", SwitchPreference.class);
@@ -79,26 +89,6 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
     @Override
     public void onSharedPreferenceChanged(SharedPreferences p, String s) {
         super.onSharedPreferenceChanged(p, s);
-
-        // Warning pops up when using experimental settings
-        if (s.equals("ExperimentalSetup")) {
-            computeVisibility();
-
-            SwitchPreference experimentalSetUpPreference = requirePreference("ExperimentalSetup", SwitchPreference.class);
-            boolean isExperimentalSetUpEnabled = p.getBoolean("ExperimentalSetup", false);
-
-            if (isExperimentalSetUpEnabled) {
-                new TipDialog.Builder(requireContext())
-                        .setTitle(R.string.zh_warning)
-                        .setMessage(R.string.preference_rendererexp_alertdialog_message)
-                        .setCancelClickListener(() -> {
-                            experimentalSetUpPreference.setChecked(false);
-                            SharedPreferences.Editor editor = p.edit();
-                            editor.putBoolean("ExperimentalSetup", false);
-                            editor.apply();
-                        }).setCancelable(false).buildDialog();
-            }
-        }
     }
 
     private void computeVisibility() {
@@ -129,4 +119,14 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
         listPreference.setEntries(array.getArray());
         listPreference.setEntryValues(array.getList().toArray(new String[0]));
     }
+
+    private void onExpRendererDialog(Preference pre) {
+        new TipDialog.Builder(requireContext())
+            .setTitle(R.string.zh_warning)
+            .setMessage(R.string.preference_rendererexp_alertdialog_message)
+            .setCancelClickListener(() -> {
+                ((SwitchPreference) pre).setChecked(false);
+            }).setCancelable(false).buildDialog();
+    }
+
 }
