@@ -11,7 +11,7 @@ import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.firefly.pgw.renderer.RendererManager;
-import com.movtery.pojavzh.utils.ListAndArray;
+import com.firefly.pgw.utils.ListAndArray;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;

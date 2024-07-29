@@ -114,7 +114,7 @@ public class AboutFragment extends Fragment {
                 resources.getDrawable(R.drawable.image_about_lingmuqiuzhu, requireContext().getTheme()),
                 "柃木湫竹",
                 getString(R.string.zh_about_lingmuqiuzhu_desc),
-                null));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/515165764")));
     }
 
     private void loadSponsorData() {

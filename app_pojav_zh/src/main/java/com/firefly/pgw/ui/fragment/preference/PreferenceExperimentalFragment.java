@@ -1,4 +1,4 @@
-package com.movtery.pojavzh.ui.fragment.preference;
+package com.firefly.pgw.ui.fragment.preference;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.preference.SwitchPreference;
 import com.firefly.pgw.renderer.RendererManager;
 import com.movtery.pojavzh.ui.dialog.EditMesaVersionDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
-import com.movtery.pojavzh.utils.ListAndArray;
+import com.firefly.pgw.utils.ListAndArray;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;

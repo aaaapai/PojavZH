@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.kdt.mcgui.ProgressLayout;
 import com.movtery.pojavzh.ui.fragment.preference.PreferenceLauncherFragment;
-import com.movtery.pojavzh.ui.fragment.preference.PreferenceExperimentalFragment;
+import com.firefly.pgw.ui.fragment.preference.PreferenceExperimentalFragment;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
 import com.movtery.pojavzh.utils.ZHTools;
 
