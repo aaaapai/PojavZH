@@ -23,8 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.movtery.pojavzh.extra.ZHExtraConstants;
-import com.movtery.pojavzh.feature.renderer.RendererManager;
-import com.movtery.pojavzh.feature.renderer.RenderersList;
+import com.firefly.pgw.renderer.RendererManager;
+import com.firefly.pgw.renderer.RenderersList;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
 import com.movtery.pojavzh.ui.fragment.FilesFragment;
 import com.movtery.pojavzh.ui.fragment.VersionSelectorFragment;

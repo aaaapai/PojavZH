@@ -10,7 +10,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 
-import com.movtery.pojavzh.feature.renderer.RendererManager;
+import com.firefly.pgw.renderer.RendererManager;
 import com.movtery.pojavzh.utils.ListAndArray;
 
 import net.kdt.pojavlaunch.R;

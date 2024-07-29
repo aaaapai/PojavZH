@@ -47,8 +47,8 @@ import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.kdt.LoggerView;
-import com.movtery.pojavzh.feature.renderer.RendererManager;
-import com.movtery.pojavzh.feature.renderer.RenderersList;
+import com.firefly.pgw.renderer.RendererManager;
+import com.firefly.pgw.renderer.RenderersList;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.ui.dialog.KeyboardDialog;
 import com.movtery.pojavzh.ui.dialog.MouseSettingsDialog;
