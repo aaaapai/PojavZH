@@ -96,25 +96,29 @@ public class AboutFragment extends Fragment {
                 resources.getDrawable(R.drawable.ic_pojav_full, requireContext().getTheme()),
                 "PojavLauncherTeam",
                 getString(R.string.zh_about_pojavlauncher_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), "Github", ZHTools.URL_GITHUB_POJAVLAUNCHER)));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), "Github", ZHTools.URL_GITHUB_POJAVLAUNCHER)
+                ));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_movtery, requireContext().getTheme()),
                 "墨北MovTery",
                 getString(R.string.zh_about_movtery_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/2008204513")));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/2008204513")
+                ));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_verafirefly, requireContext().getTheme()),
                 "Vera-Firefly",
                 getString(R.string.zh_about_verafirefly_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/1412062866")));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/1412062866")
+                ));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_lingmuqiuzhu, requireContext().getTheme()),
                 "柃木湫竹",
                 getString(R.string.zh_about_lingmuqiuzhu_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/515165764")));
+                null
+                ));
     }
 
     private void loadSponsorData() {
