@@ -1,7 +1,7 @@
 package net.kdt.pojavlaunch.utils;
 
 import static com.firefly.pgw.renderer.RendererManager.DRIVER_MODEL;
-import static com.firefly.pgw.renderer.MESA_LIBS;
+import static com.firefly.pgw.renderer.RendererManager.MESA_LIBS;
 import static net.kdt.pojavlaunch.Architecture.ARCH_X86;
 import static net.kdt.pojavlaunch.Architecture.is64BitsDevice;
 import static net.kdt.pojavlaunch.Tools.LOCAL_RENDERER;
