@@ -18,6 +18,10 @@ jobs:
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
 
     steps:
+      - name: Set IS_MAIN_BRANCH if on main branch
+        if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
+        run: echo "IS_MAIN_BRANCH=true" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -103,6 +107,11 @@ jobs:
       CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
 
     steps:
+      - name: Set IS_MAIN_BRANCH if on main branch
+        if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
+        run: echo "IS_MAIN_BRANCH=true" >> $GITHUB_ENV
+
+
       - name: Checkout
         uses: actions/checkout@v4
 
