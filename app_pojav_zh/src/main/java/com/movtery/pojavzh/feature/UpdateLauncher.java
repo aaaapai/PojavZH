@@ -75,7 +75,7 @@ public class UpdateLauncher {
 
     private String getDownloadUrl() {
         String fileUrl;
-        String githubUrl = "github.com/Vera-Firefly/PZH-X-PGW/releases/download/" + tagName + "/" + "PZH-X-PGW-" + versionName + ".apk";
+        String githubUrl = "github.com/Vera-Firefly/PZH-X-PGW/releases/download/" + tagName + "/" + "PZH-X-PGW-" + versionName + "-all" + ".apk";
         switch (updateSource) {
             case GHPROXY:
                 fileUrl = "https://mirror.ghproxy.com/" + githubUrl;

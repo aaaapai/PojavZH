@@ -8,46 +8,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        arch: [ "all", "arm", "arm64", "x86", "x86_64" ]
+      fail-fast: false
+
     env:
       CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
       KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
 
     steps:
-      - name: Set IS_MAIN_BRANCH if on main branch
-        if: github.ref_name == 'main'
-        run: echo "IS_MAIN_BRANCH=true" >> $GITHUB_ENV
-
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Get JRE 8
         uses: dawidd6/action-download-artifact@v3
         with:
-          workflow: build.yml
+          workflow: buildjre8.yml
           path: app_pojav_zh/src/main/assets/components/jre-8
           workflow_conclusion: success
-          repo: PojavLauncherTeam/android-openjdk-build-multiarch
-          branch: buildjre8
+          repo: Vera-Firefly/android-openjdk-autobuild
+          branch: main
           name: jre8-pojav
 
       - name: Get JRE 17
         uses: dawidd6/action-download-artifact@v3
         with:
-          workflow: build.yml
+          workflow: buildjre17.yml
           path: app_pojav_zh/src/main/assets/components/jre-17
           workflow_conclusion: success
-          repo: PojavLauncherTeam/android-openjdk-build-multiarch
-          branch: buildjre17-21
+          repo: Vera-Firefly/android-openjdk-autobuild
+          branch: main
           name: jre17-pojav
 
       - name: Get JRE 21
         uses: dawidd6/action-download-artifact@v3
         with:
-          workflow: build.yml
+          workflow: buildjre21.yml
           path: app_pojav_zh/src/main/assets/components/jre-21
           workflow_conclusion: success
-          repo: PojavLauncherTeam/android-openjdk-build-multiarch
-          branch: buildjre17-21
+          repo: Vera-Firefly/android-openjdk-autobuild
+          branch: main
           name: jre21-pojav
 
       - name: Get LWJGL3
@@ -66,40 +67,42 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build Release.apk
+      - name: Build Release ${{matrix.arch}}
         if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
         run: |
-          gradle :app_pojav_zh:assemblerelease
+          chmod +x gradlew
+          ./gradlew app_pojav_zh:assemblerelease -Darch=${{matrix.arch}}
 
-      - name: Build Debug.apk
+      - name: Build Debug ${{matrix.arch}}
         run: |
-          # Build the launcher
-          gradle :app_pojav_zh:assembleDebug
+          chmod +x gradlew
+          ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
 
-      - name: Upload Release
+      - name: Upload Release ${{matrix.arch}}
         continue-on-error: true
         if: github.repository_owner == 'Vera-Firefly' && github.ref_name == 'main'
         uses: actions/upload-artifact@v4
         with:
-          name: PojavZenithHorizon(Release)
+          name: PZH-X-PGW(Release)-${{matrix.arch}}
           path: app_pojav_zh/build/outputs/apk/release/*
 
-      - name: Upload Debug
+      - name: Upload Debug ${{matrix.arch}}
         uses: actions/upload-artifact@v4
         with:
-          name: PojavZenithHorizon(Debug)
+          name: PZH-X-PGW(Debug)-${{matrix.arch}}
           path: app_pojav_zh/build/outputs/apk/debug/*
 
   build-noruntime:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        arch: [ "all", "arm", "arm64", "x86", "x86_64" ]
+      fail-fast: false
+
     env:
       CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
 
     steps:
-      - name: Set IS_MAIN_BRANCH if on main branch
-        if: github.ref_name == 'main'
-        run: echo "IS_MAIN_BRANCH=true" >> $GITHUB_ENV
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -119,13 +122,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build Debug-noruntime.apk
+      - name: Build Debug Noruntime ${{matrix.arch}}
         run: |
-          # Build the launcher
-          gradle :app_pojav_zh:assembleDebug
+          chmod +x gradlew
+          ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
 
-      - name: Upload Debug
+      - name: Upload Debug ${{matrix.arch}}
         uses: actions/upload-artifact@v4
         with:
-          name: PojavZenithHorizon(Debug - No Runtime)
+          name: PZH-X-PGW(Debug - No Runtime)-${{matrix.arch}}
           path: app_pojav_zh/build/outputs/apk/debug/*
