@@ -24,7 +24,7 @@
     <string name="zh_wrong_tip">Đã xảy ra sự cố</string>
     <string name="zh_no_more_reminders">Không nhắc lại nữa</string>
     <string name="zh_input_invalid">Nội dung đã nhập không đáp ứng yêu cầu, vui lòng nhập lại</string>
-        <string name="zh_input_too_small">Giá trị nhập vào quá nhỏ, phải ít nhất là %s</string>
+    <string name="zh_input_too_small">Giá trị nhập vào quá nhỏ, phải ít nhất là %s</string>
     <string name="zh_input_too_big">Giá trị nhập vào quá lớn, tối đa chỉ có thể là %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Chọn tệp Jar</string>
@@ -113,6 +113,7 @@
     <!-- Install -->
     <string name="zh_install_select_jre_environment">Chọn môi trường JRE</string>
     <string name="zh_install_recommend_use_jre8">Khuyến nghị sử dụng JRE 8</string>
+    <string name="zh_install_auto_select">Chọn Tự Động</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">Nút</string>
     <string name="zh_controls_add_control_drawer">Phím tắt</string>
@@ -209,10 +210,12 @@
     <string name="zh_setting_java_memory_info">Thông tin sử dụng bộ nhớ hiện tại: %s / %s, kích thước bộ nhớ trống: %s</string>
     <string name="zh_setting_java_memory_max">Kích thước bộ nhớ tối đa có thể đặt: %s</string>
     <string name="zh_setting_java_memory_exceeded">Kích thước bộ nhớ được đặt hiện vượt quá kích thước bộ nhớ có sẵn</string>
-    <string name="zh_setting_set_game_language_desc">Tự động đặt ngôn ngữ trò chơi thành ngôn ngữ đã chọn khi trò chơi khởi chạy lần đầu</string>
-    <string name="zh_setting_set_game_language_title">Tự động đặt ngôn ngữ trò chơi</string>
-    <string name="zh_setting_set_game_language_list">Đặt ngôn ngữ trò chơi</string>
-    <string name="zh_setting_set_game_language_system">Theo ngôn ngữ hệ thống</string>
+    <string name="zh_setting_set_game_language_desc">Tự động đặt ngôn ngữ trò chơi thành ngôn ngữ đã chọn khi khởi động trò chơi</string>
+    <string name="zh_setting_set_game_language_title">Tự động Đặt Ngôn ngữ Trò chơi</string>
+    <string name="zh_setting_set_game_language_list">Đặt Ngôn ngữ Trò chơi</string>
+    <string name="zh_setting_set_game_language_system">Theo Ngôn ngữ Hệ thống</string>
+    <string name="zh_setting_set_game_language_overridden_title">Ghi đè Ngôn ngữ Trò chơi</string>
+    <string name="zh_setting_set_game_language_overridden_desc">Bỏ qua ngôn ngữ đã thiết lập trong trò chơi và ép buộc thay đổi ngôn ngữ thành ngôn ngữ đã thiết lập trong trình khởi chạy</string>
     <string name="zh_setting_launcher_theme">Chủ đề trình khởi chạy</string>
     <string name="zh_setting_launcher_theme_system">Theo hệ thống</string>
     <string name="zh_setting_launcher_theme_light">Chế độ sáng</string>
@@ -296,32 +299,7 @@
     <string name="zh_about_version_status_other_branch">Nhánh khác</string>
     <string name="zh_about_version_status_debug">Phiên bản thử nghiệm</string>
     <string name="zh_about_version_status_release">Phiên bản chính thức</string>
-    <!-- From Pojav Glow·Worm -->
-    <string name="mcl_setting_renderer_virgl">Virgl - (Khả dụng cho tất cả các phiên bản, tốc độ trung bình)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (Khả dụng cho tất cả các phiên bản, tốc độ trung bình)</string>
-    <!-- Renderer Experimental Setup -->
-    <string name="preference_category_renderer_experimental_settings">Cài đặt thử nghiệm trình kết xuất</string>
-    <string name="preference_renderer_setup_title">Kích hoạt cài đặt thử nghiệm trình kết xuất</string>
-    <string name="preference_renderer_setup">Cài đặt cụ thể hơn cho trình kết xuất</string>
-    <string name="preference_spare_bridge_title">Cầu nối dự phòng</string>
-    <string name="preference_spare_bridge">Sử dụng phương án cầu nối thứ hai, nếu khởi động thất bại, vui lòng tắt</string>
-    <string name="preference_exp_framebuffer_title">Bộ đệm khung hình dự phòng</string>
-    <string name="preference_exp_framebuffer">Sử dụng phương án bộ đệm khung hình thứ hai, nếu khởi động thất bại, vui lòng tắt</string>
-    <string name="preference_renderer_setup_extra">Trình kết xuất (Mở rộng)</string>
-    <string name="preference_renderer_extra_default">Mesa 24.1.4 (mặc định)</string>
-    <string name="preference_extra_mesa_version">Phiên bản Mesa</string>
-    <string name="preference_extra_driver_model">Mô hình trình điều khiển</string>
-    <!-- Dialog box prompt -->
-    <string name="preference_rendererexp_alertdialog_message">Bạn đã bật cài đặt thử nghiệm, tính năng này có thể gây ra những vấn đề không mong muốn, bạn có muốn tiếp tục sử dụng?</string>
-    <string name="alertdialog_tipa">Cảnh báo! Trước khi sử dụng GL/GLSL tùy chỉnh, bạn phải hiểu GL/GLSL là gì</string>
-    <string name="customglglsl_alertdialog_error_gl">Phiên bản GL phải nằm trong khoảng từ 2.8 đến 4.6</string>
-    <string name="customglglsl_alertdialog_error_glsl">Phiên bản GLSL phải nằm trong khoảng từ 280 đến 460</string>
-    <!-- Custom GL/GLSL Version -->
-    <string name="preference_exp_custommv">Phiên bản GL/GLSL</string>
-    <string name="preference_exp_ebsystem">Theo hệ thống</string>
-    <string name="preference_exp_ebspecific">Sử dụng phiên bản cố định</string>
-    <string name="preference_rendererexp_custom_glversion_title">GL/GLSL tùy chỉnh</string>
-    <string name="preference_rendererexp_custom_glversion">Cho phép bạn tùy chỉnh phiên bản Mesa GL/GLSL</string>
-    <string name="custom_gl_version">Phiên bản Mesa GL:</string>
-    <string name="custom_glsl_version">Phiên bản Mesa GLSL:</string>
+    <!-- Sponsorship Related -->
+    <string name="zh_request_sponsorship_title">Hỗ Trợ Phát Triển Của Tôi</string>
+    <string name="zh_request_sponsorship_message">Phần lớn phần mềm này được phát triển và duy trì bởi một mình tôi. Nếu bạn thấy phần mềm này hữu ích và có khả năng, hãy xem xét tài trợ cho tôi để tôi có thêm động lực tiếp tục phát triển và cải tiến nó. Cảm ơn bạn đã hỗ trợ!</string>
 </resources>

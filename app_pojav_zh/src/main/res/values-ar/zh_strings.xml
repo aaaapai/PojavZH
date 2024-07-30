@@ -113,6 +113,7 @@
     <!-- Install -->
     <string name="zh_install_select_jre_environment">اختر بيئة JRE</string>
     <string name="zh_install_recommend_use_jre8">يوصى باستخدام JRE 8</string>
+    <string name="zh_install_auto_select">تحديد تلقائي</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">زر</string>
     <string name="zh_controls_add_control_drawer">مجموعة أزرار</string>
@@ -209,10 +210,12 @@
     <string name="zh_setting_java_memory_info">معلومات استخدام الذاكرة الحالية: %s / %s ، حجم الذاكرة الحرة: %s</string>
     <string name="zh_setting_java_memory_max">الحد الأقصى لحجم الذاكرة القابل للضبط: %s</string>
     <string name="zh_setting_java_memory_exceeded">حجم الذاكرة المعين حاليًا يتجاوز حجم الذاكرة المتاحة</string>
-    <string name="zh_setting_set_game_language_desc">تعيين لغة اللعبة تلقائيًا عند بدء تشغيل اللعبة لأول مرة</string>
+    <string name="zh_setting_set_game_language_desc">تعيين لغة اللعبة تلقائيًا إلى اللغة المحددة عند بدء اللعبة</string>
     <string name="zh_setting_set_game_language_title">تعيين لغة اللعبة تلقائيًا</string>
     <string name="zh_setting_set_game_language_list">تعيين لغة اللعبة</string>
-    <string name="zh_setting_set_game_language_system">حسب لغة النظام</string>
+    <string name="zh_setting_set_game_language_system">بناءً على لغة النظام</string>
+    <string name="zh_setting_set_game_language_overridden_title">تجاوز لغة اللعبة</string>
+    <string name="zh_setting_set_game_language_overridden_desc">تجاهل اللغة المضبوطة في اللعبة وتغييرها بالقوة إلى اللغة المضبوطة في المشغل</string>
     <string name="zh_setting_launcher_theme">موضوع المشغل</string>
     <string name="zh_setting_launcher_theme_system">متبع للنظام</string>
     <string name="zh_setting_launcher_theme_light">وضع الإضاءة المنخفضة</string>
@@ -296,32 +299,7 @@
     <string name="zh_about_version_status_other_branch">فروع أخرى</string>
     <string name="zh_about_version_status_debug">نسخة تجريبية</string>
     <string name="zh_about_version_status_release">نسخة رسمية</string>
-    <!-- From Pojav Glow·Worm -->
-    <string name="mcl_setting_renderer_virgl">Virgl - (متاح لجميع النسخ، سرعة متوسطة)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (متاح لجميع النسخ، سرعة متوسطة)</string>
-    <!-- Renderer Experimental Setup -->
-    <string name="preference_category_renderer_experimental_settings">إعدادات العارض التجريبية</string>
-    <string name="preference_renderer_setup_title">تمكين إعدادات العارض التجريبية</string>
-    <string name="preference_renderer_setup">المزيد من إعدادات محددة للعارض</string>
-    <string name="preference_spare_bridge_title">جسر احتياطي</string>
-    <string name="preference_spare_bridge">استخدام المخطط الثاني للجسر، إذا فشل التشغيل، يرجى إغلاقه</string>
-    <string name="preference_exp_framebuffer_title">إطار التخزين الاحتياطي</string>
-    <string name="preference_exp_framebuffer">استخدام المخطط الثاني لإطار التخزين، إذا فشل التشغيل، يرجى إغلاقه</string>
-    <string name="preference_renderer_setup_extra">العارض (توسعة)</string>
-    <string name="preference_renderer_extra_default">Mesa 24.1.4 (الافتراضي)</string>
-    <string name="preference_extra_mesa_version">إصدار Mesa</string>
-    <string name="preference_extra_driver_model">نموذج السائق</string>
-    <!-- Dialog box prompt -->
-    <string name="preference_rendererexp_alertdialog_message">لقد قمت بتشغيل الإعدادات التجريبية، قد تسبب هذه الميزة مشاكل غير متوقعة، هل تريد الاستمرار في الاستخدام؟</string>
-    <string name="alertdialog_tipa">تحذير! يجب أن تعرف ما هو GL/GLSL قبل استخدام GL/GLSL المخصص</string>
-    <string name="customglglsl_alertdialog_error_gl">يجب أن يكون إصدار GL بين 2.8 و 4.6</string>
-    <string name="customglglsl_alertdialog_error_glsl">يجب أن يكون إصدار GLSL بين 280 و 460</string>
-    <!-- Custom GL/GLSL Version -->
-    <string name="preference_exp_custommv">إصدار GL/GLSL</string>
-    <string name="preference_exp_ebsystem">اتبع النظام</string>
-    <string name="preference_exp_ebspecific">استخدام إصدار ثابت</string>
-    <string name="preference_rendererexp_custom_glversion_title">GL/GLSL المخصص</string>
-    <string name="preference_rendererexp_custom_glversion">يسمح لك بتخصيص إصدار Mesa GL/GLSL</string>
-    <string name="custom_gl_version">إصدار Mesa GL:</string>
-    <string name="custom_glsl_version">إصدار Mesa GLSL:</string>
+    <!-- Sponsorship Related -->
+    <string name="zh_request_sponsorship_title">ادعم تطويري</string>
+    <string name="zh_request_sponsorship_message">معظم هذا البرنامج تم تطويره وصيانته بواسطة شخص واحد. إذا وجدت هذا البرنامج مفيدًا وكان بإمكانك ذلك، يرجى النظر في دعمي لمنحي المزيد من الحافز لمواصلة تطويره وتحسينه. شكرًا لدعمك!</string>
 </resources>

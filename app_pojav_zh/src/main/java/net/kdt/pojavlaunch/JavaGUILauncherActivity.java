@@ -100,8 +100,8 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
             Drawable drawable = mMousePointerImageView.getDrawable();
             Dimension mousescale = ImageUtils.resizeWithRatio(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
                     DEFAULT_PREF.getInt("mousescale", 100));
-            params.width = (int) (mousescale.getWidth() * 0.5);
-            params.height = (int) (mousescale.getHeight() * 0.5);
+            params.width = (int) (mousescale.width * 0.5);
+            params.height = (int) (mousescale.height * 0.5);
         });
 
         mTouchPad.setOnTouchListener(new View.OnTouchListener() {
@@ -249,19 +249,23 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
             // Maybe replace with more advanced arg parsing logic later
             List<String> argList = javaArgs != null ? Arrays.asList(javaArgs.split(" ")) : null;
             File selectedMod = modFile;
-            if(selectedMod == null && argList != null) {
+            if (selectedMod == null && argList != null) {
                 // If modFile is not specified directly, try to extract the -jar argument from the javaArgs
                 selectedMod = findModPath(argList);
             }
             Runtime selectedRuntime;
-            if(selectedMod == null) {
-                // We were unable to find out the path to the mod. In that case, use the default runtime.
-                selectedRuntime = MultiRTUtils.forceReread(LauncherPreferences.PREF_DEFAULT_RUNTIME);
-            }else {
-                // Autoselect it properly in the other case.
-                selectedRuntime = selectRuntime(selectedMod);
-                // If the selection failed, just return. The autoselect function has already shown the dialog.
-                if(selectedRuntime == null) return;
+            if (jreName == null) {
+                if (selectedMod == null) {
+                    // We were unable to find out the path to the mod. In that case, use the default runtime.
+                    selectedRuntime = MultiRTUtils.forceReread(LauncherPreferences.PREF_DEFAULT_RUNTIME);
+                } else {
+                    // Autoselect it properly in the other case.
+                    selectedRuntime = selectRuntime(selectedMod);
+                    // If the selection failed, just return. The autoselect function has already shown the dialog.
+                    if (selectedRuntime == null) return;
+                }
+            } else {
+                selectedRuntime = MultiRTUtils.forceReread(jreName);
             }
             launchJavaRuntime(selectedRuntime, modFile, argList);
         }, "JREMainThread").start();

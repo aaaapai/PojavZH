@@ -31,14 +31,13 @@ public class MultiRTConfigDialog {
     public void prepare(Context activity, ActivityResultLauncher<Object> installJvmLauncher) {
         mDialogView = new RecyclerView(activity);
         mDialogView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        RTRecyclerViewAdapter adapter = new RTRecyclerViewAdapter();
+        RTRecyclerViewAdapter adapter = new RTRecyclerViewAdapter(MultiRTUtils.getRuntimes());
         mDialogView.setAdapter(adapter);
 
         mDialog = new AlertDialog.Builder(activity)
                 .setTitle(R.string.multirt_config_title)
                 .setView(mDialogView)
                 .setPositiveButton(R.string.multirt_config_add, (dialog, which) -> installJvmLauncher.launch(null))
-                .setNegativeButton(android.R.string.cancel, null)
                 .setNeutralButton(R.string.multirt_delete_runtime, null)
                 .create();
 

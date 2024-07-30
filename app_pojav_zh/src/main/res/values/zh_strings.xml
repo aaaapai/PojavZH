@@ -209,10 +209,12 @@
     <string name="zh_setting_java_memory_info">Current memory usage: %s / %s, Free memory size: %s</string>
     <string name="zh_setting_java_memory_max">Maximum allowable memory size: %s</string>
     <string name="zh_setting_java_memory_exceeded">The current memory allocation exceeds available memory size</string>
-    <string name="zh_setting_set_game_language_desc">Automatically set the game language to the selected language when the game is first launched</string>
+    <string name="zh_setting_set_game_language_desc">Automatically set the game language to the selected language when the game starts</string>
     <string name="zh_setting_set_game_language_title">Automatically Set Game Language</string>
     <string name="zh_setting_set_game_language_list">Set Game Language</string>
-    <string name="zh_setting_set_game_language_system">Follow System Language</string>
+    <string name="zh_setting_set_game_language_system">Based on System Language</string>
+    <string name="zh_setting_set_game_language_overridden_title">Override Game Language</string>
+    <string name="zh_setting_set_game_language_overridden_desc">Ignore the language set in the game and force it to the game language set in the launcher</string>
     <string name="zh_setting_launcher_theme">Launcher Theme</string>
     <string name="zh_setting_launcher_theme_system">Follow System Changes</string>
     <string name="zh_setting_launcher_theme_light">Light Mode</string>
@@ -296,32 +298,7 @@
     <string name="zh_about_version_status_other_branch">Other Branch</string>
     <string name="zh_about_version_status_debug">Debug</string>
     <string name="zh_about_version_status_release">Release</string>
-    <!-- From Pojav Glow·Worm -->
-    <string name="mcl_setting_renderer_virgl">Virgl - (all versions, mid)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (all versions, mid)</string>
-    <!-- Renderer Experimental Setup -->
-    <string name="preference_category_renderer_experimental_settings">Renderer Experimental Settings</string>
-    <string name="preference_renderer_setup_title">Enable Renderer Experimental Settings</string>
-    <string name="preference_renderer_setup">More Renderer Specific Settings</string>
-    <string name="preference_spare_bridge_title">Spare Bridge</string>
-    <string name="preference_spare_bridge">Use the second bridge option. If it fails to start, please disable it.</string>
-    <string name="preference_exp_framebuffer_title">Spare Framebuffer</string>
-    <string name="preference_exp_framebuffer">Use the second framebuffer option. If it fails to start, please disable it.</string>
-    <string name="preference_renderer_setup_extra">Renderer (Extra)</string>
-    <string name="preference_renderer_extra_default">Mesa 24.1.4 (Default)</string>
-    <string name="preference_extra_mesa_version">Mesa Version</string>
-    <string name="preference_extra_driver_model">Driver Model</string>
-    <!-- Dialog box prompt -->
-    <string name="preference_rendererexp_alertdialog_message">You have enabled experimental settings. This feature may cause unexpected issues. Do you want to continue?</string>
-    <string name="alertdialog_tipa">Warning! You must understand what GL/GLSL is before using custom GL/GLSL.</string>
-    <string name="customglglsl_alertdialog_error_gl">GL version must be between 2.8 and 4.6.</string>
-    <string name="customglglsl_alertdialog_error_glsl">GLSL version must be between 280 and 460.</string>
-    <!-- Custom GL/GLSL Version -->
-    <string name="preference_exp_custommv">GL/GLSL Version</string>
-    <string name="preference_exp_ebsystem">Follow System</string>
-    <string name="preference_exp_ebspecific">Use Fixed Version</string>
-    <string name="preference_rendererexp_custom_glversion_title">Custom GL/GLSL</string>
-    <string name="preference_rendererexp_custom_glversion">Allows you to customize the Mesa GL/GLSL version</string>
-    <string name="custom_gl_version">Mesa GL Version:</string>
-    <string name="custom_glsl_version">Mesa GLSL Version:</string>
+    <!-- Sponsorship Related -->
+    <string name="zh_request_sponsorship_title">Support My Development</string>
+    <string name="zh_request_sponsorship_message">Most of this software is developed and maintained by me alone. If you find this software helpful and are in a position to do so, please consider sponsoring me to give me more motivation to continue developing and improving it. Thank you for your support!</string>
 </resources>

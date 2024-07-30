@@ -24,7 +24,7 @@
     <string name="zh_wrong_tip">Произошла ошибка</string>
     <string name="zh_no_more_reminders">Больше не напоминать</string>
     <string name="zh_input_invalid">Введенное содержимое не соответствует требованиям, пожалуйста, введите снова</string>
-        <string name="zh_input_too_small">Введенное значение слишком мало, оно должно быть не менее %s</string>
+    <string name="zh_input_too_small">Введенное значение слишком мало, оно должно быть не менее %s</string>
     <string name="zh_input_too_big">Введенное значение слишком велико, оно должно быть не более %s</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Выбрать файл Jar</string>
@@ -113,6 +113,7 @@
     <!-- Install -->
     <string name="zh_install_select_jre_environment">Выбрать среду JRE</string>
     <string name="zh_install_recommend_use_jre8">Рекомендуется использовать JRE 8</string>
+    <string name="zh_install_auto_select">Автоматический выбор</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">Кнопка</string>
     <string name="zh_controls_add_control_drawer">Комбинация клавиш</string>
@@ -209,10 +210,12 @@
     <string name="zh_setting_java_memory_info">Текущая информация о памяти: %s / %s, свободной памяти: %s</string>
     <string name="zh_setting_java_memory_max">Максимальный доступный объем памяти: %s</string>
     <string name="zh_setting_java_memory_exceeded">Установленный объем памяти превышает доступный</string>
-    <string name="zh_setting_set_game_language_desc">Автоматически устанавливать язык игры при первом запуске</string>
-    <string name="zh_setting_set_game_language_title">Автоматическая установка языка игры</string>
-    <string name="zh_setting_set_game_language_list">Установить язык игры</string>
-    <string name="zh_setting_set_game_language_system">В соответствии с системным языком</string>
+    <string name="zh_setting_set_game_language_desc">Автоматически устанавливать язык игры на выбранный язык при запуске игры</string>
+    <string name="zh_setting_set_game_language_title">Автоматическая настройка языка игры</string>
+    <string name="zh_setting_set_game_language_list">Настроить язык игры</string>
+    <string name="zh_setting_set_game_language_system">Системный язык</string>
+    <string name="zh_setting_set_game_language_overridden_title">Переопределить язык игры</string>
+    <string name="zh_setting_set_game_language_overridden_desc">Игнорировать язык, установленный в игре, и принудительно изменить его на язык, установленный в лаунчере</string>
     <string name="zh_setting_launcher_theme">Тема лаунчера</string>
     <string name="zh_setting_launcher_theme_system">Следовать системе</string>
     <string name="zh_setting_launcher_theme_light">Светлая тема</string>
@@ -296,32 +299,7 @@
     <string name="zh_about_version_status_other_branch">Другая ветка</string>
     <string name="zh_about_version_status_debug">Тестовая версия</string>
     <string name="zh_about_version_status_release">Релизная версия</string>
-    <!-- From Pojav Glow·Worm -->
-    <string name="mcl_setting_renderer_virgl">Virgl - (доступен для всех версий, средняя скорость)</string>
-    <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (доступен для всех версий, средняя скорость)</string>
-    <!-- Renderer Experimental Setup -->
-    <string name="preference_category_renderer_experimental_settings">Экспериментальные настройки рендерера</string>
-    <string name="preference_renderer_setup_title">Включить экспериментальные настройки рендерера</string>
-    <string name="preference_renderer_setup">Больше настроек, специфичных для рендерера</string>
-    <string name="preference_spare_bridge_title">Резервное мостовое соединение</string>
-    <string name="preference_spare_bridge">Использовать второй вариант мостового соединения, если запуск не удался, пожалуйста, отключите</string>
-    <string name="preference_exp_framebuffer_title">Резервный буфер кадра</string>
-    <string name="preference_exp_framebuffer">Использовать второй вариант буфера кадра, если запуск не удался, пожалуйста, отключите</string>
-    <string name="preference_renderer_setup_extra">Рендерер (расширение)</string>
-    <string name="preference_renderer_extra_default">Mesa 24.1.4 (по умолчанию)</string>
-    <string name="preference_extra_mesa_version">Версия Mesa</string>
-    <string name="preference_extra_driver_model">Модель драйвера</string>
-    <!-- Dialog box prompt -->
-    <string name="preference_rendererexp_alertdialog_message">Вы включили экспериментальные настройки, эта функция может вызвать непредвиденные проблемы, продолжить использование?</string>
-    <string name="alertdialog_tipa">Внимание! Перед использованием пользовательских GL/GLSL вы должны понимать, что такое GL/GLSL</string>
-    <string name="customglglsl_alertdialog_error_gl">Версия GL должна быть между 2.8 и 4.6</string>
-    <string name="customglglsl_alertdialog_error_glsl">Версия GLSL должна быть между 280 и 460</string>
-    <!-- Custom GL/GLSL Version -->
-    <string name="preference_exp_custommv">Версия GL/GLSL</string>
-    <string name="preference_exp_ebsystem">Следовать системе</string>
-    <string name="preference_exp_ebspecific">Использовать фиксированную версию</string>
-    <string name="preference_rendererexp_custom_glversion_title">Пользовательский GL/GLSL</string>
-    <string name="preference_rendererexp_custom_glversion">Позволяет вам настроить версию Mesa GL/GLSL</string>
-    <string name="custom_gl_version">Версия Mesa GL:</string>
-    <string name="custom_glsl_version">Версия Mesa GLSL:</string>
+    <!-- Sponsorship Related -->
+    <string name="zh_request_sponsorship_title">Поддержите Мое Развитие</string>
+    <string name="zh_request_sponsorship_message">Большую часть этого программного обеспечения разрабатываю и поддерживаю я один. Если вы считаете это программное обеспечение полезным и у вас есть возможность, пожалуйста, рассмотрите возможность спонсирования меня, чтобы дать мне больше мотивации продолжать разработку и улучшение. Спасибо за вашу поддержку!</string>
 </resources>
