@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.movtery.pojavzh.ui.dialog.DeleteDialog;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener;
 import com.movtery.pojavzh.ui.subassembly.filelist.RefreshListener;
-import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.file.FileTools;
 import com.movtery.pojavzh.utils.stringutils.StringFilter;
 
 import net.kdt.pojavlaunch.PojavApplication;
@@ -55,13 +55,15 @@ public class ControlsListViewCreator {
             @Override
             public void onItemClick(String name) {
                 File file = new File(fullPath, name);
-                if (ControlsListViewCreator.this.fileSelectedListener != null) fileSelectedListener.onFileSelected(file, file.getAbsolutePath());
+                if (ControlsListViewCreator.this.fileSelectedListener != null)
+                    fileSelectedListener.onFileSelected(file, file.getAbsolutePath());
             }
 
             @Override
             public void onLongClick(String name) {
                 File file = new File(fullPath, name);
-                if (ControlsListViewCreator.this.fileSelectedListener != null) fileSelectedListener.onItemLongClick(file, file.getAbsolutePath());
+                if (ControlsListViewCreator.this.fileSelectedListener != null)
+                    fileSelectedListener.onItemLongClick(file, file.getAbsolutePath());
             }
 
             @Override
@@ -112,11 +114,11 @@ public class ControlsListViewCreator {
                         ControlInfoData invalidInfoData = new ControlInfoData();
                         invalidInfoData.fileName = file.getName();
                         controlItemBean = new ControlItemBean(invalidInfoData);
-                        controlItemBean.setInvalid(true);
+                        controlItemBean.isInvalid = true;
                     } else {
                         controlItemBean = new ControlItemBean(controlInfoData);
                         if (shouldHighlight(controlInfoData, file)) {
-                            controlItemBean.setHighlighted(true);
+                            controlItemBean.isHighlighted = true;
                             searchCount.addAndGet(1);
                         } else if (showSearchResultsOnly) {
                             continue;
@@ -135,7 +137,7 @@ public class ControlsListViewCreator {
         if (filterString == null || filterString.isEmpty()) return false;
 
         String name = controlInfoData.name;
-        String searchString = (name != null && !name.isEmpty() && !name.equals("null")) ? name : file.getName();
+        String searchString = !name.isEmpty() && !name.equals("null") ? name : file.getName();
 
         //支持搜索文件名或布局名称
         return StringFilter.containsSubstring(searchString, filterString, caseSensitive) ||
@@ -172,7 +174,7 @@ public class ControlsListViewCreator {
 
     private File controlPath() {
         File ctrlPath = new File(Tools.CTRLMAP_PATH);
-        if (!ctrlPath.exists()) ZHTools.mkdirs(ctrlPath);
+        if (!ctrlPath.exists()) FileTools.mkdirs(ctrlPath);
         return ctrlPath;
     }
 

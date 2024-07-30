@@ -1,6 +1,6 @@
 package com.movtery.pojavzh.ui.fragment;
 
-import static com.movtery.pojavzh.utils.ZHTools.copyFileInBackground;
+import static com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public class SelectModPackFragment extends Fragment implements TaskCountListener
     private File modPackFile;
     private boolean mTasksRunning;
 
-    public SelectModPackFragment(){
+    public SelectModPackFragment() {
         super(R.layout.fragment_select_modpack);
     }
 

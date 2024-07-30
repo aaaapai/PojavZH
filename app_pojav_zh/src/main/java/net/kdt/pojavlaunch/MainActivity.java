@@ -49,11 +49,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.kdt.LoggerView;
 import com.firefly.pgw.renderer.RendererManager;
 import com.firefly.pgw.renderer.RenderersList;
+import com.movtery.pojavzh.feature.ProfileLanguageSelector;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
+import com.movtery.pojavzh.ui.dialog.ControlSettingsDialog;
 import com.movtery.pojavzh.ui.dialog.KeyboardDialog;
 import com.movtery.pojavzh.ui.dialog.MouseSettingsDialog;
+import com.movtery.pojavzh.ui.dialog.SelectControlsDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
+import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.utils.AnimUtils;
+import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import net.kdt.pojavlaunch.customcontrols.ControlButtonMenuListener;
 import net.kdt.pojavlaunch.customcontrols.ControlData;
@@ -66,17 +73,8 @@ import net.kdt.pojavlaunch.customcontrols.keyboard.LwjglCharSender;
 import net.kdt.pojavlaunch.customcontrols.keyboard.TouchCharInput;
 import net.kdt.pojavlaunch.customcontrols.mouse.GyroControl;
 import net.kdt.pojavlaunch.customcontrols.mouse.Touchpad;
-import com.movtery.pojavzh.ui.dialog.ControlSettingsDialog;
-import com.movtery.pojavzh.ui.dialog.SelectControlsDialog;
-import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
-import com.movtery.pojavzh.utils.AnimUtils;
-import com.movtery.pojavzh.utils.ZHTools;
-
 import net.kdt.pojavlaunch.lifecycle.ContextExecutor;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
-import com.movtery.pojavzh.feature.ProfileLanguageSelector;
-import com.movtery.pojavzh.utils.stringutils.StringUtils;
-
 import net.kdt.pojavlaunch.services.GameService;
 import net.kdt.pojavlaunch.utils.JREUtils;
 import net.kdt.pojavlaunch.utils.MCOptionUtils;

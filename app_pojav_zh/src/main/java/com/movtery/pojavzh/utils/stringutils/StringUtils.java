@@ -1,7 +1,15 @@
 package com.movtery.pojavzh.utils.stringutils;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
 
@@ -12,6 +20,7 @@ public class StringUtils {
 
     /**
      * 在字符串之间插入空格
+     *
      * @param prefixString 第一个字符串
      * @param suffixString 之后的多个字符串
      * @return 返回插入好空格的字符串 "string1 string2 string3"
@@ -27,6 +36,7 @@ public class StringUtils {
 
     /**
      * 在字符串之间插入换行符
+     *
      * @param prefixString 第一个字符串
      * @param suffixString 之后的多个字符串
      * @return 返回插入好换行符的字符串
@@ -67,5 +77,51 @@ public class StringUtils {
             default:
                 throw new IllegalArgumentException("Invalid shift direction: " + direction);
         }
+    }
+
+    public static boolean containsDot(String input) {
+        int dotIndex = input.indexOf('.');
+        return dotIndex != -1;
+    }
+
+    /**
+     * 在一段字符串中提取数字
+     */
+    public static int[] extractNumbers(String str, int quantity) {
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(str);
+
+        int[] numbers = new int[quantity];
+
+        int count = 0;
+        while (matcher.find() && count < quantity) {
+            numbers[count] = Integer.parseInt(matcher.group());
+            count++;
+        }
+
+        return numbers;
+    }
+
+    public static List<Integer> extractNumbers(String str) {
+        List<Integer> numbers = new ArrayList<>();
+        Matcher matcher = Pattern.compile("\\d+").matcher(str);
+        while (matcher.find()) {
+            numbers.add(Integer.parseInt(matcher.group()));
+        }
+        return numbers;
+    }
+
+    public static String formattingTime(String time) {
+        int T = time.indexOf('T');
+        int Z = time.indexOf('Z');
+        if (T == -1 || Z == -1) return time;
+        return StringUtils.insertSpace(time.substring(0, T), time.substring(T + 1, Z));
+    }
+
+    public static String markdownToHtml(String markdown) {
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse(markdown);
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
     }
 }

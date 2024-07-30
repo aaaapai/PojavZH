@@ -9,7 +9,7 @@ import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.firefly.pgw.renderer.RendererManager;
-import com.movtery.pojavzh.ui.dialog.EditMesaVersionDialog;
+import com.firefly.pgw.ui.dialog.EditMesaVersionDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.firefly.pgw.utils.ListAndArray;
 

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.movtery.pojavzh.feature.CheckSponsor;
 import com.movtery.pojavzh.ui.subassembly.about.AboutItemBean;
 import com.movtery.pojavzh.ui.subassembly.about.AboutRecyclerAdapter;
-
 import com.movtery.pojavzh.ui.subassembly.about.SponsorItemBean;
 import com.movtery.pojavzh.ui.subassembly.about.SponsorRecyclerAdapter;
 import com.movtery.pojavzh.utils.ZHTools;
@@ -96,29 +96,25 @@ public class AboutFragment extends Fragment {
                 resources.getDrawable(R.drawable.ic_pojav_full, requireContext().getTheme()),
                 "PojavLauncherTeam",
                 getString(R.string.zh_about_pojavlauncher_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), "Github", ZHTools.URL_GITHUB_POJAVLAUNCHER)
-                ));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), "Github", ZHTools.URL_GITHUB_POJAVLAUNCHER)));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_movtery, requireContext().getTheme()),
                 "墨北MovTery",
                 getString(R.string.zh_about_movtery_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/2008204513")
-                ));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/2008204513")));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_verafirefly, requireContext().getTheme()),
                 "Vera-Firefly",
                 getString(R.string.zh_about_verafirefly_desc),
-                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/1412062866")
-                ));
+                new AboutItemBean.AboutItemButtonBean(requireActivity(), getString(R.string.zh_about_access_space), "https://space.bilibili.com/1412062866")));
 
         this.mAboutData.add(new AboutItemBean(
                 resources.getDrawable(R.drawable.image_about_lingmuqiuzhu, requireContext().getTheme()),
                 "柃木湫竹",
                 getString(R.string.zh_about_lingmuqiuzhu_desc),
-                null
-                ));
+                null));
     }
 
     private void loadSponsorData() {
@@ -129,7 +125,7 @@ public class AboutFragment extends Fragment {
             }
 
             @Override
-            public void onSuccessful(List<SponsorItemBean> data) {
+            public void onSuccessful(@Nullable List<? extends SponsorItemBean> data) {
                 setSponsorVisible(true);
             }
         });

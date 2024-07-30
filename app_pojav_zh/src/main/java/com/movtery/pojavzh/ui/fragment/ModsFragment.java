@@ -1,6 +1,6 @@
 package com.movtery.pojavzh.ui.fragment;
 
-import static com.movtery.pojavzh.utils.ZHTools.copyFileInBackground;
+import static com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground;
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 
 import android.os.Bundle;
@@ -16,21 +16,22 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.movtery.pojavzh.ui.dialog.FilesDialog;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileIcon;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerAdapter;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerView;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener;
 import com.movtery.pojavzh.ui.subassembly.view.SearchView;
 import com.movtery.pojavzh.utils.AnimUtils;
+import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.file.FileTools;
 import com.movtery.pojavzh.utils.file.OperationFile;
 import com.movtery.pojavzh.utils.file.PasteFile;
 
 import net.kdt.pojavlaunch.PojavApplication;
-import com.movtery.pojavzh.utils.ZHTools;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.contracts.OpenDocumentWithExtension;
-import com.movtery.pojavzh.ui.dialog.FilesDialog;
 import net.kdt.pojavlaunch.fragments.SearchModFragment;
 
 import java.io.File;
@@ -99,7 +100,8 @@ public class ModsFragment extends Fragment {
         });
         mFileRecyclerView.setOnMultiSelectListener(itemBeans -> {
             if (!itemBeans.isEmpty()) {
-                PojavApplication.sExecutorService.execute(() -> {});
+                PojavApplication.sExecutorService.execute(() -> {
+                });
                 //取出全部文件
                 List<File> selectedFiles = new ArrayList<>();
                 itemBeans.forEach(value -> {
@@ -230,7 +232,7 @@ public class ModsFragment extends Fragment {
         String fileName = file.getName();
         String fileParent = file.getParent();
         File newFile = new File(fileParent, fileName + ".disabled");
-        ZHTools.renameFile(file, newFile);
+        FileTools.renameFile(file, newFile);
     }
 
     private void enableMod(File file) {
@@ -241,7 +243,7 @@ public class ModsFragment extends Fragment {
             newFileName += jarFileSuffix; //如果没有.jar结尾，那么默认加上.jar后缀
 
         File newFile = new File(fileParent, newFileName);
-        ZHTools.renameFile(file, newFile);
+        FileTools.renameFile(file, newFile);
     }
 
     private String getFileSuffix(File file) {

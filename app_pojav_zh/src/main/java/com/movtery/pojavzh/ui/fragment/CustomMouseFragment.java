@@ -1,7 +1,7 @@
 package com.movtery.pojavzh.ui.fragment;
 
 import static com.movtery.pojavzh.utils.ZHTools.DIR_CUSTOM_MOUSE;
-import static com.movtery.pojavzh.utils.ZHTools.copyFileInBackground;
+import static com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground;
 import static com.movtery.pojavzh.utils.image.ImageUtils.isImage;
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
@@ -20,16 +20,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.movtery.pojavzh.ui.dialog.FilesDialog;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileIcon;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileItemBean;
 import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerViewCreator;
+import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.file.FileTools;
+import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import net.kdt.pojavlaunch.PojavApplication;
-
-import com.movtery.pojavzh.utils.ZHTools;
 import net.kdt.pojavlaunch.R;
-import com.movtery.pojavzh.ui.dialog.FilesDialog;
-import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class CustomMouseFragment extends Fragment {
 
     private File mousePath() {
         File path = new File(DIR_CUSTOM_MOUSE);
-        if (!path.exists()) ZHTools.mkdirs(path);
+        if (!path.exists()) FileTools.mkdirs(path);
         return path;
     }
 

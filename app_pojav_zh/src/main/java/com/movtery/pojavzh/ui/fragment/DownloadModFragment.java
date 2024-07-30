@@ -8,14 +8,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.movtery.pojavzh.ui.subassembly.viewmodel.ModApiViewModel;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModDependencies;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionAdapter;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionItem;
-import com.movtery.pojavzh.ui.subassembly.viewmodel.RecyclerViewModel;
 import com.movtery.pojavzh.ui.subassembly.twolevellist.TwoLevelListAdapter;
 import com.movtery.pojavzh.ui.subassembly.twolevellist.TwoLevelListFragment;
 import com.movtery.pojavzh.ui.subassembly.twolevellist.TwoLevelListItemBean;
+import com.movtery.pojavzh.ui.subassembly.viewmodel.ModApiViewModel;
+import com.movtery.pojavzh.ui.subassembly.viewmodel.RecyclerViewModel;
 import com.movtery.pojavzh.utils.MCVersionComparator;
 
 import net.kdt.pojavlaunch.PojavApplication;
@@ -59,11 +59,17 @@ public class DownloadModFragment extends TwoLevelListFragment {
     protected Future<?> refresh() {
         return PojavApplication.sExecutorService.submit(() -> {
             try {
-                runOnUiThread(() -> componentProcessing(true));
+                runOnUiThread(() -> {
+                    cancelFailedToLoad();
+                    componentProcessing(true);
+                });
                 ModDetail mModDetail = mModApi.getModDetails(mModItem);
                 processModDetails(mModDetail);
             } catch (Exception e) {
-                runOnUiThread(() -> componentProcessing(false));
+                runOnUiThread(() -> {
+                    componentProcessing(false);
+                    setFailedToLoad(e.toString());
+                });
             }
         });
     }
@@ -84,7 +90,7 @@ public class DownloadModFragment extends TwoLevelListFragment {
         mModDetail.modVersionItems.forEach(modVersionItem -> {
             if (currentTask.isCancelled()) return;
 
-            String[] versionId = modVersionItem.getVersionId();
+            String[] versionId = modVersionItem.versionId;
             for (String mcVersion : versionId) {
                 if (currentTask.isCancelled()) return;
 
@@ -137,11 +143,11 @@ public class DownloadModFragment extends TwoLevelListFragment {
     private void parseViewModel() {
         ModApiViewModel viewModel = new ViewModelProvider(requireActivity()).get(ModApiViewModel.class);
         RecyclerViewModel recyclerViewModel = new ViewModelProvider(requireActivity()).get(RecyclerViewModel.class);
-        mModApi = viewModel.getModApi();
-        mModItem = viewModel.getModItem();
-        mIsModpack = viewModel.isModpack();
-        mModsPath = viewModel.getModsPath();
-        mParentUIRecyclerView = recyclerViewModel.getView();
+        mModApi = viewModel.modApi;
+        mModItem = viewModel.modItem;
+        mIsModpack = viewModel.isModpack;
+        mModsPath = viewModel.modsPath;
+        mParentUIRecyclerView = recyclerViewModel.view;
 
         setNameText(mModItem.title);
 

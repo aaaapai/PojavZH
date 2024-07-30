@@ -10,9 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.file.FileTools;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -58,7 +59,7 @@ public class ProfileManagerFragment extends Fragment {
         modsButton.setOnClickListener(v -> {
             File modsPath = new File(gameDirPath, "/mods");
             if (!modsPath.exists()) {
-                ZHTools.mkdirs(modsPath);
+                FileTools.mkdirs(modsPath);
             }
 
             Bundle bundle = new Bundle();
@@ -79,7 +80,7 @@ public class ProfileManagerFragment extends Fragment {
                 .setTitle(R.string.zh_warning)
                 .setMessage(R.string.zh_profile_manager_delete_message)
                 .setConfirmClickListener(() -> {
-                    if(LauncherProfiles.mainProfileJson.profiles.size() > 1){
+                    if (LauncherProfiles.mainProfileJson.profiles.size() > 1) {
                         ProfileIconCache.dropIcon(mProfileKey);
                         LauncherProfiles.mainProfileJson.profiles.remove(mProfileKey);
                         LauncherProfiles.write(ProfilePathManager.getCurrentProfile());
@@ -93,10 +94,10 @@ public class ProfileManagerFragment extends Fragment {
 
     private void swapFilesFragment(File lockPath, File listPath) {
         if (!lockPath.exists()) {
-            ZHTools.mkdirs(lockPath);
+            FileTools.mkdirs(lockPath);
         }
         if (!listPath.exists()) {
-            ZHTools.mkdirs(listPath);
+            FileTools.mkdirs(listPath);
         }
 
         Bundle bundle = new Bundle();

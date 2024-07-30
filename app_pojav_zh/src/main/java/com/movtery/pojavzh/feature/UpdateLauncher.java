@@ -1,6 +1,6 @@
 package com.movtery.pojavzh.feature;
 
-import static com.movtery.pojavzh.utils.ZHTools.formatFileSize;
+import static com.movtery.pojavzh.utils.file.FileTools.formatFileSize;
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
 
@@ -45,10 +45,10 @@ import okhttp3.Response;
 public class UpdateLauncher {
     private final Context context;
     private final UpdateSource updateSource;
-    private ProgressDialog dialog;
     private final File apkFile;
     private final String versionName, tagName, fileSizeString;
     private final long fileSize;
+    private ProgressDialog dialog;
     private String destinationFilePath;
     private Call call;
     private Timer timer;
@@ -62,6 +62,116 @@ public class UpdateLauncher {
         this.fileSizeString = formatFileSize(fileSize);
         this.fileSize = fileSize;
         init();
+    }
+
+    public static void CheckDownloadedPackage(Context context, boolean ignore) {
+        File downloadedFile = new File(ZHTools.DIR_APP_CACHE, "cache.apk");
+
+        if (downloadedFile.exists()) {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageArchiveInfo(downloadedFile.getAbsolutePath(), 0);
+
+            if (packageInfo != null) {
+                String packageName = packageInfo.packageName;
+                int versionCode = packageInfo.versionCode;
+
+                int thisVersionCode = ZHTools.getVersionCode(context);
+                DEFAULT_PREF.edit().putInt("launcherVersionCode", thisVersionCode).apply();
+
+                if (Objects.equals(packageName, "net.kdt.pojavlaunch.zh.firefly") && versionCode > thisVersionCode) {
+                    installApk(context, downloadedFile);
+                } else {
+                    FileUtils.deleteQuietly(downloadedFile);
+                }
+            } else {
+                FileUtils.deleteQuietly(downloadedFile);
+            }
+        } else {
+            //如果安装包不存在，那么将自动获取更新
+            UpdateLauncher.updateCheckerMainProgram(context, ignore);
+        }
+    }
+
+    private static void installApk(Context context, File outputFile) {
+        runOnUiThread(() -> new TipDialog.Builder(context)
+                .setMessage(StringUtils.insertSpace(context.getString(R.string.zh_update_success), outputFile.getAbsolutePath()))
+                .setCancelable(false)
+                .setConfirmClickListener(() -> { //安装
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", outputFile);
+                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(intent);
+                }).buildDialog());
+    }
+
+    public static synchronized void updateCheckerMainProgram(Context context, boolean ignore) {
+        if (ZHTools.getCurrentTimeMillis() - ZHTools.LAST_UPDATE_CHECK_TIME <= 5000) return;
+        ZHTools.LAST_UPDATE_CHECK_TIME = ZHTools.getCurrentTimeMillis();
+
+        String token = context.getString(R.string.zh_api_token);
+        new CallUtils(new CallUtils.CallbackListener() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(context, context.getString(R.string.zh_update_fail), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                } else {
+                    Objects.requireNonNull(response.body());
+                    String responseBody = response.body().string(); //解析响应体
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseBody);
+                        String versionName = jsonObject.getString("name");
+
+                        if (ignore && versionName.equals(DEFAULT_PREF.getString("ignoreUpdate", null)))
+                            return; //忽略此版本
+
+                        String tagName = jsonObject.getString("tag_name");
+                        JSONArray assetsJson = jsonObject.getJSONArray("assets");
+                        JSONObject firstAsset = assetsJson.getJSONObject(0);
+                        long fileSize = firstAsset.getLong("size");
+                        int githubVersion = 0;
+                        try {
+                            githubVersion = Integer.parseInt(tagName);
+                        } catch (Exception e) {
+                            Log.e("Parse github version", e.toString());
+                        }
+
+                        if (ZHTools.getVersionCode(context) < githubVersion) {
+                            runOnUiThread(() -> {
+                                UpdateDialog.UpdateInformation updateInformation = new UpdateDialog.UpdateInformation();
+                                try {
+                                    updateInformation.information(versionName,
+                                            tagName,
+                                            StringUtils.formattingTime(jsonObject.getString("created_at")),
+                                            fileSize,
+                                            jsonObject.getString("body"));
+                                } catch (Exception e) {
+                                    Log.e("Init update information", e.toString());
+                                }
+                                UpdateDialog updateDialog = new UpdateDialog(context, updateInformation);
+
+                                updateDialog.show();
+                            });
+                        } else if (!ignore) {
+                            runOnUiThread(() -> {
+                                String nowVersionName = ZHTools.getVersionName(context);
+                                runOnUiThread(() -> Toast.makeText(context,
+                                        StringUtils.insertSpace(context.getString(R.string.zh_update_without), nowVersionName),
+                                        Toast.LENGTH_SHORT).show());
+                            });
+                        }
+                    } catch (Exception e) {
+                        Log.e("Check Update", e.toString());
+                    }
+                }
+            }
+        }, ZHTools.URL_GITHUB_RELEASE, token.equals("DUMMY") ? null : token).start();
     }
 
     private void init() {
@@ -159,115 +269,5 @@ public class UpdateLauncher {
 
     public enum UpdateSource {
         GITHUB_RELEASE, GHPROXY
-    }
-
-    public static void CheckDownloadedPackage(Context context, boolean ignore) {
-        File downloadedFile = new File(ZHTools.DIR_APP_CACHE, "cache.apk");
-
-        if (downloadedFile.exists()) {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageArchiveInfo(downloadedFile.getAbsolutePath(), 0);
-
-            if (packageInfo != null) {
-                String packageName = packageInfo.packageName;
-                int versionCode = packageInfo.versionCode;
-
-                int thisVersionCode = ZHTools.getVersionCode(context);
-                DEFAULT_PREF.edit().putInt("launcherVersionCode", thisVersionCode).apply();
-
-                if (Objects.equals(packageName, "net.kdt.pojavlaunch.zh.firefly") && versionCode > thisVersionCode) {
-                    installApk(context, downloadedFile);
-                } else {
-                    FileUtils.deleteQuietly(downloadedFile);
-                }
-            } else {
-                FileUtils.deleteQuietly(downloadedFile);
-            }
-        } else {
-            //如果安装包不存在，那么将自动获取更新
-            UpdateLauncher.updateCheckerMainProgram(context, ignore);
-        }
-    }
-
-    private static void installApk(Context context, File outputFile) {
-        runOnUiThread(() -> new TipDialog.Builder(context)
-                .setMessage(StringUtils.insertSpace(context.getString(R.string.zh_update_success), outputFile.getAbsolutePath()))
-                .setCancelable(false)
-                .setConfirmClickListener(() -> { //安装
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    Uri apkUri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", outputFile);
-                    intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    context.startActivity(intent);
-                }).buildDialog());
-    }
-
-    public static synchronized void updateCheckerMainProgram(Context context, boolean ignore) {
-        if (ZHTools.getCurrentTimeMillis() - ZHTools.LAST_UPDATE_CHECK_TIME <= 5000) return;
-        ZHTools.LAST_UPDATE_CHECK_TIME = ZHTools.getCurrentTimeMillis();
-
-        String token = context.getString(R.string.zh_api_token);
-        new CallUtils(new CallUtils.CallbackListener() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(context, context.getString(R.string.zh_update_fail), Toast.LENGTH_SHORT).show());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    throw new IOException("Unexpected code " + response);
-                } else {
-                    Objects.requireNonNull(response.body());
-                    String responseBody = response.body().string(); //解析响应体
-                    try {
-                        JSONObject jsonObject = new JSONObject(responseBody);
-                        String versionName = jsonObject.getString("name");
-
-                        if (ignore && versionName.equals(DEFAULT_PREF.getString("ignoreUpdate", null)))
-                            return; //忽略此版本
-
-                        String tagName = jsonObject.getString("tag_name");
-                        JSONArray assetsJson = jsonObject.getJSONArray("assets");
-                        JSONObject firstAsset = assetsJson.getJSONObject(0);
-                        long fileSize = firstAsset.getLong("size");
-                        int githubVersion = 0;
-                        try {
-                            githubVersion = Integer.parseInt(tagName);
-                        } catch (Exception e) {
-                            Log.e("Parse github version", e.toString());
-                        }
-
-                        if (ZHTools.getVersionCode(context) < githubVersion) {
-                            runOnUiThread(() -> {
-                                UpdateDialog.UpdateInformation updateInformation = new UpdateDialog.UpdateInformation();
-                                try {
-                                    updateInformation.information(versionName,
-                                            tagName,
-                                            ZHTools.formattingTime(jsonObject.getString("created_at")),
-                                            fileSize,
-                                            jsonObject.getString("body"));
-                                } catch (Exception e) {
-                                    Log.e("Init update information", e.toString());
-                                }
-                                UpdateDialog updateDialog = new UpdateDialog(context, updateInformation);
-
-                                updateDialog.show();
-                            });
-                        } else if (!ignore) {
-                            runOnUiThread(() -> {
-                                String nowVersionName = ZHTools.getVersionName(context);
-                                runOnUiThread(() -> Toast.makeText(context,
-                                        StringUtils.insertSpace(context.getString(R.string.zh_update_without), nowVersionName),
-                                        Toast.LENGTH_SHORT).show());
-                            });
-                        }
-                    } catch (Exception e) {
-                        Log.e("Check Update", e.toString());
-                    }
-                }
-            }
-        }, ZHTools.URL_GITHUB_RELEASE, token.equals("DUMMY") ? null : token).start();
     }
 }
