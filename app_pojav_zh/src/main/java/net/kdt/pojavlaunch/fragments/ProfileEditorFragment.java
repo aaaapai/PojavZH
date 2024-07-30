@@ -30,6 +30,9 @@ import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.file.FileTools;
 
+import com.firefly.pgw.renderer.RendererManager;
+import com.firefly.pgw.renderer.RenderersList;
+
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
@@ -96,7 +99,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         bindViews(view);
 
-        Tools.RenderersList renderersList = Tools.getCompatibleRenderers(view.getContext());
+        RenderersList renderersList = RendererManager.getCompatibleRenderers(view.getContext());
         mRenderNames = renderersList.rendererIds;
         List<String> renderList = new ArrayList<>(renderersList.rendererDisplayNames.length + 1);
         renderList.addAll(Arrays.asList(renderersList.rendererDisplayNames));
