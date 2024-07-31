@@ -9,8 +9,8 @@
     <string name="preference_renderer_setup">المزيد من إعدادات محددة للعارض</string>
     <string name="preference_spare_bridge_title">جسر احتياطي</string>
     <string name="preference_spare_bridge">استخدام المخطط الثاني للجسر، إذا فشل التشغيل، يرجى إغلاقه</string>
-    <string name="preference_exp_framebuffer_title">إطار التخزين الاحتياطي</string>
-    <string name="preference_exp_framebuffer">استخدام المخطط الثاني لإطار التخزين، إذا فشل التشغيل، يرجى إغلاقه</string>
+    <string name="preference_spare_framebuffer_title">إطار التخزين الاحتياطي</string>
+    <string name="preference_spare_framebuffer">استخدام المخطط الثاني لإطار التخزين، إذا فشل التشغيل، يرجى إغلاقه</string>
     <string name="preference_renderer_setup_extra">العارض (توسعة)</string>
     <string name="preference_renderer_extra_default">Mesa 24.1.4 (الافتراضي)</string>
     <string name="preference_extra_mesa_version">إصدار Mesa</string>

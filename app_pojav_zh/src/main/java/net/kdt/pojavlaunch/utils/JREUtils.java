@@ -232,8 +232,8 @@ public class JREUtils {
             envMap.put("POJAV_SPARE_BRIDGE", "1");
         if(PREF_EXP_SETUP)
             envMap.put("POJAV_EXP_SETUP", "1");
-        if(PREF_EXP_FRAME_BUFFER)
-            envMap.put("POJAV_EXP_FRAME_BUFFER", "1");
+        if(PREF_SPARE_FRAME_BUFFER)
+            envMap.put("POJAV_SPARE_FRAME_BUFFER", "1");
 
         if (LOCAL_RENDERER != null) {
             if (!PREF_EXP_SETUP) {
