@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.ui.dialog.AccountsDialog;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.extra.ExtraConstants;
@@ -21,16 +23,19 @@ import java.io.File;
 
 public class AccountView {
     private final Context mContext;
+    private final View mMainView;
     private final ImageView mUserIconView;
     private final TextView mUserNameView;
 
     public AccountView(View view) {
         this.mContext = view.getContext();
+        this.mMainView = view;
 
         mUserIconView = view.findViewById(R.id.user_icon);
         mUserNameView = view.findViewById(R.id.user_name);
 
         view.setOnClickListener(v -> {
+            ViewAnimUtils.setViewAnim(view, Techniques.Bounce);
             if (getCurrentAccount() == null) {
                 ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
             } else {
@@ -56,6 +61,10 @@ public class AccountView {
         }
         mUserIconView.setImageDrawable(drawable == null ? ContextCompat.getDrawable(mContext, R.drawable.ic_head_steve) : drawable);
         mUserNameView.setText(account.username);
+    }
+
+    public View getMainView() {
+        return mMainView;
     }
 
     private MinecraftAccount getCurrentAccount() {

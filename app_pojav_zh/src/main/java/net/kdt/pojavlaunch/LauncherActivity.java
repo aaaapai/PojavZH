@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.kdt.mcgui.ProgressLayout;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.feature.UpdateLauncher;
@@ -43,7 +44,10 @@ import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
 import com.movtery.pojavzh.ui.activity.SettingsActivity;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
+import com.movtery.pojavzh.ui.subassembly.settingsbutton.ButtonType;
+import com.movtery.pojavzh.ui.subassembly.settingsbutton.SettingsButtonWrapper;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.stringutils.ShiftDirection;
 import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
@@ -88,6 +92,7 @@ public class LauncherActivity extends BaseActivity {
     private View mBackgroundView;
     private TextView mAppTitle;
     private FragmentContainerView mFragmentView;
+    private SettingsButtonWrapper mSettingsButtonWrapper;
     private ImageButton mSettingsButton;
     private ImageView mHair;
     private ProgressLayout mProgressLayout;
@@ -104,8 +109,11 @@ public class LauncherActivity extends BaseActivity {
     private final FragmentManager.FragmentLifecycleCallbacks mFragmentCallbackListener = new FragmentManager.FragmentLifecycleCallbacks() {
         @Override
         public void onFragmentResumed(@NonNull FragmentManager fm, @NonNull Fragment f) {
-            mSettingsButton.setImageDrawable(ContextCompat.getDrawable(getBaseContext(), f instanceof MainMenuFragment
-                    ? R.drawable.ic_menu_settings : R.drawable.ic_menu_home));
+            if (f instanceof MainMenuFragment) {
+                mSettingsButtonWrapper.setButtonType(ButtonType.SETTINGS);
+            } else {
+                mSettingsButtonWrapper.setButtonType(ButtonType.HOME);
+            }
         }
     };
 
@@ -115,7 +123,7 @@ public class LauncherActivity extends BaseActivity {
         // Allow starting the add account only from the main menu, should it be moved to fragment itself ?
         if(!(fragment instanceof MainMenuFragment)) return false;
 
-        Tools.swapFragment(this, SelectAuthFragment.class, SelectAuthFragment.TAG, null);
+        ZHTools.swapFragmentWithAnim(fragment, SelectAuthFragment.class, SelectAuthFragment.TAG, null);
         return false;
     };
 
@@ -150,6 +158,7 @@ public class LauncherActivity extends BaseActivity {
 
     /* Listener for the settings fragment */
     private final View.OnClickListener mSettingButtonListener = v -> {
+        ViewAnimUtils.setViewAnim(mSettingsButton, Techniques.Pulse);
         Fragment fragment = getSupportFragmentManager().findFragmentById(mFragmentView.getId());
         if(fragment instanceof MainMenuFragment){
             startActivity(new Intent(this, SettingsActivity.class));
@@ -303,7 +312,10 @@ public class LauncherActivity extends BaseActivity {
         ProgressKeeper.addTaskCountListener((mProgressServiceKeeper = new ProgressServiceKeeper(this)));
 
         mSettingsButton.setOnClickListener(mSettingButtonListener);
-        mAppTitle.setOnClickListener(v -> mAppTitle.setText(StringUtils.shiftString(mAppTitle.getText().toString(), ShiftDirection.RIGHT, 1)));
+        mAppTitle.setOnClickListener(v -> {
+            ViewAnimUtils.setViewAnim(mAppTitle, Techniques.Pulse);
+            mAppTitle.setText(StringUtils.shiftString(mAppTitle.getText().toString(), ShiftDirection.RIGHT, 1));
+        });
         ProgressKeeper.addTaskCountListener(mProgressLayout);
 
         ExtraCore.addExtraListener(ExtraConstants.MICROSOFT_LOGIN_TODO, mMicrosoftLoginListener);
@@ -528,6 +540,9 @@ public class LauncherActivity extends BaseActivity {
         mSettingsButton = findViewById(R.id.setting_button);
         mProgressLayout = findViewById(R.id.progress_layout);
         mAppTitle = findViewById(R.id.app_title_text);
+
+        mSettingsButtonWrapper = new SettingsButtonWrapper(mSettingsButton);
+        mSettingsButtonWrapper.setOnTypeChangeListener(type -> ViewAnimUtils.setViewAnim(mSettingsButton, Techniques.Pulse));
 
         mHair = findViewById(R.id.zh_hair);
     }

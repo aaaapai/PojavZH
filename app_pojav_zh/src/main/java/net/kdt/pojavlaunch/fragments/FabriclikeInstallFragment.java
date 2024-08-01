@@ -16,12 +16,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import net.kdt.pojavlaunch.PojavApplication;
 
-import com.movtery.pojavzh.utils.AnimUtils;
+import com.daimajia.androidanimations.library.Techniques;
+import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
+import com.movtery.pojavzh.utils.anim.AnimUtils;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
+
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.modloaders.FabriclikeDownloadTask;
@@ -37,8 +41,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Future;
 
-public abstract class FabriclikeInstallFragment extends Fragment implements ModloaderDownloadListener, CompoundButton.OnCheckedChangeListener {
+public abstract class FabriclikeInstallFragment extends FragmentWithAnim implements ModloaderDownloadListener, CompoundButton.OnCheckedChangeListener {
     private final FabriclikeUtils mFabriclikeUtils;
+    private View mVersionLayout, mOperateLayout, mShadowView;
     private Spinner mGameVersionSpinner;
     private FabricVersion[] mGameVersionArray;
     private Future<?> mGameVersionFuture;
@@ -48,7 +53,7 @@ public abstract class FabriclikeInstallFragment extends Fragment implements Modl
     private Future<?> mLoaderVersionFuture;
     private String mSelectedLoaderVersion;
     private ProgressBar mProgressBar;
-    private Button mStartButton;
+    private Button mStartButton, mCloseButton, mRetryButton;
     private View mFailedView;
     private CheckBox mOnlyStableCheckbox;
     protected FabriclikeInstallFragment(FabriclikeUtils mFabriclikeUtils) {
@@ -64,16 +69,21 @@ public abstract class FabriclikeInstallFragment extends Fragment implements Modl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mVersionLayout = view.findViewById(R.id.version_layout);
+        mOperateLayout = view.findViewById(R.id.operate_layout);
+        mShadowView = view.findViewById(R.id.shadowView);
+
         mStartButton = view.findViewById(R.id.fabric_installer_start_button);
         mStartButton.setOnClickListener(this::onClickStart);
-        view.findViewById(R.id.zh_fabric_installer_return_button).setOnClickListener(v -> ZHTools.onBackPressed(requireActivity())); //返回按钮
+        mCloseButton = view.findViewById(R.id.zh_fabric_installer_return_button);
+        mCloseButton.setOnClickListener(v -> ZHTools.onBackPressed(requireActivity()));
         mGameVersionSpinner = view.findViewById(R.id.fabric_installer_game_ver_spinner);
         mGameVersionSpinner.setOnItemSelectedListener(new GameVersionSelectedListener());
         mLoaderVersionSpinner = view.findViewById(R.id.fabric_installer_loader_ver_spinner);
         mLoaderVersionSpinner.setOnItemSelectedListener(new LoaderVersionSelectedListener());
         mProgressBar = view.findViewById(R.id.fabric_installer_progress_bar);
         mFailedView = view.findViewById(R.id.fabric_installer_failed_tip_view);
-        Button mRetryButton = view.findViewById(R.id.fabric_installer_retry_button);
+        mRetryButton = view.findViewById(R.id.fabric_installer_retry_button);
         mRetryButton.setOnClickListener(this::onClickRetry);
         mOnlyStableCheckbox = view.findViewById(R.id.fabric_installer_only_stable_checkbox);
         mOnlyStableCheckbox.setOnCheckedChangeListener(this);
@@ -84,6 +94,8 @@ public abstract class FabriclikeInstallFragment extends Fragment implements Modl
             proxy.attachListener(this);
         }
         updateGameVersions();
+
+        ViewAnimUtils.slideInAnim(this);
     }
 
     @Override
@@ -99,6 +111,7 @@ public abstract class FabriclikeInstallFragment extends Fragment implements Modl
 
     private void onClickStart(View v) {
         if(ProgressKeeper.hasOngoingTasks()) {
+            ViewAnimUtils.setViewAnim(v, Techniques.Shake);
             Toast.makeText(v.getContext(), R.string.tasks_ongoing, Toast.LENGTH_LONG).show();
             return;
         }
@@ -285,6 +298,25 @@ public abstract class FabriclikeInstallFragment extends Fragment implements Modl
 
     private void updateGameSpinner() {
         mGameVersionSpinner.setAdapter(createAdapter(mGameVersionArray, mOnlyStableCheckbox.isChecked()));
+    }
+
+    @Override
+    public void slideIn() {
+        ViewAnimUtils.setViewAnim(mVersionLayout, Techniques.BounceInDown);
+        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.BounceInLeft);
+        ViewAnimUtils.setViewAnim(mShadowView, Techniques.BounceInLeft);
+
+        ViewAnimUtils.setViewAnim(mRetryButton, Techniques.FadeInLeft);
+        ViewAnimUtils.setViewAnim(mCloseButton, Techniques.FadeInLeft);
+        ViewAnimUtils.setViewAnim(mStartButton, Techniques.FadeInLeft);
+    }
+
+    @Override
+    public void slideOut(@NonNull OnSlideOutListener listener) {
+        ViewAnimUtils.setViewAnim(mVersionLayout, Techniques.FadeOutDown);
+        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.FadeOutLeft);
+        ViewAnimUtils.setViewAnim(mShadowView, Techniques.FadeOutLeft);
+        super.slideOut(listener);
     }
 
     protected abstract ModloaderListenerProxy getListenerProxy();

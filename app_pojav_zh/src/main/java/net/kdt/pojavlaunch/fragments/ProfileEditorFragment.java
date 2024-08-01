@@ -20,14 +20,17 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
+import com.daimajia.androidanimations.library.Techniques;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
+import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
 import com.movtery.pojavzh.ui.fragment.FilesFragment;
 import com.movtery.pojavzh.ui.fragment.VersionSelectorFragment;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.file.FileTools;
 
 import com.firefly.pgw.renderer.RendererManager;
@@ -54,13 +57,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProfileEditorFragment extends Fragment implements CropperUtils.CropperListener{
+public class ProfileEditorFragment extends FragmentWithAnim implements CropperUtils.CropperListener{
     public static final String TAG = "ProfileEditorFragment";
     public static final String DELETED_PROFILE = "deleted_profile";
 
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
+    private View mEditorLayout, mOperateLayout, mShadowView;
     private Button mSaveButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
@@ -123,8 +127,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
             bundle.putString(FilesFragment.BUNDLE_LOCK_PATH, ProfilePathManager.getCurrentPath());
             mValueToConsume = FilesFragment.BUNDLE_SELECT_FOLDER_MODE;
 
-            Tools.swapFragment(requireActivity(),
-                    FilesFragment.class, FilesFragment.TAG, bundle);
+            ZHTools.swapFragmentWithAnim(this, FilesFragment.class, FilesFragment.TAG, bundle);
         });
 
         mControlSelectButton.setOnClickListener(v -> {
@@ -132,18 +135,22 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
             bundle.putBoolean(ControlButtonFragment.BUNDLE_SELECT_CONTROL, true);
             mValueToConsume = ControlButtonFragment.BUNDLE_SELECT_CONTROL;
 
-            Tools.swapFragment(requireActivity(),
-                    ControlButtonFragment.class, ControlButtonFragment.TAG, bundle);
+            ZHTools.swapFragmentWithAnim(this, ControlButtonFragment.class, ControlButtonFragment.TAG, bundle);
         });
 
         // 切换至版本选择界面
-        mVersionSelectButton.setOnClickListener(v -> Tools.swapFragment(requireActivity(),
+        mVersionSelectButton.setOnClickListener(v -> ZHTools.swapFragmentWithAnim(this,
                 VersionSelectorFragment.class, VersionSelectorFragment.TAG, null));
 
         // Set up the icon change click listener
-        mProfileIcon.setOnClickListener(v -> CropperUtils.startCropper(mCropperLauncher));
+        mProfileIcon.setOnClickListener(v -> {
+            ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.Bounce);
+            CropperUtils.startCropper(mCropperLauncher);
+        });
 
         loadValues(LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, ""), view.getContext());
+
+        ViewAnimUtils.slideInAnim(this);
     }
 
 
@@ -196,6 +203,10 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
 
 
     private void bindViews(@NonNull View view){
+        mEditorLayout = view.findViewById(R.id.editor_layout);
+        mOperateLayout = view.findViewById(R.id.operate_layout);
+        mShadowView = view.findViewById(R.id.shadowView);
+
         mDefaultControl = view.findViewById(R.id.vprof_editor_ctrl_spinner);
         mDefaultRuntime = view.findViewById(R.id.vprof_editor_spinner_runtime);
         mDefaultRenderer = view.findViewById(R.id.vprof_editor_profile_renderer);
@@ -267,5 +278,23 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
     @Override
     public void onFailed(Exception exception) {
         Tools.showErrorRemote(exception);
+    }
+
+    @Override
+    public void slideIn() {
+        ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.BounceInDown);
+        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.BounceInLeft);
+        ViewAnimUtils.setViewAnim(mShadowView, Techniques.BounceInLeft);
+
+        ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.FlipInY);
+        ViewAnimUtils.setViewAnim(mSaveButton, Techniques.FadeInLeft);
+    }
+
+    @Override
+    public void slideOut(@NonNull OnSlideOutListener listener) {
+        ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.FadeOutUp);
+        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.FadeOutRight);
+        ViewAnimUtils.setViewAnim(mShadowView, Techniques.FadeOutRight);
+        super.slideOut(listener);
     }
 }

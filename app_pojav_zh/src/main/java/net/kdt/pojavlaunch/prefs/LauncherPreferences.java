@@ -79,6 +79,7 @@ public class LauncherPreferences {
     public static String PREF_LAUNCHER_THEME = "system";
     public static boolean PREF_ENABLE_LOG_OUTPUT = false;
     public static boolean PREF_ANIMATION = true;
+    public static int PREF_ANIMATION_SPEED = 600;
     public static boolean PREF_QUILT_LAUNCHER = true;
     public static boolean PREF_BUTTON_SNAPPING = true;
     public static int PREF_BUTTON_SNAPPING_DISTANCE = 8;
