@@ -11,13 +11,17 @@ LOCAL_PATH := $(HERE_PATH)
 include $(CLEAR_VARS)
 LOCAL_MODULE := angle_gles2
 LOCAL_SRC_FILES := tinywrapper/angle-gles/$(TARGET_ARCH_ABI)/libGLESv2_angle.so
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := tinywrapper
 LOCAL_SHARED_LIBRARIES := angle_gles2
-LOCAL_SRC_FILES := tinywrapper/main.c tinywrapper/string_utils.c
+LOCAL_SRC_FILES := \
+    tinywrapper/main.c \
+    tinywrapper/string_utils.c
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/tinywrapper
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
 
 
@@ -43,8 +47,8 @@ LOCAL_SRC_FILES := \
     driver_helper/nsbypass.c
 
 ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
-LOCAL_CFLAGS += -DADRENO_POSSIBLE
-LOCAL_LDLIBS += -lEGL -lGLESv2
+LOCAL_CFLAGS += -DADRENO_POSSIBLE -O3 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
+LOCAL_LDLIBS += -lEGL -lGLESv3
 endif
 include $(BUILD_SHARED_LIBRARY)
 
@@ -53,6 +57,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := linkerhook
 LOCAL_SRC_FILES := driver_helper/hook.c
 LOCAL_LDFLAGS := -z global
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
 #endif
 
@@ -64,12 +69,14 @@ LOCAL_MODULE := istdio
 LOCAL_SHARED_LIBRARIES := bytehook
 LOCAL_SRC_FILES := \
     stdio_is.c
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := pojavexec_awt
 LOCAL_SRC_FILES := \
     awt_bridge.c
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
 
 # Helper to get current thread
@@ -91,8 +98,5 @@ LOCAL_MODULE := awt_xawt
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := awt_headless
 LOCAL_SRC_FILES := xawt_fake.c
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
-
-# delete fake libs after linked
-$(info $(shell (rm $(HERE_PATH)/../jniLibs/*/libawt_headless.so)))
-
