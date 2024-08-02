@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.androidanimations.library.Techniques
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils
 import net.kdt.pojavlaunch.R
+import net.kdt.pojavlaunch.modloaders.FabricVersion
 import net.kdt.pojavlaunch.modloaders.OptiFineUtils.OptiFineVersion
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener
 
@@ -30,10 +31,7 @@ open class ModVersionListAdapter(private val mData: List<*>?) :
     }
 
     override fun getItemCount(): Int {
-        mData?.let {
-            return mData.size
-        }
-        return 0
+        return mData?.size ?: 0
     }
 
     open fun setOnItemClickListener(listener: OnItemClickListener?) {
@@ -66,6 +64,8 @@ open class ModVersionListAdapter(private val mData: List<*>?) :
                 versionName.text = version.versionName
             } else if (version is String) {
                 versionName.text = version
+            } else if (version is FabricVersion) {
+                versionName.text = version.version
             }
             mainView.setOnClickListener { _: View? ->
                 if (mTasksRunning) {
