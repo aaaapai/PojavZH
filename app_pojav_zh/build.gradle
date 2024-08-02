@@ -136,6 +136,7 @@ android {
             useLegacyPackaging = true
         }
         pickFirst '**/libbytehook.so'
+        exclude '**/libawt_headless.so'
     }
 
     buildFeatures {
