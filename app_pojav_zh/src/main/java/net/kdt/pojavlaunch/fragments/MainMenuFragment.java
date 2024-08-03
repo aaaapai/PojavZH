@@ -61,7 +61,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     private ImageButton mPathManagerButton, mManagerProfileButton;
     private Button mPlayButton;
     private mcVersionSpinner mVersionSpinner;
-    private View mMenuLayout, mPlayLayout, mShadowView;
+    private View mMenuLayout, mPlayLayout;
     private View mLauncherNoticeView, mDividingLineView;
     private Button mNoticeCloseButton;
     private boolean mTasksRunning;
@@ -98,7 +98,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         });
         mPathManagerButton.setOnClickListener(v -> {
             if (!mTasksRunning) {
-                ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Bounce);
+                ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Pulse);
                 ZHTools.swapFragmentWithAnim(this, ProfilePathManagerFragment.class, ProfilePathManagerFragment.TAG, null);
             } else {
                 ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Shake);
@@ -106,7 +106,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
             }
         });
         mManagerProfileButton.setOnClickListener(v -> {
-            ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.Bounce);
+            ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.Pulse);
             ZHTools.swapFragmentWithAnim(this, ProfileManagerFragment.class, ProfileManagerFragment.TAG, null);
         });
 
@@ -157,7 +157,6 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     private void bindValues(View view) {
         mMenuLayout = view.findViewById(R.id.launcher_menu);
         mPlayLayout = view.findViewById(R.id.play_layout);
-        mShadowView = view.findViewById(R.id.shadowView);
         mPathManagerButton = view.findViewById(R.id.path_manager_button);
         mManagerProfileButton = view.findViewById(R.id.manager_profile_button);
         mPlayButton = view.findViewById(R.id.play_button);
@@ -275,7 +274,6 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         List<YoYo.YoYoString> yoYos = new ArrayList<>();
         yoYos.add(ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.BounceInDown));
         yoYos.add(ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.BounceInLeft));
-        yoYos.add(ViewAnimUtils.setViewAnim(mShadowView, Techniques.BounceInLeft));
 
         yoYos.add(ViewAnimUtils.setViewAnim(accountView.getMainView(), Techniques.Wobble));
         yoYos.add(ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.FadeInLeft));
@@ -292,7 +290,6 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         List<YoYo.YoYoString> yoYos = new ArrayList<>();
         yoYos.add(ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.FadeOutUp));
         yoYos.add(ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.FadeOutRight));
-        yoYos.add(ViewAnimUtils.setViewAnim(mShadowView, Techniques.FadeOutRight));
         YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});
         super.setYoYos(array);
         return array;

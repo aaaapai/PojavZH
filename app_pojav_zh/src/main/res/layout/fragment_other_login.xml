@@ -20,6 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/zh_login_return"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/a"
             android:layout_width="wrap_content"
@@ -73,7 +84,7 @@
             app:layout_constraintStart_toStartOf="@+id/login_edit_email" />
 
 
-        <EditText
+        <com.movtery.pojavzh.ui.view.MovEditText
             android:id="@+id/login_edit_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,7 +112,7 @@
             app:layout_constraintBottom_toTopOf="@+id/login_edit_password"
             app:layout_constraintStart_toStartOf="@+id/login_edit_password" />
 
-        <EditText
+        <com.movtery.pojavzh.ui.view.MovEditText
             android:id="@+id/login_edit_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

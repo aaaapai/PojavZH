@@ -20,12 +20,12 @@ import net.kdt.pojavlaunch.modloaders.ModloaderListenerProxy
 import java.io.File
 import java.util.concurrent.Future
 
-abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val name: String, val icon: Int) : ModListFragment(), ModloaderDownloadListener {
+abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: Int) : ModListFragment(), ModloaderDownloadListener {
     private val modloaderListenerProxy = ModloaderListenerProxy()
 
     override fun init() {
         setIcon(ContextCompat.getDrawable(activity, icon))
-        setNameText(name)
+        setNameText(utils.name)
         super.init()
     }
 
@@ -60,7 +60,7 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val name: 
         val pattern = MCVersionRegex.RELEASE_REGEX
 
         val mFabricVersions: MutableMap<String, List<FabricVersion>> = HashMap()
-        var loaderVersions: Array<FabricVersion>? = null
+        val loaderVersions: Array<FabricVersion>? = utils.downloadLoaderVersions()
         gameVersions.forEach {
             if (currentTask.isCancelled) return
             val version = it.version
@@ -72,8 +72,6 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val name: 
                     return@forEach
                 }
             }
-
-            loaderVersions = loaderVersions ?: utils.downloadLoaderVersions(version)
 
             mFabricVersions[version] = loaderVersions!!.toList()
         }
