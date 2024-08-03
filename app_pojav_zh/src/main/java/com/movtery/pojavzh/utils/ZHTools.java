@@ -241,7 +241,7 @@ public class ZHTools {
 
     public static boolean checkDate(int month, int day) {
         LocalDate currentDate = LocalDate.now();
-        return currentDate.getMonthValue() == month && currentDate.getDayOfMonth() == day;
+        return currentDate.getMonthOfYear() == month && currentDate.getDayOfMonth() == day;
     }
 
     public static boolean areaChecks() {
