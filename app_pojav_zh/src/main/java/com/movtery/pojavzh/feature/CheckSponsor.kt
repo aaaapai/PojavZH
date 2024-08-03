@@ -53,8 +53,8 @@ object CheckSponsor {
                     throw IOException("Unexpected code $response")
                 } else {
                     try {
-                        Objects.requireNonNull(response.body())
-                        val responseBody = response.body()!!.string()
+                        Objects.requireNonNull(response.body)
+                        val responseBody = response.body!!.string()
 
                         val originJson = JSONObject(responseBody)
                         val rawBase64 = originJson.getString("content")
