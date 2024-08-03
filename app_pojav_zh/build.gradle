@@ -47,7 +47,7 @@ configurations {
 android {
     namespace 'net.kdt.pojavlaunch'
 
-    compileSdk = 34
+    compileSdk = 35
 
     lintOptions {
         abortOnError false
@@ -72,7 +72,7 @@ android {
     defaultConfig {
         applicationId "net.kdt.pojavlaunch.zh"
         minSdkVersion 24
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode getVersionCode()
         versionName "1.2.5.9"
         multiDexEnabled true //important
