@@ -42,6 +42,7 @@ public class ProgressService extends Service implements TaskCountListener {
 
     @Override
     public void onCreate() {
+        if (android.os.VERSION.SDK_INT >= 26) {
         Tools.buildNotificationChannel(getApplicationContext());
         notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
         Intent killIntent = new Intent(getApplicationContext(), ProgressService.class);
@@ -53,6 +54,7 @@ public class ProgressService extends Service implements TaskCountListener {
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.notification_terminate), pendingKillIntent)
                 .setSmallIcon(R.drawable.ic_pojav_full)
                 .setNotificationSilent();
+      }
     }
 
     @SuppressLint("StringFormatInvalid")
