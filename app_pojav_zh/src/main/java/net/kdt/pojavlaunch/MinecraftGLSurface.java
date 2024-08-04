@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import net.kdt.pojavlaunch.customcontrols.ControlLayout;
 import net.kdt.pojavlaunch.customcontrols.gamepad.Gamepad;
@@ -88,6 +89,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
         setFocusable(true);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUpPointerCapture(AbstractTouchpad touchpad) {
         if(mPointerCapture != null) mPointerCapture.detach();
         mPointerCapture = new AndroidPointerCapture(touchpad, this, mScaleFactor);
