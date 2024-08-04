@@ -150,19 +150,18 @@ public class ZHTools {
 
         transaction.setReorderingAllowed(true).replace(R.id.container_fragment, fragmentClass, bundle, fragmentTag);
         transaction.addToBackStack(fragmentClass.getName());
-        if (fragment instanceof FragmentWithAnim) {
-            ((FragmentWithAnim) fragment).slideOut(transaction::commit);
-        } else {
-            transaction.commit();
+        if (PREF_ANIMATION && fragment instanceof FragmentWithAnim) {
+            ((FragmentWithAnim) fragment).slideOut();
         }
+        transaction.commit();
     }
 
     public static void addFragment(Fragment fragment, Class<? extends Fragment> fragmentClass,
                                    @Nullable String fragmentTag, @Nullable Bundle bundle) {
         FragmentTransaction transaction = fragment.requireActivity().getSupportFragmentManager().beginTransaction();
 
-        if (PREF_ANIMATION)
-            transaction.setCustomAnimations(R.anim.cut_into, R.anim.cut_out, R.anim.cut_into, R.anim.cut_out);
+        if (PREF_ANIMATION) transaction.setCustomAnimations(R.anim.cut_into, R.anim.cut_out, R.anim.cut_into, R.anim.cut_out);
+
         transaction.setReorderingAllowed(true)
                 .addToBackStack(fragmentClass.getName())
                 .add(R.id.container_fragment, fragmentClass, bundle, fragmentTag)

@@ -26,6 +26,7 @@ import net.kdt.pojavlaunch.services.ProgressServiceKeeper
 
 class SettingsActivity : BaseActivity() {
     private val mTitle: MutableMap<View?, String?> = HashMap()
+    private var mSettingsLayout: View? = null
     private var mBackgroundView: View? = null
     private var mReturnButton: ImageButton? = null
     private var mVideoButton: ImageButton? = null
@@ -100,6 +101,8 @@ class SettingsActivity : BaseActivity() {
         mProgressLayout!!.observe(ProgressLayout.DOWNLOAD_VERSION_LIST)
 
         initialize()
+
+        if (LauncherPreferences.PREF_ANIMATION) setViewAnim(mSettingsLayout!!, Techniques.BounceInRight)
     }
 
     override fun onResume() {
@@ -149,7 +152,7 @@ class SettingsActivity : BaseActivity() {
         mTitleView?.let { setViewAnim(it, Techniques.Pulse) }
         mTitleView!!.text = if (mTitle[view] != null) mTitle[view] else getString(R.string.preference_category_video)
 
-        YoYo.with(Techniques.Wobble)
+        YoYo.with(Techniques.Pulse)
             .duration((LauncherPreferences.PREF_ANIMATION_SPEED * 1.2).toLong())
             .playOn(view)
     }
@@ -167,6 +170,7 @@ class SettingsActivity : BaseActivity() {
     }
 
     private fun bindViews() {
+        mSettingsLayout = findViewById(R.id.scroll_settings_layout)
         mBackgroundView = findViewById(R.id.background_view)
 
         mReturnButton = findViewById(R.id.settings_return_button)

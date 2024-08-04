@@ -2,15 +2,18 @@ package net.kdt.pojavlaunch.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
-import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
+import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.R;
@@ -34,7 +37,10 @@ public class LocalLoginFragment extends FragmentWithAnim {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mMainMenu = view;
         mUsernameEditText = view.findViewById(R.id.login_edit_name);
-        view.findViewById(R.id.login_button).setOnClickListener(v -> {
+        Button mLoginButton = view.findViewById(R.id.login_button);
+        ImageView mReturnButton = view.findViewById(R.id.zh_login_return);
+
+        mLoginButton.setOnClickListener(v -> {
             if(!checkEditText()) return;
 
             ExtraCore.setValue(ZHExtraConstants.LOCAL_LOGIN_TODO, new String[]{
@@ -42,6 +48,7 @@ public class LocalLoginFragment extends FragmentWithAnim {
 
             Tools.backToMainMenu(requireActivity());
         });
+        mReturnButton.setOnClickListener(v -> ZHTools.onBackPressed(requireActivity()));
 
         ViewAnimUtils.slideInAnim(this);
     }
@@ -77,13 +84,18 @@ public class LocalLoginFragment extends FragmentWithAnim {
     }
 
     @Override
-    public void slideIn() {
-        ViewAnimUtils.setViewAnim(mMainMenu, Techniques.BounceInDown);
+    public YoYo.YoYoString[] slideIn() {
+        YoYo.YoYoString yoYoString = ViewAnimUtils.setViewAnim(mMainMenu, Techniques.BounceInDown);
+        YoYo.YoYoString[] array = {yoYoString};
+        super.setYoYos(array);
+        return array;
     }
 
     @Override
-    public void slideOut(@NonNull OnSlideOutListener listener) {
-        ViewAnimUtils.setViewAnim(mMainMenu, Techniques.FadeOutUp);
-        super.slideOut(listener);
+    public YoYo.YoYoString[] slideOut() {
+        YoYo.YoYoString yoYoString = ViewAnimUtils.setViewAnim(mMainMenu, Techniques.FadeOutUp);
+        YoYo.YoYoString[] array = {yoYoString};
+        super.setYoYos(array);
+        return array;
     }
 }

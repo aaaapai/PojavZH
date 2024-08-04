@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.feature.login.AuthResult;
@@ -33,7 +35,6 @@ import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 import com.movtery.pojavzh.ui.dialog.ProgressDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.utils.ZHTools;
-import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.PojavApplication;
@@ -60,6 +61,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
     private Button mLoginButton;
     private TextView mRegister;
     private ImageButton mAddServer;
+    private ImageView mReturnButton;
     private File mServersFile;
     private Servers mServers;
     private List<String> mServerList;
@@ -82,6 +84,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
         refreshServer();
         showRegisterButton(); //刷新注册按钮
 
+        mReturnButton.setOnClickListener(v -> ZHTools.onBackPressed(requireActivity()));
         mServerSpinner.setAdapter(mServerSpinnerAdapter);
         mServerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -208,6 +211,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
         mLoginButton = view.findViewById(R.id.other_login_button);
         mRegister = view.findViewById(R.id.register);
         mAddServer = view.findViewById(R.id.add_server);
+        mReturnButton = view.findViewById(R.id.zh_login_return);
     }
 
     private void showServerTypeSelectDialog(int stringId, int type) {
@@ -315,13 +319,18 @@ public class OtherLoginFragment extends FragmentWithAnim {
     }
 
     @Override
-    public void slideIn() {
-        ViewAnimUtils.setViewAnim(mMainView, Techniques.BounceInDown);
+    public YoYo.YoYoString[] slideIn() {
+        YoYo.YoYoString yoYoString = ViewAnimUtils.setViewAnim(mMainView, Techniques.BounceInDown);
+        YoYo.YoYoString[] array = {yoYoString};
+        super.setYoYos(array);
+        return array;
     }
 
     @Override
-    public void slideOut(@NonNull OnSlideOutListener listener) {
-        ViewAnimUtils.setViewAnim(mMainView, Techniques.FadeOutUp);
-        super.slideOut(listener);
+    public YoYo.YoYoString[] slideOut() {
+        YoYo.YoYoString yoYoString = ViewAnimUtils.setViewAnim(mMainView, Techniques.FadeOutUp);
+        YoYo.YoYoString[] array = {yoYoString};
+        super.setYoYos(array);
+        return array;
     }
 }

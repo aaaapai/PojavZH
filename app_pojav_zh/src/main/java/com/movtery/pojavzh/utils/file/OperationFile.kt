@@ -92,22 +92,20 @@ class OperationFile(
     }
 
     private fun cancelTask() {
-        if (currentTask != null && !currentTask!!.isDone) {
-            currentTask!!.cancel(true)
-            if (timer != null) {
-                timer!!.cancel()
+        currentTask?.let {
+            if (!currentTask!!.isDone) {
+                currentTask!!.cancel(true)
+                timer?.let { timer!!.cancel() }
+                finish()
             }
-            finish()
         }
     }
 
     private fun finish() {
-        if (runnable != null) {
-            PojavApplication.sExecutorService.execute(runnable)
-        }
+        runnable?.let { PojavApplication.sExecutorService.execute(runnable) }
     }
 
-    interface OperationFileFunction {
+    fun interface OperationFileFunction {
         fun operationFile(file: File?)
     }
 }

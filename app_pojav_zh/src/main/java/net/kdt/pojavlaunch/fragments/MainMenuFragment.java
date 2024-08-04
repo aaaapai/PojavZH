@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.kdt.mcgui.mcVersionSpinner;
 import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.ui.fragment.AboutFragment;
@@ -41,7 +42,6 @@ import com.movtery.pojavzh.ui.dialog.ShareLogDialog;
 import com.movtery.pojavzh.ui.fragment.ProfilePathManagerFragment;
 import com.movtery.pojavzh.ui.subassembly.account.AccountView;
 import com.movtery.pojavzh.utils.ZHTools;
-import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.extra.ExtraConstants;
@@ -50,6 +50,8 @@ import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Future;
 
 public class MainMenuFragment extends FragmentWithAnim implements TaskCountListener, AccountUpdateListener {
@@ -59,7 +61,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     private ImageButton mPathManagerButton, mManagerProfileButton;
     private Button mPlayButton;
     private mcVersionSpinner mVersionSpinner;
-    private View mMenuLayout, mPlayLayout, mShadowView;
+    private View mMenuLayout, mPlayLayout;
     private View mLauncherNoticeView, mDividingLineView;
     private Button mNoticeCloseButton;
     private boolean mTasksRunning;
@@ -96,7 +98,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         });
         mPathManagerButton.setOnClickListener(v -> {
             if (!mTasksRunning) {
-                ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Bounce);
+                ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Pulse);
                 ZHTools.swapFragmentWithAnim(this, ProfilePathManagerFragment.class, ProfilePathManagerFragment.TAG, null);
             } else {
                 ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.Shake);
@@ -104,19 +106,11 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
             }
         });
         mManagerProfileButton.setOnClickListener(v -> {
-            ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.Bounce);
+            ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.Pulse);
             ZHTools.swapFragmentWithAnim(this, ProfileManagerFragment.class, ProfileManagerFragment.TAG, null);
         });
 
-        mPlayButton.setOnClickListener(v -> {
-            ExtraCore.setValue(ExtraConstants.START_DOWNLOADER, true);
-            ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
-        });
-        mPlayButton.setOnLongClickListener(v -> {
-            ExtraCore.setValue(ExtraConstants.SKIP_DOWNLOADER, true);
-            ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true);
-            return true;
-        });
+        mPlayButton.setOnClickListener(v -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true));
 
         mShareLogsButton.setOnClickListener(v -> {
             ShareLogDialog shareLogDialog = new ShareLogDialog(requireContext(), new File(Tools.DIR_GAME_HOME + "/latestlog.txt"));
@@ -163,7 +157,6 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     private void bindValues(View view) {
         mMenuLayout = view.findViewById(R.id.launcher_menu);
         mPlayLayout = view.findViewById(R.id.play_layout);
-        mShadowView = view.findViewById(R.id.shadowView);
         mPathManagerButton = view.findViewById(R.id.path_manager_button);
         mManagerProfileButton = view.findViewById(R.id.manager_profile_button);
         mPlayButton = view.findViewById(R.id.play_button);
@@ -277,23 +270,28 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     }
 
     @Override
-    public void slideIn() {
-        ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.BounceInDown);
-        ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.BounceInLeft);
-        ViewAnimUtils.setViewAnim(mShadowView, Techniques.BounceInLeft);
+    public YoYo.YoYoString[] slideIn() {
+        List<YoYo.YoYoString> yoYos = new ArrayList<>();
+        yoYos.add(ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.BounceInDown));
+        yoYos.add(ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.BounceInLeft));
 
-        ViewAnimUtils.setViewAnim(accountView.getMainView(), Techniques.FlipInY);
-        ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.FadeInLeft);
-        ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.FadeInLeft);
-        ViewAnimUtils.setViewAnim(mVersionSpinner, Techniques.FadeInLeft);
-        ViewAnimUtils.setViewAnim(mPlayButton, Techniques.FadeInLeft);
+        yoYos.add(ViewAnimUtils.setViewAnim(accountView.getMainView(), Techniques.Wobble));
+        yoYos.add(ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.FadeInLeft));
+        yoYos.add(ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.FadeInLeft));
+        yoYos.add(ViewAnimUtils.setViewAnim(mVersionSpinner, Techniques.FadeInLeft));
+        yoYos.add(ViewAnimUtils.setViewAnim(mPlayButton, Techniques.FadeInLeft));
+        YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});
+        super.setYoYos(array);
+        return array;
     }
 
     @Override
-    public void slideOut(@NonNull OnSlideOutListener listener) {
-        ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.FadeOutUp);
-        ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.FadeOutRight);
-        ViewAnimUtils.setViewAnim(mShadowView, Techniques.FadeOutRight);
-        super.slideOut(listener);
+    public YoYo.YoYoString[] slideOut() {
+        List<YoYo.YoYoString> yoYos = new ArrayList<>();
+        yoYos.add(ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.FadeOutUp));
+        yoYos.add(ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.FadeOutRight));
+        YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});
+        super.setYoYos(array);
+        return array;
     }
 }

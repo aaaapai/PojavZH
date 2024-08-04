@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
@@ -29,7 +30,6 @@ import com.movtery.pojavzh.ui.fragment.FilesFragment;
 import com.movtery.pojavzh.ui.fragment.VersionSelectorFragment;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.utils.ZHTools;
-import com.movtery.pojavzh.utils.anim.OnSlideOutListener;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.file.FileTools;
 
@@ -64,8 +64,8 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
-    private View mEditorLayout, mOperateLayout, mShadowView;
-    private Button mSaveButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
+    private View mEditorLayout, mOperateLayout;
+    private Button mCancelButton, mSaveButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
     private TextView mDefaultPath, mDefaultVersion, mDefaultControl;
@@ -111,6 +111,8 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         mDefaultRenderer.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.item_simple_list_1, renderList));
 
         // Set up behaviors
+        mCancelButton.setOnClickListener(v -> ZHTools.onBackPressed(requireActivity()));
+
         mSaveButton.setOnClickListener(v -> {
             ProfileIconCache.dropIcon(mProfileKey);
             save();
@@ -205,7 +207,6 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     private void bindViews(@NonNull View view){
         mEditorLayout = view.findViewById(R.id.editor_layout);
         mOperateLayout = view.findViewById(R.id.operate_layout);
-        mShadowView = view.findViewById(R.id.shadowView);
 
         mDefaultControl = view.findViewById(R.id.vprof_editor_ctrl_spinner);
         mDefaultRuntime = view.findViewById(R.id.vprof_editor_spinner_runtime);
@@ -216,6 +217,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         mDefaultName = view.findViewById(R.id.vprof_editor_profile_name);
         mDefaultJvmArgument = view.findViewById(R.id.vprof_editor_jre_args);
 
+        mCancelButton = view.findViewById(R.id.vprof_editor_cancel_button);
         mSaveButton = view.findViewById(R.id.vprof_editor_save_button);
         mControlSelectButton = view.findViewById(R.id.vprof_editor_ctrl_button);
         mVersionSelectButton = view.findViewById(R.id.vprof_editor_version_button);
@@ -281,20 +283,26 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     }
 
     @Override
-    public void slideIn() {
-        ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.BounceInDown);
-        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.BounceInLeft);
-        ViewAnimUtils.setViewAnim(mShadowView, Techniques.BounceInLeft);
+    public YoYo.YoYoString[] slideIn() {
+        List<YoYo.YoYoString> yoYos = new ArrayList<>();
+        yoYos.add(ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.BounceInDown));
+        yoYos.add(ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.BounceInLeft));
 
-        ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.FlipInY);
-        ViewAnimUtils.setViewAnim(mSaveButton, Techniques.FadeInLeft);
+        yoYos.add(ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.Wobble));
+        yoYos.add(ViewAnimUtils.setViewAnim(mCancelButton, Techniques.FadeInLeft));
+        yoYos.add(ViewAnimUtils.setViewAnim(mSaveButton, Techniques.FadeInLeft));
+        YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});
+        super.setYoYos(array);
+        return array;
     }
 
     @Override
-    public void slideOut(@NonNull OnSlideOutListener listener) {
-        ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.FadeOutUp);
-        ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.FadeOutRight);
-        ViewAnimUtils.setViewAnim(mShadowView, Techniques.FadeOutRight);
-        super.slideOut(listener);
+    public YoYo.YoYoString[] slideOut() {
+        List<YoYo.YoYoString> yoYos = new ArrayList<>();
+        yoYos.add(ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.FadeOutUp));
+        yoYos.add(ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.FadeOutRight));
+        YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});
+        super.setYoYos(array);
+        return array;
     }
 }
