@@ -238,10 +238,10 @@ public final class Tools {
         return new File(ZHTools.DIR_GAME_DEFAULT);
     }
 
-    public static void buildNotificationChannel(Context context){
+    public static void buildNotificationChannel(Context context) {
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         NotificationChannel channel = new NotificationChannel(
-                context.getString(R.string.notif_channel_id),
+                "channel_id",
                 context.getString(R.string.notif_channel_name), NotificationManager.IMPORTANCE_DEFAULT);
         NotificationManagerCompat manager = NotificationManagerCompat.from(context);
         manager.createNotificationChannel(channel);
