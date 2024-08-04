@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App name part -->
-    <string name="app_name" translatable="false">Pojav Zenith Horizon</string>
-    <string name="app_short_name" translatable="false">Pojav Zenith Horizon</string>
+    <string name="app_name" translatable="false">PZH · PGW</string>
+    <string name="app_short_name" translatable="false">PZH · PGW</string>
     <!-- Action bar part -->
     <!-- Languages list part -->
     <!-- Login strings -->
