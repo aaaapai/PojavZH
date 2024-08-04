@@ -1,6 +1,5 @@
 package com.movtery.pojavzh.ui.activity
 
-import android.os.Build
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
