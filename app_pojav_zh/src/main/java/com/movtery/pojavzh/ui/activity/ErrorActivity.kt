@@ -1,7 +1,7 @@
 package com.movtery.pojavzh.ui.activity
 
-import static android.os.Build.VERSION.SDK_INT
-import static android.os.Build.VERSION_CODES.TIRAMISU
+import android.os.Build.VERSION.SDK_INT
+import android.os.Build.VERSION_CODES.TIRAMISU
 
 import android.content.ClipData
 import android.content.ClipboardManager
