@@ -1,6 +1,5 @@
 package net.kdt.pojavlaunch.services;
 
-import static android.os.Build.VERSION.SDK_INT;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
@@ -48,10 +47,10 @@ public class ProgressService extends Service implements TaskCountListener {
         Intent killIntent = new Intent(getApplicationContext(), ProgressService.class);
         killIntent.putExtra("kill", true);
         PendingIntent pendingKillIntent = PendingIntent.getService(this, NotificationUtils.PENDINGINTENT_CODE_KILL_PROGRESS_SERVICE
-                , killIntent, Build.VERSION.SDK_INT >=23 ? PendingIntent.FLAG_IMMUTABLE : 0);
+                , killIntent, PendingIntent.FLAG_IMMUTABLE);
         mNotificationBuilder = new NotificationCompat.Builder(this, "channel_id")
                 .setContentTitle(getString(R.string.lazy_service_default_title))
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel,  getString(R.string.notification_terminate), pendingKillIntent)
+                .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.notification_terminate), pendingKillIntent)
                 .setSmallIcon(R.drawable.ic_pojav_full)
                 .setNotificationSilent();
     }
