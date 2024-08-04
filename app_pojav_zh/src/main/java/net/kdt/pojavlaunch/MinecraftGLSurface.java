@@ -6,7 +6,7 @@ import static org.lwjgl.glfw.CallbackBridge.sendMouseButton;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
-import android.os.Build
+import android.os.Build;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
