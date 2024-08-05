@@ -3,7 +3,7 @@
 #include <dlfcn.h>
 
 #include "GL/gl.h"
-#include "GLES3/gl32.h"
+#include <GLES3/gl32.h>
 #include "string_utils.h"
 
 #define LOOKUP_FUNC(func) \
