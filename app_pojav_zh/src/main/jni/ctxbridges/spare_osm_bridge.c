@@ -178,7 +178,7 @@ void spare_osm_make_current(spare_osm_render_window_t* bundle) {
     if (!hasSetNoRendererBuffer)
     {
         spare_osm_set_no_render_buffer(&bundle->buffer);
-        printf("%s: Has set no renderer buffer!", osm_LogTag);
+        printf("%s: Has set no renderer buffer!\n", osm_LogTag);
         hasSetNoRendererBuffer = true;
     }
 
