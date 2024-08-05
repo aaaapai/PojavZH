@@ -24,9 +24,6 @@ jobs:
         with:
          fetch-depth: 2
 
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v3
-
       - name: cache
         uses: actions/cache@v3
         with:
@@ -37,9 +34,13 @@ jobs:
          restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-  
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v3
+
+      - uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: 8.9
+
       - name: Build JRE JAR files
         run: |
           mkdir out
