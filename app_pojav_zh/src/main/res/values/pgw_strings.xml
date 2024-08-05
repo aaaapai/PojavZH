@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- From Pojav Glow·Worm -->
+    <string name="mcl_setting_renderer_opengles2_vgpu">VGPU - (up to 1.16.5, fast)</string>
     <string name="mcl_setting_renderer_virgl">Virgl - (all versions, mid)</string>
     <string name="mcl_setting_renderer_freedreno">Freedreno (Adreno) - (all versions, mid)</string>
     <!-- Renderer Experimental Setup -->
