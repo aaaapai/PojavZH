@@ -58,7 +58,7 @@ jobs:
       - name: Build Debug ${{matrix.arch}}
         run: |
           chmod +x gradlew
-          ./gradlew app_pojav_zh:build:assembleDebug -Darch=${{matrix.arch}}
+          ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
 
       - name: Upload Release ${{matrix.arch}}
         continue-on-error: true
