@@ -21,9 +21,21 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+         fetch-depth: 2
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v3
+
+      - name: cache
+        uses: actions/cache@v3
+        with:
+         path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+         restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
@@ -49,7 +61,7 @@ jobs:
       - name: Build Debug.apk
         run: |
           # Build the launcher
-          ./gradlew :app_pojav_zh:assembleDebug
+          ./gradlew :app_pojav_zh:assembleDebug --no-daemon
 
       - name: Upload Release
         continue-on-error: true
