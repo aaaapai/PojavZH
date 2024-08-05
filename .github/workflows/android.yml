@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        arch: ["arm", "arm64"]
+        arch: ["arm64"]
       fail-fast: false
 
     env:
