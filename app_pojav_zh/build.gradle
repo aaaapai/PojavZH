@@ -1,6 +1,6 @@
 plugins {
-    id 'com.android.application' version '8.3.1'
-    id 'org.jetbrains.kotlin.android' version '2.0.0'
+    id 'com.android.application' version '8.7.0-alpha03'
+    id 'org.jetbrains.kotlin.android' version '2.0.20-RC'
 }
 
 def getVersionCode = {
@@ -47,7 +47,7 @@ configurations {
 android {
     namespace 'net.kdt.pojavlaunch'
 
-    compileSdk = 34
+    compileSdk = 35
 
     lintOptions {
         abortOnError false
@@ -71,8 +71,8 @@ android {
 
     defaultConfig {
         applicationId "net.kdt.pojavlaunch.zh.firefly"
-        minSdkVersion 26
-        targetSdkVersion 34
+        minSdkVersion 24
+        targetSdkVersion 35
         versionCode getVersionCode()
         versionName "1.2.6.0"
         multiDexEnabled true //important
@@ -162,7 +162,7 @@ android {
         }
     }
 
-    ndkVersion = "25.2.9519653"
+    ndkVersion = "26.3.11579264"
 
     externalNativeBuild {
         ndkBuild {
@@ -171,8 +171,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     bundle {
@@ -186,29 +186,30 @@ android {
             useLegacyPackaging = true
         }
         pickFirst '**/libbytehook.so'
+        exclude '**/libawt_headless.so'
     }
 
     buildFeatures {
         prefab true
     }
 
-    buildToolsVersion = '34.0.0'
+    buildToolsVersion = '35.0.0'
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '21'
     }
 
 }
 
 dependencies {
-    implementation 'javax.annotation:javax.annotation-api:1.3.2'
-    implementation 'commons-codec:commons-codec:1.16.0'
+    implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
+    implementation 'commons-codec:commons-codec:1.17.1'
     // implementation 'com.wu-man:android-bsf-api:3.1.3'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference:1.2.1'
     //implementation 'androidx.core:core:1.7.0'
     implementation 'androidx.drawerlayout:drawerlayout:1.2.0'
-    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
-    implementation 'androidx.annotation:annotation:1.6.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0'
+    implementation 'androidx.annotation:annotation:1.9.0-alpha01'
 
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
 
@@ -225,16 +226,17 @@ dependencies {
     implementation 'org.tukaani:xz:1.9'
     // Our version of exp4j can be built from source at
     // https://github.com/PojavLauncherTeam/exp4j
-    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.6.1'
-    implementation 'com.bytedance:bytehook:1.0.9'
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.29'
+    implementation 'com.bytedance:bytehook:1.0.10'
 
     // implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'org.commonmark:commonmark:0.19.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
+    implementation 'org.commonmark:commonmark:0.22.0'
+    implementation 'com.google.android.material:material:1.13.0-alpha04'
+    implementation 'androidx.core:core-ktx:1.15.0-alpha01'
+    implementation 'joda-time:joda-time:2.12.7'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
 }
