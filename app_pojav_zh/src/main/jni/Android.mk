@@ -78,7 +78,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := pojavexec_awt
 LOCAL_SRC_FILES := \
     awt_bridge.c
-LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
+LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly -Wno-int-conversion
 include $(BUILD_SHARED_LIBRARY)
 
 # Helper to get current thread
