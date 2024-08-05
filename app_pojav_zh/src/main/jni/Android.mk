@@ -34,6 +34,10 @@ LOCAL_CFLAGS += -g -rdynamic -Wno-int-conversion
 # LOCAL_CFLAGS += -DDEBUG
 # -DGLES_TEST
 LOCAL_SRC_FILES := \
+    environ/environ.c \
+    input_bridge_v3.c \
+    jre_launcher.c \
+    utils.c \
     egl_bridge.c \
     bigcoreaffinity.c \
     ctxbridges/gl_bridge.c \
