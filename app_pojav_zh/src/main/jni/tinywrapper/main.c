@@ -1,6 +1,8 @@
 //#import <Foundation/Foundation.h>
 #include <stdio.h>
 #include <dlfcn.h>
+#include <string.h>
+#include <stdlib.h>
 
 #include "GL/gl.h"
 #include <GLES3/gl32.h>
