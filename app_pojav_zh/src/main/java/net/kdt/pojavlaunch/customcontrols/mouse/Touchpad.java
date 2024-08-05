@@ -3,6 +3,7 @@ package net.kdt.pojavlaunch.customcontrols.mouse;
 import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.DEFAULT_PREF;
 
+import android.os.Build;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -93,8 +94,9 @@ public class Touchpad extends View implements GrabListener, AbstractTouchpad {
         updateMouseScale();
 
         setFocusable(false);
-        setDefaultFocusHighlightEnabled(false);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setDefaultFocusHighlightEnabled(false);
+        }
         // When the game is grabbing, we should not display the mouse
         disable();
         mDisplayState = false;
