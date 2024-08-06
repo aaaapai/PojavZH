@@ -141,7 +141,7 @@ android {
                 }
             }
         }
-        outputFileName = "PZH-X-PGW-${variant.buildType.name}-${abi}.apk"
+        outputFileName = "PojavZenithHorizon-${variant.buildType.name}-${abi}.apk"
         }
     }
     splits {
@@ -163,10 +163,11 @@ android {
                     case 'x86_64':
                         include 'x86_64'
                         break
-                }
-            }
-        }
+                 }
+             }
+         }
     }
+}
     
     ndkVersion = "26.3.11579264"
 
