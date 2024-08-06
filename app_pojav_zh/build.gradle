@@ -167,7 +167,6 @@ android {
              }
          }
     }
-}
     
     ndkVersion = "26.3.11579264"
 
@@ -204,6 +203,7 @@ android {
     kotlinOptions {
         jvmTarget = '21'
     }
+}
 
 dependencies {
     implementation 'jakarta.annotation:jakarta.annotation-api:3.0.0'
