@@ -35,7 +35,7 @@ import net.kdt.pojavlaunch.Tools;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import org.joda.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -210,7 +210,7 @@ public class ZHTools {
 
     public static boolean checkDate(int month, int day) {
         LocalDate currentDate = LocalDate.now();
-        return currentDate.getMonthValue() == month && currentDate.getDayOfMonth() == day;
+        return currentDate.getMonthOfYear() == month && currentDate.getDayOfMonth() == day;
     }
 
     public static boolean areaChecks() {
