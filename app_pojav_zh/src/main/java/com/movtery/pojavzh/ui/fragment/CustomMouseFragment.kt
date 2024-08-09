@@ -17,12 +17,13 @@ import com.movtery.pojavzh.ui.dialog.FilesDialog.FilesButton
 import com.movtery.pojavzh.ui.subassembly.filelist.FileIcon
 import com.movtery.pojavzh.ui.subassembly.filelist.FileItemBean
 import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerViewCreator
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
-import com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground
-import com.movtery.pojavzh.utils.file.FileTools.mkdirs
-import com.movtery.pojavzh.utils.image.ImageUtils.isImage
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
+import com.movtery.pojavzh.utils.file.FileTools.Companion.copyFileInBackground
+import com.movtery.pojavzh.utils.file.FileTools.Companion.mkdirs
+import com.movtery.pojavzh.utils.image.ImageUtils.Companion.isImage
 import com.movtery.pojavzh.utils.stringutils.StringUtils
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -88,7 +89,7 @@ class CustomMouseFragment : FragmentWithAnim(R.layout.fragment_custom_mouse) {
     }
 
     private fun mousePath(): File {
-        val path = File(ZHTools.DIR_CUSTOM_MOUSE)
+        val path = File(PathAndUrlManager.DIR_CUSTOM_MOUSE!!)
         if (!path.exists()) mkdirs(path)
         return path
     }
@@ -139,7 +140,7 @@ class CustomMouseFragment : FragmentWithAnim(R.layout.fragment_custom_mouse) {
                 filesButton.setMessageText(message)
                 filesButton.setMoreButtonText(getString(R.string.global_select))
 
-                val filesDialog = FilesDialog(requireContext(), filesButton, { this.loadData() }, file)
+                val filesDialog = FilesDialog(requireContext(), filesButton, { this.loadData() }, mousePath(), file)
                 filesDialog.setMoreButtonClick {
                     LauncherPreferences.DEFAULT_PREF.edit().putString("custom_mouse", fileName).apply()
                     refreshIcon()

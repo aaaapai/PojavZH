@@ -1,9 +1,9 @@
 package net.kdt.pojavlaunch.utils;
 
+import static com.movtery.pojavzh.utils.PathAndUrlManager.DIR_NATIVE_LIB;
 import static net.kdt.pojavlaunch.Architecture.ARCH_X86;
 import static net.kdt.pojavlaunch.Architecture.is64BitsDevice;
 import static net.kdt.pojavlaunch.Tools.LOCAL_RENDERER;
-import static net.kdt.pojavlaunch.Tools.DIR_GAME_HOME;
 import static net.kdt.pojavlaunch.Tools.NATIVE_LIB_DIR;
 import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_DUMP_SHADERS;
@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathHome;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.oracle.dalvik.*;
 import java.io.*;
 import java.util.*;
@@ -98,7 +99,7 @@ public class JREUtils {
         for(File f : locateLibs(new File(jreHome, Tools.DIRNAME_HOME_JRE))) {
             dlopen(f.getAbsolutePath());
         }
-        dlopen(NATIVE_LIB_DIR + "/libopenal.so");
+        dlopen(DIR_NATIVE_LIB + "/libopenal.so");
     }
 
     public static void redirectAndPrintJRELog() {
@@ -171,16 +172,16 @@ public class JREUtils {
         ldLibraryPath.append("/system/").append(libName).append(":")
                 .append("/vendor/").append(libName).append(":")
                 .append("/vendor/").append(libName).append("/hw:")
-                .append(NATIVE_LIB_DIR);
+                .append(DIR_NATIVE_LIB);
         LD_LIBRARY_PATH = ldLibraryPath.toString();
     }
 
     public static void setJavaEnvironment(Activity activity, String jreHome) throws Throwable {
         Map<String, String> envMap = new ArrayMap<>();
-        envMap.put("POJAV_NATIVEDIR", NATIVE_LIB_DIR);
+        envMap.put("POJAV_NATIVEDIR", DIR_NATIVE_LIB);
         envMap.put("JAVA_HOME", jreHome);
-        envMap.put("HOME", Tools.DIR_GAME_HOME);
-        envMap.put("TMPDIR", Tools.DIR_CACHE.getAbsolutePath());
+        envMap.put("HOME", PathAndUrlManager.DIR_GAME_HOME);
+        envMap.put("TMPDIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
         envMap.put("LIBGL_MIPMAP", "3");
 
         // Prevent OptiFine (and other error-reporting stuff in Minecraft) from balooning the log
@@ -207,12 +208,12 @@ public class JREUtils {
 
         envMap.put("FORCE_VSYNC", String.valueOf(LauncherPreferences.PREF_FORCE_VSYNC));
 
-        envMap.put("MESA_GLSL_CACHE_DIR", Tools.DIR_CACHE.getAbsolutePath());
+        envMap.put("MESA_GLSL_CACHE_DIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
         envMap.put("force_glsl_extensions_warn", "true");
         envMap.put("allow_higher_compat_version", "true");
         envMap.put("allow_glsl_extension_directive_midshader", "true");
         envMap.put("MESA_LOADER_DRIVER_OVERRIDE", "zink");
-        envMap.put("VTEST_SOCKET_NAME", new File(Tools.DIR_CACHE, ".virgl_test").getAbsolutePath());
+        envMap.put("VTEST_SOCKET_NAME", new File(PathAndUrlManager.DIR_CACHE, ".virgl_test").getAbsolutePath());
 
         envMap.put("LD_LIBRARY_PATH", LD_LIBRARY_PATH);
         envMap.put("PATH", jreHome + "/bin:" + Os.getenv("PATH"));
@@ -231,7 +232,7 @@ public class JREUtils {
         envMap.put("AWTSTUB_WIDTH", Integer.toString(CallbackBridge.windowWidth > 0 ? CallbackBridge.windowWidth : CallbackBridge.physicalWidth));
         envMap.put("AWTSTUB_HEIGHT", Integer.toString(CallbackBridge.windowHeight > 0 ? CallbackBridge.windowHeight : CallbackBridge.physicalHeight));
 
-        File customEnvFile = new File(Tools.DIR_GAME_HOME, "custom_env.txt");
+        File customEnvFile = new File(PathAndUrlManager.DIR_GAME_HOME, "custom_env.txt");
         if (customEnvFile.exists() && customEnvFile.isFile()) {
             BufferedReader reader = new BufferedReader(new FileReader(customEnvFile));
             String line;
@@ -315,12 +316,12 @@ public class JREUtils {
     public static List<String> getJavaArgs(String runtimeHome, String userArgumentsString) {
         List<String> userArguments = parseJavaArguments(userArgumentsString);
         String resolvFile;
-        resolvFile = new File(Tools.DIR_DATA,"resolv.conf").getAbsolutePath();
+        resolvFile = new File(PathAndUrlManager.DIR_DATA,"resolv.conf").getAbsolutePath();
 
         ArrayList<String> overridableArguments = new ArrayList<>(Arrays.asList(
                 "-Djava.home=" + runtimeHome,
-                "-Djava.io.tmpdir=" + Tools.DIR_CACHE.getAbsolutePath(),
-                "-Djna.boot.library.path=" + NATIVE_LIB_DIR,
+                "-Djava.io.tmpdir=" + PathAndUrlManager.DIR_CACHE.getAbsolutePath(),
+                "-Djna.boot.library.path=" + DIR_NATIVE_LIB,
                 "-Duser.home=" + ProfilePathManager.getCurrentPath(),
                 "-Duser.language=" + System.getProperty("user.language"),
                 "-Dos.name=Linux",
@@ -346,7 +347,7 @@ public class JREUtils {
                 "-Dloader.disable_forked_guis=true"
         ));
         if(LauncherPreferences.PREF_ARC_CAPES) {
-            overridableArguments.add("-javaagent:"+new File(Tools.DIR_DATA,"arc_dns_injector/arc_dns_injector.jar").getAbsolutePath()+"=23.95.137.176");
+            overridableArguments.add("-javaagent:"+new File(PathAndUrlManager.DIR_DATA,"arc_dns_injector/arc_dns_injector.jar").getAbsolutePath()+"=23.95.137.176");
         }
         List<String> additionalArguments = new ArrayList<>();
         for(String arg : overridableArguments) {
@@ -449,7 +450,7 @@ public class JREUtils {
             Log.e("RENDER_LIBRARY","Failed to load renderer " + renderLibrary + ". Falling back to GL4ES 1.1.4");
             LOCAL_RENDERER = "opengles2";
             renderLibrary = "libgl4es_114.so";
-            dlopen(NATIVE_LIB_DIR + "/libgl4es_114.so");
+            dlopen(DIR_NATIVE_LIB + "/libgl4es_114.so");
         }
         return renderLibrary;
     }

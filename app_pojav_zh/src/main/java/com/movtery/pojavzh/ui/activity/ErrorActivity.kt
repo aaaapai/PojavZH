@@ -9,9 +9,10 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.file.FileTools.getLatestFile
-import com.movtery.pojavzh.utils.file.FileTools.shareFile
+import com.movtery.pojavzh.utils.file.FileTools.Companion.getLatestFile
+import com.movtery.pojavzh.utils.file.FileTools.Companion.shareFile
 import net.kdt.pojavlaunch.BaseActivity
 import net.kdt.pojavlaunch.LauncherActivity
 import net.kdt.pojavlaunch.R
@@ -65,7 +66,7 @@ class ErrorActivity : BaseActivity() {
         mTitleText?.setText(R.string.zh_wrong_tip)
 
         val crashReportFile = getLatestFile(extras.getString(BUNDLE_CRASH_REPORTS_PATH), 15)
-        val logFile = File(Tools.DIR_GAME_HOME, "latestlog.txt")
+        val logFile = File(PathAndUrlManager.DIR_GAME_HOME, "latestlog.txt")
 
         mErrorText?.text = getString(R.string.zh_game_exit_message, code)
         mErrorText?.textSize = 14f

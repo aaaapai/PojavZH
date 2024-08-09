@@ -22,10 +22,10 @@ import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerView
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener
 import com.movtery.pojavzh.ui.subassembly.view.SearchView
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.AnimUtils.setVisibilityAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
-import com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground
+import com.movtery.pojavzh.utils.anim.AnimUtils.Companion.setVisibilityAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
+import com.movtery.pojavzh.utils.file.FileTools.Companion.copyFileInBackground
 import com.movtery.pojavzh.utils.file.PasteFile
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -156,7 +156,7 @@ class FilesFragment : FragmentWithAnim(R.layout.fragment_files) {
                                 closeMultiSelect()
                                 mFileRecyclerView?.refreshPath()
                             }
-                        }, selectedFiles)
+                        }, mFileRecyclerView!!.fullPath, selectedFiles)
                         filesDialog.setCopyButtonClick { mPasteButton?.visibility = View.VISIBLE }
                         filesDialog.show()
                     }
@@ -279,8 +279,7 @@ class FilesFragment : FragmentWithAnim(R.layout.fragment_files) {
 
         val filesDialog = FilesDialog(requireContext(), filesButton,
             { Tools.runOnUiThread { mFileRecyclerView?.refreshPath() } },
-            file
-        )
+            mFileRecyclerView!!.fullPath, file)
         filesDialog.setCopyButtonClick { mPasteButton?.visibility = View.VISIBLE }
         filesDialog.show()
     }

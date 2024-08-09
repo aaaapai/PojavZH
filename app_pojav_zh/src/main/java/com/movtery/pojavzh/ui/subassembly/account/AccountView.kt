@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import com.daimajia.androidanimations.library.Techniques
 import com.movtery.pojavzh.feature.accounts.AccountsManager
 import com.movtery.pojavzh.ui.dialog.AccountsDialog
-import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
+import com.movtery.pojavzh.utils.PathAndUrlManager
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.extra.ExtraConstants
 import net.kdt.pojavlaunch.extra.ExtraCore
@@ -43,7 +43,7 @@ class AccountView(val mainView: View) {
 
         var drawable: Drawable? = null
         if (account.isMicrosoft) {
-            val iconFile = File(ZHTools.DIR_USER_ICON, account.username + ".png")
+            val iconFile = File(PathAndUrlManager.DIR_USER_ICON, account.username + ".png")
             if (iconFile.exists()) {
                 drawable = Drawable.createFromPath(iconFile.absolutePath)
             }
