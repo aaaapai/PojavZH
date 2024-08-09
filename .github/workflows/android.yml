@@ -57,6 +57,7 @@ jobs:
       - name: Build Debug.apk
         run: |
           # Build the launcher
+          chmod +x ./gradlew
           ./gradlew :app_pojav_zh:assembleDebug
 
       - name: Upload Release
