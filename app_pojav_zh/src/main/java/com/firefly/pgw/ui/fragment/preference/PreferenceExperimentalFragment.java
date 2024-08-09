@@ -1,5 +1,9 @@
 package com.firefly.pgw.ui.fragment.preference;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -8,11 +12,19 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+
+import java.util.Arrays;
+import java.util.Set;
+
 import com.firefly.pgw.renderer.RendererManager;
 import com.firefly.pgw.ui.dialog.EditMesaVersionDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.firefly.pgw.utils.ListAndArray;
+import com.firefly.pgw.utils.MesaUtils;
 
+import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 import net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment;
@@ -25,6 +37,12 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
     public void onCreatePreferences(Bundle b, String str) {
         addPreferencesFromResource(R.xml.pref_experimental);
         computeVisibility();
+
+        final Preference downloadMesa = requirePreference("DownloadMesa", Preference.class);
+        downloadMesa.setOnPreferenceClickListener((a)-> {
+            loadMesaList();
+            return true;
+        });
 
         final ListPreference CMesaLib = requirePreference("CMesaLibrary", ListPreference.class);
         final ListPreference CDriverModel = requirePreference("CDriverModels", ListPreference.class);
@@ -112,6 +130,17 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
         String value = listPreference.getValue();
         if (preferenceKey.equals("CMesaLibrary")) {
             array = RendererManager.getCompatibleCMesaLib(requireContext());
+            boolean have = false;
+            for (int a = 0; a < array.getList().size(); a++) {
+                if (array.getList().get(a).equalsIgnoreCase(value)) {
+                    have = true;
+                    break;
+                }
+            }
+            if (!have) {
+                value = array.getList().get(0);
+                listPreference.setValue(value);
+            }
             RendererManager.MESA_LIBS = value;
         } else {
             array = RendererManager.getCompatibleCDriverModel(requireContext());
@@ -128,6 +157,60 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
             .setCancelClickListener(() -> {
                 ((SwitchPreference) pre).setChecked(false);
             }).setCancelable(false).buildDialog();
+    }
+
+    private void loadMesaList() {
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setMessage(R.string.preference_rendererexp_mesa_download_load)
+                .show();
+        PojavApplication.sExecutorService.execute(() -> {
+            Set<String> list = MesaUtils.INSTANCE.getMesaList();
+            requireActivity().runOnUiThread(() -> {
+                dialog.dismiss();
+
+                if (list == null) {
+                    AlertDialog alertDialog1 = new AlertDialog.Builder(requireActivity())
+                            .setMessage(R.string.preference_rendererexp_mesa_get_fail)
+                            .create();
+                    alertDialog1.show();
+                } else {
+                    final String[] items3 = new String[list.size()];
+                    list.toArray(items3);
+                    //添加列表
+                    AlertDialog alertDialog3 = new AlertDialog.Builder(requireActivity())
+                            .setTitle(R.string.preference_rendererexp_mesa_select_download)
+                            .setItems(items3, (dialogInterface, i) -> {
+                                if (i < 0 || i > items3.length)
+                                    return;
+                                dialogInterface.dismiss();
+                                downloadMesa(items3[i]);
+                            })
+                            .create();
+                    alertDialog3.show();
+                }
+            });
+        });
+    }
+
+    private void downloadMesa(String version) {
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setMessage(R.string.preference_rendererexp_mesa_downloading)
+                .show();
+        PojavApplication.sExecutorService.execute(() -> {
+            boolean data = MesaUtils.INSTANCE.downloadMesa(version);
+            requireActivity().runOnUiThread(() -> {
+                dialog.dismiss();
+                if (data) {
+                    Toast.makeText(requireContext(), R.string.preference_rendererexp_mesa_downloaded, Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    AlertDialog alertDialog1 = new AlertDialog.Builder(requireActivity())
+                            .setMessage(R.string.preference_rendererexp_mesa_download_fail)
+                            .create();
+                    alertDialog1.show();
+                }
+            });
+        });
     }
 
 }

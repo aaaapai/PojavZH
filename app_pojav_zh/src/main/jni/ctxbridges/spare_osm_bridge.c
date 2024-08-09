@@ -149,7 +149,6 @@ void spare_osm_apply_current_ll(ANativeWindow_Buffer* buffer) {
 }
 
 void spare_osm_make_current(spare_osm_render_window_t* bundle) {
-    static bool hasSetNoRendererBuffer = false;
 
     if (bundle == NULL)
     {
@@ -158,6 +157,7 @@ void spare_osm_make_current(spare_osm_render_window_t* bundle) {
         return;
     }
 
+    static bool hasSetNoRendererBuffer = false;
     bool hasSetMainWindow = false;
     currentBundle = bundle;
 
@@ -184,6 +184,7 @@ void spare_osm_make_current(spare_osm_render_window_t* bundle) {
 
     printf("%s: making current\n", osm_LogTag);
     printf("%s: bundle buffer = %d\n", osm_LogTag, bundle->buffer);
+
     spare_osm_apply_current_ll(&currentBundle->buffer);
     OSMesaPixelStore_p(OSMESA_Y_UP, 0);
 

@@ -5,6 +5,8 @@ import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_EXP_SETUP;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.firefly.pgw.utils.MesaUtils;
+
 import net.kdt.pojavlaunch.R;
 
 import java.util.ArrayList;
@@ -40,9 +42,14 @@ public class RendererManager {
         String[] defaultCMesaLibNames = resources.getStringArray(R.array.osmesa_library);
         List<String> CMesaLibIds = new ArrayList<>();
         List<String> CMesaLibNames = new ArrayList<>();
-        for(int i = 0; i < defaultCMesaLib.length; i++) {
+        for (int i = 0; i < defaultCMesaLib.length; i++) {
             CMesaLibIds.add(defaultCMesaLib[i]);
             CMesaLibNames.add(defaultCMesaLibNames[i]);
+        }
+        List<String> downloadList = MesaUtils.INSTANCE.getMesaLibList();
+        for (String item : downloadList) {
+            CMesaLibIds.add(item);
+            CMesaLibNames.add(item);
         }
 
         return new CMesaLibList(CMesaLibIds, CMesaLibNames.toArray(new String[0]));

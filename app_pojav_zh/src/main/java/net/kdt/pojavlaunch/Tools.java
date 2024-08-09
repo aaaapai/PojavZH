@@ -42,6 +42,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import com.firefly.pgw.utils.MesaUtils;
+
 import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
@@ -103,6 +105,7 @@ public final class Tools {
     public static final String APP_NAME = "Pojav Zenith Horizon";
     public static String NATIVE_LIB_DIR;
     public static String DIR_DATA; //Initialized later to get context
+    public static String MESA_DIR;
     public static File DIR_CACHE;
     public static String MULTIRT_HOME;
     public static String LOCAL_RENDERER = null;
@@ -144,6 +147,7 @@ public final class Tools {
     public static void initContextConstants(Context ctx) {
         DIR_CACHE = ctx.getCacheDir();
         DIR_DATA = ctx.getFilesDir().getParent();
+        MESA_DIR = DIR_DATA + "/mesa";
         MULTIRT_HOME = DIR_DATA + "/runtimes";
         DIR_GAME_HOME = getPojavStorageRoot(ctx).getAbsolutePath();
         CTRLMAP_PATH = DIR_GAME_HOME + "/controlmap";
