@@ -29,4 +29,11 @@
     <string name="preference_rendererexp_custom_glversion">Cho phép bạn tùy chỉnh phiên bản Mesa GL/GLSL</string>
     <string name="custom_gl_version">Phiên bản Mesa GL:</string>
     <string name="custom_glsl_version">Phiên bản Mesa GLSL:</string>
+    <string name="preference_extra_mesa_download">Tải về Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_get_fail">Lỗi khi danh sách Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_select_download">Chọn phiên bản để téléchargement</string>
+    <string name="preference_rendererexp_mesa_download_load">Đang danh sách Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_downloading">Đang téléchargement Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_download_fail">Lỗi téléchargement Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_downloaded">Téléchargement Mesa Lib thành công</string>
 </resources>

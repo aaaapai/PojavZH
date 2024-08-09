@@ -29,4 +29,11 @@
     <string name="preference_rendererexp_custom_glversion">Permite personalizar a versão do Mesa GL/GLSL</string>
     <string name="custom_gl_version">Versão do Mesa GL:</string>
     <string name="custom_glsl_version">Versão do Mesa GLSL:</string>
+    <string name="preference_extra_mesa_download">Baixar Biblioteca Mesa</string>
+    <string name="preference_rendererexp_mesa_get_fail">Falha ao obter lista da biblioteca Mesa</string>
+    <string name="preference_rendererexp_mesa_select_download">Selecionar versão para download</string>
+    <string name="preference_rendererexp_mesa_download_load">Carregando lista da biblioteca Mesa</string>
+    <string name="preference_rendererexp_mesa_downloading">Baixando biblioteca Mesa</string>
+    <string name="preference_rendererexp_mesa_download_fail">Falha ao baixar biblioteca Mesa</string>
+    <string name="preference_rendererexp_mesa_downloaded">Download da biblioteca Mesa bem-sucedido</string>
 </resources>

@@ -29,4 +29,11 @@
     <string name="preference_rendererexp_custom_glversion">Позволяет вам настроить версию Mesa GL/GLSL</string>
     <string name="custom_gl_version">Версия Mesa GL:</string>
     <string name="custom_glsl_version">Версия Mesa GLSL:</string>
+    <string name="preference_extra_mesa_download">Скачать Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_get_fail">Ошибка при получении списка Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_select_download">Выберите версию для скачивания</string>
+    <string name="preference_rendererexp_mesa_download_load">Загрузка списка Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_downloading">Скачивание Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_download_fail">Ошибка при скачивании Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_downloaded">Скачивание Mesa Lib успешно</string>
 </resources>

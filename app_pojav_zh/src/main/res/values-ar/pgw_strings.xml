@@ -29,4 +29,11 @@
     <string name="preference_rendererexp_custom_glversion">يسمح لك بتخصيص إصدار Mesa GL/GLSL</string>
     <string name="custom_gl_version">إصدار Mesa GL:</string>
     <string name="custom_glsl_version">إصدار Mesa GLSL:</string>
+    <string name="preference_extra_mesa_download">تحميل مكتبة Mesa</string>
+    <string name="preference_rendererexp_mesa_get_fail">실패 في الحصول على قائمة مكتبة Mesa</string>
+    <string name="preference_rendererexp_mesa_select_download"> للتحميل</string>
+    <string name="preference_rendererexp_mesa_download_load">جارٍ تحميل قائمة مكتبة Mesa</string>
+    <string name="preference_rendererexp_mesa_downloading">تحميل مكتبة Mesa</string>
+    <string name="preference_rendererexp_mesa_download_fail">실패 في تحميل مكتبة Mesa</string>
+    <string name="preference_rendererexp_mesa_downloaded">تحميل مكتبة Mesa ناجح</string>
 </resources>

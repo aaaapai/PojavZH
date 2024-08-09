@@ -29,4 +29,11 @@
     <string name="preference_rendererexp_custom_glversion">允許你自定義 Mesa GL/GLSL 版本</string>
     <string name="custom_gl_version">Mesa GL 版本:</string>
     <string name="custom_glsl_version">Mesa GLSL 版本:</string>
+    <string name="preference_extra_mesa_download">下載 Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_get_fail">取得 Mesa Lib 清單失敗</string>
+    <string name="preference_rendererexp_mesa_select_download">選擇版本進行下載</string>
+    <string name="preference_rendererexp_mesa_download_load">加載 Mesa Lib 清單中</string>
+    <string name="preference_rendererexp_mesa_downloading">正在下載 Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_download_fail">Mesa Lib 下載失敗</string>
+    <string name="preference_rendererexp_mesa_downloaded">Mesa Lib 下載完畢</string>
 </resources>
