@@ -27,6 +27,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Get LWJGL3
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          workflow: android.yml
+          path: app_pojav_zh/src/main/assets/components/lwjgl3
+          workflow_conclusion: success
+          repo: aaaapai/PojavZH-android7
+          branch: lwjgl3.3.3-PojavTeam
+          name: lwjgl
+
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v3
 
