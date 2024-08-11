@@ -7,10 +7,13 @@
         android:name="android.hardware.type.pc"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /><uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,7 +24,6 @@
 
     <application
         android:name=".PojavApplication"
-        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:allowNativeHeapPointerTagging="false"
         android:appCategory="game"
@@ -38,7 +40,6 @@
         <activity
             android:name=".MissingStorageActivity"
             android:exported="false"
-            tools:targetApi="n"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
 
@@ -49,7 +50,6 @@
         <activity
             android:name=".TestStorageActivity"
             android:exported="true"
-            tools:targetApi="n"
             android:label="@string/app_short_name"
             android:launchMode="singleTop"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
@@ -62,24 +62,20 @@
         </activity>
         <activity
             android:name=".LauncherActivity"
-            tools:targetApi="n"
             android:label="@string/app_short_name"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name="com.movtery.pojavzh.ui.activity.SettingsActivity"
-            tools:targetApi="n"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name="com.movtery.pojavzh.ui.activity.ErrorActivity"
-            tools:targetApi="n"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".ImportControlActivity"
             android:exported="true"
-            tools:targetApi="n"
             android:launchMode="singleInstance"
             android:windowSoftInputMode="stateVisible"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
@@ -134,15 +130,6 @@
             <intent-filter>
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-        <provider
-            android:name=".scoped.FileProvider"
-            android:authorities="@string/fileProviderAuthorities"
-            android:exported="false"
-            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
