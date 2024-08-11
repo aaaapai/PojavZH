@@ -192,6 +192,8 @@ public class JREUtils {
         // Fix white color on banner and sheep, since GL4ES 1.1.5
         envMap.put("LIBGL_NORMALIZE", "1");
 
+        envMap.put("LIBGL_GLES", "libGLESv3.so");
+
         if(PREF_DUMP_SHADERS)
             envMap.put("LIBGL_VGPU_DUMP", "1");
         if(PREF_ZINK_PREFER_SYSTEM_DRIVER)
@@ -283,27 +285,10 @@ public class JREUtils {
         final String graphicsLib = loadGraphicsLibrary();
         List<String> userArgs = getJavaArgs(runtimeHome, userArgsString);
 
-        //Remove arguments that can interfere with the good working of the launcher
-        purgeArg(userArgs,"-Xms");
-        purgeArg(userArgs,"-Xmx");
-        purgeArg(userArgs,"-d32");
-        purgeArg(userArgs,"-d64");
-        purgeArg(userArgs, "-Xint");
-        purgeArg(userArgs, "-XX:+UseTransparentHugePages");
-        purgeArg(userArgs, "-XX:+UseLargePagesInMetaspace");
-        purgeArg(userArgs, "-XX:+UseLargePages");
-        purgeArg(userArgs, "-Dorg.lwjgl.opengl.libname");
-        // Don't let the user specify a custom Freetype library (as the user is unlikely to specify a version compiled for Android)
-        purgeArg(userArgs, "-Dorg.lwjgl.freetype.libname");
-
         //Add automatically generated args
         userArgs.add("-Xms" + LauncherPreferences.PREF_RAM_ALLOCATION + "M");
         userArgs.add("-Xmx" + LauncherPreferences.PREF_RAM_ALLOCATION + "M");
         if(LOCAL_RENDERER != null) userArgs.add("-Dorg.lwjgl.opengl.libname=" + graphicsLib);
-
-        // Force LWJGL to use the Freetype library intended for it, instead of using the one
-        // that we ship with Java (since it may be older than what's needed)
-        userArgs.add("-Dorg.lwjgl.freetype.libname="+ DIR_NATIVE_LIB +"/libfreetype.so");
 
         userArgs.addAll(JVMArgs);
         activity.runOnUiThread(() -> Toast.makeText(activity, activity.getString(R.string.autoram_info_msg,LauncherPreferences.PREF_RAM_ALLOCATION), Toast.LENGTH_SHORT).show());

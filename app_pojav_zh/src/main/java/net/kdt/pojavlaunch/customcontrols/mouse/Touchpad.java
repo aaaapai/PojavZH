@@ -93,7 +93,7 @@ public class Touchpad extends View implements GrabListener, AbstractTouchpad {
         updateMouseScale();
 
         setFocusable(false);
-        setDefaultFocusHighlightEnabled(false);
+        // setDefaultFocusHighlightEnabled(false);
 
         // When the game is grabbing, we should not display the mouse
         disable();

@@ -9,9 +9,8 @@ configurations.default.setCanBeResolved(true)
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     archiveBaseName = "lwjgl-glfw-classes"
-    destinationDirectory.set(file("../app_pojav_zh/src/main/assets/components/lwjgl3/"))
-    // Auto update the version with a timestamp so the project jar gets updated by Pojav
-    File versionFile = file("../app_pojav_zh/src/main/assets/components/lwjgl3/version")
+    destinationDirectory.set(file("../lwjgl3/"))
+    File versionFile = file("../lwjgl3/version")
     versionFile.write(String.valueOf(new Date().getTime()))
     from {
         configurations.default.collect {
@@ -25,7 +24,7 @@ jar {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(8)
-    }
+      }
 }
 
 dependencies {
