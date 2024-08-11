@@ -26,6 +26,7 @@
     <string name="zh_input_invalid">Nội dung đã nhập không đáp ứng yêu cầu, vui lòng nhập lại</string>
     <string name="zh_input_too_small">Giá trị nhập vào quá nhỏ, phải ít nhất là %s</string>
     <string name="zh_input_too_big">Giá trị nhập vào quá lớn, tối đa chỉ có thể là %s</string>
+    <string name="zh_copied">Đã sao chép</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Chọn tệp Jar</string>
     <!-- Profiles Path -->
@@ -189,7 +190,7 @@
     <string name="zh_file_multi_select_mode">Bật chế độ chọn nhiều</string>
     <string name="zh_file_multi_select_mode_title">Chọn nhiều mục</string>
     <string name="zh_file_multi_select_mode_message">Hiện tại đã chọn tổng cộng %d mục</string>
-    <string name="zh_file_operation_file">Đang thao tác trên tệp tin… (%s / %s, %d)</string>
+    <string name="zh_file_operation_file">Đang xử lý tập tin… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Nhảy đến đường dẫn</string>
     <string name="zh_file_nothing">Không tìm thấy tệp nào!</string>
     <!-- Search View -->
@@ -292,7 +293,7 @@
     <string name="zh_about_button_support_development">Tài trợ phát triển</string>
     <string name="zh_about_movtery_desc">Tác giả của Pojav Zenith Horizon</string>
     <string name="zh_about_pojavlauncher_desc">Nhóm phát triển PojavLauncher, phát triển và mở mã nguồn PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Người hỗ trợ dự án Pojav Zenith Horizon, cung cấp hỗ trợ kỹ thuật về kết xuất cho Pojav Zenith Horizon</string>
+    <string name="zh_about_verafirefly_desc">Cung cấp hỗ trợ kỹ thuật về kết xuất cho Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Cung cấp hỗ trợ kỹ thuật cho Pojav Zenith Horizon</string>
     <string name="zh_about_access_space">Truy cập không gian</string>
     <string name="zh_about_version_name">Tên phiên bản phần mềm:</string>

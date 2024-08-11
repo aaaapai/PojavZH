@@ -93,7 +93,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/zh_about_dec2" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_pojavlauncher_button"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
@@ -104,7 +104,7 @@
                         app:layout_constraintTop_toTopOf="@+id/zh_about_license_button"
                         tools:ignore="HardcodedText" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_license_button"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
@@ -208,7 +208,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/zh_about_sponsor_desc" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_sponsor_more"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -257,7 +257,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shadowView">
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_return_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -268,7 +268,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_github_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -280,7 +280,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="HardcodedText" />
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_support_development"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -291,53 +291,18 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/zh_about_version_name"
+            <com.movtery.pojavzh.ui.view.AnimTextView
+                android:id="@+id/zh_about_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:maxLines="2"
+                android:layout_margin="@dimen/_8sdp"
+                android:padding="@dimen/_8sdp"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:background="?android:attr/selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/zh_about_version_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_version_name" />
-
-            <TextView
-                android:id="@+id/zh_about_last_update_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_version_code" />
-
-            <TextView
-                android:id="@+id/zh_about_version_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_16sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_last_update_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

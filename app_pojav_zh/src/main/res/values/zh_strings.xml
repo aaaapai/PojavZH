@@ -26,6 +26,7 @@
     <string name="zh_input_invalid">The content entered does not meet the requirements, please re-enter</string>
     <string name="zh_input_too_small">The value entered is too small, it must be at least %s</string>
     <string name="zh_input_too_big">The value entered is too large, it can only be up to %s</string>
+    <string name="zh_copied">Copied</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Select Jar file</string>
     <!-- Profiles Path -->
@@ -189,7 +190,7 @@
     <string name="zh_file_multi_select_mode">Enable Multi-Select Mode</string>
     <string name="zh_file_multi_select_mode_title">Multi-Select Mode</string>
     <string name="zh_file_multi_select_mode_message">Currently, a total of %d items are selected</string>
-    <string name="zh_file_operation_file">Operating on file… (%s / %s, %d)</string>
+    <string name="zh_file_operation_file">Processing file… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Jump to Path</string>
     <string name="zh_file_nothing">No files found!</string>
     <!-- Search View -->
@@ -292,7 +293,7 @@
     <string name="zh_about_button_support_development">Support Development</string>
     <string name="zh_about_movtery_desc">Author of Pojav Zenith Horizon</string>
     <string name="zh_about_pojavlauncher_desc">Development team of PojavLauncher, developed and open-sourced PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Project collaborator of Pojav Zenith Horizon, providing rendering technical support for Pojav Zenith Horizon</string>
+    <string name="zh_about_verafirefly_desc">Provides rendering technical support for Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Provided technical support for Pojav Zenith Horizon</string>
     <string name="zh_about_access_space">Access Space</string>
     <string name="zh_about_version_name">Software Version Name:</string>
