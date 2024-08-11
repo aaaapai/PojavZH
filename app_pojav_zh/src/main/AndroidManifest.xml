@@ -141,7 +141,7 @@
         <provider
             android:name=".scoped.FileProvider"
             android:authorities="@string/fileProviderAuthorities"
-            android:exported="true"
+            android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
