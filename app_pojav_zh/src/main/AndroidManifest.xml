@@ -115,7 +115,6 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            tools:targetApi="n"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:launchMode="standard"
             android:process=":game"
