@@ -61,7 +61,7 @@ LOCAL_CFLAGS += -O2 -fPIC -flto=auto -fwhole-program-vtables -mllvm -polly
 include $(BUILD_SHARED_LIBRARY)
 #endif
 
-$(call import-module,prefab/modules/bytehook)
+$(call import-module,prefab/bytehook)
 LOCAL_PATH := $(HERE_PATH)
 
 include $(CLEAR_VARS)
