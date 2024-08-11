@@ -21,6 +21,7 @@
 
     <application
         android:name=".PojavApplication"
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:allowNativeHeapPointerTagging="false"
         android:appCategory="game"
