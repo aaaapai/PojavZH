@@ -1,7 +1,6 @@
 package net.kdt.pojavlaunch;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
 import static com.movtery.pojavzh.utils.ZHTools.getVersionName;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_LAUNCHER_THEME;
 
@@ -18,7 +17,9 @@ import androidx.core.app.*;
 
 import android.util.*;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 
 import java.io.*;
 import java.text.*;
@@ -36,28 +37,28 @@ public class PojavApplication extends Application {
 	public static final String CRASH_REPORT_TAG = "PojavCrashReport";
 	public static final ExecutorService sExecutorService = new ThreadPoolExecutor(4, 4, 500, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<>());
 	@SuppressLint("StaticFieldLeak") private static Context context;
-	
+
 	@Override
 	public void onCreate() {
 		ContextExecutor.setApplication(this);
 		Thread.setDefaultUncaughtExceptionHandler((thread, th) -> {
-			boolean storagePermAllowed = (Build.VERSION.SDK_INT >= 29 || ActivityCompat.checkSelfPermission(PojavApplication.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) && Tools.checkStorageRoot(PojavApplication.this);
-			File crashFile = new File(storagePermAllowed ? Tools.DIR_GAME_HOME : Tools.DIR_DATA, "latestcrash.txt");
+			boolean storagePermAllowed = (Build.VERSION.SDK_INT >= 29 || ActivityCompat.checkSelfPermission(PojavApplication.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) && Tools.checkStorageRoot();
+			File crashFile = new File(storagePermAllowed ? PathAndUrlManager.DIR_LAUNCHER_LOG : PathAndUrlManager.DIR_DATA, "latestcrash.txt");
 			try {
 				// Write to file, since some devices may not able to show error
 				FileUtils.ensureParentDirectory(crashFile);
 				PrintStream crashStream = new PrintStream(crashFile);
-				crashStream.append("Pojav Zenith Horizon crash report\n");
+				crashStream.append("PZH · PGW crash report\n");
 				crashStream.append(" - Time: ").append(DateFormat.getDateTimeInstance().format(new Date())).append("\n");
 				crashStream.append(" - Device: ").append(Build.PRODUCT).append(" ").append(Build.MODEL).append("\n");
 				crashStream.append(" - Android version: ").append(Build.VERSION.RELEASE).append("\n");
 				crashStream.append(" - Crash stack trace:\n");
-				crashStream.append(" - Launcher version: ").append(getVersionName(this)).append("\n");
+				crashStream.append(" - Launcher version: ").append(getVersionName()).append("\n");
 				crashStream.append(Log.getStackTraceString(th));
 				crashStream.close();
 			} catch (Throwable throwable) {
-				Log.e(CRASH_REPORT_TAG, " - Exception attempt saving crash stack trace:", throwable);
-				Log.e(CRASH_REPORT_TAG, " - The crash stack trace was:", th);
+				Logging.e(CRASH_REPORT_TAG, " - Exception attempt saving crash stack trace:", throwable);
+				Logging.e(CRASH_REPORT_TAG, " - The crash stack trace was:", th);
 			}
 			th.printStackTrace();
 
@@ -67,10 +68,10 @@ public class PojavApplication extends Application {
 		
 		try {
 			super.onCreate();
-
-			Tools.DIR_DATA = getDir("files", MODE_PRIVATE).getParent();
-			Tools.DIR_CACHE = getCacheDir();
-			Tools.DIR_ACCOUNT_NEW = Tools.DIR_DATA + "/accounts";
+			
+			PathAndUrlManager.DIR_DATA = getDir("files", MODE_PRIVATE).getParent();
+			PathAndUrlManager.DIR_CACHE = getCacheDir();
+			Tools.DIR_ACCOUNT_NEW = PathAndUrlManager.DIR_DATA + "/accounts";
 			Tools.DEVICE_ARCHITECTURE = Architecture.getDeviceArchitecture();
 			//Force x86 lib directory for Asus x86 based zenfones
 			if(Architecture.isx86Device() && Architecture.is32BitsDevice()){
@@ -97,7 +98,6 @@ public class PojavApplication extends Application {
 					break;
 			}
 		}
-
 	}
 
 	@Override
@@ -109,21 +109,21 @@ public class PojavApplication extends Application {
 	@Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleUtils.setLocale(base));
-        PojavApplication.context = base;
+		PojavApplication.context = base;
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         LocaleUtils.setLocale(this);
-        PojavApplication.context = this;
+		PojavApplication.context = this;
     }
 
-    public static Context getContext() {
-        return PojavApplication.context;
-    }
+	public static Context getContext() {
+		return PojavApplication.context;
+	}
 
-    public static String getResString(int resId) {
-        return PojavApplication.context.getString(resId);
-    }
+	public static String getResString(int resId) {
+		return PojavApplication.context.getString(resId);
+	}
 }

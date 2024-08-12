@@ -2,10 +2,10 @@ package net.kdt.pojavlaunch.utils;
 
 import static com.firefly.pgw.renderer.RendererManager.DRIVER_MODEL;
 import static com.firefly.pgw.renderer.RendererManager.MESA_LIBS;
+import static com.movtery.pojavzh.utils.PathAndUrlManager.DIR_NATIVE_LIB;
 import static net.kdt.pojavlaunch.Architecture.ARCH_X86;
 import static net.kdt.pojavlaunch.Architecture.is64BitsDevice;
 import static net.kdt.pojavlaunch.Tools.LOCAL_RENDERER;
-import static net.kdt.pojavlaunch.Tools.NATIVE_LIB_DIR;
 import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.*;
 
@@ -20,10 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.firefly.pgw.utils.MesaUtils;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathHome;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.utils.ZHTools;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.oracle.dalvik.*;
 import java.io.*;
 import java.util.*;
@@ -54,7 +56,7 @@ public class JREUtils {
                     Os.setenv("LD_LIBRARY_PATH", LD_LIBRARY_PATH, true);
                 }
             }catch (ErrnoException e) {
-                e.printStackTrace();
+                Logging.e("JREUtils", Tools.printToString(e));
             }
             return libName;
         }
@@ -85,7 +87,7 @@ public class JREUtils {
     public static void initJavaRuntime(String jreHome) {
         dlopen(findInLdLibPath("libjli.so"));
         if(!dlopen("libjvm.so")){
-            Log.w("DynamicLoader","Failed to load with no path, trying with full path");
+            Logging.w("DynamicLoader","Failed to load with no path, trying with full path");
             dlopen(jvmLibraryPath+"/libjvm.so");
         }
         dlopen(findInLdLibPath("libverify.so"));
@@ -100,12 +102,12 @@ public class JREUtils {
         for(File f : locateLibs(new File(jreHome, Tools.DIRNAME_HOME_JRE))) {
             dlopen(f.getAbsolutePath());
         }
-        dlopen(NATIVE_LIB_DIR + "/libopenal.so");
+        dlopen(DIR_NATIVE_LIB + "/libopenal.so");
     }
 
     public static void redirectAndPrintJRELog() {
 
-        Log.v("jrelog","Log starts here");
+        Logging.v("jrelog","Log starts here");
         new Thread(new Runnable(){
             int failTime = 0;
             ProcessBuilder logcatPb;
@@ -116,9 +118,9 @@ public class JREUtils {
                         logcatPb = new ProcessBuilder().command("logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I", "NativeInput").redirectErrorStream(true);
                     }
 
-                    Log.i("jrelog-logcat","Clearing logcat");
+                    Logging.i("jrelog-logcat","Clearing logcat");
                     new ProcessBuilder().command("logcat", "-c").redirectErrorStream(true).start();
-                    Log.i("jrelog-logcat","Starting logcat");
+                    Logging.i("jrelog-logcat","Starting logcat");
                     java.lang.Process p = logcatPb.start();
 
                     byte[] buf = new byte[1024];
@@ -129,22 +131,22 @@ public class JREUtils {
                     }
 
                     if (p.waitFor() != 0) {
-                        Log.e("jrelog-logcat", "Logcat exited with code " + p.exitValue());
+                        Logging.e("jrelog-logcat", "Logcat exited with code " + p.exitValue());
                         failTime++;
-                        Log.i("jrelog-logcat", (failTime <= 10 ? "Restarting logcat" : "Too many restart fails") + " (attempt " + failTime + "/10");
+                        Logging.i("jrelog-logcat", (failTime <= 10 ? "Restarting logcat" : "Too many restart fails") + " (attempt " + failTime + "/10");
                         if (failTime <= 10) {
                             run();
                         } else {
-                            Logger.appendToLog("ERROR: Unable to get more log.");
+                            Logger.appendToLog("ERROR: Unable to get more Logging.");
                         }
                     }
                 } catch (Throwable e) {
-                    Log.e("jrelog-logcat", "Exception on logging thread", e);
+                    Logging.e("jrelog-logcat", "Exception on logging thread", e);
                     Logger.appendToLog("Exception on logging thread:\n" + Log.getStackTraceString(e));
                 }
             }
         }).start();
-        Log.i("jrelog-logcat","Logcat thread started");
+        Logging.i("jrelog-logcat","Logcat thread started");
 
     }
 
@@ -173,7 +175,7 @@ public class JREUtils {
         ldLibraryPath.append("/system/").append(libName).append(":")
                 .append("/vendor/").append(libName).append(":")
                 .append("/vendor/").append(libName).append("/hw:")
-                .append(NATIVE_LIB_DIR);
+                .append(DIR_NATIVE_LIB);
         LD_LIBRARY_PATH = ldLibraryPath.toString();
     }
 
@@ -183,10 +185,10 @@ public class JREUtils {
         final String localMesaLibrary = loadGraphicsLibrary();
 
         Map<String, String> envMap = new ArrayMap<>();
-        envMap.put("POJAV_NATIVEDIR", NATIVE_LIB_DIR);
+        envMap.put("POJAV_NATIVEDIR", DIR_NATIVE_LIB);
         envMap.put("JAVA_HOME", jreHome);
-        envMap.put("HOME", ProfilePathManager.getCurrentPath());
-        envMap.put("TMPDIR", Tools.DIR_CACHE.getAbsolutePath());
+        envMap.put("HOME", PathAndUrlManager.DIR_GAME_HOME);
+        envMap.put("TMPDIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
         envMap.put("LIBGL_MIPMAP", "3");
 
         // Prevent OptiFine (and other error-reporting stuff in Minecraft) from balooning the log
@@ -203,7 +205,7 @@ public class JREUtils {
 
         envMap.put("FORCE_VSYNC", String.valueOf(LauncherPreferences.PREF_FORCE_VSYNC));
 
-        envMap.put("MESA_GLSL_CACHE_DIR", Tools.DIR_CACHE.getAbsolutePath());
+        envMap.put("MESA_GLSL_CACHE_DIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
         envMap.put("force_glsl_extensions_warn", "true");
         envMap.put("allow_higher_compat_version", "true");
         envMap.put("allow_glsl_extension_directive_midshader", "true");
@@ -250,7 +252,7 @@ public class JREUtils {
                         envMap.put("LOCAL_DRIVER_MODEL", "driver_virgl");
                         envMap.put("MESA_GL_VERSION_OVERRIDE", "4.3");
                         envMap.put("MESA_GLSL_VERSION_OVERRIDE", "430");
-                        envMap.put("VTEST_SOCKET_NAME", new File(Tools.DIR_CACHE, ".virgl_test").getAbsolutePath());
+                        envMap.put("VTEST_SOCKET_NAME", new File(PathAndUrlManager.DIR_CACHE, ".virgl_test").getAbsolutePath());
                         envMap.put("MESA_LIBRARY", localMesaLibrary);
                     } break;
                     case "freedreno":{
@@ -305,7 +307,7 @@ public class JREUtils {
                         envMap.put("POJAV_LEGACY_ZINK_ALLOW", "1");
                 }
                 if (DRIVER_MODEL.equals("driver_virgl"))
-                    envMap.put("VTEST_SOCKET_NAME", new File(Tools.DIR_CACHE, ".virgl_test").getAbsolutePath());
+                    envMap.put("VTEST_SOCKET_NAME", new File(PathAndUrlManager.DIR_CACHE, ".virgl_test").getAbsolutePath());
                 if (DRIVER_MODEL.equals("driver_panfrost")) {
                     envMap.put("MESA_DISK_CACHE_SINGLE_FILE", "1");
                     envMap.put("MESA_DISK_CACHE_SINGLE_FILE", "true");
@@ -330,7 +332,7 @@ public class JREUtils {
         }
         if(!envMap.containsKey("LIBGL_ES") && LOCAL_RENDERER != null) {
             int glesMajor = getDetectedVersion();
-            Log.i("glesDetect","GLES version detected: "+glesMajor);
+            Logging.i("glesDetect","GLES version detected: "+glesMajor);
 
             if (glesMajor < 3) {
                 //fallback to 2 since it's the minimum for the entire app
@@ -348,14 +350,14 @@ public class JREUtils {
             try {
                 Os.setenv(env.getKey(), env.getValue(), true);
             }catch (NullPointerException exception){
-                Log.e("JREUtils", exception.toString());
+                Logging.e("JREUtils", exception.toString());
             }
         }
 
         File serverFile = new File(jreHome + "/" + Tools.DIRNAME_HOME_JRE + "/server/libjvm.so");
         jvmLibraryPath = jreHome + "/" + Tools.DIRNAME_HOME_JRE + "/" + (serverFile.exists() ? "server" : "client");
-        Log.d("DynamicLoader","Base LD_LIBRARY_PATH: "+LD_LIBRARY_PATH);
-        Log.d("DynamicLoader","Internal LD_LIBRARY_PATH: "+jvmLibraryPath+":"+LD_LIBRARY_PATH);
+        Logging.d("DynamicLoader","Base LD_LIBRARY_PATH: "+LD_LIBRARY_PATH);
+        Logging.d("DynamicLoader","Internal LD_LIBRARY_PATH: "+jvmLibraryPath+":"+LD_LIBRARY_PATH);
         setLdLibraryPath(jvmLibraryPath+":"+LD_LIBRARY_PATH);
 
         // return ldLibraryPath;
@@ -412,12 +414,12 @@ public class JREUtils {
     public static List<String> getJavaArgs(String runtimeHome, String userArgumentsString) {
         List<String> userArguments = parseJavaArguments(userArgumentsString);
         String resolvFile;
-        resolvFile = new File(Tools.DIR_DATA,"resolv.conf").getAbsolutePath();
+        resolvFile = new File(PathAndUrlManager.DIR_DATA,"resolv.conf").getAbsolutePath();
 
         ArrayList<String> overridableArguments = new ArrayList<>(Arrays.asList(
                 "-Djava.home=" + runtimeHome,
-                "-Djava.io.tmpdir=" + Tools.DIR_CACHE.getAbsolutePath(),
-                "-Djna.boot.library.path=" + NATIVE_LIB_DIR,
+                "-Djava.io.tmpdir=" + PathAndUrlManager.DIR_CACHE.getAbsolutePath(),
+                "-Djna.boot.library.path=" + DIR_NATIVE_LIB,
                 "-Duser.home=" + ProfilePathManager.getCurrentPath(),
                 "-Duser.language=" + System.getProperty("user.language"),
                 "-Dos.name=Linux",
@@ -443,7 +445,7 @@ public class JREUtils {
                 "-Dloader.disable_forked_guis=true"
         ));
         if(LauncherPreferences.PREF_ARC_CAPES) {
-            overridableArguments.add("-javaagent:"+new File(Tools.DIR_DATA,"arc_dns_injector/arc_dns_injector.jar").getAbsolutePath()+"=23.95.137.176");
+            overridableArguments.add("-javaagent:"+new File(PathAndUrlManager.DIR_DATA,"arc_dns_injector/arc_dns_injector.jar").getAbsolutePath()+"=23.95.137.176");
         }
         List<String> additionalArguments = new ArrayList<>();
         for(String arg : overridableArguments) {
@@ -458,7 +460,7 @@ public class JREUtils {
             if(add)
                 additionalArguments.add(arg);
             else
-                Log.i("ArgProcessor","Arg skipped: "+arg);
+                Logging.i("ArgProcessor","Arg skipped: "+arg);
         }
 
         //Add all the arguments
@@ -515,7 +517,7 @@ public class JREUtils {
                     }
                     parsedArguments.add(parsedSubString);
                 }
-                else Log.w("JAVA ARGS PARSER", "Removed improper arguments: " + parsedSubString);
+                else Logging.w("JAVA ARGS PARSER", "Removed improper arguments: " + parsedSubString);
             }
         }
         return parsedArguments;
@@ -571,17 +573,17 @@ public class JREUtils {
                     renderLibrary = "libtinywrapper.so";
                     break;
                 default:
-                    Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
+                    Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
                     renderLibrary = "libgl4es_114.so";
                     break;
             }
         }
 
         if (!dlopen(renderLibrary) && !dlopen(findInLdLibPath(renderLibrary))) {
-            Log.e("RENDER_LIBRARY","Failed to load renderer " + renderLibrary + ". Falling back to GL4ES 1.1.4");
+            Logging.e("RENDER_LIBRARY","Failed to load renderer " + renderLibrary + ". Falling back to GL4ES 1.1.4");
             LOCAL_RENDERER = "opengles2";
             renderLibrary = "libgl4es_114.so";
-            dlopen(NATIVE_LIB_DIR + "/libgl4es_114.so");
+            dlopen(DIR_NATIVE_LIB + "/libgl4es_114.so");
         }
         return renderLibrary;
     }
@@ -644,7 +646,7 @@ public class JREUtils {
                                     if (highestEsVersion < 1) highestEsVersion = 1;
                                 }
                             } else {
-                                Log.w("glesDetect", "Getting config attribute with "
+                                Logging.w("glesDetect", "Getting config attribute with "
                                         + "EGL10#eglGetConfigAttrib failed "
                                         + "(" + i + "/" + numConfigs[0] + "): "
                                         + egl.eglGetError());
@@ -652,12 +654,12 @@ public class JREUtils {
                         }
                         return highestEsVersion;
                     } else {
-                        Log.e("glesDetect", "Getting configs with EGL10#eglGetConfigs failed: "
+                        Logging.e("glesDetect", "Getting configs with EGL10#eglGetConfigs failed: "
                                 + egl.eglGetError());
                         return -1;
                     }
                 } else {
-                    Log.e("glesDetect", "Getting number of configs with EGL10#eglGetConfigs failed: "
+                    Logging.e("glesDetect", "Getting number of configs with EGL10#eglGetConfigs failed: "
                             + egl.eglGetError());
                     return -2;
                 }
@@ -665,7 +667,7 @@ public class JREUtils {
                 egl.eglTerminate(display);
             }
         } else {
-            Log.e("glesDetect", "Couldn't initialize EGL.");
+            Logging.e("glesDetect", "Couldn't initialize EGL.");
             return -3;
         }
     }

@@ -5,7 +5,7 @@ import android.os.Build;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import net.kdt.pojavlaunch.Tools;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 import net.kdt.pojavlaunch.utils.FileUtils;
 
@@ -32,7 +32,7 @@ public class MesaUtils {
     private final File mesaDir;
 
     private MesaUtils() {
-        mesaDir = new File(Tools.MESA_DIR);
+        mesaDir = new File(PathAndUrlManager.MESA_DIR);
         if (!mesaDir.exists() && !mesaDir.mkdirs()) {
             throw new RuntimeException("Failed to create mesa directory");
         }
@@ -53,7 +53,7 @@ public class MesaUtils {
     }
 
     public String getMesaLib(String version) {
-        return Tools.MESA_DIR + "/" + version + "/libOSMesa_8.so";
+        return PathAndUrlManager.MESA_DIR + "/" + version + "/libOSMesa_8.so";
     }
 
     public Set<String> getMesaList() {

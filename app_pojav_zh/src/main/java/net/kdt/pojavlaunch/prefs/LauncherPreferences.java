@@ -10,8 +10,9 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.Log;
 
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.UnpackJRE;
 import com.movtery.pojavzh.utils.ZHTools;
 
@@ -38,7 +39,7 @@ public class LauncherPreferences {
 	public static int PREF_NOTCH_SIZE = 0;
 	public static float PREF_BUTTONSIZE = 100f;
 	public static int PREF_LONGPRESS_TRIGGER = 300;
-	public static String PREF_DEFAULTCTRL_PATH = Tools.CTRLDEF_FILE;
+	public static String PREF_DEFAULTCTRL_PATH = PathAndUrlManager.FILE_CTRLDEF_FILE;
 	public static String PREF_CUSTOM_JAVA_ARGS;
     public static boolean PREF_FORCE_ENGLISH = false;
     public static final String PREF_VERSION_REPOS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
@@ -97,8 +98,7 @@ public class LauncherPreferences {
 
     public static void loadPreferences(Context ctx) {
         //Required for the data folder.
-        Tools.initContextConstants(ctx);
-        ZHTools.initContextConstants(ctx);
+        PathAndUrlManager.initContextConstants(ctx);
 
         PREF_RENDERER = DEFAULT_PREF.getString("renderer", "opengles2");
         PREF_EXP_RENDERER = DEFAULT_PREF.getString("renderer_exp", "opengles2");
@@ -110,7 +110,7 @@ public class LauncherPreferences {
 		PREF_VERTYPE_OLDALPHA = DEFAULT_PREF.getBoolean("vertype_oldalpha", false);
 		PREF_VERTYPE_OLDBETA = DEFAULT_PREF.getBoolean("vertype_oldbeta", false);
 		PREF_LONGPRESS_TRIGGER = DEFAULT_PREF.getInt("timeLongPressTrigger", 300);
-		PREF_DEFAULTCTRL_PATH = DEFAULT_PREF.getString("defaultCtrl", Tools.CTRLDEF_FILE);
+		PREF_DEFAULTCTRL_PATH = DEFAULT_PREF.getString("defaultCtrl", PathAndUrlManager.FILE_CTRLDEF_FILE);
         PREF_FORCE_ENGLISH = DEFAULT_PREF.getBoolean("force_english", false);
         PREF_CHECK_LIBRARY_SHA = DEFAULT_PREF.getBoolean("checkLibraries",true);
         PREF_DISABLE_GESTURES = DEFAULT_PREF.getBoolean("disableGestures",false);
@@ -232,7 +232,7 @@ public class LauncherPreferences {
             else LauncherPreferences.PREF_NOTCH_SIZE = Math.min(cutout.width(), cutout.height());
 
         }catch (Exception e){
-            Log.i("NOTCH DETECTION", "No notch detected, or the device if in split screen mode");
+            Logging.i("NOTCH DETECTION", "No notch detected, or the device if in split screen mode");
             LauncherPreferences.PREF_NOTCH_SIZE = -1;
         }
         Tools.updateWindowSize(activity);

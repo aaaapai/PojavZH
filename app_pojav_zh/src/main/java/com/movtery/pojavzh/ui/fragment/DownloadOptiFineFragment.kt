@@ -3,13 +3,13 @@ package com.movtery.pojavzh.ui.fragment
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.feature.mod.modloader.OptiFineDownloadType
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
-import com.movtery.pojavzh.utils.MCVersionComparator.versionCompare
 import net.kdt.pojavlaunch.JavaGUILauncherActivity
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -20,6 +20,7 @@ import net.kdt.pojavlaunch.modloaders.OptiFineDownloadTask
 import net.kdt.pojavlaunch.modloaders.OptiFineUtils
 import net.kdt.pojavlaunch.modloaders.OptiFineUtils.OptiFineVersion
 import net.kdt.pojavlaunch.modloaders.OptiFineUtils.OptiFineVersions
+import org.jackhuang.hmcl.util.versioning.VersionNumber
 import java.io.File
 import java.util.concurrent.Future
 import java.util.function.Consumer
@@ -43,18 +44,19 @@ class DownloadOptiFineFragment : ModListFragment(), ModloaderDownloadListener {
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 val optiFineVersions = OptiFineUtils.downloadOptiFineVersions()
                 processModDetails(optiFineVersions)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadOptiFineFragment", Tools.printToString(e))
             }
         }
     }
@@ -89,13 +91,11 @@ class DownloadOptiFineFragment : ModListFragment(), ModloaderDownloadListener {
 
         val mData: MutableList<ModListItemBean> = ArrayList()
         mOptiFineVersions.entries
-            .sortedWith { entry1, entry2 ->
-                versionCompare(entry1.key, entry2.key)
-            }
+            .sortedWith { entry1, entry2 -> -VersionNumber.compare(entry1.key, entry2.key) }
             .forEach { entry: Map.Entry<String, List<OptiFineVersion?>> ->
                 if (currentTask.isCancelled) return@forEach
 
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_optifine, entry.value)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_optifine, entry.value)
 
                 adapter.setOnItemClickListener { version: Any? ->
                     Thread(OptiFineDownloadTask(version as OptiFineVersion?, modloaderListenerProxy,

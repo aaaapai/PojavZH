@@ -39,7 +39,8 @@ import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import com.movtery.pojavzh.ui.dialog.ShareLogDialog;
 import com.movtery.pojavzh.ui.fragment.ProfilePathManagerFragment;
-import com.movtery.pojavzh.ui.subassembly.account.AccountView;
+import com.movtery.pojavzh.ui.subassembly.account.AccountViewWrapper;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
@@ -55,7 +56,7 @@ import java.util.concurrent.Future;
 
 public class MainMenuFragment extends FragmentWithAnim implements TaskCountListener, AccountUpdateListener {
     public static final String TAG = "MainMenuFragment";
-    private AccountView accountView;
+    private AccountViewWrapper accountViewWrapper;
     private CheckNewNotice.NoticeInfo noticeInfo = null;
     private ImageButton mPathManagerButton, mManagerProfileButton;
     private Button mPlayButton;
@@ -120,13 +121,13 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         });
 
         mShareLogsButton.setOnClickListener(v -> {
-            ShareLogDialog shareLogDialog = new ShareLogDialog(requireContext(), new File(Tools.DIR_GAME_HOME + "/latestlog.txt"));
+            ShareLogDialog shareLogDialog = new ShareLogDialog(requireContext(), new File(PathAndUrlManager.DIR_GAME_HOME + "/latestlog.txt"));
             shareLogDialog.show();
         });
 
         mOpenMainDirButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
-            bundle.putString(FilesFragment.BUNDLE_LIST_PATH, Tools.DIR_GAME_HOME);
+            bundle.putString(FilesFragment.BUNDLE_LIST_PATH, PathAndUrlManager.DIR_GAME_HOME);
             ZHTools.swapFragmentWithAnim(this, FilesFragment.class, FilesFragment.TAG, bundle);
         });
 
@@ -167,8 +168,8 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         mManagerProfileButton = view.findViewById(R.id.manager_profile_button);
         mPlayButton = view.findViewById(R.id.play_button);
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
-        accountView = new AccountView(view.findViewById(R.id.view_account));
-        accountView.refreshAccountInfo();
+        accountViewWrapper = new AccountViewWrapper(view.findViewById(R.id.view_account));
+        accountViewWrapper.refreshAccountInfo();
 
         mLauncherNoticeView = view.findViewById(R.id.zh_menu_notice);
         mDividingLineView = view.findViewById(R.id.dividing_line);
@@ -272,7 +273,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
 
     @Override
     public void onUpdate() {
-        accountView.refreshAccountInfo();
+        accountViewWrapper.refreshAccountInfo();
     }
 
     @Override
@@ -281,7 +282,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         yoYos.add(ViewAnimUtils.setViewAnim(mMenuLayout, Techniques.BounceInDown));
         yoYos.add(ViewAnimUtils.setViewAnim(mPlayLayout, Techniques.BounceInLeft));
 
-        yoYos.add(ViewAnimUtils.setViewAnim(accountView.getMainView(), Techniques.Wobble));
+        yoYos.add(ViewAnimUtils.setViewAnim(accountViewWrapper.getMainView(), Techniques.Wobble));
         yoYos.add(ViewAnimUtils.setViewAnim(mPathManagerButton, Techniques.FadeInLeft));
         yoYos.add(ViewAnimUtils.setViewAnim(mManagerProfileButton, Techniques.FadeInLeft));
         yoYos.add(ViewAnimUtils.setViewAnim(mVersionSpinner, Techniques.FadeInLeft));

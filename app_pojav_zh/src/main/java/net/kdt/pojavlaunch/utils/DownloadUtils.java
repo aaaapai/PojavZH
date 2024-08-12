@@ -1,9 +1,9 @@
 package net.kdt.pojavlaunch.utils;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 
 import java.io.*;
@@ -44,7 +44,7 @@ public class DownloadUtils {
                 try {
                     is.close();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logging.e("DownloadUtils", Tools.printToString(e));
                 }
             }
         }
@@ -88,7 +88,7 @@ public class DownloadUtils {
     }
 
     public static <T> T downloadStringCached(String url, String cacheName, ParseCallback<T> parseCallback) throws IOException, ParseException{
-        File cacheDestination = new File(Tools.DIR_CACHE, "string_cache/"+cacheName);
+        File cacheDestination = new File(PathAndUrlManager.DIR_CACHE, "string_cache/"+cacheName);
         if(cacheDestination.isFile() &&
                 cacheDestination.canRead() &&
                 ZHTools.getCurrentTimeMillis() < (cacheDestination.lastModified() + 86400000)) {
@@ -96,9 +96,9 @@ public class DownloadUtils {
                 String cachedString = Tools.read(new FileInputStream(cacheDestination));
                 return parseCallback.process(cachedString);
             }catch(IOException e) {
-                Log.i("DownloadUtils", "Failed to read the cached file", e);
+                Logging.i("DownloadUtils", "Failed to read the cached file", e);
             }catch (ParseException e) {
-                Log.i("DownloadUtils", "Failed to parse the cached file", e);
+                Logging.i("DownloadUtils", "Failed to parse the cached file", e);
             }
         }
         String urlContent = DownloadUtils.downloadString(url);
@@ -117,7 +117,7 @@ public class DownloadUtils {
         if(tryWriteCache) try {
             Tools.write(cacheDestination.getAbsolutePath(), urlContent);
         }catch(IOException e) {
-            Log.i("DownloadUtils", "Failed to cache the string", e);
+            Logging.i("DownloadUtils", "Failed to cache the string", e);
         }
         return parseResult;
     }

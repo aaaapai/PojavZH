@@ -15,7 +15,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,6 +37,7 @@ import com.movtery.pojavzh.feature.UpdateLauncher;
 import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.feature.accounts.LocalAccountUtils;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.feature.mod.modpack.install.InstallExtra;
 import com.movtery.pojavzh.feature.mod.modpack.install.InstallLocalModPack;
 import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
@@ -46,6 +46,7 @@ import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType;
 import com.movtery.pojavzh.ui.subassembly.settingsbutton.ButtonType;
 import com.movtery.pojavzh.ui.subassembly.settingsbutton.SettingsButtonWrapper;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.stringutils.ShiftDirection;
@@ -181,8 +182,9 @@ public class LauncherActivity extends BaseActivity {
             account.username = value[0];
             try {
                 account.save();
+                Logging.i("McAccountSpinner", "Saved the account : " + account.username);
             } catch (IOException e) {
-                Log.e("McAccountSpinner", "Failed to save the account : " + e);
+                Logging.e("McAccountSpinner", "Failed to save the account : " + e);
             }
 
             accountsManager.getDoneListener().onLoginDone(account);
@@ -193,8 +195,9 @@ public class LauncherActivity extends BaseActivity {
     private final ExtraListener<MinecraftAccount> mOtherLoginListener = (key, value) -> {
         try {
             value.save();
+            Logging.i("McAccountSpinner", "Saved the account : " + value.username);
         } catch (IOException e) {
-            Log.e("McAccountSpinner", "Failed to save the account : " + e);
+            Logging.e("McAccountSpinner", "Failed to save the account : " + e);
         }
         accountsManager.getDoneListener().onLoginDone(value);
         return false;
@@ -312,10 +315,9 @@ public class LauncherActivity extends BaseActivity {
         ProgressKeeper.addTaskCountListener((mProgressServiceKeeper = new ProgressServiceKeeper(this)));
 
         mSettingsButton.setOnClickListener(mSettingButtonListener);
-        mAppTitle.setOnClickListener(v -> {
-            ViewAnimUtils.setViewAnim(mAppTitle, Techniques.Pulse);
-            mAppTitle.setText(StringUtils.shiftString(mAppTitle.getText().toString(), ShiftDirection.RIGHT, 1));
-        });
+
+        mAppTitle.setOnClickListener(v -> mAppTitle.setText(StringUtils.shiftString(mAppTitle.getText().toString(), ShiftDirection.RIGHT, 1)));
+
         ProgressKeeper.addTaskCountListener(mProgressLayout);
 
         ExtraCore.addExtraListener(ExtraConstants.MICROSOFT_LOGIN_TODO, mMicrosoftLoginListener);
@@ -523,7 +525,7 @@ public class LauncherActivity extends BaseActivity {
                     .setTitle(R.string.zh_request_sponsorship_title)
                     .setMessage(R.string.zh_request_sponsorship_message)
                     .setConfirm(R.string.zh_about_button_support_development)
-                    .setConfirmClickListener(() -> Tools.openURL(this, ZHTools.URL_SUPPORT))
+                    .setConfirmClickListener(() -> Tools.openURL(this, PathAndUrlManager.URL_SUPPORT))
                     .setDialogDismissListener(() -> {
                         DEFAULT_PREF.edit().putBoolean("noLongerRequestingSponsorship", true).apply();
                         return true;

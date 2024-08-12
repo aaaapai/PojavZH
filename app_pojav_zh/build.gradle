@@ -79,7 +79,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 34
         versionCode getVersionCode()
-        versionName "1.2.6.1"
+        versionName "1.2.7"
         multiDexEnabled true //important
         resValue 'string', 'curseforge_api_key', getCFApiKey()
         resValue 'string', 'zh_branch_info', getBranchName()
@@ -93,15 +93,9 @@ android {
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.customDebug
             resValue 'string', 'application_package', 'net.kdt.pojavlaunch.zh.firefly.debug'
             resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.zh.firefly.debug'
-            resValue 'string', 'zh_version_status', 'debug'
-        }
-        proguard {
-            initWith debug
-            minifyEnabled true
-            shrinkResources true
+            signingConfig signingConfigs.customDebug
         }
 
         release {
@@ -113,7 +107,6 @@ android {
             // debuggable = true
             resValue 'string', 'application_package', 'net.kdt.pojavlaunch.zh.firefly'
             resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.zh.firefly'
-            resValue 'string', 'zh_version_status', 'release'
             signingConfig signingConfigs.releaseBuild
         }
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Pojav Zenith Horizon -->
+    <!-- Pojav Zenith·Horizon -->
     <string name="zh_close">關閉</string>
     <string name="zh_return">返回</string>
     <string name="zh_edit">編輯</string>
@@ -26,10 +26,11 @@
     <string name="zh_input_invalid">填寫的內容不符合要求，請重新輸入</string>
     <string name="zh_input_too_small">填寫的值過小，至少需要為 %s</string>
     <string name="zh_input_too_big">填寫的值過大，最大只能為 %s</string>
+    <string name="zh_copied">已複製</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">選擇 Jar 檔案</string>
     <!-- Profiles Path -->
-    <string name="zh_permissions_manage_external_storage">Pojav Zenith Horizon 需要管理設備所有檔案的權限，以便自訂儲存遊戲檔案位置，請為 Pojav Zenith Horizon 開啟權限！</string>
+    <string name="zh_permissions_manage_external_storage">PZH · PGW 需要管理設備所有檔案的權限，以便自訂儲存遊戲檔案位置，請為 PZH · PGW 開啟權限！</string>
     <string name="zh_profiles_path_title">遊戲路徑管理</string>
     <string name="zh_profiles_path_default">預設路徑</string>
     <string name="zh_profiles_path_create_new">新增路徑</string>
@@ -189,7 +190,7 @@
     <string name="zh_file_multi_select_mode">開啟多選模式</string>
     <string name="zh_file_multi_select_mode_title">多選項目</string>
     <string name="zh_file_multi_select_mode_message">目前共選擇了 %d 個項目</string>
-    <string name="zh_file_operation_file">正在操作檔案中… (%s / %s, %d)</string>
+    <string name="zh_file_operation_file">正在處理檔案中… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">跳至路徑</string>
     <string name="zh_file_nothing">沒有找到任何文件哦！</string>
     <!-- Search View -->
@@ -281,19 +282,19 @@
     <string name="zh_other_login_error_code">錯誤代碼:</string>
     <string name="zh_other_login_server_not_empty">伺服器不能為空，請檢查身份驗證伺服器設定！</string>
     <!-- About -->
-    <string name="zh_about_tab">關於 Pojav Zenith Horizon</string>
-    <string name="zh_about_dec1">Pojav Zenith Horizon 是一款基於 PojavLauncher 魔改的 Minecraft 啟動器，它能夠在 Android 設備上執行 Minecraft：Java Edition。\nPojav Zenith Horizon 致力於優化使用者體驗，重新設計了應用介面，新增了更多實用的功能，旨在最大程度地降低遊玩門檻，讓更多人能夠輕鬆體驗 Minecraft 的樂趣。</string>
-    <string name="zh_about_dec2">Pojav Zenith Horizon 由墨北MovTery 個人精心製作，在 PojavLauncher 的基礎上進行了深入的魔改工作。</string>
-    <string name="zh_about_dec3">由於 PojavLauncher 使用的是 GPL 3.0 開源協議，這一協議具有 “傳染性”，任何使用、修改或衍生自 GPL 類庫或軟體的代碼也必須採用 GPL 協議進行開源。因此，Pojav Zenith Horizon 也只能遵循 GPL 3.0 開源協議。如果你打算傳播或分發本軟體，請務必遵守 GPL 3.0 開源協議的相關規定。</string>
+    <string name="zh_about_tab">關於 PZH · PGW</string>
+    <string name="zh_about_dec1">PZH · PGW 是一款基於 PojavLauncher 魔改的 Minecraft 啟動器，它能夠在 Android 設備上執行 Minecraft：Java Edition。\nPZH · PGW 致力於優化使用者體驗，重新設計了應用介面，新增了更多實用的功能，旨在最大程度地降低遊玩門檻，讓更多人能夠輕鬆體驗 Minecraft 的樂趣。</string>
+    <string name="zh_about_dec2">PZH · PGW 由墨北MovTery 個人精心製作，在 PojavLauncher 的基礎上進行了深入的魔改工作。</string>
+    <string name="zh_about_dec3">由於 PojavLauncher 使用的是 GPL 3.0 開源協議，這一協議具有 “傳染性”，任何使用、修改或衍生自 GPL 類庫或軟體的代碼也必須採用 GPL 協議進行開源。因此，PZH · PGW 也只能遵循 GPL 3.0 開源協議。如果你打算傳播或分發本軟體，請務必遵守 GPL 3.0 開源協議的相關規定。</string>
     <string name="zh_about_dec4">貢獻者與鳴謝:</string>
     <string name="zh_about_dec5">贊助者鳴謝:</string>
     <string name="zh_about_dec6">以下是所有支持開發的贊助者們，萬分感謝！</string>
     <string name="zh_about_dec7">時間與總金額</string>
     <string name="zh_about_button_support_development">贊助開發</string>
-    <string name="zh_about_movtery_desc">Pojav Zenith Horizon 的作者</string>
+    <string name="zh_about_movtery_desc">PZH · PGW 的作者</string>
     <string name="zh_about_pojavlauncher_desc">PojavLauncher 的開發團隊，開發並開源了 PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Pojav Zenith Horizon 專案協助者，為 Pojav Zenith Horizon 提供渲染方面的技術支援</string>
-    <string name="zh_about_lingmuqiuzhu_desc">為 Pojav Zenith Horizon 提供了技術支援</string>
+    <string name="zh_about_verafirefly_desc">為 PZH · PGW 提供渲染方面的技術支援</string>
+    <string name="zh_about_lingmuqiuzhu_desc">為 PZH · PGW 提供了技術支援</string>
     <string name="zh_about_access_space">訪問空間</string>
     <string name="zh_about_version_name">軟體版本名稱:</string>
     <string name="zh_about_version_code">軟體版本碼:</string>

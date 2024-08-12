@@ -19,4 +19,4 @@
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
     android:textSize="@dimen/_13ssp"
 
-    tools:text="Pojav Zenith Horizon" />
+    tools:text="PZH · PGW" />

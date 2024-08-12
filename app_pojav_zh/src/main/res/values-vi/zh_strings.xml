@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Pojav Zenith Horizon -->
+    <!-- Pojav Zenith·Horizon -->
     <string name="zh_close">Đóng</string>
     <string name="zh_return">Quay lại</string>
     <string name="zh_edit">Chỉnh sửa</string>
@@ -26,10 +26,11 @@
     <string name="zh_input_invalid">Nội dung đã nhập không đáp ứng yêu cầu, vui lòng nhập lại</string>
     <string name="zh_input_too_small">Giá trị nhập vào quá nhỏ, phải ít nhất là %s</string>
     <string name="zh_input_too_big">Giá trị nhập vào quá lớn, tối đa chỉ có thể là %s</string>
+    <string name="zh_copied">Đã sao chép</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Chọn tệp Jar</string>
     <!-- Profiles Path -->
-    <string name="zh_permissions_manage_external_storage">Pojav Zenith Horizon cần quyền quản lý tất cả các tệp trên thiết bị để tùy chỉnh vị trí lưu trữ tệp trò chơi, hãy bật quyền cho Pojav Zenith Horizon!</string>
+    <string name="zh_permissions_manage_external_storage">PZH · PGW cần quyền quản lý tất cả các tệp trên thiết bị để tùy chỉnh vị trí lưu trữ tệp trò chơi, hãy bật quyền cho PZH · PGW!</string>
     <string name="zh_profiles_path_title">Quản lý đường dẫn trò chơi</string>
     <string name="zh_profiles_path_default">Đường dẫn mặc định</string>
     <string name="zh_profiles_path_create_new">Thêm đường dẫn mới</string>
@@ -189,7 +190,7 @@
     <string name="zh_file_multi_select_mode">Bật chế độ chọn nhiều</string>
     <string name="zh_file_multi_select_mode_title">Chọn nhiều mục</string>
     <string name="zh_file_multi_select_mode_message">Hiện tại đã chọn tổng cộng %d mục</string>
-    <string name="zh_file_operation_file">Đang thao tác trên tệp tin… (%s / %s, %d)</string>
+    <string name="zh_file_operation_file">Đang xử lý tập tin… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Nhảy đến đường dẫn</string>
     <string name="zh_file_nothing">Không tìm thấy tệp nào!</string>
     <!-- Search View -->
@@ -281,19 +282,19 @@
     <string name="zh_other_login_error_code">Mã lỗi:</string>
     <string name="zh_other_login_server_not_empty">Máy chủ không được để trống, vui lòng kiểm tra cài đặt máy chủ xác thực!</string>
     <!-- About -->
-    <string name="zh_about_tab">Về Pojav Zenith Horizon</string>
-    <string name="zh_about_dec1">Pojav Zenith Horizon là một trình khởi chạy Minecraft được chỉnh sửa dựa trên PojavLauncher, cho phép chạy Minecraft: Java Edition trên thiết bị Android. \nPojav Zenith Horizon tập trung vào tối ưu hóa trải nghiệm người dùng, thiết kế lại giao diện ứng dụng và thêm nhiều tính năng hữu ích, nhằm giảm thiểu ngưỡng cửa trải nghiệm Minecraft, giúp mọi người dễ dàng trải nghiệm niềm vui từ Minecraft.</string>
-    <string name="zh_about_dec2">Pojav Zenith Horizon được tạo ra cá nhân bởi 墨北MovTery, với nhiều cải tiến sâu trên nền tảng PojavLauncher.</string>
-    <string name="zh_about_dec3">Do PojavLauncher sử dụng giấy phép mã nguồn mở GPL 3.0, giấy phép này có tính \"lây nhiễm\", bất kỳ mã nguồn sử dụng, chỉnh sửa hoặc phát sinh từ các thư viện hoặc phần mềm GPL cũng phải áp dụng giấy phép GPL. Vì vậy, Pojav Zenith Horizon cũng phải tuân thủ giấy phép mã nguồn mở GPL 3.0. Nếu bạn dự định phát tán hoặc phân phối phần mềm này, vui lòng tuân thủ các quy định của giấy phép GPL 3.0.</string>
+    <string name="zh_about_tab">Về PZH · PGW</string>
+    <string name="zh_about_dec1">PZH · PGW là một trình khởi chạy Minecraft được chỉnh sửa dựa trên PojavLauncher, cho phép chạy Minecraft: Java Edition trên thiết bị Android. \nPZH · PGW tập trung vào tối ưu hóa trải nghiệm người dùng, thiết kế lại giao diện ứng dụng và thêm nhiều tính năng hữu ích, nhằm giảm thiểu ngưỡng cửa trải nghiệm Minecraft, giúp mọi người dễ dàng trải nghiệm niềm vui từ Minecraft.</string>
+    <string name="zh_about_dec2">PZH · PGW được tạo ra cá nhân bởi 墨北MovTery, với nhiều cải tiến sâu trên nền tảng PojavLauncher.</string>
+    <string name="zh_about_dec3">Do PojavLauncher sử dụng giấy phép mã nguồn mở GPL 3.0, giấy phép này có tính \"lây nhiễm\", bất kỳ mã nguồn sử dụng, chỉnh sửa hoặc phát sinh từ các thư viện hoặc phần mềm GPL cũng phải áp dụng giấy phép GPL. Vì vậy, PZH · PGW cũng phải tuân thủ giấy phép mã nguồn mở GPL 3.0. Nếu bạn dự định phát tán hoặc phân phối phần mềm này, vui lòng tuân thủ các quy định của giấy phép GPL 3.0.</string>
     <string name="zh_about_dec4">Những người đóng góp và cảm ơn:</string>
     <string name="zh_about_dec5">Cảm ơn nhà tài trợ:</string>
     <string name="zh_about_dec6">Dưới đây là tất cả các nhà tài trợ hỗ trợ phát triển. Cảm ơn rất nhiều!</string>
     <string name="zh_about_dec7">Thời gian và tổng số tiền</string>
     <string name="zh_about_button_support_development">Tài trợ phát triển</string>
-    <string name="zh_about_movtery_desc">Tác giả của Pojav Zenith Horizon</string>
+    <string name="zh_about_movtery_desc">Tác giả của PZH · PGW</string>
     <string name="zh_about_pojavlauncher_desc">Nhóm phát triển PojavLauncher, phát triển và mở mã nguồn PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Người hỗ trợ dự án Pojav Zenith Horizon, cung cấp hỗ trợ kỹ thuật về kết xuất cho Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Cung cấp hỗ trợ kỹ thuật cho Pojav Zenith Horizon</string>
+    <string name="zh_about_verafirefly_desc">Cung cấp hỗ trợ kỹ thuật về kết xuất cho PZH · PGW</string>
+    <string name="zh_about_lingmuqiuzhu_desc">Cung cấp hỗ trợ kỹ thuật cho PZH · PGW</string>
     <string name="zh_about_access_space">Truy cập không gian</string>
     <string name="zh_about_version_name">Tên phiên bản phần mềm:</string>
     <string name="zh_about_version_code">Mã phiên bản phần mềm:</string>

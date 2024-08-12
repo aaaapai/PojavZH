@@ -1,14 +1,10 @@
 package com.movtery.pojavzh.ui.fragment;
 
-import static android.content.Context.CLIPBOARD_SERVICE;
 import static net.kdt.pojavlaunch.Tools.runOnUiThread;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,14 +24,17 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.feature.login.AuthResult;
 import com.movtery.pojavzh.feature.login.OtherLoginApi;
 import com.movtery.pojavzh.feature.login.Servers;
 import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 import com.movtery.pojavzh.ui.dialog.ProgressDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
+import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.R;
@@ -77,7 +76,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
         super.onViewCreated(view, savedInstanceState);
         bindViews(view);
 
-        mServersFile = new File(Tools.DIR_GAME_HOME, "servers.json");
+        mServersFile = new File(PathAndUrlManager.DIR_GAME_HOME, "servers.json");
         mProgressDialog = new ProgressDialog(requireContext(), () -> true);
         mProgressDialog.updateText(getString(R.string.zh_account_login_start));
 
@@ -94,7 +93,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
                         if (server.getServerName().equals(mServerList.get(i))) {
                             mCurrentBaseUrl = server.getBaseUrl();
                             mCurrentRegisterUrl = server.getRegister();
-                            Log.e("test", "currentRegisterUrl:" + mCurrentRegisterUrl);
+                            Logging.e("test", "currentRegisterUrl:" + mCurrentRegisterUrl);
                         }
                     }
                 }
@@ -183,17 +182,14 @@ public class OtherLoginFragment extends FragmentWithAnim {
                                         .setTitle(R.string.zh_warning)
                                         .setMessage(getString(R.string.zh_other_login_error) + error)
                                         .setCancel(android.R.string.copy)
-                                        .setCancelClickListener(() -> {
-                                            ClipboardManager mgr = (ClipboardManager) requireActivity().getSystemService(CLIPBOARD_SERVICE);
-                                            mgr.setPrimaryClip(ClipData.newPlainText("error", error));
-                                        })
+                                        .setCancelClickListener(() -> StringUtils.copyText("error", error, requireContext()))
                                         .buildDialog();
                             });
                         }
                     });
                 } catch (IOException e) {
                     requireActivity().runOnUiThread(() -> mProgressDialog.dismiss());
-                    Log.e("login", e.toString());
+                    Logging.e("login", e.toString());
                 }
             } else {
                 runOnUiThread(() -> Toast.makeText(requireContext(), getString(R.string.zh_other_login_server_not_empty), Toast.LENGTH_SHORT).show());
@@ -277,7 +273,7 @@ public class OtherLoginFragment extends FragmentWithAnim {
 
                         showRegisterButton();
                     } catch (Exception e) {
-                        Log.e("add server", e.toString());
+                        Logging.e("add server", e.toString());
                     }
                 }
             });

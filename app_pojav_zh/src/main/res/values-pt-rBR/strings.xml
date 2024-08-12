@@ -9,7 +9,7 @@
     <!-- Warnings -->
     <string name="warning_remove_account">Esta conta será removida!</string>
     <!-- Error messages -->
-    <string name="error_fatal">Pojav Zenith Horizon falhou inesperadamente</string>
+    <string name="error_fatal">PZH · PGW falhou inesperadamente</string>
     <string name="error_no_version">Nenhuma versão!</string>
     <string name="error_show_more">Mostrar mais</string>
     <string name="error_show_less">Mostrar menos</string>
@@ -178,7 +178,7 @@
     <string name="preference_gyro_sample_rate_title">Taxa de amostragem do giroscópio</string>
     <string name="preference_gyro_sample_rate_description">Se você estiver enfrentando problemas de desempenho com o controle do giroscópio, aumente este valor</string>
     <string name="microsoft_login_retry_later">Você está realizando ações com muita frequência, por favor, tente novamente mais tarde</string>
-    <string name="storage_required">Pojav Zenith Horizon requer conexão com armazenamento externo, por favor, reconecte e reinicie o software</string>
+    <string name="storage_required">PZH · PGW requer conexão com armazenamento externo, por favor, reconecte e reinicie o software</string>
     <string name="mcl_setting_title_buttonallcaps">Usar apenas letras maiúsculas nos rótulos dos botões</string>
     <string name="mcl_setting_subtitle_buttonallcaps">Se você deseja usar letras minúsculas no layout de controle, desative esta função</string>
     <string name="create_profile">Criar nova instância</string>
@@ -249,7 +249,7 @@ Se você deseja usar a fonte de download oficial, clique em "Alternar para a fon
     <string name="preference_category_miscellaneous">Configurações Diversas</string>
     <string name="preference_category_video">Configurações de Vídeo</string>
     <string name="notification_permission_dialog_title">Solicitação de Permissão</string>
-    <string name="notification_permission_dialog_text">Pojav Zenith Horizon precisa da permissão para enviar notificações para evitar que o download do jogo/modpack seja interrompido quando você sair do aplicativo. Sem esta permissão, o sistema Android pode interromper seu progresso de download quando Pojav Zenith Horizon estiver em segundo plano.</string>
+    <string name="notification_permission_dialog_text">PZH · PGW precisa da permissão para enviar notificações para evitar que o download do jogo/modpack seja interrompido quando você sair do aplicativo. Sem esta permissão, o sistema Android pode interromper seu progresso de download quando PZH · PGW estiver em segundo plano.</string>
     <string name="notification_permission_toast">Você pode mudar de ideia a qualquer momento entrando nas \"Configurações do Sistema\"</string>
     <string name="preference_ask_for_notification_title">Permitir Notificações</string>
     <string name="preference_ask_for_notification_description">Clique para solicitar novamente a permissão de notificação, necessária para que o jogo/modpack seja baixado normalmente em segundo plano.</string>

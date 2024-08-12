@@ -3,23 +3,24 @@ package com.movtery.pojavzh.ui.fragment
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.feature.mod.modloader.NeoForgeDownloadTask
-import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.addAutoInstallArgs
-import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.downloadNeoForgeVersions
-import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.downloadNeoForgedForgeVersions
-import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.formatGameVersion
+import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.Companion.addAutoInstallArgs
+import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.Companion.downloadNeoForgeVersions
+import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.Companion.downloadNeoForgedForgeVersions
+import com.movtery.pojavzh.feature.mod.modloader.NeoForgeUtils.Companion.formatGameVersion
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
-import com.movtery.pojavzh.utils.MCVersionComparator.versionCompare
 import net.kdt.pojavlaunch.JavaGUILauncherActivity
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.modloaders.ModloaderDownloadListener
 import net.kdt.pojavlaunch.modloaders.ModloaderListenerProxy
+import org.jackhuang.hmcl.util.versioning.VersionNumber
 import java.io.File
 import java.util.concurrent.Future
 import java.util.function.Consumer
@@ -40,17 +41,18 @@ class DownloadNeoForgeFragment : ModListFragment(), ModloaderDownloadListener {
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 processModDetails(loadVersionList())
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadNeoForgeFragment", Tools.printToString(e))
             }
         }
     }
@@ -98,12 +100,10 @@ class DownloadNeoForgeFragment : ModListFragment(), ModloaderDownloadListener {
 
         val mData: MutableList<ModListItemBean> = ArrayList()
         mNeoForgeVersions.entries
-            .sortedWith { entry1, entry2 ->
-                versionCompare(entry1.key, entry2.key)
-            }
+            .sortedWith { entry1, entry2 -> -VersionNumber.compare(entry1.key, entry2.key) }
             .forEach { entry: Map.Entry<String, List<String?>> ->
-                if (currentTask.isCancelled) return@forEach
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_neoforge, entry.value)
+                if (currentTask.isCancelled) return
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_neoforge, entry.value)
 
                 adapter.setOnItemClickListener { version: Any? ->
                     Thread(NeoForgeDownloadTask(modloaderListenerProxy, (version as String?)!!)).start()

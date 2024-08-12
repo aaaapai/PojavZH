@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.movtery.pojavzh.ui.layout.AnimConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/padding_medium"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
+    android:layout_marginVertical="@dimen/_4sdp"
     android:background="@drawable/background_item"
     android:padding="@dimen/_8sdp">
 
@@ -24,7 +22,7 @@
         android:id="@+id/mod_source_imageview"
         android:layout_width="17sp"
         android:layout_height="17sp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/_8sdp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/mod_title_textview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +34,7 @@
         style="@style/TextAppearance.AppCompat.Body2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/_8sdp"
         android:ellipsize="end"
         android:textSize="12sp"
         android:textColor="@color/primary_text"
@@ -67,7 +65,7 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="Dependencies: "
@@ -84,8 +82,8 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="Downloads: "
@@ -102,8 +100,8 @@
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="Forge"
@@ -115,4 +113,4 @@
         app:layout_constraintTop_toBottomOf="@+id/mod_body_textview"
         tools:ignore="HardcodedText,SmallSp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.movtery.pojavzh.ui.layout.AnimConstraintLayout>

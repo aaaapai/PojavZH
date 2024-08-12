@@ -21,9 +21,9 @@
             android:id="@+id/scrollView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginVertical="12dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginVertical="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,8 +45,8 @@
                     <ImageView
                         android:id="@+id/zh_about_title"
                         android:layout_width="0dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_height="32dp"
+                        android:layout_marginTop="@dimen/_16sdp"
                         android:src="@drawable/app_name_title"
                         android:scaleType="centerInside"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -58,9 +58,8 @@
                         android:id="@+id/zh_about_dec1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_16sdp"
                         android:text="@string/zh_about_dec1"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -72,9 +71,8 @@
                         android:id="@+id/zh_about_dec2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
                         android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
                         android:text="@string/zh_about_dec2"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -86,9 +84,8 @@
                         android:id="@+id/zh_about_dec3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:text="@string/zh_about_dec3"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -96,24 +93,23 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/zh_about_dec2" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_pojavlauncher_button"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:text="PojavLauncher"
                         app:layout_constraintBottom_toBottomOf="@+id/zh_about_license_button"
                         app:layout_constraintEnd_toStartOf="@+id/zh_about_license_button"
                         app:layout_constraintTop_toTopOf="@+id/zh_about_license_button"
                         tools:ignore="HardcodedText" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_license_button"
                         android:layout_width="0dp"
                         android:layout_height="35dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:text="GPL v3"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +122,7 @@
                     android:id="@+id/constraintLayout4"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     android:background="@drawable/background_card"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -136,9 +132,8 @@
                         android:id="@+id/zh_about_about_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:text="@string/zh_about_dec4"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -150,9 +145,9 @@
                         android:id="@+id/zh_about_about_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_4sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/zh_about_about_title" />
@@ -162,7 +157,7 @@
                     android:id="@+id/constraintLayout5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     android:background="@drawable/background_card"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -173,9 +168,8 @@
                         android:id="@+id/zh_about_sponsor_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginHorizontal="@dimen/_8sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:text="@string/zh_about_dec5"
                         android:textSize="14sp"
                         android:textStyle="bold"
@@ -187,7 +181,7 @@
                         android:id="@+id/zh_about_sponsor_desc"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginStart="@dimen/_8sdp"
                         android:text="@string/zh_about_dec6"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -198,7 +192,7 @@
                         android:id="@+id/zh_about_sponsor_time_and_amount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:text="@string/zh_about_dec7"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@+id/zh_about_sponsor_desc"
@@ -209,19 +203,18 @@
                         android:id="@+id/zh_about_sponsor_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:paddingVertical="4dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:paddingVertical="@dimen/_4sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/zh_about_sponsor_desc" />
 
-                    <Button
+                    <com.movtery.pojavzh.ui.view.AnimButton
                         android:id="@+id/zh_about_sponsor_more"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginHorizontal="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:text="@string/zh_more"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -265,23 +258,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shadowView">
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_return_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_margin="@dimen/_8sdp"
                 android:text="@string/zh_return"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_github_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="Github"
                 app:layout_constraintBottom_toTopOf="@+id/zh_about_return_button"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -289,68 +281,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="HardcodedText" />
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/zh_about_support_development"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="@string/zh_about_button_support_development"
                 app:layout_constraintBottom_toTopOf="@+id/zh_about_github_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"/>
 
-            <TextView
-                android:id="@+id/zh_about_version_name"
+            <com.movtery.pojavzh.ui.view.AnimTextView
+                android:id="@+id/zh_about_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="2"
+                android:layout_margin="@dimen/_8sdp"
+                android:padding="@dimen/_8sdp"
+                android:lineSpacingExtra="@dimen/_4sdp"
+                android:background="?android:attr/selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/zh_about_version_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_version_name" />
-
-            <TextView
-                android:id="@+id/zh_about_last_update_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_version_code" />
-
-            <TextView
-                android:id="@+id/zh_about_version_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="16dp"
-                android:maxLines="2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zh_about_last_update_time" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

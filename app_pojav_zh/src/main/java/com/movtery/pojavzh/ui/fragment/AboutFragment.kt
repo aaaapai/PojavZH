@@ -3,7 +3,6 @@ package com.movtery.pojavzh.ui.fragment
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -12,17 +11,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo.YoYoString
 import com.movtery.pojavzh.feature.CheckSponsor
-import com.movtery.pojavzh.feature.CheckSponsor.check
-import com.movtery.pojavzh.feature.CheckSponsor.getSponsorData
+import com.movtery.pojavzh.feature.CheckSponsor.Companion.check
+import com.movtery.pojavzh.feature.CheckSponsor.Companion.getSponsorData
+import com.movtery.pojavzh.feature.log.Logging
 import com.movtery.pojavzh.ui.dialog.MoreSponsorDialog
 import com.movtery.pojavzh.ui.subassembly.about.AboutItemBean
 import com.movtery.pojavzh.ui.subassembly.about.AboutItemBean.AboutItemButtonBean
 import com.movtery.pojavzh.ui.subassembly.about.AboutRecyclerAdapter
 import com.movtery.pojavzh.ui.subassembly.about.SponsorItemBean
 import com.movtery.pojavzh.ui.subassembly.about.SponsorRecyclerAdapter
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
 import com.movtery.pojavzh.utils.stringutils.StringUtils
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
@@ -53,10 +54,10 @@ class AboutFragment : FragmentWithAnim(R.layout.fragment_about) {
 
         mAppTitleView?.setOnClickListener { setViewAnim(mAppTitleView!!, Techniques.Pulse) }
         mReturnButton?.setOnClickListener { ZHTools.onBackPressed(requireActivity()) }
-        mGithubButton?.setOnClickListener { Tools.openURL(requireActivity(), Tools.URL_HOME) }
-        mPojavLauncherButton?.setOnClickListener { Tools.openURL(requireActivity(), ZHTools.URL_GITHUB_POJAVLAUNCHER) }
+        mGithubButton?.setOnClickListener { Tools.openURL(requireActivity(), PathAndUrlManager.URL_HOME) }
+        mPojavLauncherButton?.setOnClickListener { Tools.openURL(requireActivity(), PathAndUrlManager.URL_GITHUB_POJAVLAUNCHER) }
         mLicenseButton?.setOnClickListener { Tools.openURL(requireActivity(), "https://www.gnu.org/licenses/gpl-3.0.html") }
-        mSupportButton?.setOnClickListener { Tools.openURL(requireActivity(), ZHTools.URL_SUPPORT) }
+        mSupportButton?.setOnClickListener { Tools.openURL(requireActivity(), PathAndUrlManager.URL_SUPPORT) }
 
         val aboutAdapter = AboutRecyclerAdapter(this.mAboutData)
         mAboutRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -81,16 +82,12 @@ class AboutFragment : FragmentWithAnim(R.layout.fragment_about) {
         mSponsorRecyclerView = view.findViewById(R.id.zh_about_sponsor_recycler)
         mSponsorView = view.findViewById(R.id.constraintLayout5)
 
-        val mVersionName = view.findViewById<TextView>(R.id.zh_about_version_name)
-        val mVersionCode = view.findViewById<TextView>(R.id.zh_about_version_code)
-        val mLastUpdateTime = view.findViewById<TextView>(R.id.zh_about_last_update_time)
-        val mVersionStatus = view.findViewById<TextView>(R.id.zh_about_version_status)
-
-        //软件信息
-        mVersionName.text = StringUtils.insertSpace(getString(R.string.zh_about_version_name), ZHTools.getVersionName(requireContext()))
-        mVersionCode.text = StringUtils.insertSpace(getString(R.string.zh_about_version_code), ZHTools.getVersionCode(requireContext()))
-        mLastUpdateTime.text = StringUtils.insertSpace(getString(R.string.zh_about_last_update_time), ZHTools.getLastUpdateTime(requireContext()))
-        mVersionStatus.text = StringUtils.insertSpace(getString(R.string.zh_about_version_status), ZHTools.getVersionStatus(requireContext()))
+        val mVersionInfo = view.findViewById<TextView>(R.id.zh_about_info)
+        mVersionInfo.text = StringUtils.insertNewline(StringUtils.insertSpace(getString(R.string.zh_about_version_name), ZHTools.getVersionName()),
+            StringUtils.insertSpace(getString(R.string.zh_about_version_code), ZHTools.getVersionCode()),
+            StringUtils.insertSpace(getString(R.string.zh_about_last_update_time), ZHTools.getLastUpdateTime(requireContext())),
+            StringUtils.insertSpace(getString(R.string.zh_about_version_status), ZHTools.getVersionStatus(requireContext())))
+        mVersionInfo.setOnClickListener{ StringUtils.copyText("text", mVersionInfo.text.toString(), requireContext()) }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -102,7 +99,7 @@ class AboutFragment : FragmentWithAnim(R.layout.fragment_about) {
                 resources.getDrawable(R.drawable.ic_pojav_full, requireContext().theme),
                 "PojavLauncherTeam",
                 getString(R.string.zh_about_pojavlauncher_desc),
-                AboutItemButtonBean(requireActivity(), "Github", ZHTools.URL_GITHUB_POJAVLAUNCHER)
+                AboutItemButtonBean(requireActivity(), "Github", PathAndUrlManager.URL_GITHUB_POJAVLAUNCHER)
             )
         )
         mAboutData.add(
@@ -164,7 +161,7 @@ class AboutFragment : FragmentWithAnim(R.layout.fragment_about) {
                     }
                 }
             } catch (e: Exception) {
-                Log.e("setSponsorVisible", e.toString())
+                Logging.e("setSponsorVisible", e.toString())
             }
         }
     }

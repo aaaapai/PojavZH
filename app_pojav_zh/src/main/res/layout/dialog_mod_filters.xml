@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minWidth="480dp"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="12dp">
+    android:minWidth="@dimen/_480sdp"
+    android:padding="@dimen/_12sdp">
 
     <!-- Version filter -->
     <TextView
@@ -21,7 +20,7 @@
         android:id="@+id/search_mod_selected_mc_version_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/_4sdp"
         android:background="@drawable/background_edit_box"
         android:hint="@string/version_select_hint"
         android:paddingHorizontal="@dimen/padding_heavy"
@@ -30,9 +29,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_mod_mc_version_textview" />
 
-    <Button
+    <com.movtery.pojavzh.ui.view.AnimButton
         android:id="@+id/search_mod_mc_version_button"
-        style="@style/CustomButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingHorizontal="@dimen/padding_large"
@@ -45,7 +43,7 @@
         android:id="@+id/search_mod_platform_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/zh_profile_mods_platform"
         app:layout_constraintStart_toStartOf="@+id/zh_search_mod_platform"
         app:layout_constraintTop_toBottomOf="@+id/search_mod_selected_mc_version_textview" />
@@ -54,7 +52,7 @@
         android:id="@+id/zh_search_mod_platform"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="@dimen/_4sdp"
         android:background="@drawable/background_edit_box"
         android:paddingVertical="0px"
         app:layout_constraintEnd_toStartOf="@+id/zh_search_mod_sort"
@@ -78,7 +76,7 @@
         android:id="@+id/search_mod_sort_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/zh_profile_mods_sort_by"
         app:layout_constraintStart_toStartOf="@+id/zh_search_mod_sort"
         app:layout_constraintTop_toBottomOf="@+id/search_mod_selected_mc_version_textview" />
@@ -87,7 +85,7 @@
         android:id="@+id/zh_search_mod_sort"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/_4sdp"
         android:background="@drawable/background_edit_box"
         android:paddingVertical="0px"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +109,7 @@
         android:id="@+id/search_mod_modloader_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:text="@string/zh_profile_mods_modloader"
         app:layout_constraintStart_toStartOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@+id/zh_search_mod_sort" />
@@ -125,11 +123,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_mod_modloader_textview">
 
-        <CheckBox
+        <com.movtery.pojavzh.ui.view.AnimCheckBox
             android:id="@+id/zh_search_forge_checkBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_box"
             android:text="Forge"
@@ -137,12 +135,11 @@
             app:layout_constraintTop_toBottomOf="@+id/search_mod_modloader_textview"
             tools:ignore="HardcodedText" />
 
-        <CheckBox
+        <com.movtery.pojavzh.ui.view.AnimCheckBox
             android:id="@+id/zh_search_fabric_checkBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_box"
             android:text="Fabric"
@@ -150,12 +147,11 @@
             app:layout_constraintTop_toBottomOf="@+id/search_mod_modloader_textview"
             tools:ignore="HardcodedText" />
 
-        <CheckBox
+        <com.movtery.pojavzh.ui.view.AnimCheckBox
             android:id="@+id/zh_search_quilt_checkBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_box"
             android:text="Quilt"
@@ -163,11 +159,11 @@
             app:layout_constraintTop_toBottomOf="@+id/search_mod_modloader_textview"
             tools:ignore="HardcodedText" />
 
-        <CheckBox
+        <com.movtery.pojavzh.ui.view.AnimCheckBox
             android:id="@+id/zh_search_neoforge_checkBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:layout_weight="1"
             android:background="@drawable/background_edit_box"
             android:text="NeoForge"
@@ -180,31 +176,25 @@
         android:id="@+id/linearLayout_buttons"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginStart="-4dp"
-        android:layout_marginEnd="-4dp"
+        android:layout_marginTop="@dimen/_12sdp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/search_mod_reset"
-            style="@style/CustomButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginEnd="2dp"
             android:text="@string/cropper_reset"/>
 
         <!-- Apply -->
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/search_mod_apply_filters"
-            style="@style/CustomButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginStart="2dp"
             android:text="@string/generic_apply"/>
     </LinearLayout>
 

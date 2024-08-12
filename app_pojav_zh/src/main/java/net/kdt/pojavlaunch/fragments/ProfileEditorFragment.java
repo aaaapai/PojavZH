@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Base64OutputStream;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,17 +23,16 @@ import androidx.annotation.Nullable;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.movtery.pojavzh.extra.ZHExtraConstants;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
 import com.movtery.pojavzh.ui.fragment.FilesFragment;
 import com.movtery.pojavzh.ui.fragment.VersionSelectorFragment;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.file.FileTools;
-
-import com.firefly.pgw.renderer.RendererManager;
-import com.firefly.pgw.renderer.RenderersList;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -103,7 +101,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         bindViews(view);
 
-        RenderersList renderersList = RendererManager.getCompatibleRenderers(view.getContext());
+        Tools.RenderersList renderersList = Tools.getCompatibleRenderers(view.getContext());
         mRenderNames = renderersList.rendererIds;
         List<String> renderList = new ArrayList<>(renderersList.rendererDisplayNames.length + 1);
         renderList.addAll(Arrays.asList(renderersList.rendererDisplayNames));
@@ -120,7 +118,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         });
 
         mGameDirButton.setOnClickListener(v -> {
-            File dir = new File(ZHTools.DIR_GAME_DEFAULT);
+            File dir = new File(PathAndUrlManager.DIR_GAME_DEFAULT);
             if (!dir.exists()) FileTools.mkdirs(dir);
             Bundle bundle = new Bundle();
             bundle.putBoolean(FilesFragment.BUNDLE_SELECT_FOLDER_MODE, true);
@@ -252,7 +250,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     @Override
     public void onCropped(Bitmap contentBitmap) {
         mProfileIcon.setImageBitmap(contentBitmap);
-        Log.i("bitmap", "w="+contentBitmap.getWidth() +" h="+contentBitmap.getHeight());
+        Logging.i("bitmap", "w="+contentBitmap.getWidth() +" h="+contentBitmap.getHeight());
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (Base64OutputStream base64OutputStream = new Base64OutputStream(byteArrayOutputStream, Base64.NO_WRAP)) {
             contentBitmap.compress(
