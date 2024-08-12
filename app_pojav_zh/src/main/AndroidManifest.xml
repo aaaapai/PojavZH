@@ -121,7 +121,8 @@
             android:name=".scoped.FolderProvider"
             android:authorities="@string/storageProviderAuthorities"
             android:exported="true"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
