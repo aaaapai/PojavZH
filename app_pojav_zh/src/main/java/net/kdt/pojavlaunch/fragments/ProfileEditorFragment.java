@@ -22,6 +22,10 @@ import androidx.annotation.Nullable;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
+import com.firefly.pgw.renderer.RendererManager;
+import com.firefly.pgw.renderer.RenderersList;
+
 import com.movtery.pojavzh.extra.ZHExtraConstants;
 import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
@@ -101,7 +105,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         bindViews(view);
 
-        Tools.RenderersList renderersList = Tools.getCompatibleRenderers(view.getContext());
+        RenderersList renderersList = RendererManager.getCompatibleRenderers(view.getContext());
         mRenderNames = renderersList.rendererIds;
         List<String> renderList = new ArrayList<>(renderersList.rendererDisplayNames.length + 1);
         renderList.addAll(Arrays.asList(renderersList.rendererDisplayNames));
