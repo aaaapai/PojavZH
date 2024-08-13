@@ -247,7 +247,7 @@
     <string name="preference_category_miscellaneous">أعدادات متنوعة</string>
     <string name="preference_category_video">إعدادات الفيديو</string>
     <string name="notification_permission_dialog_title">طلب السماح</string>
-    <string name="notification_permission_dialog_text">يحتاج PZH · PGW إلى إذن نشر الإشعارات لمنع إيقاف تنزيل اللعبة/حزمة الوحدات عندما تغادر التطبيق. بدون هذا الإذن، قد يقوم نظام Android بإيقاف تقدم التنزيل عندما تضع PZH · PGW في الخلفية</string>
+    <string name="notification_permission_dialog_text">يحتاج Pojav Zenith Horizon إلى إذن نشر الإشعارات لمنع إيقاف تنزيل اللعبة/حزمة الوحدات عندما تغادر التطبيق. بدون هذا الإذن، قد يقوم نظام Android بإيقاف تقدم التنزيل عندما تضع Pojav Zenith Horizon في الخلفية</string>
     <string name="notification_permission_toast">O</string>
     <string name="preference_ask_for_notification_title">السماح بالإشعارات</string>
     <string name="preference_ask_for_notification_description">.</string>

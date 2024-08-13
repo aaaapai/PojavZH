@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Pojav Zenith·Horizon -->
+    <!-- Pojav Zenith Horizon -->
     <string name="zh_close">Fechar</string>
     <string name="zh_return">Voltar</string>
     <string name="zh_edit">Editar</string>
@@ -30,7 +30,7 @@
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Selecionar Arquivo Jar</string>
     <!-- Profiles Path -->
-    <string name="zh_permissions_manage_external_storage">PZH · PGW precisa da permissão para gerenciar todos os arquivos do dispositivo, para personalizar o local de salvamento dos arquivos do jogo. Por favor, habilite a permissão para PZH · PGW!</string>
+    <string name="zh_permissions_manage_external_storage">Pojav Zenith Horizon precisa da permissão para gerenciar todos os arquivos do dispositivo, para personalizar o local de salvamento dos arquivos do jogo. Por favor, habilite a permissão para Pojav Zenith Horizon!</string>
     <string name="zh_profiles_path_title">Gerenciamento de Caminho do Jogo</string>
     <string name="zh_profiles_path_default">Caminho Padrão</string>
     <string name="zh_profiles_path_create_new">Adicionar Novo Caminho</string>
@@ -282,19 +282,19 @@
     <string name="zh_other_login_error_code">Código de Erro:</string>
     <string name="zh_other_login_server_not_empty">O servidor não pode estar vazio, por favor verifique as configurações do servidor de autenticação!</string>
     <!-- About -->
-    <string name="zh_about_tab">Sobre PZH · PGW</string>
-    <string name="zh_about_dec1">PZH · PGW é um lançador de Minecraft baseado em modificações do PojavLauncher, capaz de executar Minecraft: Java Edition em dispositivos Android.\nPZH · PGW tem como objetivo otimizar a experiência do usuário, redesenhar a interface do aplicativo e adicionar mais funcionalidades úteis, visando reduzir ao máximo as barreiras para jogar e permitir que mais pessoas possam desfrutar do Minecraft com facilidade.</string>
-    <string name="zh_about_dec2">PZH · PGW é cuidadosamente elaborado por MovTery individualmente, com trabalhos de modificação aprofundada baseados no PojavLauncher.</string>
-    <string name="zh_about_dec3">Como o PojavLauncher utiliza a licença de código aberto GPL 3.0, que é \"contagiosa\", qualquer código que use, modifique ou derive de bibliotecas ou softwares GPL também deve adotar a licença GPL. Portanto, o PZH · PGW também deve seguir a licença de código aberto GPL 3.0. Se você planeja distribuir ou distribuir este software, por favor, obedeça às regras da licença de código aberto GPL 3.0.</string>
+    <string name="zh_about_tab">Sobre Pojav Zenith Horizon</string>
+    <string name="zh_about_dec1">Pojav Zenith Horizon é um lançador de Minecraft baseado em modificações do PojavLauncher, capaz de executar Minecraft: Java Edition em dispositivos Android.\nPojav Zenith Horizon tem como objetivo otimizar a experiência do usuário, redesenhar a interface do aplicativo e adicionar mais funcionalidades úteis, visando reduzir ao máximo as barreiras para jogar e permitir que mais pessoas possam desfrutar do Minecraft com facilidade.</string>
+    <string name="zh_about_dec2">Pojav Zenith Horizon é cuidadosamente elaborado por MovTery individualmente, com trabalhos de modificação aprofundada baseados no PojavLauncher.</string>
+    <string name="zh_about_dec3">Como o PojavLauncher utiliza a licença de código aberto GPL 3.0, que é \"contagiosa\", qualquer código que use, modifique ou derive de bibliotecas ou softwares GPL também deve adotar a licença GPL. Portanto, o Pojav Zenith Horizon também deve seguir a licença de código aberto GPL 3.0. Se você planeja distribuir ou distribuir este software, por favor, obedeça às regras da licença de código aberto GPL 3.0.</string>
     <string name="zh_about_dec4">Contribuidores e Agradecimentos:</string>
     <string name="zh_about_dec5">Agradecimentos aos Patrocinadores:</string>
     <string name="zh_about_dec6">Abaixo estão todos os patrocinadores que apoiam o desenvolvimento, muito obrigado!</string>
     <string name="zh_about_dec7">Tempo e Valor Total</string>
     <string name="zh_about_button_support_development">Patrocinar Desenvolvimento</string>
-    <string name="zh_about_movtery_desc">Autor do PZH · PGW</string>
+    <string name="zh_about_movtery_desc">Autor do Pojav Zenith Horizon</string>
     <string name="zh_about_pojavlauncher_desc">Equipe de desenvolvimento do PojavLauncher, que desenvolveu e abriu o código do PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Fornece suporte técnico de renderização para PZH · PGW</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Forneceu suporte técnico para o PZH · PGW</string>
+    <string name="zh_about_verafirefly_desc">Fornece suporte técnico de renderização para Pojav Zenith Horizon</string>
+    <string name="zh_about_lingmuqiuzhu_desc">Forneceu suporte técnico para o Pojav Zenith Horizon</string>
     <string name="zh_about_access_space">Acessar Espaço</string>
     <string name="zh_about_version_name">Nome da Versão do Software:</string>
     <string name="zh_about_version_code">Código da Versão do Software:</string>
