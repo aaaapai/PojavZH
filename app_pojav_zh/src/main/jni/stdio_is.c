@@ -40,10 +40,10 @@ static bool recordBuffer(char* buf, ssize_t len) {
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, __attribute((unused)) void* reserved) {
     stdiois_jvm = vm;
     JNIEnv *env;
-    (*vm)->GetEnv(vm, (void**)&env, JNI_VERSION_1_6);
+    (*vm)->GetEnv(vm, (void**)&env, JNI_VERSION_1_4);
     jclass eventLogListener = (*env)->FindClass(env, "net/kdt/pojavlaunch/Logger$eventLogListener");
     logger_onEventLogged = (*env)->GetMethodID(env, eventLogListener, "onEventLogged", "(Ljava/lang/String;)V");
-    return JNI_VERSION_1_6;
+    return JNI_VERSION_1_4;
 }
 
 static void *logger_thread() {
