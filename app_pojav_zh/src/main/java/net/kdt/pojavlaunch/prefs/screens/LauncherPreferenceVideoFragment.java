@@ -13,6 +13,8 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.firefly.pgw.renderer.RendererManager;
 import com.firefly.pgw.utils.ListAndArray;
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -95,7 +97,7 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
         return true;
     }
 
-    private void setVideoResolutionDialog(CustomSeekBarPreference seek) {
+    private void setVideoResolutionDialog(CustomSeekBarPreferencePro seek) {
         EditTextDialog.Builder builder = new EditTextDialog.Builder(requireContext())
             .setTitle(R.siting.mcl_setting_title_resolution_scaler)
             .setEditText(String.valueOf(seek.getValue()))
