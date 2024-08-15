@@ -51,7 +51,7 @@ class CheckSponsor {
                 @Throws(IOException::class)
                 override fun onResponse(call: Call?, response: Response?) {
                     if (!response!!.isSuccessful) {
-                        Logging.e("CheckSponsor", "Unexpected code ${response.code()}")
+                        Logging.e("CheckSponsor", "Unexpected code ${response.code}")
                     } else {
                         runCatching {
                             Objects.requireNonNull(response.body)
