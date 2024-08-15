@@ -27,7 +27,7 @@
             android:title="@string/mcl_setting_title_ignore_notch"
             app2:iconSpaceReserved="false" />
 
-        <net.kdt.pojavlaunch.prefs.CustomSeekBarPreference
+        <net.kdt.pojavlaunch.prefs.CustomSeekBarPreferencePro
             android:key="resolutionRatio"
             android:summary="@string/mcl_setting_subtitle_resolution_scaler"
             android:title="@string/mcl_setting_title_resolution_scaler"
