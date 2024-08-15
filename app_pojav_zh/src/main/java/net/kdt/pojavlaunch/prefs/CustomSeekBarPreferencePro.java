@@ -26,7 +26,7 @@ public class CustomSeekBarPreferencePro extends SeekBarPreference {
 
 
     @SuppressLint("PrivateResource")
-    public CustomSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public CustomSeekBarPreferencePro(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.SeekBarPreference, defStyleAttr, defStyleRes);
@@ -34,15 +34,15 @@ public class CustomSeekBarPreferencePro extends SeekBarPreference {
         a.recycle();
     }
 
-    public CustomSeekBarPreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomSeekBarPreferencePro(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public CustomSeekBarPreference(Context context, AttributeSet attrs) {
+    public CustomSeekBarPreferencePro(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.seekBarPreferenceStyle);
     }
 
-    @SuppressWarnings("unused") public CustomSeekBarPreference(Context context) {
+    @SuppressWarnings("unused") public CustomSeekBarPreferencePro(Context context) {
         this(context, null);
     }
 
