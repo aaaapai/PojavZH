@@ -99,7 +99,7 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
 
     private void setVideoResolutionDialog(CustomSeekBarPreferencePro seek) {
         EditTextDialog.Builder builder = new EditTextDialog.Builder(requireContext())
-            .setTitle(R.siting.mcl_setting_title_resolution_scaler)
+            .setTitle(R.string.mcl_setting_title_resolution_scaler)
             .setEditText(String.valueOf(seek.getValue()))
             .setConfirmListener(editBox -> {
                 String checkValue = editBox.getText().toString();
