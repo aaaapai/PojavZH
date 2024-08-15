@@ -3,7 +3,8 @@ package com.movtery.pojavzh.ui.fragment
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.feature.mod.modloader.OptiFineDownloadType
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
@@ -43,18 +44,19 @@ class DownloadOptiFineFragment : ModListFragment(), ModloaderDownloadListener {
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 val optiFineVersions = OptiFineUtils.downloadOptiFineVersions()
                 processModDetails(optiFineVersions)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadOptiFineFragment", Tools.printToString(e))
             }
         }
     }
@@ -93,7 +95,7 @@ class DownloadOptiFineFragment : ModListFragment(), ModloaderDownloadListener {
             .forEach { entry: Map.Entry<String, List<OptiFineVersion?>> ->
                 if (currentTask.isCancelled) return@forEach
 
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_optifine, entry.value)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_optifine, entry.value)
 
                 adapter.setOnItemClickListener { version: Any? ->
                     Thread(OptiFineDownloadTask(version as OptiFineVersion?, modloaderListenerProxy,

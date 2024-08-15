@@ -5,6 +5,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.movtery.pojavzh.feature.log.Logging
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModDependencies.SelectedMod
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionAdapter
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionItem
@@ -47,18 +48,19 @@ class DownloadModFragment : ModListFragment() {
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 val mModDetail = mModApi!!.getModDetails(mModItem)
                 processModDetails(mModDetail)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadModFragment", Tools.printToString(e))
             }
         }
     }
@@ -144,10 +146,10 @@ class DownloadModFragment : ModListFragment() {
 
         mImageReceiver = ImageReceiver { bm: Bitmap ->
             mImageReceiver = null
-            val drawable = RoundedBitmapDrawableFactory.create(resources, bm)
+            val drawable = RoundedBitmapDrawableFactory.create(fragmentActivity!!.resources, bm)
             drawable.cornerRadius = resources.getDimension(R.dimen._1sdp) / 250 * bm.height
             setIcon(drawable)
         }
-        mIconCache.getImage(mImageReceiver, mModItem!!.iconCacheTag, mModItem!!.imageUrl)
+        mModItem!!.imageUrl?.let{ mIconCache.getImage(mImageReceiver, mModItem!!.iconCacheTag, it) }
     }
 }

@@ -79,7 +79,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 35
         versionCode getVersionCode()
-        versionName "1.2.6"
+        versionName "1.2.7.1"
         multiDexEnabled true //important
         resValue 'string', 'curseforge_api_key', getCFApiKey()
         resValue 'string', 'zh_branch_info', getBranchName()

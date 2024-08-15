@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/operate_layout"
-        app:layout_constraintHorizontal_weight="7"
+        app:layout_constraintHorizontal_weight="6.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -31,7 +31,8 @@
                 android:id="@+id/zh_custom_mouse"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="@dimen/_8sdp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:scrollbars="vertical"
                 android:scrollbarThumbVertical="@color/scrollbar_color"
                 app:layout_constraintBottom_toBottomOf="parent"

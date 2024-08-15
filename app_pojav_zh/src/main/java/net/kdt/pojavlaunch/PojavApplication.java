@@ -17,6 +17,7 @@ import androidx.core.app.*;
 
 import android.util.*;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
 import com.movtery.pojavzh.utils.PathAndUrlManager;
 
@@ -42,7 +43,7 @@ public class PojavApplication extends Application {
 		ContextExecutor.setApplication(this);
 		Thread.setDefaultUncaughtExceptionHandler((thread, th) -> {
 			boolean storagePermAllowed = (Build.VERSION.SDK_INT >= 29 || ActivityCompat.checkSelfPermission(PojavApplication.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) && Tools.checkStorageRoot();
-			File crashFile = new File(storagePermAllowed ? PathAndUrlManager.DIR_GAME_HOME : PathAndUrlManager.DIR_DATA, "latestcrash.txt");
+			File crashFile = new File(storagePermAllowed ? PathAndUrlManager.DIR_LAUNCHER_LOG : PathAndUrlManager.DIR_DATA, "latestcrash.txt");
 			try {
 				// Write to file, since some devices may not able to show error
 				FileUtils.ensureParentDirectory(crashFile);
@@ -56,8 +57,8 @@ public class PojavApplication extends Application {
 				crashStream.append(Log.getStackTraceString(th));
 				crashStream.close();
 			} catch (Throwable throwable) {
-				Log.e(CRASH_REPORT_TAG, " - Exception attempt saving crash stack trace:", throwable);
-				Log.e(CRASH_REPORT_TAG, " - The crash stack trace was:", th);
+				Logging.e(CRASH_REPORT_TAG, " - Exception attempt saving crash stack trace:", throwable);
+				Logging.e(CRASH_REPORT_TAG, " - The crash stack trace was:", th);
 			}
 
 			ErrorActivity.showError(PojavApplication.this, crashFile.getAbsolutePath(), th);

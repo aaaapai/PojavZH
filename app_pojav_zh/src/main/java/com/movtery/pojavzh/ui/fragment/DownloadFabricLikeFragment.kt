@@ -2,7 +2,8 @@ package com.movtery.pojavzh.ui.fragment
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
@@ -30,18 +31,19 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: 
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 val gameVersions = utils.downloadGameVersions()
                 processInfo(gameVersions)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadFabricLike", Tools.printToString(e))
             }
         }
     }
@@ -84,7 +86,7 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: 
                 if (currentTask!!.isCancelled) return
 
                 //为整理好的Fabric版本设置Adapter
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, icon, loaderVersions)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, icon, loaderVersions)
                 adapter.setOnItemClickListener { version ->
                     val fabricVersion = version as FabricVersion
                     Thread(

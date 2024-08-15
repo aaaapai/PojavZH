@@ -3,7 +3,8 @@ package com.movtery.pojavzh.ui.fragment
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
@@ -37,18 +38,19 @@ class DownloadForgeFragment : ModListFragment(), ModloaderDownloadListener {
 
     override fun refresh(): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
                 val forgeVersions = ForgeUtils.downloadForgeVersions()
                 processModDetails(forgeVersions)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadForge", Tools.printToString(e))
             }
         }
     }
@@ -83,7 +85,7 @@ class DownloadForgeFragment : ModListFragment(), ModloaderDownloadListener {
                 if (currentTask.isCancelled) return
 
                 //为整理好的Forge版本设置Adapter
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_anvil, entry.value)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_anvil, entry.value)
                 adapter.setOnItemClickListener { version: Any? ->
                     Thread(ForgeDownloadTask(modloaderListenerProxy, version as String?)).start()
                 }

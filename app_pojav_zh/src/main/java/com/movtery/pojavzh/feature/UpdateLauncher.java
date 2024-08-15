@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.dialog.ProgressDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.dialog.UpdateDialog;
@@ -118,7 +118,7 @@ public class UpdateLauncher {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    throw new IOException("Unexpected code " + response);
+                    Logging.e("UpdateLauncher", "Unexpected code " + response.code());
                 } else {
                     Objects.requireNonNull(response.body());
                     String responseBody = response.body().string(); //解析响应体
@@ -137,7 +137,7 @@ public class UpdateLauncher {
                         try {
                             githubVersion = Integer.parseInt(tagName);
                         } catch (Exception e) {
-                            Log.e("Parse github version", e.toString());
+                            Logging.e("Parse github version", e.toString());
                         }
 
                         if (ZHTools.getVersionCode() < githubVersion) {
@@ -150,7 +150,7 @@ public class UpdateLauncher {
                                             fileSize,
                                             jsonObject.getString("body"));
                                 } catch (Exception e) {
-                                    Log.e("Init update information", e.toString());
+                                    Logging.e("Init update information", e.toString());
                                 }
                                 UpdateDialog updateDialog = new UpdateDialog(context, updateInformation);
 
@@ -165,7 +165,7 @@ public class UpdateLauncher {
                             });
                         }
                     } catch (Exception e) {
-                        Log.e("Check Update", e.toString());
+                        Logging.e("Check Update", e.toString());
                     }
                 }
             }

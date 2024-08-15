@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.InputType;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SeekBarPreference;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.dialog.EditTextDialog;
 
 import net.kdt.pojavlaunch.R;
@@ -28,6 +28,7 @@ public class CustomSeekBarPreference extends SeekBarPreference {
     private TextView mTextView;
     private boolean isUserSeeking = false;
     private OnPreferenceClickDialog onPreferenceClickDialog;
+    private OnProgressChanged onProgressChanged;
 
 
     @SuppressLint({"PrivateResource", "StringFormatInvalid"})
@@ -73,7 +74,7 @@ public class CustomSeekBarPreference extends SeekBarPreference {
                 try {
                     value = Integer.parseInt(string);
                 } catch (NumberFormatException e) {
-                    Log.e("Custom Seek Bar", e.toString());
+                    Logging.e("Custom Seek Bar", e.toString());
 
                     editBox.setError(context.getString(R.string.zh_input_invalid));
                     return false;
@@ -90,7 +91,7 @@ public class CustomSeekBarPreference extends SeekBarPreference {
                     return false;
                 }
 
-                setValue(value);
+                changeValue(value);
 
                 return true;
             }).buildDialog();
@@ -154,7 +155,7 @@ public class CustomSeekBarPreference extends SeekBarPreference {
                 progress *= getSeekBarIncrement();
                 progress -= mMin;
 
-                setValue(progress + mMin);
+                changeValue(progress + mMin);
                 updateTextViewWithSuffix();
             }
         });
@@ -184,6 +185,10 @@ public class CustomSeekBarPreference extends SeekBarPreference {
         this.onPreferenceClickDialog = listener;
     }
 
+    public void setOnProgressChangedListener(OnProgressChanged listener) {
+        this.onProgressChanged = listener;
+    }
+
     public boolean isUserSeeking() {
         return isUserSeeking;
     }
@@ -194,8 +199,17 @@ public class CustomSeekBarPreference extends SeekBarPreference {
         }
     }
 
+    private void changeValue(int value) {
+        setValue(value);
+        if (onProgressChanged != null) onProgressChanged.onChanged(value);
+    }
+
     public interface OnPreferenceClickDialog {
         String getTitle();
         String getMessage();
+    }
+
+    public interface OnProgressChanged {
+        void onChanged(int value);
     }
 }

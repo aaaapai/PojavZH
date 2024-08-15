@@ -2,7 +2,7 @@ package com.movtery.pojavzh.feature
 
 import android.content.Context
 import android.util.Base64
-import android.util.Log
+import com.movtery.pojavzh.feature.log.Logging
 import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
 import com.movtery.pojavzh.utils.http.CallUtils
@@ -43,7 +43,7 @@ class CheckNewNotice {
                 @Throws(IOException::class)
                 override fun onResponse(call: Call?, response: Response?) {
                     if (!response!!.isSuccessful) {
-                        throw IOException("Unexpected code $response")
+                        Logging.e("CheckNewNotice", "Unexpected code ${response.code()}")
                     } else {
                         runCatching {
                             Objects.requireNonNull(response.body)
@@ -83,7 +83,7 @@ class CheckNewNotice {
                             noticeInfo = NoticeInfo(rawTitle, rawSubstance, rawDate, numbering)
                             listener.onSuccessful(noticeInfo)
                         }.getOrElse { e ->
-                            Log.e("Check New Notice", e.toString())
+                            Logging.e("Check New Notice", e.toString())
                         }
                     }
                     isChecking = false

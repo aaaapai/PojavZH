@@ -1,7 +1,5 @@
 package net.kdt.pojavlaunch.modloaders.modpacks.api;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -9,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kdt.mcgui.ProgressLayout;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.feature.mod.ModLoaderList;
 import com.movtery.pojavzh.feature.mod.SearchModSort;
 import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
@@ -100,9 +99,18 @@ public class CurseforgeApi implements ModpackApi{
             // Gson automatically casts null to false, which leans to issues
             // So, only check the distribution flag if it is non-null
             if(!allowModDistribution.isJsonNull() && !allowModDistribution.getAsBoolean()) {
-                Log.i("CurseforgeApi", "Skipping modpack "+dataElement.get("name").getAsString() + " because curseforge sucks");
+                Logging.i("CurseforgeApi", "Skipping project "+dataElement.get("name").getAsString() + " because curseforge sucks");
                 continue;
             }
+
+            String iconUrl;
+            try {
+                iconUrl = dataElement.getAsJsonObject("logo").get("thumbnailUrl").getAsString();
+            } catch (Exception e) {
+                Logging.e("error", Tools.printToString(e));
+                iconUrl = null;
+            }
+
             ModItem modItem = new ModItem(Constants.SOURCE_CURSEFORGE,
                     searchFilters.isModpack,
                     dataElement.get("id").getAsString(),
@@ -110,7 +118,7 @@ public class CurseforgeApi implements ModpackApi{
                     dataElement.get("summary").getAsString(),
                     dataElement.get("downloadCount").getAsInt(),
                     getModloaders(dataElement.getAsJsonArray("latestFilesIndexes")),
-                    dataElement.getAsJsonObject("logo").get("thumbnailUrl").getAsString());
+                    iconUrl);
             modItemList.add(modItem);
         }
         if(curseforgeSearchResult == null) curseforgeSearchResult = new CurseforgeSearchResult();
@@ -207,6 +215,14 @@ public class CurseforgeApi implements ModpackApi{
                                 ModLoaderList.addModLoaderToList(itemsModloaderNames, gameVersion);
                             }
 
+                            String iconUrl;
+                            try {
+                                iconUrl = hit.getAsJsonObject("logo").get("thumbnailUrl").getAsString();
+                            } catch (Exception e) {
+                                Logging.e("error", Tools.printToString(e));
+                                iconUrl = null;
+                            }
+
                             items = new ModItem(
                                     Constants.SOURCE_CURSEFORGE,
                                     hit.get("categories").getAsJsonArray().get(0).getAsJsonObject().get("classId").getAsInt() != CURSEFORGE_MOD_CLASS_ID,
@@ -215,7 +231,7 @@ public class CurseforgeApi implements ModpackApi{
                                     hit.get("summary").getAsString(),
                                     hit.get("downloadCount").getAsInt(),
                                     itemsModloaderNames.toArray(new ModLoaderList.ModLoader[]{}),
-                                    hit.getAsJsonObject("logo").get("thumbnailUrl").getAsString()
+                                    iconUrl
                             );
                         }
                         dependenciesModMap.put(modId, items);
@@ -285,7 +301,7 @@ public class CurseforgeApi implements ModpackApi{
                     Tools.read(ZipUtils.getEntryStream(modpackZipFile, "manifest.json")),
                     CurseManifest.class);
             if (!verifyManifest(curseManifest)) {
-                Log.i("CurseforgeApi", "manifest verification failed");
+                Logging.i("CurseforgeApi", "manifest verification failed");
                 return null;
             }
             if (onInstallStartListener != null) onInstallStartListener.onStart();
@@ -324,7 +340,7 @@ public class CurseforgeApi implements ModpackApi{
         int dashIndex = modLoaderId.indexOf('-');
         String modLoaderName = modLoaderId.substring(0, dashIndex);
         String modLoaderVersion = modLoaderId.substring(dashIndex+1);
-        Log.i("CurseforgeApi", StringUtils.insertSpace(modLoaderId, modLoaderName, modLoaderVersion));
+        Logging.i("CurseforgeApi", StringUtils.insertSpace(modLoaderId, modLoaderName, modLoaderVersion));
         int modLoaderTypeInt;
         switch (modLoaderName) {
             case "forge":

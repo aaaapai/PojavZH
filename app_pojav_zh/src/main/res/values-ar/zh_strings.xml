@@ -206,6 +206,7 @@
     <string name="zh_main_share_log_tip">هل أنت متأكد أنك تريد مشاركة سجل تشغيل المشغل؟\nموقع ملف السجل:</string>
     <string name="zh_main_notice_title">الإشعارات</string>
     <string name="zh_preference_category_language">اللغة</string>
+    <string name="zh_preference_category_personalization">تخصيص</string>
     <string name="zh_preference_category_launcher">المشغل</string>
     <string name="zh_preference_category_experimental">تجريبي</string>
     <string name="zh_preference_category_experimental_patches">تصحيحات تجريبية</string>
@@ -229,6 +230,8 @@
     <string name="zh_setting_animation_title">تمكين الرسوم المتحركة</string>
     <string name="zh_setting_animation_speed_desc">تعيين سرعة تشغيل الرسوم المتحركة في المشغل</string>
     <string name="zh_setting_animation_speed_title">سرعة الرسوم المتحركة</string>
+    <string name="zh_setting_page_opacity_title">شفافية الصفحة</string>
+    <string name="zh_setting_page_opacity_desc">تعيين شفافية الصفحة الرئيسية للمنطلق</string>
     <string name="zh_setting_quit_launcher_desc">ما إذا كان سيتم إغلاق المشغل عند بدء تشغيل اللعبة الرسمي</string>
     <string name="zh_setting_quit_launcher_title">إغلاق المشغل</string>
     <string name="zh_setting_reboot_tip">تم تغيير هذا الإعداد، ولكن يلزم إعادة تشغيل التطبيق ليتم تفعيله!</string>

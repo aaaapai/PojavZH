@@ -14,7 +14,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,6 +36,7 @@ import com.movtery.pojavzh.feature.UpdateLauncher;
 import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.feature.accounts.LocalAccountUtils;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.feature.mod.modpack.install.InstallExtra;
 import com.movtery.pojavzh.feature.mod.modpack.install.InstallLocalModPack;
 import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
@@ -180,8 +180,9 @@ public class LauncherActivity extends BaseActivity {
             account.username = value[0];
             try {
                 account.save();
+                Logging.i("McAccountSpinner", "Saved the account : " + account.username);
             } catch (IOException e) {
-                Log.e("McAccountSpinner", "Failed to save the account : " + e);
+                Logging.e("McAccountSpinner", "Failed to save the account : " + e);
             }
 
             accountsManager.getDoneListener().onLoginDone(account);
@@ -192,8 +193,9 @@ public class LauncherActivity extends BaseActivity {
     private final ExtraListener<MinecraftAccount> mOtherLoginListener = (key, value) -> {
         try {
             value.save();
+            Logging.i("McAccountSpinner", "Saved the account : " + value.username);
         } catch (IOException e) {
-            Log.e("McAccountSpinner", "Failed to save the account : " + e);
+            Logging.e("McAccountSpinner", "Failed to save the account : " + e);
         }
         accountsManager.getDoneListener().onLoginDone(value);
         return false;
@@ -299,6 +301,7 @@ public class LauncherActivity extends BaseActivity {
                 }
         );
         bindViews();
+        setPageOpacity();
         ZHTools.setBackgroundImage(this, BackgroundType.MAIN_MENU, mBackgroundView);
 
         checkNotificationPermission();
@@ -350,6 +353,7 @@ public class LauncherActivity extends BaseActivity {
         super.onResume();
         ContextExecutor.setActivity(this);
         mInstallTracker.attach();
+        setPageOpacity();
     }
 
     @Override
@@ -499,6 +503,10 @@ public class LauncherActivity extends BaseActivity {
                     })
                     .buildDialog();
         }
+    }
+
+    private void setPageOpacity() {
+        if (mFragmentView != null) mFragmentView.setAlpha((float) LauncherPreferences.PREF_PAGE_OPACITY / 100);
     }
 
     /** Stuff all the view boilerplate here */

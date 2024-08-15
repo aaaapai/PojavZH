@@ -206,6 +206,7 @@
     <string name="zh_main_share_log_tip">Are you sure you want to share the launcher\'s running log?\nLog file location:</string>
     <string name="zh_main_notice_title">Notification Bar</string>
     <string name="zh_preference_category_language">Language</string>
+    <string name="zh_preference_category_personalization">Personalization</string>
     <string name="zh_preference_category_launcher">Launcher</string>
     <string name="zh_preference_category_experimental">Experimental</string>
     <string name="zh_preference_category_experimental_patches">Experimental Patches</string>
@@ -229,6 +230,8 @@
     <string name="zh_setting_animation_title">Enable Animation</string>
     <string name="zh_setting_animation_speed_desc">Set the speed of the launcher animation playback</string>
     <string name="zh_setting_animation_speed_title">Animation Speed</string>
+    <string name="zh_setting_page_opacity_title">Page Opacity</string>
+    <string name="zh_setting_page_opacity_desc">Set the opacity of the main page of the launcher</string>
     <string name="zh_setting_quit_launcher_desc">Should the launcher exit when the game officially begins running?</string>
     <string name="zh_setting_quit_launcher_title">Exit Launcher</string>
     <string name="zh_setting_reboot_tip">This setting has been changed, but requires the app to be restarted to take effect!</string>
