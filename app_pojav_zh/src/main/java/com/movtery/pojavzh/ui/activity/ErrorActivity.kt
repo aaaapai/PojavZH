@@ -81,11 +81,10 @@ class ErrorActivity : BaseActivity() {
         mShareLogButton?.setOnClickListener { Tools.shareLog(this) }
     }
 
-    @SuppressWarnings("deprecation")
     private fun showError(extras: Bundle) {
         findViewById<View>(R.id.zh_crash_buttons).visibility = View.GONE
 
-        val throwable = extras.getSerializable(BUNDLE_THROWABLE) as Throwable?
+        val throwable = extras.Serializable(BUNDLE_THROWABLE) as Throwable?
         val stackTrace = if (throwable != null) Tools.printToString(throwable) else "<null>"
         val strSavePath = extras.getString(BUNDLE_SAVE_PATH)
         val errorText = "$strSavePath :\r\n\r\n$stackTrace"
