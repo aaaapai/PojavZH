@@ -43,7 +43,7 @@ class CheckNewNotice {
                 @Throws(IOException::class)
                 override fun onResponse(call: Call?, response: Response?) {
                     if (!response!!.isSuccessful) {
-                        Logging.e("CheckNewNotice", "Unexpected code ${response.code()}")
+                        Logging.e("CheckNewNotice", "Unexpected code ${response.code}")
                     } else {
                         runCatching {
                             Objects.requireNonNull(response.body)
