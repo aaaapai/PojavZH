@@ -9,7 +9,7 @@
 #include "utils.h"
 
 typedef int (*Main_Function_t)(int, char**);
-typedef void (*android_update_LD_LIBRARY_PATH_t)(const char*);
+typedef void (*android_update_LD_LIBRARY_PATH_t)(char*);
 
 long shared_awt_surface;
 
@@ -153,7 +153,7 @@ JNIEXPORT jint JNICALL Java_net_kdt_pojavlaunch_utils_JREUtils_executeBinary(JNI
 	int cmd_argv = (*env)->GetArrayLength(env, cmdArgs);
 	char **cmd_args_c = convert_to_char_array(env, cmdArgs);
 	int result = Main_Function(cmd_argv, cmd_args_c);
-	free_char_array(env, cmdArgs, cmd_args_c, charArray);
+	free_char_array(env, cmdArgs, cmd_args_c);
 	return result;
 }
 
