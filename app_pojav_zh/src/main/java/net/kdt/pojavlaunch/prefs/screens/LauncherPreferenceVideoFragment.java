@@ -131,6 +131,7 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
                 }
                 seek.setValue(Value);
                 return true;
-            }).buildDialog();
+            });
+        builder.buildDialog();
     }
 }
