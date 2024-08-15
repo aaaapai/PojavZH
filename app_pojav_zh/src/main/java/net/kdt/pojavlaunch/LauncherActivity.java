@@ -307,6 +307,7 @@ public class LauncherActivity extends BaseActivity {
                 }
         );
         bindViews();
+        setPageOpacity();
         ZHTools.setBackgroundImage(this, BackgroundType.MAIN_MENU, mBackgroundView);
 
         checkNotificationPermission();
@@ -357,6 +358,7 @@ public class LauncherActivity extends BaseActivity {
         super.onResume();
         ContextExecutor.setActivity(this);
         mInstallTracker.attach();
+        setPageOpacity();
     }
 
     @Override
@@ -532,6 +534,10 @@ public class LauncherActivity extends BaseActivity {
                     })
                     .buildDialog();
         }
+    }
+
+    private void setPageOpacity() {
+        if (mFragmentView != null) mFragmentView.setAlpha((float) LauncherPreferences.PREF_PAGE_OPACITY / 100);
     }
 
     /** Stuff all the view boilerplate here */
