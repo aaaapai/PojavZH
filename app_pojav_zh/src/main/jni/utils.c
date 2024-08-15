@@ -9,7 +9,7 @@
 #include "utils.h"
 
 typedef int (*Main_Function_t)(int, char**);
-typedef void (*android_update_LD_LIBRARY_PATH_t)(char*);
+typedef void (*android_update_LD_LIBRARY_PATH_t)(const char*);
 
 long shared_awt_surface;
 
