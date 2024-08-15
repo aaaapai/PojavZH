@@ -133,13 +133,12 @@ bool checkAdrenoGraphics() {
     return is_adreno;
 }
 void* load_turnip_vulkan() {
-    if(!checkAdrenoGraphics()) return NULL;
     const char* native_dir = getenv("POJAV_NATIVEDIR");
     const char* cache_dir = getenv("TMPDIR");
     if(!linker_ns_load(native_dir)) return NULL;
     void* linkerhook = linker_ns_dlopen("liblinkerhook.so", RTLD_LOCAL | RTLD_NOW);
     if(linkerhook == NULL) return NULL;
-    void* turnip_driver_handle = linker_ns_dlopen("libvulkan_freedreno.so", RTLD_LOCAL | RTLD_NOW);
+    void* turnip_driver_handle = linker_ns_dlopen("libvulkan_1.so", RTLD_LOCAL | RTLD_NOW);
     if(turnip_driver_handle == NULL) {
         printf("AdrenoSupp: Failed to load Turnip!\n%s\n", dlerror());
         dlclose(linkerhook);
@@ -160,7 +159,7 @@ void* load_turnip_vulkan() {
         return NULL;
     }
     linkerhook_pass_handles(turnip_driver_handle, android_dlopen_ext, android_get_exported_namespace);
-    void* libvulkan = linker_ns_dlopen_unique(cache_dir, "libvulkan.so", RTLD_LOCAL | RTLD_NOW);
+    void* libvulkan = linker_ns_dlopen_unique(cache_dir, "libvulkan_1.so", RTLD_LOCAL | RTLD_NOW);
     return libvulkan;
 }
 #endif
