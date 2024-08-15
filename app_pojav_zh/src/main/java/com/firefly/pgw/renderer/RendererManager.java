@@ -65,8 +65,7 @@ public class RendererManager {
             String driverModel = defaultCDriverModel[i];
             switch (MESA_LIBS) {
                 case "default":
-                    if (skipRenderer(driverModel, "virgl", "softpipe", "llvmpipe")) continue;
-                    break;
+                case "mesa2320d":
                 case "mesa2304":
                     if (skipRenderer(driverModel, "virgl", "softpipe", "llvmpipe")) continue;
                     break;
