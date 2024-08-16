@@ -196,9 +196,20 @@ int pojavInitOpenGL() {
 
     // NOTE: Override for now.
     const char *renderer = getenv("POJAV_RENDERER");
-    if (strncmp("opengles", renderer, 8) == 0) {
+    if (strncmp("opengles2", renderer, 9) == 0) {
         pojav_environ->config_renderer = RENDERER_GL4ES;
         set_gl_bridge_tbl();
+        #define GL_ARRAY_BUFFER_BINDING 0x8894
+        #define GL_MAP_READ_BIT 0x0001
+        #define GL_MAP_WRITE_BIT 0x0002
+        #define GL_MAP_PERSISTENT_BIT 0x0040
+        #define GL_MAP_INVALIDATE_BUFFER_BIT 0x0008
+        #define GL_MAP_INVALIDATE_RANGE_BIT 0x0004
+        #define GL_MAP_FLUSH_EXPLICIT_BIT 0x0010
+        #define GL_MAP_COHERENT_BIT 0x0080
+        #define GL_MAP_UNSYNCHRONIZED_BIT 0x0020
+        #define GL_ELEMENT_ARRAY_BUFFER_BINDING 0x8895
+        #define GL_COPY_READ_BUFFER 0x8F36
     } else if (strcmp(renderer, "vulkan_zink") == 0) {
         pojav_environ->config_renderer = RENDERER_VK_ZINK;
         load_vulkan();
