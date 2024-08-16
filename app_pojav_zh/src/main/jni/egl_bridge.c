@@ -38,8 +38,8 @@
 // This means that you are forced to have this function/variable for ABI compatibility
 #define ABI_COMPAT __attribute__((unused))
 
-void bindBuffer()
-void gl4es_glCopyBufferSubData()
+void bindBuffer();
+void gl4es_glCopyBufferSubData();
 
 struct PotatoBridge {
 
