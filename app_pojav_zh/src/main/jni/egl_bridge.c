@@ -52,7 +52,7 @@ if (strncmp("opengles2", renderer, 9) == 0) {
       glBindBuffer(GL_COPY_READ_BUFFER, 0);
       glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
    }
-}
+};
 
 struct PotatoBridge {
 
