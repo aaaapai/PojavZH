@@ -210,6 +210,14 @@ int pojavInitOpenGL() {
         #define GL_MAP_UNSYNCHRONIZED_BIT 0x0020
         #define GL_ELEMENT_ARRAY_BUFFER_BINDING 0x8895
         #define GL_COPY_READ_BUFFER 0x8F36
+        #define GL_COPY_WRITE_BUFFER 0x8F37
+     	#define GL_STREAM_READ 0x88E1
+    	#define GL_STREAM_COPY 0x88E2
+        #define GL_STATIC_READ 0x88E5
+        #define GL_STATIC_COPY 0x88E6
+        #define GL_DYNAMIC_READ 0x88E9
+        #define GL_DYNAMIC_COPY 0x88EA
+      	#define GL_DYNAMIC_DRAW 0x88E8
     } else if (strcmp(renderer, "vulkan_zink") == 0) {
         pojav_environ->config_renderer = RENDERER_VK_ZINK;
         load_vulkan();
