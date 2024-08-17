@@ -59,13 +59,11 @@ public class EditMesaVersionDialog extends FullScreenDialog implements Draggable
             // Update preferences
             LauncherPreferences.PREF_MESA_GL_VERSION = glVersion;
             LauncherPreferences.PREF_MESA_GLSL_VERSION = glslVersion;
-            LauncherPreferences.PREF_EXP_ENABLE_CUSTOM = true;
 
             // Modify the value of GL/GLSL according to the text content
             LauncherPreferences.DEFAULT_PREF.edit()
                     .putString("mesaGLVersion", glVersion)
                     .putString("mesaGLSLVersion", glslVersion)
-                    .putBoolean("ebCustom", true)
                     .apply();
 
             dismiss();
