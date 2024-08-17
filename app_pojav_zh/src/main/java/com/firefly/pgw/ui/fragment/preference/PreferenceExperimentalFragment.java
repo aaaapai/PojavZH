@@ -96,7 +96,7 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
             boolean set = (boolean) v;
             if (!set) return false;
             closeOtherCustomMesaPref(customMesaVersionPref);
-            return value1;
+            return true;
         });
         setGLVersion.setOnPreferenceClickListener(preference -> {
             new EditMesaVersionDialog(requireContext()).show();
