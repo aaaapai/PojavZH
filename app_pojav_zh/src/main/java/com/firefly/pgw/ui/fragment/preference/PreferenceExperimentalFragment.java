@@ -176,7 +176,7 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
                 } else {
                     final String[] items3 = new String[list.size()];
                     list.toArray(items3);
-                    //添加列表
+                    // Add List
                     AlertDialog alertDialog3 = new AlertDialog.Builder(requireActivity())
                             .setTitle(R.string.preference_rendererexp_mesa_select_download)
                             .setItems(items3, (dialogInterface, i) -> {
