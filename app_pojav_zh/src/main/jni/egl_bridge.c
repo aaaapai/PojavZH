@@ -170,13 +170,12 @@ void load_vulkan() {
         void* result = load_turnip_vulkan();
         if(result != NULL) {
             printf("AdrenoSupp: Loaded Turnip, loader address: %p\n", result);
-            set_vulkan_ptr(result);
             return;
         }
 #endif
     }
     printf("OSMDroid: loading vulkan regularly...\n");
-    dlopen("libvulkan_1.so");
+    dlopen("libvulkan_1.so", RTLD_LAZY | RTLD_LOCAL);
 }
 
 int pojavInitOpenGL() {
