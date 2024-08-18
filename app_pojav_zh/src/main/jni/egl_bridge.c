@@ -163,6 +163,12 @@ void* load_turnip_vulkan() {
 }
 #endif
 
+static void set_vulkan_ptr(void* ptr) {
+    char envval[64];
+    sprintf(envval, "%"PRIxPTR, (uintptr_t)ptr);
+    setenv("VULKAN_PTR", envval, 1);
+}
+
 void load_vulkan() {
     if(getenv("POJAV_ZINK_PREFER_SYSTEM_DRIVER") == NULL &&
         android_get_device_api_level() >= 28) { // the loader does not support below that
@@ -175,7 +181,9 @@ void load_vulkan() {
 #endif
     }
     printf("OSMDroid: loading vulkan regularly...\n");
-    dlopen("libvulkan_1.so", RTLD_LAZY | RTLD_LOCAL);
+    void* vulkan_ptr = dlopen("libvulkan.so", RTLD_LAZY | RTLD_LOCAL);
+    printf("OSMDroid: loaded vulkan, ptr=%p\n", vulkan_ptr);
+    set_vulkan_ptr(vulkan_ptr);
 }
 
 int pojavInitOpenGL() {
@@ -250,7 +258,8 @@ Java_org_lwjgl_vulkan_VK_getVulkanDriverHandle(ABI_COMPAT JNIEnv *env, ABI_COMPA
     // The code below still uses the env var because
     // 1. it's easier to do that
     // 2. it won't break if something will try to load vulkan and osmesa simultaneously
-    load_vulkan();
+    if(getenv("VULKAN_PTR") == NULL) load_vulkan();
+    return strtoul(getenv("VULKAN_PTR"), NULL, 0x10);
 }
 
 EXTERNAL_API void pojavSwapInterval(int interval) {
