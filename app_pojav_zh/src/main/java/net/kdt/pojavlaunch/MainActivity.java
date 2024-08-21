@@ -390,6 +390,9 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         if(RendererManager.DRIVER_MODEL == null) {
             RendererManager.DRIVER_MODEL = LauncherPreferences.PREF_DRIVER_MODEL;
         }
+        if(RendererManager.LOADER_OVERRIDE == null) {
+            RendererManager.LOADER_OVERRIDE = LauncherPreferences.PREF_LOCAL_LOADER_OVERRIDE;
+        }
         if(!RendererManager.checkRendererCompatible(this, Tools.LOCAL_RENDERER)) {
             RenderersList renderersList = RendererManager.getCompatibleRenderers(this);
             String firstCompatibleRenderer = renderersList.rendererIds.get(0);

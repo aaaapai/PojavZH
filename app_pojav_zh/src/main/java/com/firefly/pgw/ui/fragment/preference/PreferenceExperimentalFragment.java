@@ -47,9 +47,11 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
 
         final ListPreference CMesaLib = requirePreference("CMesaLibrary", ListPreference.class);
         final ListPreference CDriverModel = requirePreference("CDriverModels", ListPreference.class);
+        final ListPreference CMesaLDOP = requirePreference("ChooseMldo", ListPreference.class);
 
         setListPreference(CMesaLib, "CMesaLibrary");
         setListPreference(CDriverModel, "CDriverModels");
+        setListPreference(CMesaLDOP, "ChooseMldo");
 
         CMesaLib.setOnPreferenceChangeListener((pre, obj) -> {
             RendererManager.MESA_LIBS = (String) obj;
@@ -60,6 +62,11 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
 
         CDriverModel.setOnPreferenceChangeListener((pre, obj) -> {
             RendererManager.DRIVER_MODEL = (String) obj;
+            return true;
+        });
+
+        CMesaLDOP.setOnPreferenceChangeListener((pre, obj) -> {
+            RendererManager.LOADER_OVERRIDE = (String)obj;
             return true;
         });
 
@@ -114,6 +121,8 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
         requirePreference("SpareFrameBuffer").setVisible(LauncherPreferences.PREF_EXP_SETUP);
         requirePreference("MesaRendererChoose").setVisible(LauncherPreferences.PREF_EXP_SETUP);
         requirePreference("customMesaVersionPref").setVisible(LauncherPreferences.PREF_EXP_SETUP);
+        requirePreference("customMesaLoaderDriverOverride").setVisible(LauncherPreferences.PREF_EXP_SETUP);
+        requirePreference("ChooseMldo").setVisible(LauncherPreferences.PREF_LOADER_OVERRIDE);
     }
 
     private void closeOtherCustomMesaPref(PreferenceCategory customMesaVersionPref) {
@@ -142,9 +151,12 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
                 listPreference.setValue(value);
             }
             RendererManager.MESA_LIBS = value;
-        } else {
+        } else if (preferenceKey.equals("CDriverModels")) {
             array = RendererManager.getCompatibleCDriverModel(requireContext());
             RendererManager.DRIVER_MODEL = value;
+        } else if (preferenceKey.equals("ChooseMldo")) {
+            array = RendererManager.getCompatibleCMesaLDO(requireContext());
+            RendererManager.LOADER_OVERRIDE = value;
         }
         listPreference.setEntries(array.getArray());
         listPreference.setEntryValues(array.getList().toArray(new String[0]));
