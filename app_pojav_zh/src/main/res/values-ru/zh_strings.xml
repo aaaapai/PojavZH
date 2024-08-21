@@ -55,10 +55,9 @@
     <string name="zh_profile_mods_search_sort_by_popularity">Популярность</string>
     <string name="zh_profile_mods_search_sort_by_recently_created">Недавно созданные</string>
     <string name="zh_profile_mods_search_sort_by_recently_updated">Недавно обновлено</string>
-    <string name="zh_profile_mods_information_download_count">Всего скачиваний:</string>
-    <string name="zh_profile_mods_information_modloader">Поддерживаемые загрузчики модов:</string>
+    <string name="zh_profile_mods_information_download_count">Скачиваний:</string>
+    <string name="zh_profile_mods_information_modloader">Совместимо с:</string>
     <string name="zh_profile_mods_information_dependencies">Тип зависимостей:</string>
-    <string name="zh_profile_mods_information_release_type">Тип релиза:</string>
     <string name="zh_profile_mods_information_release_type_release">Релиз</string>
     <string name="zh_profile_mods_information_release_type_beta">Бета</string>
     <string name="zh_profile_mods_information_release_type_alpha">Альфа</string>
@@ -207,6 +206,7 @@
     <string name="zh_main_notice_title">Уведомления</string>
     <string name="zh_preference_category_language">Язык</string>
     <string name="zh_preference_category_personalization">Персонализация</string>
+    <string name="zh_preference_category_download">Загрузка</string>
     <string name="zh_preference_category_launcher">Лаунчер</string>
     <string name="zh_preference_category_experimental">Экспериментальное</string>
     <string name="zh_preference_category_experimental_patches">Экспериментальные патчи</string>
@@ -214,6 +214,8 @@
     <string name="zh_setting_java_memory_info">Текущая информация о памяти: %s / %s, свободной памяти: %s</string>
     <string name="zh_setting_java_memory_max">Максимальный доступный объем памяти: %s</string>
     <string name="zh_setting_java_memory_exceeded">Установленный объем памяти превышает доступный</string>
+    <string name="zh_setting_mod_info_mirror">Источник информации о модах</string>
+    <string name="zh_setting_mod_download_mirror">Источник загрузки модов</string>
     <string name="zh_setting_set_game_language_desc">Автоматически устанавливать язык игры на выбранный язык при запуске игры</string>
     <string name="zh_setting_set_game_language_title">Автоматическая установка языка игры</string>
     <string name="zh_setting_set_game_language_list">Установить язык игры</string>
@@ -298,6 +300,8 @@
     <string name="zh_about_pojavlauncher_desc">Команда разработчиков PojavLauncher, разработала и открыла исходный код PojavLauncher</string>
     <string name="zh_about_verafirefly_desc">Предоставляет техническую поддержку по рендерингу для Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Обеспечил техническую поддержку для Pojav Zenith Horizon</string>
+    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon использует зеркало BMCLAPI, созданное bangbang93</string>
+    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon использует зеркало информации о модах MCIM, созданное z0z0r4</string>
     <string name="zh_about_access_space">Доступ к пространству</string>
     <string name="zh_about_version_name">Название версии программного обеспечения:</string>
     <string name="zh_about_version_code">Код версии программного обеспечения:</string>

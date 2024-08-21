@@ -87,6 +87,8 @@ public class LauncherPreferences {
     public static boolean PREF_BUTTON_SNAPPING = true;
     public static int PREF_BUTTON_SNAPPING_DISTANCE = 8;
     public static long PREF_FIRST_LAUNCH_TIME = 0;
+    public static String PREF_MOD_INFO_SOURCE = "original";
+    public static String PREF_MOD_DOWNLOAD_SOURCE = "original";
 
     public static boolean PREF_EXP_SETUP = false;
     public static boolean PREF_SPARE_BRIDGE = false;
@@ -153,6 +155,8 @@ public class LauncherPreferences {
         PREF_QUILT_LAUNCHER = DEFAULT_PREF.getBoolean("quitLauncher", true);
         PREF_BUTTON_SNAPPING = DEFAULT_PREF.getBoolean("buttonSnapping", true);
         PREF_BUTTON_SNAPPING_DISTANCE = DEFAULT_PREF.getInt("buttonSnappingDistance", 8);
+        PREF_MOD_INFO_SOURCE = DEFAULT_PREF.getString("modInfoSource", "original");
+        PREF_MOD_DOWNLOAD_SOURCE = DEFAULT_PREF.getString("modDownloadSource", "original");
 
         PREF_SPARE_BRIDGE = DEFAULT_PREF.getBoolean("spareBridge", false);
         PREF_SPARE_FRAME_BUFFER = DEFAULT_PREF.getBoolean("SpareFrameBuffer", false);

@@ -55,10 +55,9 @@
     <string name="zh_profile_mods_search_sort_by_popularity">Phổ biến</string>
     <string name="zh_profile_mods_search_sort_by_recently_created">Được tạo gần đây</string>
     <string name="zh_profile_mods_search_sort_by_recently_updated">Gần đây được cập nhật</string>
-    <string name="zh_profile_mods_information_download_count">Tổng số lượt tải xuống:</string>
-    <string name="zh_profile_mods_information_modloader">Trình nạp Mod hỗ trợ:</string>
+    <string name="zh_profile_mods_information_download_count">Lượt tải xuống:</string>
+    <string name="zh_profile_mods_information_modloader">Tương thích với:</string>
     <string name="zh_profile_mods_information_dependencies">Loại phụ thuộc:</string>
-    <string name="zh_profile_mods_information_release_type">Loại phiên bản:</string>
     <string name="zh_profile_mods_information_release_type_release">Phiên bản chính thức</string>
     <string name="zh_profile_mods_information_release_type_beta">Phiên bản thử nghiệm</string>
     <string name="zh_profile_mods_information_release_type_alpha">Phiên bản thử nội bộ</string>
@@ -151,7 +150,7 @@
     <!-- Custom Mouse -->
     <string name="zh_mouse_settings_title">Cài đặt chuột ảo</string>
     <string name="zh_mouse_settings_speed_name">Tốc độ chuột ảo</string>
-    <string name="zh_mouse_settings_scale_name">Tỷ lệ chuột ảo</string>
+    <string name="zh_mouse_settings_scale_name">Kích thước chuột ảo</string>
     <string name="zh_custom_mouse_add">Thêm chuột ảo</string>
     <string name="zh_custom_mouse_added">Thiết lập chuột ảo thành công:</string>
     <string name="zh_custom_mouse_default">Chuột ảo mặc định</string>
@@ -207,6 +206,7 @@
     <string name="zh_main_notice_title">Thanh thông báo</string>
     <string name="zh_preference_category_language">Ngôn ngữ</string>
     <string name="zh_preference_category_personalization">Cá nhân hóa</string>
+    <string name="zh_preference_category_download">Tải xuống</string>
     <string name="zh_preference_category_launcher">Trình khởi chạy</string>
     <string name="zh_preference_category_experimental">Thử nghiệm</string>
     <string name="zh_preference_category_experimental_patches">Bản vá thử nghiệm</string>
@@ -214,6 +214,8 @@
     <string name="zh_setting_java_memory_info">Thông tin sử dụng bộ nhớ hiện tại: %s / %s, kích thước bộ nhớ trống: %s</string>
     <string name="zh_setting_java_memory_max">Kích thước bộ nhớ tối đa có thể đặt: %s</string>
     <string name="zh_setting_java_memory_exceeded">Kích thước bộ nhớ được đặt hiện vượt quá kích thước bộ nhớ có sẵn</string>
+    <string name="zh_setting_mod_info_mirror">Nguồn thông tin Mod</string>
+    <string name="zh_setting_mod_download_mirror">Nguồn tải xuống Mod</string>
     <string name="zh_setting_set_game_language_desc">Tự động đặt ngôn ngữ trò chơi thành ngôn ngữ đã chọn khi khởi động trò chơi</string>
     <string name="zh_setting_set_game_language_title">Tự động đặt ngôn ngữ trò chơi</string>
     <string name="zh_setting_set_game_language_list">Đặt ngôn ngữ trò chơi</string>
@@ -298,6 +300,8 @@
     <string name="zh_about_pojavlauncher_desc">Nhóm phát triển PojavLauncher, phát triển và mở mã nguồn PojavLauncher</string>
     <string name="zh_about_verafirefly_desc">Cung cấp hỗ trợ kỹ thuật về kết xuất cho Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Cung cấp hỗ trợ kỹ thuật cho Pojav Zenith Horizon</string>
+    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon sử dụng nguồn BMCLAPI do bangbang93 tạo ra</string>
+    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon sử dụng nguồn thông tin MCIM Mod do z0z0r4 tạo ra</string>
     <string name="zh_about_access_space">Truy cập không gian</string>
     <string name="zh_about_version_name">Tên phiên bản phần mềm:</string>
     <string name="zh_about_version_code">Mã phiên bản phần mềm:</string>

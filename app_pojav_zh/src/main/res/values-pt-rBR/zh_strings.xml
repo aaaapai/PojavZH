@@ -55,10 +55,9 @@
     <string name="zh_profile_mods_search_sort_by_popularity">Popularidade</string>
     <string name="zh_profile_mods_search_sort_by_recently_created">Criado Recentemente</string>
     <string name="zh_profile_mods_search_sort_by_recently_updated">Atualizado Recentemente</string>
-    <string name="zh_profile_mods_information_download_count">Total de Downloads:</string>
-    <string name="zh_profile_mods_information_modloader">Mod Loader Suportado:</string>
+    <string name="zh_profile_mods_information_download_count">Downloads:</string>
+    <string name="zh_profile_mods_information_modloader">Compatível com:</string>
     <string name="zh_profile_mods_information_dependencies">Tipo de Dependências:</string>
-    <string name="zh_profile_mods_information_release_type">Tipo de Versão:</string>
     <string name="zh_profile_mods_information_release_type_release">Versão Oficial</string>
     <string name="zh_profile_mods_information_release_type_beta">Versão Beta</string>
     <string name="zh_profile_mods_information_release_type_alpha">Versão Alpha</string>
@@ -207,6 +206,7 @@
     <string name="zh_main_notice_title">Barra de notificações</string>
     <string name="zh_preference_category_language">Idioma</string>
     <string name="zh_preference_category_personalization">Personalização</string>
+    <string name="zh_preference_category_download">Download</string>
     <string name="zh_preference_category_launcher">Launcher</string>
     <string name="zh_preference_category_experimental">Experimental</string>
     <string name="zh_preference_category_experimental_patches">Patches experimentais</string>
@@ -214,6 +214,8 @@
     <string name="zh_setting_java_memory_info">Informações de uso de memória atual: %s / %s, memória livre: %s</string>
     <string name="zh_setting_java_memory_max">Memória máxima configurável: %s</string>
     <string name="zh_setting_java_memory_exceeded">O espaço de memória configurado excede a memória disponível</string>
+    <string name="zh_setting_mod_info_mirror">Fonte de Informações do Mod</string>
+    <string name="zh_setting_mod_download_mirror">Fonte de Download do Mod</string>
     <string name="zh_setting_set_game_language_desc">Configura automaticamente o idioma do jogo para o idioma selecionado ao iniciar o jogo</string>
     <string name="zh_setting_set_game_language_title">Configurar automaticamente o idioma do jogo</string>
     <string name="zh_setting_set_game_language_list">Configurar idioma do jogo</string>
@@ -298,6 +300,8 @@
     <string name="zh_about_pojavlauncher_desc">Equipe de desenvolvimento do PojavLauncher, que desenvolveu e abriu o código do PojavLauncher</string>
     <string name="zh_about_verafirefly_desc">Fornece suporte técnico de renderização para Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Forneceu suporte técnico para o Pojav Zenith Horizon</string>
+    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon usa o espelho BMCLAPI criado por bangbang93</string>
+    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon usa o espelho de informações do Mod MCIM criado por z0z0r4</string>
     <string name="zh_about_access_space">Acessar Espaço</string>
     <string name="zh_about_version_name">Nome da Versão do Software:</string>
     <string name="zh_about_version_code">Código da Versão do Software:</string>

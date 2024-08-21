@@ -55,10 +55,9 @@
     <string name="zh_profile_mods_search_sort_by_popularity">الشعبية</string>
     <string name="zh_profile_mods_search_sort_by_recently_created">أُنشئت مؤخرًا</string>
     <string name="zh_profile_mods_search_sort_by_recently_updated">آخر تحديث</string>
-    <string name="zh_profile_mods_information_download_count">إجمالي التنزيلات:</string>
-    <string name="zh_profile_mods_information_modloader">محملات المودات المدعومة:</string>
+    <string name="zh_profile_mods_information_download_count">عدد التنزيلات:</string>
+    <string name="zh_profile_mods_information_modloader">متوافق مع:</string>
     <string name="zh_profile_mods_information_dependencies">نوع التبعيات:</string>
-    <string name="zh_profile_mods_information_release_type">نوع الإصدار:</string>
     <string name="zh_profile_mods_information_release_type_release">الإصدار الرسمي</string>
     <string name="zh_profile_mods_information_release_type_beta">الإصدار التجريبي</string>
     <string name="zh_profile_mods_information_release_type_alpha">الإصدار الداخلي</string>
@@ -207,6 +206,7 @@
     <string name="zh_main_notice_title">الإشعارات</string>
     <string name="zh_preference_category_language">اللغة</string>
     <string name="zh_preference_category_personalization">تخصيص</string>
+    <string name="zh_preference_category_download">تنزيل</string>
     <string name="zh_preference_category_launcher">المشغل</string>
     <string name="zh_preference_category_experimental">تجريبي</string>
     <string name="zh_preference_category_experimental_patches">تصحيحات تجريبية</string>
@@ -214,6 +214,8 @@
     <string name="zh_setting_java_memory_info">معلومات استخدام الذاكرة الحالية: %s / %s ، حجم الذاكرة الحرة: %s</string>
     <string name="zh_setting_java_memory_max">الحد الأقصى لحجم الذاكرة القابل للضبط: %s</string>
     <string name="zh_setting_java_memory_exceeded">حجم الذاكرة المعين حاليًا يتجاوز حجم الذاكرة المتاحة</string>
+    <string name="zh_setting_mod_info_mirror">مصدر معلومات Mod</string>
+    <string name="zh_setting_mod_download_mirror">مصدر تنزيل Mod</string>
     <string name="zh_setting_set_game_language_desc">تعيين لغة اللعبة تلقائيًا إلى اللغة المحددة عند بدء اللعبة</string>
     <string name="zh_setting_set_game_language_title">تعيين لغة اللعبة تلقائيًا</string>
     <string name="zh_setting_set_game_language_list">تعيين لغة اللعبة</string>
@@ -298,6 +300,8 @@
     <string name="zh_about_pojavlauncher_desc">فريق تطوير PojavLauncher، قاموا بتطوير ونشر PojavLauncher مفتوح المصدر</string>
     <string name="zh_about_verafirefly_desc">توفير الدعم الفني للتصيير لـ Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">قدم دعمًا فنيًا لـ Pojav Zenith Horizon</string>
+    <string name="zh_about_bangbang93_desc">يستخدم Pojav Zenith Horizon مرآة BMCLAPI التي أنشأها bangbang93</string>
+    <string name="zh_about_z0z0r4_desc">يستخدم Pojav Zenith Horizon مرآة معلومات MCIM Mod التي أنشأها z0z0r4</string>
     <string name="zh_about_access_space">زيارة الفضاء</string>
     <string name="zh_about_version_name">اسم إصدار البرنامج:</string>
     <string name="zh_about_version_code">رمز إصدار البرنامج:</string>

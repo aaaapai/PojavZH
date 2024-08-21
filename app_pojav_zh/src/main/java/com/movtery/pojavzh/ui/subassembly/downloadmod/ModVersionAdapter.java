@@ -96,7 +96,7 @@ public class ModVersionAdapter extends RecyclerView.Adapter<ModVersionAdapter.In
             if (sj.length() > 0) modloaderText = sj.toString();
             else modloaderText = context.getString(R.string.zh_unknown);
 
-            mModloaders.setText(StringUtils.insertSpace(context.getString(R.string.zh_profile_mods_information_modloader), modloaderText));
+            mModloaders.setText(modloaderText);
 
             mReleaseType.setText(getDownloadTypeText(modVersionItem.versionType));
 
@@ -149,7 +149,7 @@ public class ModVersionAdapter extends RecyclerView.Adapter<ModVersionAdapter.In
                     text = mainView.getContext().getString(R.string.zh_unknown);
                     break;
             }
-            return StringUtils.insertSpace(mainView.getContext().getString(R.string.zh_profile_mods_information_release_type), text);
+            return text;
         }
     }
 }
