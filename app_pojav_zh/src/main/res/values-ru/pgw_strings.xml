@@ -15,7 +15,7 @@
     <string name="preference_renderer_setup_extra">Рендерер (расширение)</string>
     <string name="preference_renderer_extra_default">Mesa 24.2.0 (по умолчанию)</string>
     <string name="preference_extra_mesa_version">Версия Mesa</string>
-    <string name="preference_extra_driver_model">Модель драйвера</string>
+    <string name="preference_extra_driver_model">Переопределение драйвера Gallium</string>
     <!-- Dialog box prompt -->
     <string name="preference_rendererexp_alertdialog_message">Вы включили экспериментальные настройки, эта функция может вызвать непредвиденные проблемы, продолжить использование?</string>
     <string name="alertdialog_tipa">Внимание! Перед использованием пользовательских GL/GLSL вы должны понимать, что такое GL/GLSL</string>
@@ -36,4 +36,9 @@
     <string name="preference_rendererexp_mesa_downloading">Скачивание Mesa Lib</string>
     <string name="preference_rendererexp_mesa_download_fail">Ошибка при скачивании Mesa Lib</string>
     <string name="preference_rendererexp_mesa_downloaded">Скачивание Mesa Lib успешно</string>
+    <!-- Custom Mesa Loader Driver Override -->
+    <string name="preference_extra_osm_cmldo_categ">Переопределение драйвера Custom Mesa Loader</string>
+    <string name="osm_enable_cmldo">Включить переопределение драйвера Custom Mesa Load (Только для Freedreno)</string>
+    <string name="osm_enable_cmldo_desc">Если необходимо, вы можете свободно выбрать метод обработки</string>
+    <string name="osm_choose_cmldo">Выберите переопределение драйвера Mesa Loader</string>
 </resources>

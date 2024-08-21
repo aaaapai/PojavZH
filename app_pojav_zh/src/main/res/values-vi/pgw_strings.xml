@@ -15,7 +15,7 @@
     <string name="preference_renderer_setup_extra">Trình kết xuất (Mở rộng)</string>
     <string name="preference_renderer_extra_default">Mesa 24.2.0 (mặc định)</string>
     <string name="preference_extra_mesa_version">Phiên bản Mesa</string>
-    <string name="preference_extra_driver_model">Mô hình trình điều khiển</string>
+    <string name="preference_extra_driver_model">Gallium Driver Override</string>
     <!-- Dialog box prompt -->
     <string name="preference_rendererexp_alertdialog_message">Bạn đã bật cài đặt thử nghiệm, tính năng này có thể gây ra những vấn đề không mong muốn, bạn có muốn tiếp tục sử dụng?</string>
     <string name="alertdialog_tipa">Cảnh báo! Trước khi sử dụng GL/GLSL tùy chỉnh, bạn phải hiểu GL/GLSL là gì</string>
@@ -36,4 +36,9 @@
     <string name="preference_rendererexp_mesa_downloading">Đang téléchargement Mesa Lib</string>
     <string name="preference_rendererexp_mesa_download_fail">Lỗi téléchargement Mesa Lib</string>
     <string name="preference_rendererexp_mesa_downloaded">Téléchargement Mesa Lib thành công</string>
+    <!-- Custom Mesa Loader Driver Override -->
+    <string name="preference_extra_osm_cmldo_categ">Giai Overrides Driver Load Mesa</string>
+    <string name="osm_enable_cmldo">Kích hoạt Giai Overrides Driver Load Mesa (Chỉ có với Freedreno)</string>
+    <string name="osm_enable_cmldo_desc">Nếu cần, bạn có thể tự do chọn phương pháp xử lý</string>
+    <string name="osm_choose_cmldo">Chọn Giai Overrides Driver Load Mesa</string>
 </resources>
