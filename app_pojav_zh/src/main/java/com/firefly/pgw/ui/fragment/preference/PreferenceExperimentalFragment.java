@@ -135,7 +135,7 @@ public class PreferenceExperimentalFragment extends LauncherPreferenceFragment {
     }
 
     private void setListPreference(ListPreference listPreference, String preferenceKey) {
-        ListAndArray array;
+        ListAndArray array = null;
         String value = listPreference.getValue();
         if (preferenceKey.equals("CMesaLibrary")) {
             array = RendererManager.getCompatibleCMesaLib(requireContext());
