@@ -4,7 +4,7 @@ import com.firefly.pgw.utils.ListAndArray;
 
 import java.util.List;
 
-public class CMesaLDOList implements IListAndArry {
+public class CMesaLDOList implements ListAndArray {
     public final List<String> CMesaLDOIds;
     public final String[] CMesaLDO;
 
