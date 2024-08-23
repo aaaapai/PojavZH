@@ -79,6 +79,7 @@ android {
         resValue 'string', 'curseforge_api_key', getCFApiKey()
         resValue 'string', 'zh_branch_info', getBranchName()
         resValue 'string', 'zh_api_token', getApiToken()
+        resValue 'string', 'zh_private_api_token', getPrivateApiToken()
     }
 
     buildTypes {
