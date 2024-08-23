@@ -32,8 +32,8 @@ jobs:
           workflow: main.yml
           path: app_pojav_zh/src/main/assets/components/lwjgl3
           workflow_conclusion: success
-          repo: Vera-Firefly/lwjgl3-build
-          branch: main
+          repo: aaaapai/lwjgl3-build
+          branch: PGW
           name: lwjgl
 
       - name: Gradle Wrapper Validation
