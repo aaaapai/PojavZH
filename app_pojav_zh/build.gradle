@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application' version '8.7.0-alpha07'
     id 'org.jetbrains.kotlin.android' version '2.0.20'
+}
 
 static def getEnvOrDefault(String envVar, String defaultValue) {
     def value = System.getenv(envVar)
