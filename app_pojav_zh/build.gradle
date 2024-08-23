@@ -74,7 +74,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 35
         versionCode getVersionCode()
-        versionName "1.2.6.0"
+        versionName "1.2.8"
         multiDexEnabled true //important
         resValue 'string', 'curseforge_api_key', getCFApiKey()
         resValue 'string', 'zh_branch_info', getBranchName()
@@ -227,11 +227,10 @@ dependencies {
     // Our version of exp4j can be built from source at
     // https://github.com/PojavLauncherTeam/exp4j
     implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.29'
-    implementation 'com.bytedance:bytehook:1.0.10'
 
     // implementation 'net.sourceforge.streamsupport:streamsupport-cfuture:1.7.0'
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*'])
 
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
     implementation 'org.commonmark:commonmark:0.22.0'
