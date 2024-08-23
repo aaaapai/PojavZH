@@ -2,11 +2,11 @@ package com.movtery.pojavzh.ui.fragment
 
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
-import com.movtery.pojavzh.utils.MCVersionComparator
 import com.movtery.pojavzh.utils.MCVersionRegex
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -16,6 +16,7 @@ import net.kdt.pojavlaunch.modloaders.FabriclikeDownloadTask
 import net.kdt.pojavlaunch.modloaders.FabriclikeUtils
 import net.kdt.pojavlaunch.modloaders.ModloaderDownloadListener
 import net.kdt.pojavlaunch.modloaders.ModloaderListenerProxy
+import org.jackhuang.hmcl.util.versioning.VersionNumber
 import java.io.File
 import java.util.concurrent.Future
 
@@ -28,25 +29,34 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: 
         super.init()
     }
 
+    override fun initRefresh(): Future<*>? {
+        return refresh(false)
+    }
+
     override fun refresh(): Future<*> {
+        return refresh(true)
+    }
+
+    private fun refresh(force: Boolean): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
-                val gameVersions = utils.downloadGameVersions()
-                processInfo(gameVersions)
-            } catch (e: Exception) {
+                val gameVersions = utils.downloadGameVersions(force)
+                processInfo(gameVersions, force)
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadFabricLike", Tools.printToString(e))
             }
         }
     }
 
-    private fun processInfo(gameVersions: Array<FabricVersion>) {
+    private fun processInfo(gameVersions: Array<FabricVersion>, force: Boolean) {
         if (gameVersions.isEmpty()) {
             Tools.runOnUiThread {
                 componentProcessing(false)
@@ -59,7 +69,7 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: 
         val pattern = MCVersionRegex.RELEASE_REGEX
 
         val mFabricVersions: MutableMap<String, List<FabricVersion>> = HashMap()
-        val loaderVersions: Array<FabricVersion>? = utils.downloadLoaderVersions()
+        val loaderVersions: Array<FabricVersion>? = utils.downloadLoaderVersions(force)
         gameVersions.forEach {
             if (currentTask!!.isCancelled) return
             val version = it.version
@@ -79,14 +89,12 @@ abstract class DownloadFabricLikeFragment(val utils: FabriclikeUtils, val icon: 
 
         val mData: MutableList<ModListItemBean> = ArrayList()
         mFabricVersions.entries
-            .sortedWith { entry1, entry2 ->
-                MCVersionComparator.versionCompare(entry1.key, entry2.key)
-            }
+            .sortedWith { entry1, entry2 -> -VersionNumber.compare(entry1.key, entry2.key) }
             .forEach { (gameVersion, loaderVersions) ->
                 if (currentTask!!.isCancelled) return
 
                 //为整理好的Fabric版本设置Adapter
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, icon, loaderVersions)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, icon, loaderVersions)
                 adapter.setOnItemClickListener { version ->
                     val fabricVersion = version as FabricVersion
                     Thread(

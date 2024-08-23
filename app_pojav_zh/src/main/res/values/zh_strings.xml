@@ -26,6 +26,7 @@
     <string name="zh_input_invalid">The content entered does not meet the requirements, please re-enter</string>
     <string name="zh_input_too_small">The value entered is too small, it must be at least %s</string>
     <string name="zh_input_too_big">The value entered is too large, it can only be up to %s</string>
+    <string name="zh_copied">Copied</string>
     <!-- Dialog -->
     <string name="zh_dialog_select_jar">Select Jar file</string>
     <!-- Profiles Path -->
@@ -54,10 +55,9 @@
     <string name="zh_profile_mods_search_sort_by_popularity">Popularity</string>
     <string name="zh_profile_mods_search_sort_by_recently_created">Recently Created</string>
     <string name="zh_profile_mods_search_sort_by_recently_updated">Recently Updated</string>
-    <string name="zh_profile_mods_information_download_count">Total Downloads:</string>
-    <string name="zh_profile_mods_information_modloader">Supported Mod Loaders:</string>
+    <string name="zh_profile_mods_information_download_count">Downloads:</string>
+    <string name="zh_profile_mods_information_modloader">Compatible with:</string>
     <string name="zh_profile_mods_information_dependencies">Dependency Type:</string>
-    <string name="zh_profile_mods_information_release_type">Release Type:</string>
     <string name="zh_profile_mods_information_release_type_release">Release</string>
     <string name="zh_profile_mods_information_release_type_beta">Beta</string>
     <string name="zh_profile_mods_information_release_type_alpha">Alpha</string>
@@ -189,7 +189,7 @@
     <string name="zh_file_multi_select_mode">Enable Multi-Select Mode</string>
     <string name="zh_file_multi_select_mode_title">Multi-Select Mode</string>
     <string name="zh_file_multi_select_mode_message">Currently, a total of %d items are selected</string>
-    <string name="zh_file_operation_file">Operating on file… (%s / %s, %d)</string>
+    <string name="zh_file_operation_file">Processing file… (%s / %s, %d)</string>
     <string name="zh_file_jump_to_path">Jump to Path</string>
     <string name="zh_file_nothing">No files found!</string>
     <!-- Search View -->
@@ -205,6 +205,8 @@
     <string name="zh_main_share_log_tip">Are you sure you want to share the launcher\'s running log?\nLog file location:</string>
     <string name="zh_main_notice_title">Notification Bar</string>
     <string name="zh_preference_category_language">Language</string>
+    <string name="zh_preference_category_personalization">Personalization</string>
+    <string name="zh_preference_category_download">Download</string>
     <string name="zh_preference_category_launcher">Launcher</string>
     <string name="zh_preference_category_experimental">Experimental</string>
     <string name="zh_preference_category_experimental_patches">Experimental Patches</string>
@@ -212,6 +214,8 @@
     <string name="zh_setting_java_memory_info">Current memory usage: %s / %s, Free memory size: %s</string>
     <string name="zh_setting_java_memory_max">Maximum allowable memory size: %s</string>
     <string name="zh_setting_java_memory_exceeded">The current memory allocation exceeds available memory size</string>
+    <string name="zh_setting_mod_info_mirror">Mod Information Source</string>
+    <string name="zh_setting_mod_download_mirror">Mod Download Source</string>
     <string name="zh_setting_set_game_language_desc">Automatically set the game language to the selected language when the game starts</string>
     <string name="zh_setting_set_game_language_title">Automatically Set Game Language</string>
     <string name="zh_setting_set_game_language_list">Set Game Language</string>
@@ -228,6 +232,8 @@
     <string name="zh_setting_animation_title">Enable Animation</string>
     <string name="zh_setting_animation_speed_desc">Set the speed of the launcher animation playback</string>
     <string name="zh_setting_animation_speed_title">Animation Speed</string>
+    <string name="zh_setting_page_opacity_title">Page Opacity</string>
+    <string name="zh_setting_page_opacity_desc">Set the opacity of the main page of the launcher</string>
     <string name="zh_setting_quit_launcher_desc">Should the launcher exit when the game officially begins running?</string>
     <string name="zh_setting_quit_launcher_title">Exit Launcher</string>
     <string name="zh_setting_reboot_tip">This setting has been changed, but requires the app to be restarted to take effect!</string>
@@ -292,8 +298,10 @@
     <string name="zh_about_button_support_development">Support Development</string>
     <string name="zh_about_movtery_desc">Author of Pojav Zenith Horizon</string>
     <string name="zh_about_pojavlauncher_desc">Development team of PojavLauncher, developed and open-sourced PojavLauncher</string>
-    <string name="zh_about_verafirefly_desc">Project collaborator of Pojav Zenith Horizon, providing rendering technical support for Pojav Zenith Horizon</string>
+    <string name="zh_about_verafirefly_desc">Provides rendering technical support for Pojav Zenith Horizon</string>
     <string name="zh_about_lingmuqiuzhu_desc">Provided technical support for Pojav Zenith Horizon</string>
+    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon uses the BMCLAPI mirror created by bangbang93</string>
+    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon uses the MCIM Mod information mirror created by z0z0r4</string>
     <string name="zh_about_access_space">Access Space</string>
     <string name="zh_about_version_name">Software Version Name:</string>
     <string name="zh_about_version_code">Software Version Code:</string>

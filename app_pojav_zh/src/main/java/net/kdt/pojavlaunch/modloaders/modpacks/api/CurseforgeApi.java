@@ -1,7 +1,5 @@
 package net.kdt.pojavlaunch.modloaders.modpacks.api;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -9,13 +7,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.kdt.mcgui.ProgressLayout;
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.feature.mod.ModCache;
 import com.movtery.pojavzh.feature.mod.ModLoaderList;
+import com.movtery.pojavzh.feature.mod.ModMirror;
 import com.movtery.pojavzh.feature.mod.SearchModSort;
 import com.movtery.pojavzh.feature.mod.modpack.install.ModPackUtils;
 import com.movtery.pojavzh.feature.mod.modpack.install.OnInstallStartListener;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModDependencies;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionItem;
 import com.movtery.pojavzh.ui.subassembly.downloadmod.VersionType;
+import com.movtery.pojavzh.utils.MCVersionRegex;
 import com.movtery.pojavzh.utils.stringutils.StringUtils;
 
 import net.kdt.pojavlaunch.R;
@@ -36,7 +38,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeSet;
@@ -44,7 +45,6 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipFile;
 
 public class CurseforgeApi implements ModpackApi{
-    private static final Pattern sMcVersionPattern = Pattern.compile("([0-9]+)\\.([0-9]+)\\.?([0-9]+)?");
     private static final int ALGO_SHA_1 = 1;
     // Stolen from
     // https://github.com/AnzhiZhang/CurseForgeModpackDownloader/blob/6cb3f428459f0cc8f444d16e54aea4cd1186fd7b/utils/requester.py#L93
@@ -52,13 +52,13 @@ public class CurseforgeApi implements ModpackApi{
     private static final int CURSEFORGE_MODPACK_CLASS_ID = 4471;
     // https://api.curseforge.com/v1/categories?gameId=432 and search for "Mods" (case-sensitive)
     private static final int CURSEFORGE_MOD_CLASS_ID = 6;
-    private static final int CURSEFORGE_PAGINATION_SIZE = 50;
+    private static final int CURSEFORGE_PAGINATION_SIZE = 100;
     private static final int CURSEFORGE_PAGINATION_END_REACHED = -1;
     private static final int CURSEFORGE_PAGINATION_ERROR = -2;
 
     private final ApiHandler mApiHandler;
     public CurseforgeApi(String apiKey) {
-        mApiHandler = new ApiHandler("https://api.curseforge.com/v1", apiKey);
+        mApiHandler = new ApiHandler(ModMirror.replaceMirrorInfoUrl("https://api.curseforge.com/v1"), apiKey);
     }
 
     @Override
@@ -100,9 +100,12 @@ public class CurseforgeApi implements ModpackApi{
             // Gson automatically casts null to false, which leans to issues
             // So, only check the distribution flag if it is non-null
             if(!allowModDistribution.isJsonNull() && !allowModDistribution.getAsBoolean()) {
-                Log.i("CurseforgeApi", "Skipping modpack "+dataElement.get("name").getAsString() + " because curseforge sucks");
+                Logging.i("CurseforgeApi", "Skipping project "+dataElement.get("name").getAsString() + " because curseforge sucks");
                 continue;
             }
+
+            String iconUrl = fetchIconUrl(dataElement);
+
             ModItem modItem = new ModItem(Constants.SOURCE_CURSEFORGE,
                     searchFilters.isModpack,
                     dataElement.get("id").getAsString(),
@@ -110,7 +113,7 @@ public class CurseforgeApi implements ModpackApi{
                     dataElement.get("summary").getAsString(),
                     dataElement.get("downloadCount").getAsInt(),
                     getModloaders(dataElement.getAsJsonArray("latestFilesIndexes")),
-                    dataElement.getAsJsonObject("logo").get("thumbnailUrl").getAsString());
+                    iconUrl);
             modItemList.add(modItem);
         }
         if(curseforgeSearchResult == null) curseforgeSearchResult = new CurseforgeSearchResult();
@@ -122,7 +125,7 @@ public class CurseforgeApi implements ModpackApi{
     }
 
     @NonNull
-    private static String getModloaders(JsonArray latestFilesIndexes) {
+    private static ModLoaderList.ModLoader[] getModloaders(JsonArray latestFilesIndexes) {
         //获取Mod加载器信息
         Set<Integer> modloaderSet = new TreeSet<>();
         latestFilesIndexes.getAsJsonArray();
@@ -131,124 +134,124 @@ public class CurseforgeApi implements ModpackApi{
             if (latestFilesObject.get("modLoader") == null) continue;
             modloaderSet.add(latestFilesObject.get("modLoader").getAsInt());
         }
-        StringJoiner sj = new StringJoiner(",  ");
+        List<ModLoaderList.ModLoader> modLoaders = new ArrayList<>();
         for (Integer index : modloaderSet) {
             String modloaderName = ModLoaderList.getModloaderNameByCurseId(index);
-            if (ModLoaderList.notModloaderName(modloaderName)) continue;
-            sj.add(modloaderName); //将id转换为Mod加载器名称
+            ModLoaderList.addModLoaderToList(modLoaders, modloaderName);
         }
-        return sj.toString();
+        return modLoaders.toArray(new ModLoaderList.ModLoader[]{});
     }
 
     @Override
-    public ModDetail getModDetails(ModItem item) {
+    public ModDetail getModDetails(ModItem item, boolean force) {
+        if (!force && ModCache.ModInfoCache.INSTANCE.containsKey(this, item.id)) return new ModDetail(item, ModCache.ModInfoCache.INSTANCE.get(this, item.id));
+
         ArrayList<JsonObject> allModDetails = new ArrayList<>();
         int index = 0;
-        while(index != CURSEFORGE_PAGINATION_END_REACHED &&
-                index != CURSEFORGE_PAGINATION_ERROR) {
+
+        while (index != CURSEFORGE_PAGINATION_END_REACHED && index != CURSEFORGE_PAGINATION_ERROR) {
             index = getPaginatedDetails(allModDetails, index, item.id);
         }
-        if(index == CURSEFORGE_PAGINATION_ERROR) return null;
+
+        if (index == CURSEFORGE_PAGINATION_ERROR) return null;
 
         List<ModVersionItem> modVersionItems = new ArrayList<>();
-        Map<String, ModItem> dependenciesModMap = new HashMap<>();
 
-        for(int i = 0; i < allModDetails.size(); i++) {
-            JsonObject modDetail = allModDetails.get(i);
+        for (JsonObject modDetail : allModDetails) {
             //获取信息
-            String downloadUrl = modDetail.get("downloadUrl").getAsString();
+            String downloadUrl = ModMirror.replaceMirrorDownloadUrl(modDetail.get("downloadUrl").getAsString());
             String fileName = modDetail.get("fileName").getAsString();
             String displayName = modDetail.get("displayName").getAsString();
             String releaseTypeString = modDetail.get("releaseType").getAsString();
             //获取版本信息
-            List<String> mcVersions = new ArrayList<>();
-            JsonArray gameVersions = modDetail.getAsJsonArray("gameVersions");
-            Set<String> modloaderNames = new TreeSet<>();
-            for(JsonElement jsonElement : gameVersions) {
-                String gameVersion = jsonElement.getAsString();
-                if(!sMcVersionPattern.matcher(gameVersion).matches()) {
-                    modloaderNames.add(gameVersion);
-                    continue;
-                }
-
+            Set<String> mcVersions = new TreeSet<>();
+            for (JsonElement gameVersionElement : modDetail.getAsJsonArray("gameVersions")) {
+                String gameVersion = gameVersionElement.getAsString();
                 mcVersions.add(gameVersion);
-                break;
             }
 
             //获取全部的Mod加载器
-            StringJoiner modloaderList = new StringJoiner(", ");
-            if (!modloaderNames.isEmpty()) {
-                for (String modloaderName : modloaderNames) {
-                    if (ModLoaderList.notModloaderName(modloaderName)) continue;
-                    modloaderList.add(modloaderName);
-                }
-            }
+            List<ModLoaderList.ModLoader> modloaderList = new ArrayList<>();
+            mcVersions.forEach(modloaderName -> ModLoaderList.addModLoaderToList(modloaderList, modloaderName));
 
-            String[] mcVersionsArray = new String[mcVersions.size()];
-            mcVersions.toArray(mcVersionsArray);
+            //过滤非MC版本的元素
+            Pattern releaseRegex = MCVersionRegex.getRELEASE_REGEX();
+            Set<String> nonMCVersion = new TreeSet<>();
+            mcVersions.forEach(string -> {
+                if (!releaseRegex.matcher(string).find()) nonMCVersion.add(string);
+            });
+            if (!nonMCVersion.isEmpty()) mcVersions.removeAll(nonMCVersion);
 
-            JsonArray dependencies = modDetail.get("dependencies").getAsJsonArray();
-            List<ModDependencies> modDependencies = new ArrayList<>();
-            if (!item.isModpack && dependencies.size() != 0) {
-                for (JsonElement dependency : dependencies) {
-                    JsonObject object = dependency.getAsJsonObject();
-                    String modId = object.get("modId").getAsString();
-                    String dependencyType = object.get("relationType").getAsString();
+            List<ModDependencies> modDependencies = getDependencies(item, modDetail);
 
-                    ModItem items = null;
-                    if (!dependenciesModMap.containsKey(modId)) {
-                        JsonObject response = searchModFromID(modId);
-                        JsonObject hit = response.get("data").getAsJsonObject();
-
-                        if (hit != null) {
-                            JsonArray itemsGameVersions = modDetail.getAsJsonArray("gameVersions");
-                            Set<String> itemsModloaderNames = new TreeSet<>();
-                            for(JsonElement jsonElement : itemsGameVersions) {
-                                String gameVersion = jsonElement.getAsString();
-
-                                if(ModLoaderList.notModloaderName(gameVersion)) continue;
-                                itemsModloaderNames.add(ModLoaderList.getModloaderName(gameVersion));
-                            }
-
-                            StringJoiner modLoadersArray = new StringJoiner(",  ");
-                            for (String string : itemsModloaderNames) {
-                                modLoadersArray.add(string);
-                            }
-
-                            items = new ModItem(
-                                    Constants.SOURCE_CURSEFORGE,
-                                    hit.get("categories").getAsJsonArray().get(0).getAsJsonObject().get("classId").getAsInt() != CURSEFORGE_MOD_CLASS_ID,
-                                    modId,
-                                    hit.get("name").getAsString(),
-                                    hit.get("summary").getAsString(),
-                                    hit.get("downloadCount").getAsInt(),
-                                    modLoadersArray.toString(),
-                                    hit.getAsJsonObject("logo").get("thumbnailUrl").getAsString()
-                            );
-                        }
-                        dependenciesModMap.put(modId, items);
-                    } else {
-                        items = dependenciesModMap.get(modId);
-                    }
-
-                    if (items != null) {
-                        modDependencies.add(new ModDependencies(items, ModDependencies.getDependencyType(dependencyType)));
-                    }
-                }
-            }
-
-            modVersionItems.add(new ModVersionItem(mcVersionsArray,
+            modVersionItems.add(new ModVersionItem(
+                    mcVersions.toArray(new String[0]),
                     fileName,
                     displayName,
-                    modloaderList.toString(),
+                    modloaderList.toArray(new ModLoaderList.ModLoader[0]),
                     modDependencies,
                     VersionType.getVersionType(releaseTypeString),
                     getSha1FromModData(modDetail),
                     modDetail.get("downloadCount").getAsInt(),
-                    downloadUrl));
+                    downloadUrl
+            ));
         }
 
+        ModCache.ModInfoCache.INSTANCE.put(this, item.id, modVersionItems);
         return new ModDetail(item, modVersionItems);
+    }
+
+    private List<ModDependencies> getDependencies(ModItem item, JsonObject modDetail) {
+        JsonArray dependencies = modDetail.get("dependencies").getAsJsonArray();
+        List<ModDependencies> modDependencies = new ArrayList<>();
+        if (!item.isModpack && dependencies.size() != 0) {
+            for (JsonElement dependency : dependencies) {
+                JsonObject object = dependency.getAsJsonObject();
+                String modId = object.get("modId").getAsString();
+                String dependencyType = object.get("relationType").getAsString();
+
+                if (!ModCache.ModItemCache.INSTANCE.containsKey(this, modId)) {
+                    JsonObject response = searchModFromID(modId);
+                    JsonObject hit = response.get("data").getAsJsonObject();
+
+                    if (hit != null) {
+                        JsonArray itemsGameVersions = modDetail.getAsJsonArray("gameVersions");
+                        Set<ModLoaderList.ModLoader> itemsModloaderNames = new TreeSet<>();
+                        for(JsonElement jsonElement : itemsGameVersions) {
+                            String gameVersion = jsonElement.getAsString();
+
+                            ModLoaderList.addModLoaderToList(itemsModloaderNames, gameVersion);
+                        }
+
+                        String iconUrl = fetchIconUrl(hit);
+
+                        ModCache.ModItemCache.INSTANCE.put(this, modId, new ModItem(
+                                Constants.SOURCE_CURSEFORGE,
+                                hit.get("categories").getAsJsonArray().get(0).getAsJsonObject().get("classId").getAsInt() != CURSEFORGE_MOD_CLASS_ID,
+                                modId,
+                                hit.get("name").getAsString(),
+                                hit.get("summary").getAsString(),
+                                hit.get("downloadCount").getAsInt(),
+                                itemsModloaderNames.toArray(new ModLoaderList.ModLoader[]{}),
+                                iconUrl
+                        ));
+                    }
+                }
+
+                ModItem cacheMod = ModCache.ModItemCache.INSTANCE.get(this, modId);
+                if (cacheMod != null) modDependencies.add(new ModDependencies(cacheMod, ModDependencies.getDependencyType(dependencyType)));
+            }
+        }
+        return modDependencies;
+    }
+
+    public String fetchIconUrl(JsonObject hit) {
+        try {
+            return hit.getAsJsonObject("logo").get("thumbnailUrl").getAsString();
+        } catch (Exception e) {
+            Logging.e("CurseForgeAPI", Tools.printToString(e));
+            return null;
+        }
     }
 
     @Override
@@ -260,7 +263,7 @@ public class CurseforgeApi implements ModpackApi{
         }
     }
 
-    private JsonObject searchModFromID(String id) {
+    public JsonObject searchModFromID(String id) {
         JsonObject response = mApiHandler.get(String.format("mods/%s", id), JsonObject.class);
         System.out.println(response);
 
@@ -293,7 +296,7 @@ public class CurseforgeApi implements ModpackApi{
                     Tools.read(ZipUtils.getEntryStream(modpackZipFile, "manifest.json")),
                     CurseManifest.class);
             if (!verifyManifest(curseManifest)) {
-                Log.i("CurseforgeApi", "manifest verification failed");
+                Logging.i("CurseforgeApi", "manifest verification failed");
                 return null;
             }
             if (onInstallStartListener != null) onInstallStartListener.onStart();
@@ -332,7 +335,7 @@ public class CurseforgeApi implements ModpackApi{
         int dashIndex = modLoaderId.indexOf('-');
         String modLoaderName = modLoaderId.substring(0, dashIndex);
         String modLoaderVersion = modLoaderId.substring(dashIndex+1);
-        Log.i("CurseforgeApi", StringUtils.insertSpace(modLoaderId, modLoaderName, modLoaderVersion));
+        Logging.i("CurseforgeApi", StringUtils.insertSpace(modLoaderId, modLoaderName, modLoaderVersion));
         int modLoaderTypeInt;
         switch (modLoaderName) {
             case "forge":

@@ -20,10 +20,11 @@ import com.daimajia.androidanimations.library.YoYo.YoYoString
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim
 import com.movtery.pojavzh.utils.ZHTools
 import com.movtery.pojavzh.utils.anim.AnimUtils
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
 import com.movtery.pojavzh.utils.stringutils.StringUtils
 import net.kdt.pojavlaunch.R
+import net.kdt.pojavlaunch.prefs.LauncherPreferences
 import java.util.concurrent.Future
 
 abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download) {
@@ -57,7 +58,7 @@ abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download
         recyclerView?.layoutManager = layoutManager
 
         mRefreshButton?.setOnClickListener { refreshTask() }
-        releaseCheckBox?.setOnClickListener { refreshTask() }
+        releaseCheckBox?.setOnClickListener { initRefresh() }
         mReturnButton?.setOnClickListener {
             if (parentAdapter != null) {
                 hideParentElement(false)
@@ -71,7 +72,7 @@ abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download
 
         mBackToTop?.setOnClickListener { recyclerView?.smoothScrollToPosition(0) }
 
-        refreshTask()
+        currentTask = initRefresh()
     }
 
     override fun onAttach(context: Context) {
@@ -89,16 +90,15 @@ abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download
         super.onDestroy()
     }
 
-    private fun hideParentElement(visible: Boolean) {
-        cancelTask() //中断当前正在执行的任务
+    private fun hideParentElement(hide: Boolean) {
+        cancelTask()
 
-        mRefreshButton?.isClickable = !visible
-        releaseCheckBox?.isClickable = !visible
+        mRefreshButton?.isClickable = !hide
+        releaseCheckBox?.isClickable = !hide
 
-        setVisibilityAnim(mSelectTitle!!, visible)
-        setVisibilityAnim(mRefreshButton!!, !visible)
-
-        if (releaseCheckBoxVisible) setVisibilityAnim(releaseCheckBox!!, !visible)
+        setViewAnim(mSelectTitle!!, if (hide) Techniques.FadeIn else Techniques.FadeOut, (LauncherPreferences.PREF_ANIMATION_SPEED * 0.7).toLong())
+        setViewAnim(mRefreshButton!!, if (hide) Techniques.FadeOut else Techniques.FadeIn, (LauncherPreferences.PREF_ANIMATION_SPEED * 0.7).toLong())
+        if (releaseCheckBoxVisible) setViewAnim(releaseCheckBox!!, if (hide) Techniques.FadeOut else Techniques.FadeIn, (LauncherPreferences.PREF_ANIMATION_SPEED * 0.7).toLong())
     }
 
     private fun cancelTask() {
@@ -111,6 +111,7 @@ abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download
         currentTask = refresh()
     }
 
+    protected abstract fun initRefresh(): Future<*>?
     protected abstract fun refresh(): Future<*>?
 
     protected fun componentProcessing(state: Boolean) {
@@ -176,7 +177,11 @@ abstract class ModListFragment : FragmentWithAnim(R.layout.fragment_mod_download
     }
 
     private fun setVisibilityAnim(view: View, visible: Boolean) {
+        val targetVisibility = if (visible) View.VISIBLE else View.GONE
+        if (view.visibility == targetVisibility) return
+
         setViewAnim(view, if (visible) Techniques.FadeIn else Techniques.FadeOut,
+            (LauncherPreferences.PREF_ANIMATION_SPEED * 0.7).toLong(),
             AnimatorCallback { view.visibility = View.VISIBLE },
             AnimatorCallback { view.visibility = if (visible) View.VISIBLE else View.GONE })
     }

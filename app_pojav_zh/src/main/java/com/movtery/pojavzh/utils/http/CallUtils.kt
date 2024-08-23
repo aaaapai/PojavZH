@@ -1,9 +1,10 @@
 package com.movtery.pojavzh.utils.http
 
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
@@ -13,12 +14,19 @@ class CallUtils(
     private val token: String?
 ) {
     fun start() {
-        val client = OkHttpClient()
-        val url = Request.Builder().url(this.url)
-        token?.let { url.addHeader("Token", token) }
-        val request = url.build()
+        val tokenInterceptor = Interceptor { chain ->
+            val originalRequest = chain.request()
+            val requestWithToken = originalRequest.newBuilder()
+            token?.let { requestWithToken.header("Authorization", "token $token") }
 
-        client.newCall(request).enqueue(object : Callback {
+            chain.proceed(requestWithToken.build())
+        }
+
+        val client = OkHttpClient.Builder()
+            .addInterceptor(tokenInterceptor)
+            .build()
+
+        client.newCall(PathAndUrlManager.createRequestBuilder(url).build()).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 listener.onFailure(call, e)
             }

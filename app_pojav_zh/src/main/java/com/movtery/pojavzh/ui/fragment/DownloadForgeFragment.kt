@@ -3,12 +3,12 @@ package com.movtery.pojavzh.ui.fragment
 import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.movtery.pojavzh.feature.mod.modloader.BaseModVersionListAdapter
+import com.movtery.pojavzh.feature.log.Logging
+import com.movtery.pojavzh.feature.mod.modloader.ModVersionListAdapter
 import com.movtery.pojavzh.ui.dialog.SelectRuntimeDialog
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListAdapter
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
-import com.movtery.pojavzh.utils.MCVersionComparator.versionCompare
 import net.kdt.pojavlaunch.JavaGUILauncherActivity
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -17,6 +17,7 @@ import net.kdt.pojavlaunch.modloaders.ForgeDownloadTask
 import net.kdt.pojavlaunch.modloaders.ForgeUtils
 import net.kdt.pojavlaunch.modloaders.ModloaderDownloadListener
 import net.kdt.pojavlaunch.modloaders.ModloaderListenerProxy
+import org.jackhuang.hmcl.util.versioning.VersionNumber
 import java.io.File
 import java.util.concurrent.Future
 import java.util.function.Consumer
@@ -35,20 +36,29 @@ class DownloadForgeFragment : ModListFragment(), ModloaderDownloadListener {
         super.init()
     }
 
+    override fun initRefresh(): Future<*> {
+        return refresh(false)
+    }
+
     override fun refresh(): Future<*> {
+        return refresh(true)
+    }
+
+    private fun refresh(force: Boolean): Future<*> {
         return PojavApplication.sExecutorService.submit {
-            try {
+            runCatching {
                 Tools.runOnUiThread {
                     cancelFailedToLoad()
                     componentProcessing(true)
                 }
-                val forgeVersions = ForgeUtils.downloadForgeVersions()
+                val forgeVersions = ForgeUtils.downloadForgeVersions(force)
                 processModDetails(forgeVersions)
-            } catch (e: Exception) {
+            }.getOrElse { e ->
                 Tools.runOnUiThread {
                     componentProcessing(false)
                     setFailedToLoad(e.toString())
                 }
+                Logging.e("DownloadForge", Tools.printToString(e))
             }
         }
     }
@@ -78,14 +88,12 @@ class DownloadForgeFragment : ModListFragment(), ModloaderDownloadListener {
 
         val mData: MutableList<ModListItemBean> = ArrayList()
         mForgeVersions.entries
-            .sortedWith { entry1, entry2 ->
-                versionCompare(entry1.key, entry2.key)
-            }
+            .sortedWith { entry1, entry2 -> -VersionNumber.compare(entry1.key, entry2.key) }
             .forEach { entry: Map.Entry<String, List<String?>> ->
                 if (currentTask.isCancelled) return
 
                 //为整理好的Forge版本设置Adapter
-                val adapter = BaseModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_anvil, entry.value)
+                val adapter = ModVersionListAdapter(modloaderListenerProxy, this, R.drawable.ic_anvil, entry.value)
                 adapter.setOnItemClickListener { version: Any? ->
                     Thread(ForgeDownloadTask(modloaderListenerProxy, version as String?)).start()
                 }

@@ -16,10 +16,7 @@
         android:id="@+id/_background_display_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
-
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-
+        android:layout_marginHorizontal="@dimen/_50sdp"
         android:background="@drawable/background_card"
         android:translationZ="-1dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,13 +33,12 @@
         app:layout_constraintBottom_toTopOf="@+id/editText_import_control_file_name"
         app:layout_constraintStart_toStartOf="@+id/editText_import_control_file_name" />
 
-    <com.movtery.pojavzh.ui.view.MovEditText
+    <com.movtery.pojavzh.ui.view.AnimEditText
         android:id="@+id/editText_import_control_file_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_25sdp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:paddingHorizontal="@dimen/_8sdp"
         android:background="@drawable/background_edit_box"
         android:autofillHints="name"
         android:hint="@string/zh_activity_import_control"
@@ -56,11 +52,11 @@
         app:layout_constraintStart_toStartOf="@+id/_background_display_view"
         app:layout_constraintTop_toTopOf="@+id/_background_display_view" />
 
-    <Button
+    <com.movtery.pojavzh.ui.view.AnimButton
         android:id="@+id/mineButton_import_control"
         android:layout_width="0dp"
         android:layout_height="@dimen/_42sdp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_25sdp"
         android:onClick="startImport"
         android:text="@string/import_control_import_button"

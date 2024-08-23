@@ -14,7 +14,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name='Pojav Zenith Horizon'
+rootProject.name='PZH · PGW'
 include ':jre_lwjgl3glfw'
 include ':app_pojav_zh'
 

@@ -3,13 +3,13 @@ package net.kdt.pojavlaunch.tasks;
 import static net.kdt.pojavlaunch.PojavApplication.sExecutorService;
 import static net.kdt.pojavlaunch.utils.DownloadUtils.downloadString;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 
 import net.kdt.pojavlaunch.JMinecraftVersionList;
@@ -27,15 +27,15 @@ public class AsyncVersionList {
 
     public void getVersionList(@Nullable VersionDoneListener listener, boolean secondPass){
         sExecutorService.execute(() -> {
-            File versionFile = new File(Tools.DIR_DATA + "/version_list.json");
+            File versionFile = new File(PathAndUrlManager.DIR_DATA + "/version_list.json");
             JMinecraftVersionList versionList = null;
             try{
                 if(!versionFile.exists() || (ZHTools.getCurrentTimeMillis() > versionFile.lastModified() + 86400000 )){
                     versionList = downloadVersionList(LauncherPreferences.PREF_VERSION_REPOS);
                 }
             }catch (Exception e){
-                Log.e("AsyncVersionList", "Refreshing version list failed :" + e);
-                e.printStackTrace();
+                Logging.e("AsyncVersionList", "Refreshing version list failed :" + e);
+                Logging.e("GetVersionList", Tools.printToString(e));
             }
 
             // Fallback when no network or not needed
@@ -43,9 +43,9 @@ public class AsyncVersionList {
                 try {
                     versionList = Tools.GLOBAL_GSON.fromJson(new JsonReader(new FileReader(versionFile)), JMinecraftVersionList.class);
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    Logging.e("File Not Found", Tools.printToString(e));
                 } catch (JsonIOException | JsonSyntaxException e) {
-                    e.printStackTrace();
+                    Logging.e("AsyncVersionList", Tools.printToString(e));
                     versionFile.delete();
                     if(!secondPass)
                         getVersionList(listener, true);
@@ -62,21 +62,21 @@ public class AsyncVersionList {
     private JMinecraftVersionList downloadVersionList(String mirror){
         JMinecraftVersionList list = null;
         try{
-            Log.i("ExtVL", "Syncing to external: " + mirror);
+            Logging.i("ExtVL", "Syncing to external: " + mirror);
             String jsonString = downloadString(mirror);
             list = Tools.GLOBAL_GSON.fromJson(jsonString, JMinecraftVersionList.class);
-            Log.i("ExtVL","Downloaded the version list, len=" + list.versions.length);
+            Logging.i("ExtVL","Downloaded the version list, len=" + list.versions.length);
 
             // Then save the version list
             //TODO make it not save at times ?
-            FileOutputStream fos = new FileOutputStream(Tools.DIR_DATA + "/version_list.json");
+            FileOutputStream fos = new FileOutputStream(PathAndUrlManager.DIR_DATA + "/version_list.json");
             fos.write(jsonString.getBytes());
             fos.close();
 
 
 
         }catch (IOException e){
-            Log.e("AsyncVersionList", e.toString());
+            Logging.e("AsyncVersionList", e.toString());
         }
         return list;
     }

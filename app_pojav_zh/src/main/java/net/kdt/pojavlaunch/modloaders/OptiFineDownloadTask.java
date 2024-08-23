@@ -3,7 +3,9 @@ package net.kdt.pojavlaunch.modloaders;
 import static net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles.getCurrentProfile;
 
 import com.kdt.mcgui.ProgressLayout;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.feature.mod.modloader.OptiFineDownloadType;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 
 import net.kdt.pojavlaunch.JMinecraftVersionList;
@@ -34,7 +36,7 @@ public class OptiFineDownloadTask implements Runnable, Tools.DownloaderFeedback,
         this.mDownloadType = downloadType;
         switch (downloadType) {
             case DOWNLOAD_GAME:
-                this.mDestinationFile = new File(Tools.DIR_CACHE, "optifine-installer.jar");
+                this.mDestinationFile = new File(PathAndUrlManager.DIR_CACHE, "optifine-installer.jar");
                 break;
             case DOWNLOAD_MOD:
             default:
@@ -108,7 +110,7 @@ public class OptiFineDownloadTask implements Runnable, Tools.DownloaderFeedback,
                 mMinecraftDownloadLock.wait();
             }
         }catch (InterruptedException e) {
-            e.printStackTrace();
+            Logging.e(OptiFineDownloadTask.class.getName(), Tools.printToString(e));
         }
         return mDownloaderThrowable == null;
     }

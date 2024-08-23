@@ -17,14 +17,15 @@ import com.movtery.pojavzh.ui.dialog.FilesDialog.FilesButton
 import com.movtery.pojavzh.ui.dialog.TipDialog
 import com.movtery.pojavzh.ui.subassembly.customcontrols.ControlInfoData
 import com.movtery.pojavzh.ui.subassembly.customcontrols.ControlsListViewCreator
-import com.movtery.pojavzh.ui.subassembly.customcontrols.EditControlData.createNewControlFile
+import com.movtery.pojavzh.ui.subassembly.customcontrols.EditControlData.Companion.createNewControlFile
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener
-import com.movtery.pojavzh.ui.subassembly.view.SearchView
+import com.movtery.pojavzh.ui.subassembly.view.SearchViewWrapper
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.AnimUtils.setVisibilityAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
-import com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground
+import com.movtery.pojavzh.utils.anim.AnimUtils.Companion.setVisibilityAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
+import com.movtery.pojavzh.utils.file.FileTools.Companion.copyFileInBackground
 import com.movtery.pojavzh.utils.file.PasteFile
 import net.kdt.pojavlaunch.CustomControlsActivity
 import net.kdt.pojavlaunch.PojavApplication
@@ -53,7 +54,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
     private var mSearchSummonButton: ImageButton? = null
     private var mRefreshButton: ImageButton? = null
     private var mNothingTip: TextView? = null
-    private var mSearchView: SearchView? = null
+    private var mSearchViewWrapper: SearchViewWrapper? = null
     private var controlsListViewCreator: ControlsListViewCreator? = null
     private var mSelectControl = false
 
@@ -64,7 +65,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
                 Toast.makeText(requireContext(), getString(R.string.tasks_ongoing), Toast.LENGTH_SHORT).show()
 
                 PojavApplication.sExecutorService.execute {
-                    copyFileInBackground(requireContext(), result, File(Tools.CTRLMAP_PATH).absolutePath)
+                    copyFileInBackground(requireContext(), result, File(PathAndUrlManager.DIR_CTRLMAP_PATH!!).absolutePath)
                     Tools.runOnUiThread {
                         Toast.makeText(requireContext(), getString(R.string.zh_file_added), Toast.LENGTH_SHORT).show()
                         controlsListViewCreator?.refresh()
@@ -85,7 +86,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
                     ExtraCore.setValue(ExtraConstants.FILE_SELECTOR, removeLockPath(path))
                     Tools.removeCurrentFragment(requireActivity())
                 } else {
-                    showDialog(file)
+                    file?.let { if (it.isFile) showDialog(it) }
                 }
             }
 
@@ -110,7 +111,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
 
         mReturnButton?.setOnClickListener { ZHTools.onBackPressed(requireActivity()) }
         mPasteButton?.setOnClickListener {
-            PasteFile.getInstance().pasteFiles(requireActivity(), File(Tools.CTRLMAP_PATH), null) {
+            PasteFile.getInstance().pasteFiles(requireActivity(), File(PathAndUrlManager.DIR_CTRLMAP_PATH!!), null) {
                 Tools.runOnUiThread {
                     mPasteButton?.visibility = View.GONE
                     controlsListViewCreator?.refresh()
@@ -126,7 +127,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
             val editControlInfoDialog = EditControlInfoDialog(requireContext(), true, null, ControlInfoData())
             editControlInfoDialog.setTitle(getString(R.string.zh_controls_create_new))
             editControlInfoDialog.setOnConfirmClickListener { fileName: String, controlInfoData: ControlInfoData? ->
-                val file = File(File(Tools.CTRLMAP_PATH).absolutePath, "$fileName.json")
+                val file = File(File(PathAndUrlManager.DIR_CTRLMAP_PATH!!).absolutePath, "$fileName.json")
                 if (file.exists()) { //检查文件是否已经存在
                     editControlInfoDialog.fileNameEditBox.error =
                         getString(R.string.zh_file_rename_exitis)
@@ -141,7 +142,7 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
             }
             editControlInfoDialog.show()
         }
-        mSearchSummonButton?.setOnClickListener { mSearchView?.setVisibility() }
+        mSearchSummonButton?.setOnClickListener { mSearchViewWrapper?.setVisibility() }
         mRefreshButton?.setOnClickListener { controlsListViewCreator?.refresh() }
 
         controlsListViewCreator?.listAtPath()
@@ -150,23 +151,18 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
     }
 
     private fun removeLockPath(path: String?): String {
-        return path!!.replace(Tools.CTRLMAP_PATH, ".")
+        return path!!.replace(PathAndUrlManager.DIR_CTRLMAP_PATH!!, ".")
     }
 
-    private fun showDialog(file: File?) {
+    private fun showDialog(file: File) {
         val filesButton = FilesButton()
-        filesButton.setButtonVisibility(true, true, !file!!.isDirectory, true, true, true)
-
-        if (file.isDirectory) {
-            filesButton.setMessageText(getString(R.string.zh_file_folder_message))
-        } else {
-            filesButton.setMessageText(getString(R.string.zh_file_message))
-        }
+        filesButton.setButtonVisibility(true, true, true, true, true, true)
+        filesButton.setMessageText(getString(R.string.zh_file_message))
         filesButton.setMoreButtonText(getString(R.string.global_load))
 
         val filesDialog = FilesDialog(requireContext(), filesButton,
             { Tools.runOnUiThread { controlsListViewCreator?.refresh() } },
-            file
+            controlsListViewCreator!!.fullPath, file
         )
 
         filesDialog.setCopyButtonClick { mPasteButton?.visibility = View.VISIBLE }
@@ -208,13 +204,13 @@ class ControlButtonFragment : FragmentWithAnim(R.layout.fragment_control_manager
         controlsListViewCreator =
             ControlsListViewCreator(requireContext(), view.findViewById(R.id.zh_controls_list))
 
-        mSearchView = SearchView(view, view.findViewById(R.id.zh_search_view))
-        mSearchView?.setAsynchronousUpdatesListener(object : SearchView.SearchAsynchronousUpdatesListener {
+        mSearchViewWrapper = SearchViewWrapper(view, view.findViewById(R.id.zh_search_view))
+        mSearchViewWrapper?.setAsynchronousUpdatesListener(object : SearchViewWrapper.SearchAsynchronousUpdatesListener {
             override fun onSearch(searchCount: TextView?, string: String?, caseSensitive: Boolean) {
                 controlsListViewCreator?.searchControls(searchCount, string, caseSensitive)
             }
         })
-        mSearchView?.setShowSearchResultsListener(object : SearchView.ShowSearchResultsListener {
+        mSearchViewWrapper?.setShowSearchResultsListener(object : SearchViewWrapper.ShowSearchResultsListener {
             override fun onSearch(show: Boolean) {
                 controlsListViewCreator?.setShowSearchResultsOnly(show)
             }

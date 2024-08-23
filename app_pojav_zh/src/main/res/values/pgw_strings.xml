@@ -13,9 +13,9 @@
     <string name="preference_spare_framebuffer_title">Spare Framebuffer</string>
     <string name="preference_spare_framebuffer">Use the second framebuffer option. If it fails to start, please disable it.</string>
     <string name="preference_renderer_setup_extra">Renderer (Extra)</string>
-    <string name="preference_renderer_extra_default">Mesa 24.1.5 (Default)</string>
+    <string name="preference_renderer_extra_default">Mesa 24.2.0 (Default)</string>
     <string name="preference_extra_mesa_version">Mesa Version</string>
-    <string name="preference_extra_driver_model">Driver Model</string>
+    <string name="preference_extra_driver_model">Gallium Driver Override</string>
     <!-- Dialog box prompt -->
     <string name="preference_rendererexp_alertdialog_message">You have enabled experimental settings. This feature may cause unexpected issues. Do you want to continue?</string>
     <string name="alertdialog_tipa">Warning! You must understand what GL/GLSL is before using custom GL/GLSL.</string>
@@ -29,4 +29,18 @@
     <string name="preference_rendererexp_custom_glversion">Allows you to customize the Mesa GL/GLSL version</string>
     <string name="custom_gl_version">Mesa GL Version:</string>
     <string name="custom_glsl_version">Mesa GLSL Version:</string>
+    
+    <string name="preference_extra_mesa_download">Download Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_get_fail">Mesa Lib list get fail</string>
+    <string name="preference_rendererexp_mesa_select_download">Select a version to download</string>
+    <string name="preference_rendererexp_mesa_download_load">loading Mesa Lib list</string>
+    <string name="preference_rendererexp_mesa_downloading">Downloading Mesa Lib</string>
+    <string name="preference_rendererexp_mesa_download_fail">Mesa Lib download fail</string>
+    <string name="preference_rendererexp_mesa_downloaded">Mesa Lib download success</string>
+    <!-- Custom Mesa Loader Driver Override -->
+    <string name="preference_extra_osm_cmldo_categ">Custom Mesa Loader Driver Override</string>
+    <string name="osm_enable_cmldo">Enable Custom Mesa Load Driver Override(Only for Freedreno)</string>
+    <string name="osm_enable_cmldo_desc">If need, you can freely choose processing method</string>
+    <string name="osm_choose_cmldo">Choose Mesa Loader Driver Override</string>
+
 </resources>

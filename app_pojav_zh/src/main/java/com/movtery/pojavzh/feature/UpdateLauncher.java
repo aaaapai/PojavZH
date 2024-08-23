@@ -9,14 +9,15 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.dialog.ProgressDialog;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.dialog.UpdateDialog;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.http.CallUtils;
 import com.movtery.pojavzh.utils.stringutils.StringUtils;
@@ -39,13 +40,12 @@ import java.util.TimerTask;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.Response;
 
 public class UpdateLauncher {
+    private static final File sApkFile = new File(PathAndUrlManager.DIR_APP_CACHE, "cache.apk");
     private final Context context;
     private final UpdateSource updateSource;
-    private final File apkFile;
     private final String versionName, tagName, fileSizeString;
     private final long fileSize;
     private ProgressDialog dialog;
@@ -56,7 +56,6 @@ public class UpdateLauncher {
     public UpdateLauncher(Context context, String versionName, String tagName, long fileSize, UpdateSource updateSource) {
         this.context = context;
         this.updateSource = updateSource;
-        this.apkFile = new File(ZHTools.DIR_APP_CACHE, "cache.apk");
         this.versionName = versionName;
         this.tagName = tagName;
         this.fileSizeString = formatFileSize(fileSize);
@@ -65,26 +64,24 @@ public class UpdateLauncher {
     }
 
     public static void CheckDownloadedPackage(Context context, boolean ignore) {
-        File downloadedFile = new File(ZHTools.DIR_APP_CACHE, "cache.apk");
-
-        if (downloadedFile.exists()) {
+        if (sApkFile.exists()) {
             PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageArchiveInfo(downloadedFile.getAbsolutePath(), 0);
+            PackageInfo packageInfo = packageManager.getPackageArchiveInfo(sApkFile.getAbsolutePath(), 0);
 
             if (packageInfo != null) {
                 String packageName = packageInfo.packageName;
                 int versionCode = packageInfo.versionCode;
 
-                int thisVersionCode = ZHTools.getVersionCode(context);
+                int thisVersionCode = ZHTools.getVersionCode();
                 DEFAULT_PREF.edit().putInt("launcherVersionCode", thisVersionCode).apply();
 
-                if (Objects.equals(packageName, "net.kdt.pojavlaunch.zh.firefly") && versionCode > thisVersionCode) {
-                    installApk(context, downloadedFile);
+                if (Objects.equals(packageName, ZHTools.getPackageName()) && versionCode > thisVersionCode) {
+                    installApk(context, sApkFile);
                 } else {
-                    FileUtils.deleteQuietly(downloadedFile);
+                    FileUtils.deleteQuietly(sApkFile);
                 }
             } else {
-                FileUtils.deleteQuietly(downloadedFile);
+                FileUtils.deleteQuietly(sApkFile);
             }
         } else {
             //如果安装包不存在，那么将自动获取更新
@@ -120,7 +117,7 @@ public class UpdateLauncher {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
-                    throw new IOException("Unexpected code " + response);
+                    Logging.e("UpdateLauncher", "Unexpected code " + response.code());
                 } else {
                     Objects.requireNonNull(response.body());
                     String responseBody = response.body().string(); //解析响应体
@@ -139,10 +136,10 @@ public class UpdateLauncher {
                         try {
                             githubVersion = Integer.parseInt(tagName);
                         } catch (Exception e) {
-                            Log.e("Parse github version", e.toString());
+                            Logging.e("Parse github version", e.toString());
                         }
 
-                        if (ZHTools.getVersionCode(context) < githubVersion) {
+                        if (ZHTools.getVersionCode() < githubVersion) {
                             runOnUiThread(() -> {
                                 UpdateDialog.UpdateInformation updateInformation = new UpdateDialog.UpdateInformation();
                                 try {
@@ -152,7 +149,7 @@ public class UpdateLauncher {
                                             fileSize,
                                             jsonObject.getString("body"));
                                 } catch (Exception e) {
-                                    Log.e("Init update information", e.toString());
+                                    Logging.e("Init update information", e.toString());
                                 }
                                 UpdateDialog updateDialog = new UpdateDialog(context, updateInformation);
 
@@ -160,32 +157,29 @@ public class UpdateLauncher {
                             });
                         } else if (!ignore) {
                             runOnUiThread(() -> {
-                                String nowVersionName = ZHTools.getVersionName(context);
+                                String nowVersionName = ZHTools.getVersionName();
                                 runOnUiThread(() -> Toast.makeText(context,
                                         StringUtils.insertSpace(context.getString(R.string.zh_update_without), nowVersionName),
                                         Toast.LENGTH_SHORT).show());
                             });
                         }
                     } catch (Exception e) {
-                        Log.e("Check Update", e.toString());
+                        Logging.e("Check Update", e.toString());
                     }
                 }
             }
-        }, ZHTools.URL_GITHUB_RELEASE, token.equals("DUMMY") ? null : token).start();
+        }, PathAndUrlManager.URL_GITHUB_RELEASE, token.equals("DUMMY") ? null : token).start();
     }
 
     private void init() {
-        this.destinationFilePath = this.apkFile.getAbsolutePath();
+        this.destinationFilePath = sApkFile.getAbsolutePath();
         OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(getDownloadUrl())
-                .build();
-        this.call = client.newCall(request); //获取请求对象
+        this.call = client.newCall(PathAndUrlManager.createRequestBuilder(getDownloadUrl()).build()); //获取请求对象
     }
 
     private String getDownloadUrl() {
         String fileUrl;
-        String githubUrl = "github.com/Vera-Firefly/PZH-X-PGW/releases/download/" + tagName + "/" + "PZH-X-PGW-" + versionName + "-all" + ".apk";
+        String githubUrl = "github.com/Vera-Firefly/PZH-X-PGW/releases/download/" + tagName + "/" + "PZH-X-PGW-" + versionName + "-all.apk";
         switch (updateSource) {
             case GHPROXY:
                 fileUrl = "https://mirror.ghproxy.com/" + githubUrl;
@@ -227,6 +221,8 @@ public class UpdateLauncher {
                         });
 
                         final long[] downloadedSize = new long[1];
+                        final long[] lastSize = {0};
+                        final long[] lastTime = {ZHTools.getCurrentTimeMillis()};
 
                         //限制刷新速度
                         timer = new Timer();
@@ -234,9 +230,18 @@ public class UpdateLauncher {
                             @Override
                             public void run() {
                                 long size = downloadedSize[0];
+                                long currentTime = ZHTools.getCurrentTimeMillis();
+                                double timeElapsed = (currentTime - lastTime[0]) / 1000.0;
+                                long sizeChange = size - lastSize[0];
+                                long rate = (long) (sizeChange / timeElapsed);
+
+                                lastSize[0] = size;
+                                lastTime[0] = currentTime;
+
                                 runOnUiThread(() -> {
                                     String formattedDownloaded = formatFileSize(size);
                                     UpdateLauncher.this.dialog.updateProgress(size, fileSize);
+                                    UpdateLauncher.this.dialog.updateRate(rate > 0 ? rate : 0L);
                                     UpdateLauncher.this.dialog.updateText(String.format(context.getString(R.string.zh_update_downloading), formattedDownloaded, fileSizeString));
                                 });
                             }
@@ -264,7 +269,7 @@ public class UpdateLauncher {
         if (this.call == null) return;
         this.call.cancel();
         this.timer.cancel();
-        FileUtils.deleteQuietly(this.apkFile);
+        FileUtils.deleteQuietly(sApkFile);
     }
 
     public enum UpdateSource {

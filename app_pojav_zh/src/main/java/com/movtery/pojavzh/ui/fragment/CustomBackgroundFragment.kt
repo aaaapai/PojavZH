@@ -14,19 +14,20 @@ import com.daimajia.androidanimations.library.YoYo.YoYoString
 import com.google.android.material.tabs.TabLayout
 import com.movtery.pojavzh.ui.dialog.FilesDialog
 import com.movtery.pojavzh.ui.dialog.FilesDialog.FilesButton
-import com.movtery.pojavzh.ui.subassembly.background.BackgroundManager.properties
-import com.movtery.pojavzh.ui.subassembly.background.BackgroundManager.saveProperties
+import com.movtery.pojavzh.ui.subassembly.background.BackgroundManager.Companion.properties
+import com.movtery.pojavzh.ui.subassembly.background.BackgroundManager.Companion.saveProperties
 import com.movtery.pojavzh.ui.subassembly.background.BackgroundType
 import com.movtery.pojavzh.ui.subassembly.filelist.FileIcon
 import com.movtery.pojavzh.ui.subassembly.filelist.FileRecyclerView
 import com.movtery.pojavzh.ui.subassembly.filelist.FileSelectedListener
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.AnimUtils.setVisibilityAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
-import com.movtery.pojavzh.utils.file.FileTools.copyFileInBackground
-import com.movtery.pojavzh.utils.file.FileTools.mkdirs
-import com.movtery.pojavzh.utils.image.ImageUtils.isImage
+import com.movtery.pojavzh.utils.anim.AnimUtils.Companion.setVisibilityAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
+import com.movtery.pojavzh.utils.file.FileTools.Companion.copyFileInBackground
+import com.movtery.pojavzh.utils.file.FileTools.Companion.mkdirs
+import com.movtery.pojavzh.utils.image.ImageUtils.Companion.isImage
 import com.movtery.pojavzh.utils.stringutils.StringUtils
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
@@ -97,8 +98,7 @@ class CustomBackgroundFragment : FragmentWithAnim(R.layout.fragment_custom_backg
 
                 val filesDialog = FilesDialog(requireContext(), filesButton,
                     { Tools.runOnUiThread { mFileRecyclerView?.refreshPath() } },
-                    file
-                )
+                    backgroundPath(), file)
                 filesDialog.setMoreButtonClick {
                     backgroundMap[backgroundType] = fileName
                     saveProperties(backgroundMap)
@@ -150,8 +150,9 @@ class CustomBackgroundFragment : FragmentWithAnim(R.layout.fragment_custom_backg
     }
 
     private fun backgroundPath(): File {
-        if (!ZHTools.DIR_BACKGROUND.exists()) mkdirs(ZHTools.DIR_BACKGROUND)
-        return ZHTools.DIR_BACKGROUND
+        val dirBackground = PathAndUrlManager.DIR_BACKGROUND
+        if (!dirBackground!!.exists()) mkdirs(dirBackground)
+        return dirBackground
     }
 
     private val currentStatusName: String

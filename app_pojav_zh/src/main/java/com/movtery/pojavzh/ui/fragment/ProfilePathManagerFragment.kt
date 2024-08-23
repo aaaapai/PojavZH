@@ -15,13 +15,14 @@ import com.daimajia.androidanimations.library.YoYo.YoYoString
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathJsonObject
-import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager.save
+import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager.Companion.save
 import com.movtery.pojavzh.ui.dialog.EditTextDialog
 import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfileItem
 import com.movtery.pojavzh.ui.subassembly.customprofilepath.ProfilePathAdapter
+import com.movtery.pojavzh.utils.PathAndUrlManager
 import com.movtery.pojavzh.utils.ZHTools
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.setViewAnim
-import com.movtery.pojavzh.utils.anim.ViewAnimUtils.slideInAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.setViewAnim
+import com.movtery.pojavzh.utils.anim.ViewAnimUtils.Companion.slideInAnim
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.extra.ExtraConstants
@@ -111,12 +112,12 @@ class ProfilePathManagerFragment : FragmentWithAnim(R.layout.fragment_profile_pa
 
     private fun refreshData() {
         mData.clear()
-        mData.add(ProfileItem("default", getString(R.string.zh_profiles_path_default), Tools.DIR_GAME_HOME))
+        mData.add(ProfileItem("default", getString(R.string.zh_profiles_path_default), PathAndUrlManager.DIR_GAME_HOME))
 
         try {
             val json: String
-            if (ZHTools.FILE_PROFILE_PATH.exists()) {
-                json = Tools.read(ZHTools.FILE_PROFILE_PATH)
+            if (PathAndUrlManager.FILE_PROFILE_PATH!!.exists()) {
+                json = Tools.read(PathAndUrlManager.FILE_PROFILE_PATH)
                 if (json.isEmpty()) return
             } else return
 

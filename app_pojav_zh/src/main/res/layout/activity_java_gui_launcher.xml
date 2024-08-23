@@ -46,155 +46,122 @@
 
         </LinearLayout>
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_btn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/control_button"
+            android:layout_alignParentEnd="true"
             android:onClick="forceClose"
             android:text="@string/control_forceclose"
-            android:textColor="@android:color/white"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_btn3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_toLeftOf="@id/installmod_btn2"
-            android:background="@drawable/control_button"
+            android:layout_toStartOf="@id/installmod_btn2"
             android:onClick="openLogOutput"
             android:text="@string/control_viewout"
-            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toLeftOf="@id/installmod_btn2"
             app:layout_constraintTop_toBottomOf="@+id/installmod_btn2" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_toLeftOf="@id/installmod_btn3"
-            android:background="@drawable/control_button"
+            android:layout_toStartOf="@id/installmod_btn3"
             android:onClick="toggleVirtualMouse"
             android:text="@string/control_mouse"
-            android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintRight_toLeftOf="@id/installmod_btn3"
             app:layout_constraintTop_toBottomOf="@+id/installmod_btn3" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/control_button"
             android:onClick="toggleKeyboard"
             android:text="@string/zh_activity_java_gui_keyboard"
-            android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/control_button"
             android:onClick="performCopy"
             android:text="@string/mcl_version_clone"
-            android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="2dp"
-            android:background="@drawable/control_button"
             android:onClick="performPaste"
             android:text="@string/zh_paste"
-            android:textColor="@android:color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button3" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_mouse_pri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="2dp"
-            android:background="@drawable/control_button"
             android:text="@string/control_primary"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/installmod_mouse_sec"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_mouse_sec"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/installmod_mouse_pri"
-            android:background="@drawable/control_button"
+            android:layout_toEndOf="@id/installmod_mouse_pri"
             android:text="@string/control_secondary"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/installmod_mouse_pri"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_window_moveleft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/control_button"
             android:text="◀"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="HardcodedText" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_window_moveright"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/installmod_mouse_pri"
-            android:background="@drawable/control_button"
+            android:layout_toEndOf="@id/installmod_mouse_pri"
             android:text="▶"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/installmod_window_moveleft"
             app:layout_constraintEnd_toEndOf="@+id/installmod_window_moveleft"
             tools:ignore="HardcodedText" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_window_moveup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/installmod_mouse_pri"
-            android:background="@drawable/control_button"
+            android:layout_toEndOf="@id/installmod_mouse_pri"
             android:text="▲"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/installmod_window_moveleft"
             app:layout_constraintEnd_toStartOf="@+id/installmod_window_moveright"
             tools:ignore="HardcodedText" />
 
-        <Button
+        <com.movtery.pojavzh.ui.view.AnimButton
             android:id="@+id/installmod_window_movedown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/control_button"
             android:text="▼"
-            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/installmod_window_moveleft"
             tools:ignore="HardcodedText" />

@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/operate_layout"
-        app:layout_constraintHorizontal_weight="7"
+        app:layout_constraintHorizontal_weight="6.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -21,9 +21,9 @@
             android:id="@+id/scrollView3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginVertical="12dp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginVertical="@dimen/_12sdp"
             android:background="@drawable/background_card"
             android:fadeScrollbars="true"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,8 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/fragment_padding_medium"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp">
+                android:paddingVertical="@dimen/_12sdp">
 
                 <TextView
                     android:id="@+id/vprof_editor_profile_name_sub"
@@ -47,7 +46,7 @@
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_profile_name"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.movtery.pojavzh.ui.view.MovEditText
+                <com.movtery.pojavzh.ui.view.AnimEditText
                     android:id="@+id/vprof_editor_profile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,7 +63,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/profiles_profile_version"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_version_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_profile_name" />
@@ -82,7 +81,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-                <Button
+                <com.movtery.pojavzh.ui.view.AnimButton
                     android:id="@+id/vprof_editor_version_button"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -98,7 +97,7 @@
                     android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/default_control"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_ctrl_spinner"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_version_spinner" />
@@ -116,7 +115,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-                <Button
+                <com.movtery.pojavzh.ui.view.AnimButton
                     android:id="@+id/vprof_editor_ctrl_button"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -126,17 +125,16 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/vprof_editor_ctrl_spinner" />
 
-
                 <TextView
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/pvc_jvmArgs"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_jre_args"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_ctrl_spinner" />
 
-                <com.movtery.pojavzh.ui.view.MovEditText
+                <com.movtery.pojavzh.ui.view.AnimEditText
                     android:id="@+id/vprof_editor_jre_args"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,7 +152,7 @@
                     android:id="@+id/vprof_editor_beginPathView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/zh_profile_custom_path"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_path"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_jre_args" />
@@ -174,7 +172,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_beginPathView"
                     tools:ignore="HardcodedText" />
 
-                <Button
+                <com.movtery.pojavzh.ui.view.AnimButton
                     android:id="@+id/vprof_editor_path_button"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -188,7 +186,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/pedit_java_runtime"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_spinner_runtime"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_path" />
@@ -219,7 +217,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/_8sdp"
                     android:text="@string/pedit_renderer"
                     app:layout_constraintStart_toStartOf="@+id/vprof_editor_profile_renderer"
                     app:layout_constraintTop_toBottomOf="@+id/vprof_editor_spinner_runtime" />
@@ -277,45 +275,55 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shadowView">
 
-            <ImageView
-                android:id="@+id/vprof_editor_profile_icon"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="45dp"
-                android:paddingHorizontal="@dimen/profile_editor_image_padding"
-                android:paddingVertical="@dimen/profile_editor_image_padding"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
+            <com.movtery.pojavzh.ui.layout.AnimConstraintLayout
+                android:id="@+id/vprof_editor_profile_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_52sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="@dimen/_14sdp"
-                android:layout_height="@dimen/_14sdp"
-                android:background="@drawable/background_icon_edit"
-                android:src="@drawable/ic_edit"
-                app:layout_constraintBottom_toBottomOf="@+id/vprof_editor_profile_icon"
-                app:layout_constraintEnd_toEndOf="@+id/vprof_editor_profile_icon" />
+                <ImageView
+                    android:id="@+id/vprof_editor_profile_icon"
+                    android:layout_width="@dimen/_52sdp"
+                    android:layout_height="@dimen/_52sdp"
+                    android:paddingHorizontal="@dimen/profile_editor_image_padding"
+                    android:paddingVertical="@dimen/profile_editor_image_padding"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
 
-            <Button
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:background="@drawable/background_icon_edit"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintBottom_toBottomOf="@+id/vprof_editor_profile_icon"
+                    app:layout_constraintEnd_toEndOf="@+id/vprof_editor_profile_icon" />
+
+            </com.movtery.pojavzh.ui.layout.AnimConstraintLayout>
+
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/vprof_editor_save_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
                 android:text="@string/global_save"
                 app:layout_constraintBottom_toTopOf="@+id/vprof_editor_cancel_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <Button
+            <com.movtery.pojavzh.ui.view.AnimButton
                 android:id="@+id/vprof_editor_cancel_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
                 android:text="@android:string/cancel"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

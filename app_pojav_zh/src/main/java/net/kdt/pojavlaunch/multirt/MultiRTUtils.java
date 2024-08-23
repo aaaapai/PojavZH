@@ -1,12 +1,12 @@
 package net.kdt.pojavlaunch.multirt;
 
-import static net.kdt.pojavlaunch.Tools.NATIVE_LIB_DIR;
 import static org.apache.commons.io.FileUtils.listFiles;
 
 import android.system.Os;
-import android.util.Log;
 
 import com.kdt.mcgui.ProgressLayout;
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -32,7 +32,7 @@ public class MultiRTUtils {
 
     private static final HashMap<String,Runtime> sCache = new HashMap<>();
 
-    private static final File RUNTIME_FOLDER = new File(Tools.MULTIRT_HOME);
+    private static final File RUNTIME_FOLDER = new File(PathAndUrlManager.DIR_MULTIRT_HOME);
     private static final String JAVA_VERSION_STR = "JAVA_VERSION=\"";
     private static final String OS_ARCH_STR = "OS_ARCH=\"";
 
@@ -100,7 +100,7 @@ public class MultiRTUtils {
         installRuntimeNamedNoRemove(universalFileInputStream,dest);
         installRuntimeNamedNoRemove(platformBinsInputStream,dest);
 
-        unpack200(NATIVE_LIB_DIR,RUNTIME_FOLDER + "/" + name);
+        unpack200(PathAndUrlManager.DIR_NATIVE_LIB,RUNTIME_FOLDER + "/" + name);
 
         File binpack_verfile = new File(RUNTIME_FOLDER,"/"+name+"/pojav_version");
         FileOutputStream fos = new FileOutputStream(binpack_verfile);
@@ -122,7 +122,7 @@ public class MultiRTUtils {
                 return null;
             }
         }catch (IOException e) {
-            e.printStackTrace();
+            Logging.e("ReadInternalRuntimeVersion", Tools.printToString(e));
             return null;
         }
     }
@@ -137,7 +137,7 @@ public class MultiRTUtils {
 
     public static File getRuntimeHome(String name) {
         File dest = new File(RUNTIME_FOLDER, name);
-        Log.i("MiltiRTUitls", "Dest exists? "+dest.exists());
+        Logging.i("MiltiRTUitls", "Dest exists? "+dest.exists());
         if((!dest.exists()) || MultiRTUtils.forceReread(name).versionString == null) throw new RuntimeException("Selected runtime is broken!");
         return dest;
     }
@@ -195,7 +195,7 @@ public class MultiRTUtils {
                 Process process = processBuilder.command("./libunpack200.so", "-r", jarFile.getAbsolutePath(), jarFile.getAbsolutePath().replace(".pack", "")).start();
                 process.waitFor();
             }catch (InterruptedException | IOException e) {
-                Log.e("MULTIRT", "Failed to unpack the runtime !");
+                Logging.e("MULTIRT", "Failed to unpack the runtime !");
             }
         }
     }
@@ -203,7 +203,7 @@ public class MultiRTUtils {
     @SuppressWarnings("SameParameterValue")
     private static void copyDummyNativeLib(String name, File dest, String libFolder) throws IOException {
         File fileLib = new File(dest, "/"+libFolder + "/" + name);
-        FileInputStream is = new FileInputStream(new File(NATIVE_LIB_DIR, name));
+        FileInputStream is = new FileInputStream(new File(PathAndUrlManager.DIR_NATIVE_LIB, name));
         FileOutputStream os = new FileOutputStream(fileLib);
         IOUtils.copy(is, os);
         is.close();
@@ -238,7 +238,7 @@ public class MultiRTUtils {
                     // Libcore one support all Android versions
                     Os.symlink(tarEntry.getName(), tarEntry.getLinkName());
                 } catch (Throwable e) {
-                    Log.e("MultiRT", e.toString());
+                    Logging.e("MultiRT", e.toString());
                 }
 
             } else if (tarEntry.isDirectory()) {

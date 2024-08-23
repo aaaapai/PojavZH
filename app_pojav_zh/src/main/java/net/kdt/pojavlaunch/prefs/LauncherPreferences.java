@@ -10,8 +10,9 @@ import android.content.*;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
-import android.util.Log;
 
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.UnpackJRE;
 import com.movtery.pojavzh.utils.ZHTools;
 
@@ -28,6 +29,7 @@ public class LauncherPreferences {
     public static String PREF_EXP_RENDERER = "opengles2";
     public static String PREF_MESA_LIB = "default";
     public static String PREF_DRIVER_MODEL = "driver_zink";
+    public static String PREF_LOCAL_LOADER_OVERRIDE = "kgsl";
 
 	public static boolean PREF_VERTYPE_RELEASE = true;
 	public static boolean PREF_VERTYPE_SNAPSHOT = false;
@@ -38,7 +40,7 @@ public class LauncherPreferences {
 	public static int PREF_NOTCH_SIZE = 0;
 	public static float PREF_BUTTONSIZE = 100f;
 	public static int PREF_LONGPRESS_TRIGGER = 300;
-	public static String PREF_DEFAULTCTRL_PATH = Tools.CTRLDEF_FILE;
+	public static String PREF_DEFAULTCTRL_PATH = PathAndUrlManager.FILE_CTRLDEF_FILE;
 	public static String PREF_CUSTOM_JAVA_ARGS;
     public static boolean PREF_FORCE_ENGLISH = false;
     public static final String PREF_VERSION_REPOS = "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
@@ -80,25 +82,28 @@ public class LauncherPreferences {
     public static boolean PREF_ENABLE_LOG_OUTPUT = false;
     public static boolean PREF_ANIMATION = true;
     public static int PREF_ANIMATION_SPEED = 600;
+    public static int PREF_PAGE_OPACITY = 100;
     public static boolean PREF_QUILT_LAUNCHER = true;
     public static boolean PREF_BUTTON_SNAPPING = true;
     public static int PREF_BUTTON_SNAPPING_DISTANCE = 8;
     public static long PREF_FIRST_LAUNCH_TIME = 0;
+    public static String PREF_MOD_INFO_SOURCE = "original";
+    public static String PREF_MOD_DOWNLOAD_SOURCE = "original";
 
     public static boolean PREF_EXP_SETUP = false;
     public static boolean PREF_SPARE_BRIDGE = false;
     public static boolean PREF_SPARE_FRAME_BUFFER = false;
-    public static boolean PREF_EXP_ENABLE_SYSTEM = false;
+    public static boolean PREF_EXP_ENABLE_SYSTEM = true;
     public static boolean PREF_EXP_ENABLE_SPECIFIC = false;
     public static boolean PREF_EXP_ENABLE_CUSTOM = false;
+    public static boolean PREF_LOADER_OVERRIDE = false;
 
     public static String PREF_MESA_GL_VERSION;
     public static String PREF_MESA_GLSL_VERSION;
 
     public static void loadPreferences(Context ctx) {
         //Required for the data folder.
-        Tools.initContextConstants(ctx);
-        ZHTools.initContextConstants(ctx);
+        PathAndUrlManager.initContextConstants(ctx);
 
         PREF_RENDERER = DEFAULT_PREF.getString("renderer", "opengles2");
         PREF_EXP_RENDERER = DEFAULT_PREF.getString("renderer_exp", "opengles2");
@@ -110,7 +115,7 @@ public class LauncherPreferences {
 		PREF_VERTYPE_OLDALPHA = DEFAULT_PREF.getBoolean("vertype_oldalpha", false);
 		PREF_VERTYPE_OLDBETA = DEFAULT_PREF.getBoolean("vertype_oldbeta", false);
 		PREF_LONGPRESS_TRIGGER = DEFAULT_PREF.getInt("timeLongPressTrigger", 300);
-		PREF_DEFAULTCTRL_PATH = DEFAULT_PREF.getString("defaultCtrl", Tools.CTRLDEF_FILE);
+		PREF_DEFAULTCTRL_PATH = DEFAULT_PREF.getString("defaultCtrl", PathAndUrlManager.FILE_CTRLDEF_FILE);
         PREF_FORCE_ENGLISH = DEFAULT_PREF.getBoolean("force_english", false);
         PREF_CHECK_LIBRARY_SHA = DEFAULT_PREF.getBoolean("checkLibraries",true);
         PREF_DISABLE_GESTURES = DEFAULT_PREF.getBoolean("disableGestures",false);
@@ -146,19 +151,24 @@ public class LauncherPreferences {
         PREF_ENABLE_LOG_OUTPUT = DEFAULT_PREF.getBoolean("enableLogOutput", false);
         PREF_ANIMATION = DEFAULT_PREF.getBoolean("animation", true);
         PREF_ANIMATION_SPEED = DEFAULT_PREF.getInt("animationSpeed", 600);
+        PREF_PAGE_OPACITY = DEFAULT_PREF.getInt("pageOpacity", 100);
         PREF_QUILT_LAUNCHER = DEFAULT_PREF.getBoolean("quitLauncher", true);
         PREF_BUTTON_SNAPPING = DEFAULT_PREF.getBoolean("buttonSnapping", true);
         PREF_BUTTON_SNAPPING_DISTANCE = DEFAULT_PREF.getInt("buttonSnappingDistance", 8);
+        PREF_MOD_INFO_SOURCE = DEFAULT_PREF.getString("modInfoSource", "original");
+        PREF_MOD_DOWNLOAD_SOURCE = DEFAULT_PREF.getString("modDownloadSource", "original");
 
         PREF_SPARE_BRIDGE = DEFAULT_PREF.getBoolean("spareBridge", false);
         PREF_SPARE_FRAME_BUFFER = DEFAULT_PREF.getBoolean("SpareFrameBuffer", false);
-        PREF_EXP_ENABLE_SYSTEM = DEFAULT_PREF.getBoolean("ebSystem", false);
+        PREF_EXP_ENABLE_SYSTEM = DEFAULT_PREF.getBoolean("ebSystem", true);
         PREF_EXP_ENABLE_SPECIFIC = DEFAULT_PREF.getBoolean("ebSpecific", false);
         PREF_EXP_ENABLE_CUSTOM = DEFAULT_PREF.getBoolean("ebCustom", false);
+        PREF_LOADER_OVERRIDE = DEFAULT_PREF.getBoolean("ebChooseMldo", false);
 
         PREF_EXP_SETUP = DEFAULT_PREF.getBoolean("ExperimentalSetup", false);
         PREF_MESA_LIB = DEFAULT_PREF.getString("CMesaLibrary", "default");
         PREF_DRIVER_MODEL = DEFAULT_PREF.getString("CDriverModels", "driver_zink");
+        PREF_LOCAL_LOADER_OVERRIDE = DEFAULT_PREF.getString("ChooseMldo", "kgsl");
 
         PREF_MESA_GL_VERSION = DEFAULT_PREF.getString("mesaGLVersion", "4.6");
         PREF_MESA_GLSL_VERSION = DEFAULT_PREF.getString("mesaGLSLVersion", "460");
@@ -232,7 +242,7 @@ public class LauncherPreferences {
             else LauncherPreferences.PREF_NOTCH_SIZE = Math.min(cutout.width(), cutout.height());
 
         }catch (Exception e){
-            Log.i("NOTCH DETECTION", "No notch detected, or the device if in split screen mode");
+            Logging.i("NOTCH DETECTION", "No notch detected, or the device if in split screen mode");
             LauncherPreferences.PREF_NOTCH_SIZE = -1;
         }
         Tools.updateWindowSize(activity);

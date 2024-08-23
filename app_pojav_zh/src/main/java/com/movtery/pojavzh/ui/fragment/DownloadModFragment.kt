@@ -5,6 +5,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.movtery.pojavzh.feature.log.Logging
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModDependencies.SelectedMod
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionAdapter
 import com.movtery.pojavzh.ui.subassembly.downloadmod.ModVersionItem
@@ -13,8 +14,7 @@ import com.movtery.pojavzh.ui.subassembly.modlist.ModListFragment
 import com.movtery.pojavzh.ui.subassembly.modlist.ModListItemBean
 import com.movtery.pojavzh.ui.subassembly.viewmodel.ModApiViewModel
 import com.movtery.pojavzh.ui.subassembly.viewmodel.RecyclerViewModel
-import com.movtery.pojavzh.utils.MCVersionComparator.versionCompare
-import com.movtery.pojavzh.utils.MCVersionRegex.RELEASE_REGEX
+import com.movtery.pojavzh.utils.MCVersionRegex.Companion.RELEASE_REGEX
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
@@ -23,6 +23,7 @@ import net.kdt.pojavlaunch.modloaders.modpacks.imagecache.ImageReceiver
 import net.kdt.pojavlaunch.modloaders.modpacks.imagecache.ModIconCache
 import net.kdt.pojavlaunch.modloaders.modpacks.models.ModDetail
 import net.kdt.pojavlaunch.modloaders.modpacks.models.ModItem
+import org.jackhuang.hmcl.util.versioning.VersionNumber
 import java.util.Collections
 import java.util.concurrent.Future
 import java.util.function.Consumer
@@ -45,27 +46,36 @@ class DownloadModFragment : ModListFragment() {
         super.init()
     }
 
+    override fun initRefresh(): Future<*> {
+        return refresh(false)
+    }
+
     override fun refresh(): Future<*> {
-        return PojavApplication.sExecutorService.submit {
-            try {
-                Tools.runOnUiThread {
-                    cancelFailedToLoad()
-                    componentProcessing(true)
-                }
-                val mModDetail = mModApi!!.getModDetails(mModItem)
-                processModDetails(mModDetail)
-            } catch (e: Exception) {
-                Tools.runOnUiThread {
-                    componentProcessing(false)
-                    setFailedToLoad(e.toString())
-                }
-            }
-        }
+        return refresh(true)
     }
 
     override fun onDestroy() {
         mParentUIRecyclerView?.isEnabled = true
         super.onDestroy()
+    }
+
+    private fun refresh(force: Boolean): Future<*> {
+        return PojavApplication.sExecutorService.submit {
+            runCatching {
+                Tools.runOnUiThread {
+                    cancelFailedToLoad()
+                    componentProcessing(true)
+                }
+                val mModDetail = mModApi!!.getModDetails(mModItem, force)
+                processModDetails(mModDetail)
+            }.getOrElse { e ->
+                Tools.runOnUiThread {
+                    componentProcessing(false)
+                    setFailedToLoad(e.toString())
+                }
+                Logging.e("DownloadModFragment", Tools.printToString(e))
+            }
+        }
     }
 
     private fun processModDetails(mModDetail: ModDetail) {
@@ -99,11 +109,9 @@ class DownloadModFragment : ModListFragment() {
 
         val mData: MutableList<ModListItemBean> = ArrayList()
         mModVersionsByMinecraftVersion.entries
-            .sortedWith { entry1, entry2 ->
-                versionCompare(entry1.key, entry2.key)
-            }
+            .sortedWith { entry1, entry2 -> -VersionNumber.compare(entry1.key, entry2.key) }
             .forEach { entry: Map.Entry<String, List<ModVersionItem>> ->
-                if (currentTask.isCancelled) return@forEach
+                if (currentTask.isCancelled) return
 
                 mData.add(ModListItemBean("Minecraft " + entry.key,
                     ModVersionAdapter(SelectedMod(this@DownloadModFragment,
@@ -146,10 +154,10 @@ class DownloadModFragment : ModListFragment() {
 
         mImageReceiver = ImageReceiver { bm: Bitmap ->
             mImageReceiver = null
-            val drawable = RoundedBitmapDrawableFactory.create(resources, bm)
+            val drawable = RoundedBitmapDrawableFactory.create(fragmentActivity!!.resources, bm)
             drawable.cornerRadius = resources.getDimension(R.dimen._1sdp) / 250 * bm.height
             setIcon(drawable)
         }
-        mIconCache.getImage(mImageReceiver, mModItem!!.iconCacheTag, mModItem!!.imageUrl)
+        mModItem!!.imageUrl?.let{ mIconCache.getImage(mImageReceiver, mModItem!!.iconCacheTag, it) }
     }
 }

@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Base64OutputStream;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,18 +22,21 @@ import androidx.annotation.Nullable;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+
+import com.firefly.pgw.renderer.RendererManager;
+import com.firefly.pgw.renderer.RenderersList;
+
 import com.movtery.pojavzh.extra.ZHExtraConstants;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
 import com.movtery.pojavzh.ui.fragment.FilesFragment;
 import com.movtery.pojavzh.ui.fragment.VersionSelectorFragment;
 import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 import com.movtery.pojavzh.utils.file.FileTools;
-
-import com.firefly.pgw.renderer.RendererManager;
-import com.firefly.pgw.renderer.RenderersList;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -64,7 +66,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
-    private View mEditorLayout, mOperateLayout;
+    private View mEditorLayout, mOperateLayout, mProfileLayout;
     private Button mCancelButton, mSaveButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
@@ -120,7 +122,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         });
 
         mGameDirButton.setOnClickListener(v -> {
-            File dir = new File(ZHTools.DIR_GAME_DEFAULT);
+            File dir = new File(PathAndUrlManager.DIR_GAME_DEFAULT);
             if (!dir.exists()) FileTools.mkdirs(dir);
             Bundle bundle = new Bundle();
             bundle.putBoolean(FilesFragment.BUNDLE_SELECT_FOLDER_MODE, true);
@@ -145,10 +147,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
                 VersionSelectorFragment.class, VersionSelectorFragment.TAG, null));
 
         // Set up the icon change click listener
-        mProfileIcon.setOnClickListener(v -> {
-            ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.Bounce);
-            CropperUtils.startCropper(mCropperLauncher);
-        });
+        mProfileLayout.setOnClickListener(v -> CropperUtils.startCropper(mCropperLauncher));
 
         loadValues(LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, ""), view.getContext());
 
@@ -223,6 +222,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         mVersionSelectButton = view.findViewById(R.id.vprof_editor_version_button);
         mGameDirButton = view.findViewById(R.id.vprof_editor_path_button);
         mProfileIcon = view.findViewById(R.id.vprof_editor_profile_icon);
+        mProfileLayout = view.findViewById(R.id.vprof_editor_profile_layout);
     }
 
     private void save(){
@@ -252,7 +252,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
     @Override
     public void onCropped(Bitmap contentBitmap) {
         mProfileIcon.setImageBitmap(contentBitmap);
-        Log.i("bitmap", "w="+contentBitmap.getWidth() +" h="+contentBitmap.getHeight());
+        Logging.i("bitmap", "w="+contentBitmap.getWidth() +" h="+contentBitmap.getHeight());
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         try (Base64OutputStream base64OutputStream = new Base64OutputStream(byteArrayOutputStream, Base64.NO_WRAP)) {
             contentBitmap.compress(
@@ -288,7 +288,7 @@ public class ProfileEditorFragment extends FragmentWithAnim implements CropperUt
         yoYos.add(ViewAnimUtils.setViewAnim(mEditorLayout, Techniques.BounceInDown));
         yoYos.add(ViewAnimUtils.setViewAnim(mOperateLayout, Techniques.BounceInLeft));
 
-        yoYos.add(ViewAnimUtils.setViewAnim(mProfileIcon, Techniques.Wobble));
+        yoYos.add(ViewAnimUtils.setViewAnim(mProfileLayout, Techniques.Wobble));
         yoYos.add(ViewAnimUtils.setViewAnim(mCancelButton, Techniques.FadeInLeft));
         yoYos.add(ViewAnimUtils.setViewAnim(mSaveButton, Techniques.FadeInLeft));
         YoYo.YoYoString[] array = yoYos.toArray(new YoYo.YoYoString[]{});

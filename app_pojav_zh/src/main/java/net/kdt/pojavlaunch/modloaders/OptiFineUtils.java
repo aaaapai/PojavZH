@@ -2,7 +2,8 @@ package net.kdt.pojavlaunch.modloaders;
 
 import android.content.Intent;
 
-import net.kdt.pojavlaunch.Tools;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
+
 import net.kdt.pojavlaunch.utils.DownloadUtils;
 
 import java.io.File;
@@ -10,12 +11,12 @@ import java.util.List;
 
 public class OptiFineUtils {
 
-    public static OptiFineVersions downloadOptiFineVersions() throws Exception {
-        return DownloadUtils.downloadStringCached("https://optifine.net/downloads", "of_downloads_page", new OptiFineScraper());
+    public static OptiFineVersions downloadOptiFineVersions(boolean force) throws Exception {
+        return DownloadUtils.downloadStringCached("https://optifine.net/downloads", "of_downloads_page", force, new OptiFineScraper());
     }
 
     public static void addAutoInstallArgs(Intent intent, File modInstallerJar) {
-        intent.putExtra("javaArgs", "-javaagent:"+ Tools.DIR_DATA+"/forge_installer/forge_installer.jar"
+        intent.putExtra("javaArgs", "-javaagent:"+ PathAndUrlManager.DIR_DATA+"/forge_installer/forge_installer.jar"
                 + "=OFNPS" +// No Profile Suppression
                 " -jar "+modInstallerJar.getAbsolutePath());
     }

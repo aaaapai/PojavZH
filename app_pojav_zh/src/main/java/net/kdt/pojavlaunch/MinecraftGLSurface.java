@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -25,6 +24,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.movtery.pojavzh.feature.log.Logging;
 
 import net.kdt.pojavlaunch.customcontrols.ControlLayout;
 import net.kdt.pojavlaunch.customcontrols.gamepad.Gamepad;
@@ -68,6 +69,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
     private final float mScaleFactor = LauncherPreferences.PREF_SCALE_FACTOR/100f;
     /* Sensitivity, adjusted according to screen size */
     private final double mSensitivityFactor = (1.4 * (1080f/ Tools.getDisplayMetrics((Activity) getContext()).heightPixels));
+
     /* Surface ready listener, used by the activity to launch minecraft */
     SurfaceReadyListener mSurfaceReadyListener = null;
     final Object mSurfaceReadyListenerLock = new Object();
@@ -170,7 +172,6 @@ public class MinecraftGLSurface extends View implements GrabListener {
 
 
     }
-
 
     /**
      * The touch event for both grabbed an non-grabbed mouse state on the touch screen
@@ -323,12 +324,16 @@ public class MinecraftGLSurface extends View implements GrabListener {
         return true;
     }
 
+
+
+
+
     /** Called when the size need to be set at any point during the surface lifecycle **/
     public void refreshSize(){
         windowWidth = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.widthPixels, mScaleFactor);
         windowHeight = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.heightPixels, mScaleFactor);
         if(mSurface == null){
-            Log.w("MGLSurface", "Attempt to refresh size on null surface");
+            Logging.w("MGLSurface", "Attempt to refresh size on null surface");
             return;
         }
         if(LauncherPreferences.PREF_USE_ALTERNATE_SURFACE){

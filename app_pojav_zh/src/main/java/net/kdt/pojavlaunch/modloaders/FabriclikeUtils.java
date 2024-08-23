@@ -1,8 +1,7 @@
 package net.kdt.pojavlaunch.modloaders;
 
-import android.util.Log;
-
 import com.google.gson.JsonSyntaxException;
+import com.movtery.pojavzh.feature.log.Logging;
 
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.utils.DownloadUtils;
@@ -39,19 +38,19 @@ public class FabriclikeUtils {
         this.mName = mName;
     }
 
-    public FabricVersion[] downloadGameVersions() throws IOException{
+    public FabricVersion[] downloadGameVersions(boolean force) throws IOException{
         try {
-            return DownloadUtils.downloadStringCached(String.format(GAME_METADATA_URL, mApiUrl), mCachePrefix+"_game_versions",
+            return DownloadUtils.downloadStringCached(String.format(GAME_METADATA_URL, mApiUrl), mCachePrefix+"_game_versions", force,
                     FabriclikeUtils::deserializeRawVersions
             );
         }catch (DownloadUtils.ParseException ignored) {}
         return null;
     }
 
-    public FabricVersion[] downloadLoaderVersions() throws IOException {
+    public FabricVersion[] downloadLoaderVersions(boolean force) throws IOException {
         try {
             return DownloadUtils.downloadStringCached(String.format(LOADER_METADATA_URL, mApiUrl),
-                    mCachePrefix + "_loader_versions",
+                    mCachePrefix + "_loader_versions", force,
                     (input) -> {
                         try {
                             return deserializeLoaderVersions(input);
@@ -60,7 +59,7 @@ public class FabriclikeUtils {
                         }
                     });
         } catch (DownloadUtils.ParseException e) {
-            Log.e("Download Fabric Meta", e.toString());
+            Logging.e("Download Fabric Meta", e.toString());
         }
         return null;
     }
@@ -101,7 +100,7 @@ public class FabriclikeUtils {
         try {
             return Tools.GLOBAL_GSON.fromJson(jsonArrayIn, FabricVersion[].class);
         }catch (JsonSyntaxException e) {
-            e.printStackTrace();
+            Logging.e(FabriclikeUtils.class.getName(), Tools.printToString(e));
             throw new DownloadUtils.ParseException(null);
         }
     }

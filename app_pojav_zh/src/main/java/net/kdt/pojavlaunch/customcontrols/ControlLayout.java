@@ -9,7 +9,6 @@ import static org.lwjgl.glfw.CallbackBridge.isGrabbing;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.gson.JsonSyntaxException;
+import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.ui.dialog.TipDialog;
 import com.movtery.pojavzh.ui.subassembly.customcontrols.ControlInfoData;
 
@@ -34,6 +34,8 @@ import net.kdt.pojavlaunch.customcontrols.handleview.ControlHandleView;
 import net.kdt.pojavlaunch.customcontrols.handleview.EditControlPopup;
 import com.movtery.pojavzh.ui.dialog.EditControlInfoDialog;
 import com.movtery.pojavzh.ui.dialog.SelectControlsDialog;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
+
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
 
 import java.io.File;
@@ -446,7 +448,8 @@ public class ControlLayout extends FrameLayout {
 	public void save(String path){
 		try {
 			mLayout.save(path);
-		} catch (IOException e) {Log.e("ControlLayout", "Failed to save the layout at:" + path);}
+		} catch (IOException e) {
+			Logging.e("ControlLayout", "Failed to save the layout at:" + path);}
 	}
 
 
@@ -484,13 +487,13 @@ public class ControlLayout extends FrameLayout {
 	}
 
 	public void updateLoadedFileName(String path) {
-		path = path.replace(Tools.CTRLMAP_PATH, ".");
+		path = path.replace(PathAndUrlManager.DIR_CTRLMAP_PATH, ".");
 		path = path.substring(0, path.length() - 5);
 		mLayoutFileName = path;
 	}
 
 	public String saveToDirectory(String name) throws Exception{
-		String jsonPath = Tools.CTRLMAP_PATH + "/" + name + ".json";
+		String jsonPath = PathAndUrlManager.DIR_CTRLMAP_PATH + "/" + name + ".json";
 		saveLayout(jsonPath);
 		return jsonPath;
 	}

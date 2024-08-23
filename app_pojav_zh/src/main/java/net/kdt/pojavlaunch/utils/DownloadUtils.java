@@ -1,9 +1,9 @@
 package net.kdt.pojavlaunch.utils;
 
-import android.util.Log;
-
 import androidx.annotation.Nullable;
 
+import com.movtery.pojavzh.feature.log.Logging;
+import com.movtery.pojavzh.utils.PathAndUrlManager;
 import com.movtery.pojavzh.utils.ZHTools;
 
 import java.io.*;
@@ -16,8 +16,6 @@ import org.apache.commons.io.*;
 
 @SuppressWarnings("IOStreamConstructor")
 public class DownloadUtils {
-    public static final String USER_AGENT = Tools.APP_NAME;
-
     public static void download(String url, OutputStream os) throws IOException {
         download(new URL(url), os);
     }
@@ -25,10 +23,7 @@ public class DownloadUtils {
     public static void download(URL url, OutputStream os) throws IOException {
         InputStream is = null;
         try {
-            // System.out.println("Connecting: " + url.toString());
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("User-Agent", USER_AGENT);
-            conn.setConnectTimeout(10000);
+            HttpURLConnection conn = PathAndUrlManager.createHttpConnection(url);
             conn.setDoInput(true);
             conn.connect();
             if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -44,7 +39,7 @@ public class DownloadUtils {
                 try {
                     is.close();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logging.e("DownloadUtils", Tools.printToString(e));
                 }
             }
         }
@@ -87,18 +82,18 @@ public class DownloadUtils {
 
     }
 
-    public static <T> T downloadStringCached(String url, String cacheName, ParseCallback<T> parseCallback) throws IOException, ParseException{
-        File cacheDestination = new File(Tools.DIR_CACHE, "string_cache/"+cacheName);
-        if(cacheDestination.isFile() &&
-                cacheDestination.canRead() &&
+    public static <T> T downloadStringCached(String url, String cacheName, boolean force, ParseCallback<T> parseCallback) throws IOException, ParseException{
+        File cacheDestination = new File(PathAndUrlManager.DIR_CACHE, "string_cache/"+cacheName);
+        if (force && cacheDestination.exists()) org.apache.commons.io.FileUtils.deleteQuietly(cacheDestination);
+        if (cacheDestination.isFile() && cacheDestination.canRead() &&
                 ZHTools.getCurrentTimeMillis() < (cacheDestination.lastModified() + 86400000)) {
             try {
                 String cachedString = Tools.read(new FileInputStream(cacheDestination));
                 return parseCallback.process(cachedString);
             }catch(IOException e) {
-                Log.i("DownloadUtils", "Failed to read the cached file", e);
+                Logging.i("DownloadUtils", "Failed to read the cached file", e);
             }catch (ParseException e) {
-                Log.i("DownloadUtils", "Failed to parse the cached file", e);
+                Logging.i("DownloadUtils", "Failed to parse the cached file", e);
             }
         }
         String urlContent = DownloadUtils.downloadString(url);
@@ -117,7 +112,7 @@ public class DownloadUtils {
         if(tryWriteCache) try {
             Tools.write(cacheDestination.getAbsolutePath(), urlContent);
         }catch(IOException e) {
-            Log.i("DownloadUtils", "Failed to cache the string", e);
+            Logging.i("DownloadUtils", "Failed to cache the string", e);
         }
         return parseResult;
     }
