@@ -249,7 +249,7 @@ public class JREUtils {
                         envMap.put("LOCAL_DRIVER_MODEL", "driver_zink");
                         envMap.put("MESA_LIBRARY", localMesaLibrary);
                     } break;
-                    case "opengles3_virgl":{
+                    case "opengles2_virgl":{
                         envMap.put("POJAV_BETA_RENDERER", "mesa_3d");
                         envMap.put("LOCAL_DRIVER_MODEL", "driver_virgl");
                         envMap.put("MESA_GL_VERSION_OVERRIDE", "4.3");
@@ -396,17 +396,6 @@ public class JREUtils {
 
         final String graphicsLib = loadGraphicsLibrary();
         List<String> userArgs = getJavaArgs(runtimeHome, userArgsString);
-
-        //Remove arguments that can interfere with the good working of the launcher
-        purgeArg(userArgs,"-Xms");
-        purgeArg(userArgs,"-Xmx");
-        purgeArg(userArgs,"-d32");
-        purgeArg(userArgs,"-d64");
-        purgeArg(userArgs, "-Xint");
-        purgeArg(userArgs, "-XX:+UseTransparentHugePages");
-        purgeArg(userArgs, "-XX:+UseLargePagesInMetaspace");
-        purgeArg(userArgs, "-XX:+UseLargePages");
-        purgeArg(userArgs, "-Dorg.lwjgl.opengl.libname");
 
         //Add automatically generated args
         userArgs.add("-Xms" + LauncherPreferences.PREF_RAM_ALLOCATION + "M");
@@ -594,7 +583,7 @@ public class JREUtils {
                 case "freedreno":
                     renderLibrary = "libOSMesa_8.so";
                     break;
-                case "opengles3_virgl":
+                case "opengles2_virgl":
                     renderLibrary = "libOSMesa_2205.so";
                     break;
                 case "panfrost":
@@ -713,7 +702,7 @@ public class JREUtils {
     static {
         System.loadLibrary("pojavexec");
         System.loadLibrary("pojavexec_awt");
-        dlopen("libxhook.so");
+        dlopen("libbytehook.so");
         System.loadLibrary("istdio");
     }
 }
