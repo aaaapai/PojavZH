@@ -1,6 +1,6 @@
 plugins {
-    id 'com.android.application' version '8.7.0-alpha03'
-    id 'org.jetbrains.kotlin.android' version '2.0.20-RC'
+    id 'com.android.application' version '8.7.0-alpha07'
+    id 'org.jetbrains.kotlin.android' version '2.0.20'
 }
 
 def getVersionCode = {
@@ -223,7 +223,7 @@ dependencies {
     // implementation 'com.intuit.sdp:sdp-android:1.0.5'
     // implementation 'com.intuit.ssp:ssp-android:1.0.5'
 
-    implementation 'org.tukaani:xz:1.9'
+    implementation 'org.tukaani:xz:1.10'
     // Our version of exp4j can be built from source at
     // https://github.com/PojavLauncherTeam/exp4j
     implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.29'
@@ -235,7 +235,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
     implementation 'org.commonmark:commonmark:0.22.0'
     implementation 'com.google.android.material:material:1.13.0-alpha04'
-    implementation 'androidx.core:core-ktx:1.15.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.15.0-alpha02'
     implementation 'joda-time:joda-time:2.12.7'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
 }
