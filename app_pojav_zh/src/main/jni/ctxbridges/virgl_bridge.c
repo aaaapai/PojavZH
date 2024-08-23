@@ -19,7 +19,6 @@
 
 int (*vtest_main_p)(int argc, char **argv);
 void (*vtest_swap_buffers_p)(void);
-void *gbuffer;
 
 void *virglGetCurrentContext() {
     return (void *)OSMesaGetCurrentContext_p();
