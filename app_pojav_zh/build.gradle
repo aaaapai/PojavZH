@@ -1,6 +1,11 @@
 plugins {
     id 'com.android.application' version '8.7.0-alpha07'
     id 'org.jetbrains.kotlin.android' version '2.0.20'
+
+static def getEnvOrDefault(String envVar, String defaultValue) {
+    def value = System.getenv(envVar)
+    return value ?: defaultValue
+
 }
 
 def getVersionCode = {
@@ -26,9 +31,7 @@ def getCFApiKey = {
 }
 
 def getBranchName = {
-    def isMainBranch = System.getenv('IS_MAIN_BRANCH') == 'true'
-    if(isMainBranch) return 'main'
-    return 'other'
+    getEnvOrDefault('IS_MAIN_BRANCH', 'false') == 'true' ? 'main' : 'other'
 }
 
 def getApiToken = {
