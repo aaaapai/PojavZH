@@ -212,7 +212,8 @@ public final class Tools {
         return new File(PathAndUrlManager.DIR_GAME_DEFAULT);
     }
 
-    public static void buildNotificationChannel(Context context){
+    public static void buildNotificationChannel(Context context) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         NotificationChannel channel = new NotificationChannel(
                 "channel_id",
                 context.getString(R.string.notif_channel_name), NotificationManager.IMPORTANCE_DEFAULT);

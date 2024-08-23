@@ -376,6 +376,10 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         }
     }
 
+    public static boolean isAndroid8OrHigher() {
+        return Build.VERSION.SDK_INT >= 26;
+    }
+
     public static void fullyExit() {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
