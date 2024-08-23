@@ -35,9 +35,11 @@ def getBranchName = {
 }
 
 def getApiToken = {
-    String api = System.getenv('MY_API_TOKEN')
-    if(api != null) return api
-    return "DUMMY"
+    getEnvOrDefault('MY_API_TOKEN', 'DUMMY')
+}
+
+def getPrivateApiToken = {
+    getEnvOrDefault('MY_PRIVATE_API_TOKEN', 'DUMMY')
 }
 
 configurations {
@@ -94,13 +96,7 @@ android {
             signingConfig signingConfigs.customDebug
             resValue 'string', 'application_package', 'net.kdt.pojavlaunch.zh.firefly.debug'
             resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.zh.firefly.debug'
-            resValue 'string', 'zh_version_status', 'debug'
-        }
-        proguard {
-            initWith debug
-            minifyEnabled true
-            shrinkResources true
-        }
+            }
 
         release {
             // Don't set to true or java.awt will be a.a or something similar.
@@ -111,7 +107,6 @@ android {
             // debuggable = true
             resValue 'string', 'application_package', 'net.kdt.pojavlaunch.zh.firefly'
             resValue 'string', 'storageProviderAuthorities', 'net.kdt.pojavlaunch.scoped.gamefolder.zh.firefly'
-            resValue 'string', 'zh_version_status', 'release'
             signingConfig signingConfigs.releaseBuild
         }
     }
