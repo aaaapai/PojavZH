@@ -1,9 +1,11 @@
 //#import <Foundation/Foundation.h>
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <dlfcn.h>
 
 #include "GL/gl.h"
-#include "GLES3/gl32.h"
+#include <GLES3/gl32.h>
 #include "string_utils.h"
 
 #define LOOKUP_FUNC(func) \
@@ -126,8 +128,8 @@ void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, 
 
 #ifdef __APPLE__
     // patch OptiFine 1.17.x
-    if (FindString(converted, "\nuniform mat4 textureMatrix = mat4(1.0);")) {
-        InplaceReplace(converted, &convertedLen, "\nuniform mat4 textureMatrix = mat4(1.0);", "\n#define textureMatrix mat4(1.0)");
+    if (gl4es_find_string(converted, "\nuniform mat4 textureMatrix = mat4(1.0);")) {
+        gl4es_inplace_replace(converted, &convertedLen, "\nuniform mat4 textureMatrix = mat4(1.0);", "\n#define textureMatrix mat4(1.0)");
     }
 #endif
 
@@ -136,7 +138,7 @@ void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, 
         "#extension GL_EXT_blend_func_extended : enable\n"
         // For OptiFine (see patch above)
         "#extension GL_EXT_shader_non_constant_global_initializers : enable\n";
-    converted = InplaceInsert(GetLine(converted, 1), extensions, converted, &convertedLen);
+    converted = gl4es_inplace_insert(gl4es_getline(converted, 1), extensions, converted, &convertedLen);
 
     gles_glShaderSource(shader, 1, (const GLchar * const*)((converted)?(&converted):(&source)), NULL);
 
