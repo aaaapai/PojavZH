@@ -29,6 +29,12 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@main
+        with:
+           cache-read-only: true
+           allow-snapshot-wrappers: true
+
       - name: Build Debug ${{matrix.arch}}
         run: |
           chmod +x gradlew
