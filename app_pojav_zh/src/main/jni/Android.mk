@@ -33,6 +33,9 @@ LOCAL_MODULE := pojavexec
 LOCAL_SRC_FILES := \
     bigcoreaffinity.c \
     egl_bridge.c \
+    ctxbridges/common.c \
+    ctxbridges/bridge_tbl.c \
+    ctxbridges/renderer_config.c \
     ctxbridges/gl_bridge.c \
     ctxbridges/osm_bridge.c \
     ctxbridges/egl_loader.c \
@@ -49,7 +52,7 @@ ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_CFLAGS += -DADRENO_POSSIBLE
 LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly
 LOCAL_LDLAGS += -flto=thin
-LOCAL_LDLIBS += -lEGL -lGLESv2
+LOCAL_LDLIBS += -lEGL -lGLESv3
 endif
 include $(BUILD_SHARED_LIBRARY)
 
