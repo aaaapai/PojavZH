@@ -1,7 +1,6 @@
 name: Android CI
 
 on:
-  push:
   pull_request:
   workflow_dispatch:
 
@@ -10,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        arch: [ "all", "arm", "arm64", "x86", "x86_64" ]
+        arch: ["arm64"]
       fail-fast: false
 
     env:
@@ -20,18 +19,20 @@ jobs:
       MY_PRIVATE_API_TOKEN: ${{ secrets.MY_PRIVATE_API_TOKEN }}
 
     steps:
-      - name: Set IS_MAIN_BRANCH if on main branch
-        if: github.repository_owner == 'MovTery' && github.ref_name == 'main'
-        run: echo "IS_MAIN_BRANCH=true" >> $GITHUB_ENV
-
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@main
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@main
+        with:
+           cache-read-only: false
+           allow-snapshot-wrappers: true
 
       - name: Build JRE JAR files
         run: |
@@ -39,27 +40,13 @@ jobs:
           mkdir out
           ./gradlew jre_lwjgl3glfw:build --no-daemon
 
-      - name: Build Release ${{matrix.arch}}
-        if: github.repository_owner == 'MovTery' && github.ref_name == 'main'
-        run: |
-          chmod +x gradlew
-          ./gradlew app_pojav_zh:assemblerelease -Darch=${{matrix.arch}}
-
       - name: Build Debug ${{matrix.arch}}
         run: |
           chmod +x gradlew
           ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
 
-      - name: Upload Release ${{matrix.arch}}
-        continue-on-error: true
-        if: github.repository_owner == 'MovTery' && github.ref_name == 'main'
-        uses: actions/upload-artifact@v4
-        with:
-          name: PojavZenithHorizon(Release) ${{matrix.arch}}
-          path: app_pojav_zh/build/outputs/apk/release/*
-
       - name: Upload Debug ${{matrix.arch}}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@main
         with:
           name: PojavZenithHorizon(Debug) ${{matrix.arch}}
           path: app_pojav_zh/build/outputs/apk/debug/*
