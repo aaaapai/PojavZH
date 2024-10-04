@@ -6,6 +6,6 @@ public final class VMLauncher {
 	public static native int launchJVM(String[] args);
 
 	static {
-		System.loadLibrary("jrelauncher");
+		System.loadLibrary("pojavexec");
 	}
 }
