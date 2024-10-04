@@ -31,14 +31,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@main
         with:
-           cache-read-only: false
            allow-snapshot-wrappers: true
-
-      - name: Build JRE JAR files
-        run: |
-          chmod +x gradlew
-          mkdir out
-          ./gradlew jre_lwjgl3glfw:build --no-daemon
 
       - name: Build Debug ${{matrix.arch}}
         run: |
