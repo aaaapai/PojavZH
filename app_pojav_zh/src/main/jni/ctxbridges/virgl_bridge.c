@@ -125,7 +125,7 @@ int virglInit() {
             EGL_ALPHA_SIZE, 8,
             // Minecraft required on initial 24
             EGL_DEPTH_SIZE, 24,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
             EGL_NONE
     };
 
