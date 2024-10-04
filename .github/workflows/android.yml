@@ -1,4 +1,4 @@
-name: ${{ github.event.inputs.description }}
+name: Android CI
 
 on:
   pull_request:
