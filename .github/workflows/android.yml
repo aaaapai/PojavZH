@@ -3,6 +3,11 @@ name: Android CI
 on:
   pull_request:
   workflow_dispatch:
+         inputs:
+            description:
+                description: description
+                required: true
+                default: "🤔"
 
 jobs:
   build:
