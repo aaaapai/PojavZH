@@ -1,4 +1,4 @@
-name: ${{ github.event.inputs.publish }}
+name: ${{ github.event.inputs.description }}
 
 on:
   pull_request:
@@ -40,6 +40,7 @@ jobs:
 
       - name: Build Debug ${{matrix.arch}}
         run: |
+          echo ${{ github.event.inputs.description }}
           chmod +x gradlew
           ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
 
