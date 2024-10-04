@@ -34,19 +34,15 @@ jobs:
            cache-read-only: false
            allow-snapshot-wrappers: true
 
-      - name: Build JRE JAR files
+      - name: Build lwjgl-glfw-classes JAR files
         run: |
           chmod +x gradlew
           mkdir out
-          ./gradlew jre_lwjgl3glfw:build --no-daemon
+          ./gradlew jre_lwjgl3glfw:build
 
-      - name: Build Debug ${{matrix.arch}}
-        run: |
-          chmod +x gradlew
-          ./gradlew app_pojav_zh:assembleDebug -Darch=${{matrix.arch}}
-
-      - name: Upload Debug ${{matrix.arch}}
+      - name: Upload lwjgl
         uses: actions/upload-artifact@main
         with:
-          name: PojavZenithHorizon(Debug) ${{matrix.arch}}
-          path: app_pojav_zh/build/outputs/apk/debug/*
+          name: lwjgl-glfw-classes
+          path: |
+                **/lwjgl-glfw-classes.jar
