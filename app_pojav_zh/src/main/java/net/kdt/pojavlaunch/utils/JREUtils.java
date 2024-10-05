@@ -205,6 +205,9 @@ public class JREUtils {
 
         envMap.put("LD_LIBRARY_PATH", LD_LIBRARY_PATH);
         envMap.put("PATH", jreHome + "/bin:" + Os.getenv("PATH"));
+        if (FFmpegPlugin.isAvailable) {
+            envMap.put("PATH", FFmpegPlugin.libraryPath + ":" + Os.getenv("PATH"));
+        }
         envMap.put("AWTSTUB_WIDTH", Integer.toString(CallbackBridge.windowWidth > 0 ? CallbackBridge.windowWidth : CallbackBridge.physicalWidth));
         envMap.put("AWTSTUB_HEIGHT", Integer.toString(CallbackBridge.windowHeight > 0 ? CallbackBridge.windowHeight : CallbackBridge.physicalHeight));
 
@@ -221,9 +224,9 @@ public class JREUtils {
 
         if (LOCAL_RENDERER != null) {
             envMap.put("POJAV_RENDERER", LOCAL_RENDERER);
-            if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan")) {
+            if (LOCAL_RENDERER.equals("opengles3_ltw")) {
                 envMap.put("LIBGL_ES", "3");
-                envMap.put("POJAVEXEC_EGL","libEGL_angle.so"); // Use ANGLE EGL
+                envMap.put("POJAVEXEC_EGL","libltw.so");
             }
         }
 
@@ -296,6 +299,10 @@ public class JREUtils {
         JREUtils.relocateLibPath(runtime, runtimeHome);
 
         setJavaEnvironment(runtimeHome);
+        if (runtime.javaVersion > 8) {
+            String libName = runtime.javaVersion == 17 ? "/libjsph17.so" : "/libjsph21.so";
+            Os.setenv("JSP", DIR_NATIVE_LIB + libName, true);
+        }
 
         final String graphicsLib = loadGraphicsLibrary();
 
@@ -470,8 +477,8 @@ public class JREUtils {
             case "gallium_panfrost":
                 renderLibrary = "libOSMesa_2300d.so";
                 break;
-            case "opengles3_desktopgl_angle_vulkan":
-                renderLibrary = "libtinywrapper.so";
+            case "opengles3_ltw":
+                renderLibrary = "libltw.so";
                 break;
             default:
                 Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");

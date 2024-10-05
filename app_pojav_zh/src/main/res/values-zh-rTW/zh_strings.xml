@@ -292,8 +292,8 @@
     <string name="zh_other_login_select_role_title">選擇角色</string>
     <string name="zh_other_login_select_role_message">當前帳號存在多個角色，請選擇想要使用的角色。</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">啟動器需要安裝這些內容，以確保 Minecraft 能夠正常運行。點擊下方按鈕，開始安裝或更新這些內容。</string>
-    <string name="splash_screen_installing">啟動器正在安裝所需的內容，安裝完成後將自動進入主界面，請耐心等待。</string>
+    <string name="splash_screen_desc">啟動器需要安裝這些內容，以確保 Minecraft 能夠正常啟動。這些內容已包含在應用中，需要解壓後才能正常使用，點擊下方按鈕，開始解壓並更新這些內容。</string>
+    <string name="splash_screen_installing">啟動器正在解壓這些內容，解壓完成後將自動進入主介面，請耐心等待。</string>
     <string name="splash_screen_lwjgl">輕量級 Java 遊戲庫，Minecraft 依賴它運行遊戲。</string>
     <string name="splash_screen_cacio">為 OpenJDK 提供可移植的 GUI 後端。</string>
     <string name="splash_screen_jre8">Java 8 環境，Minecraft 1.16- 依賴 Java 8。</string>
@@ -310,13 +310,14 @@
     <string name="zh_about_dec6">以下是所有支持開發的贊助者們，萬分感謝！</string>
     <string name="zh_about_dec7">時間與總金額</string>
     <string name="zh_about_button_support_development">贊助開發</string>
-    <string name="zh_about_movtery_desc">Pojav Zenith Horizon 的作者</string>
-    <string name="zh_about_pojavlauncher_desc">PojavLauncher 的開發團隊，開發並開源了 PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon 使用了來自 MC 百科的 Mod 以及整合包中文翻譯</string>
-    <string name="zh_about_verafirefly_desc">為 Pojav Zenith Horizon 提供渲染方面的技術支援</string>
-    <string name="zh_about_lingmuqiuzhu_desc">為 Pojav Zenith Horizon 提供了技術支援</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon 使用了其創作的 BMCLAPI 鏡像源</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon 使用了其創作的 MCIM Mod 信息鏡像源</string>
+    <string name="zh_about_MovTery_desc">啟動器的主要作者</string>
+    <string name="zh_about_PojavLauncher_desc">PojavLauncher 的開發團隊，開發並開源了 PojavLauncher</string>
+    <string name="zh_about_mcmod_desc">啟動器使用了來自 MC 百科的 Mod 以及整合包中文翻譯</string>
+    <string name="zh_about_VeraFirefly_desc">為啟動器提供渲染方面的技術支持</string>
+    <string name="zh_about_LingMuQiuZhu_desc">為啟動器提供了技術支持</string>
+    <string name="zh_about_ShirosakiMio_desc">為啟動器提供了技術支持，修復了一些漏洞</string>
+    <string name="zh_about_bangbang93_desc">啟動器使用了其創作的 BMCLAPI 鏡像源</string>
+    <string name="zh_about_z0z0r4_desc">啟動器使用了其創作的 MCIM Mod 資訊鏡像源</string>
     <string name="zh_about_access_space">訪問空間</string>
     <string name="zh_about_access_link">訪問連結</string>
     <string name="zh_about_version_name">軟體版本名:</string>

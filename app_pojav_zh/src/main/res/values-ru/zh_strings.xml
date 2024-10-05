@@ -292,8 +292,8 @@
     <string name="zh_other_login_select_role_title">Выбор роли</string>
     <string name="zh_other_login_select_role_message">На текущем аккаунте есть несколько ролей. Пожалуйста, выберите роль, которую хотите использовать.</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">Лаунчер должен установить эти компоненты, чтобы убедиться, что Minecraft работает правильно. Нажмите кнопку ниже, чтобы начать установку или обновление этих компонентов.</string>
-    <string name="splash_screen_installing">Лаунчер устанавливает необходимые компоненты. После завершения установки он автоматически войдет в главный интерфейс. Пожалуйста, подождите.</string>
+    <string name="splash_screen_desc">Лаунчеру необходимо установить эти компоненты, чтобы обеспечить правильный запуск Minecraft. Эти компоненты включены в приложение и должны быть извлечены для нормального использования. Нажмите на кнопку ниже, чтобы начать извлечение и обновление этих компонентов.</string>
+    <string name="splash_screen_installing">Лаунчер извлекает эти компоненты. После завершения извлечения он автоматически перейдет в главное меню. Пожалуйста, наберитесь терпения.</string>
     <string name="splash_screen_lwjgl">Легковесная библиотека Java для игр, Minecraft зависит от нее для запуска игры.</string>
     <string name="splash_screen_cacio">Предоставляет переносимый графический интерфейс для OpenJDK.</string>
     <string name="splash_screen_jre8">Среда Java 8, Minecraft 1.16- зависит от Java 8.</string>
@@ -310,13 +310,14 @@
     <string name="zh_about_dec6">Ниже перечислены все спонсоры, поддерживающие разработку. Большое спасибо!</string>
     <string name="zh_about_dec7">Дата и общая сумма</string>
     <string name="zh_about_button_support_development">Поддержать разработку</string>
-    <string name="zh_about_movtery_desc">Автор Pojav Zenith Horizon</string>
-    <string name="zh_about_pojavlauncher_desc">Команда разработчиков PojavLauncher, разработала и открыла исходный код PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon использует моды и переводы интегрированных пакетов из MC 百科</string>
-    <string name="zh_about_verafirefly_desc">Предоставляет техническую поддержку по рендерингу для Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Обеспечил техническую поддержку для Pojav Zenith Horizon</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon использует зеркало BMCLAPI, созданное bangbang93</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon использует зеркало информации о модах MCIM, созданное z0z0r4</string>
+    <string name="zh_about_MovTery_desc">Основной автор лаунчера</string>
+    <string name="zh_about_PojavLauncher_desc">Команда разработчиков PojavLauncher, которые разработали и сделали PojavLauncher с открытым исходным кодом</string>
+    <string name="zh_about_mcmod_desc">Лаунчер использует китайские переводы модов и интеграционных пакетов из MC Wiki</string>
+    <string name="zh_about_VeraFirefly_desc">Предоставил техническую поддержку рендеринга для лаунчера</string>
+    <string name="zh_about_LingMuQiuZhu_desc">Предоставил техническую поддержку для лаунчера</string>
+    <string name="zh_about_ShirosakiMio_desc">Предоставил техническую поддержку и исправил некоторые ошибки в лаунчере</string>
+    <string name="zh_about_bangbang93_desc">Лаунчер использует зеркальный источник BMCLAPI, созданный ими</string>
+    <string name="zh_about_z0z0r4_desc">Лаунчер использует зеркальный источник информации о модах MCIM, созданный ими</string>
     <string name="zh_about_access_space">Доступ к пространству</string>
     <string name="zh_about_access_link">Ссылка для доступа</string>
     <string name="zh_about_version_name">Название версии программного обеспечения:</string>

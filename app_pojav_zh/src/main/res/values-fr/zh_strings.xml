@@ -292,8 +292,8 @@
     <string name="zh_other_login_select_role_title">Sélectionner un rôle</string>
     <string name="zh_other_login_select_role_message">Le compte actuel a plusieurs rôles. Veuillez sélectionner le rôle que vous souhaitez utiliser.</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">Le lanceur doit installer ces composants pour garantir le bon fonctionnement de Minecraft. Cliquez sur le bouton ci-dessous pour commencer l\'installation ou la mise à jour de ces composants.</string>
-    <string name="splash_screen_installing">Le lanceur installe les composants requis. Une fois l\'installation terminée, il entrera automatiquement dans l\'interface principale. Veuillez patienter.</string>
+    <string name="splash_screen_desc">Le lanceur doit installer ces composants pour garantir le bon démarrage de Minecraft. Ces composants sont inclus dans l\'application et doivent être extraits pour un usage normal. Cliquez sur le bouton ci-dessous pour commencer à extraire et à mettre à jour ces composants.</string>
+    <string name="splash_screen_installing">Le lanceur est en train d\'extraire ces composants. Une fois l\'extraction terminée, il passera automatiquement à l\'interface principale. Veuillez être patient.</string>
     <string name="splash_screen_lwjgl">Bibliothèque de jeux Java légère, Minecraft en dépend pour exécuter le jeu.</string>
     <string name="splash_screen_cacio">Fournit une interface graphique portable pour OpenJDK.</string>
     <string name="splash_screen_jre8">Environnement Java 8, Minecraft 1.16- dépend de Java 8.</string>
@@ -310,13 +310,14 @@
     <string name="zh_about_dec6">Voici tous les sponsors qui ont soutenu le développement, un grand merci !</string>
     <string name="zh_about_dec7">Temps et montant total</string>
     <string name="zh_about_button_support_development">Soutenir le développement</string>
-    <string name="zh_about_movtery_desc">Auteur de Pojav Zenith Horizon</string>
-    <string name="zh_about_pojavlauncher_desc">Équipe de développement de PojavLauncher, qui a développé et open-sourcé PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon utilise des mods et des traductions de packs de mods en chinois provenant de MC Wiki</string>
-    <string name="zh_about_verafirefly_desc">Fournit un support technique en matière de rendu pour Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Fournit un support technique pour Pojav Zenith Horizon</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon utilise sa création, la source de miroir BMCLAPI</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon utilise sa création, la source de miroir d\'informations sur les mods MCIM</string>
+    <string name="zh_about_MovTery_desc">L\'auteur principal du lanceur</string>
+    <string name="zh_about_PojavLauncher_desc">L\'équipe de développement de PojavLauncher, qui a développé et open-sourcé PojavLauncher</string>
+    <string name="zh_about_mcmod_desc">Le lanceur utilise les traductions de mods et de packs d\'intégration en chinois de MC Wiki</string>
+    <string name="zh_about_VeraFirefly_desc">A fourni un support technique pour le rendu au lanceur</string>
+    <string name="zh_about_LingMuQiuZhu_desc">A fourni un support technique pour le lanceur</string>
+    <string name="zh_about_ShirosakiMio_desc">A fourni un support technique et corrigé certains bugs du lanceur</string>
+    <string name="zh_about_bangbang93_desc">Le lanceur utilise la source miroir BMCLAPI qu\'il a créée</string>
+    <string name="zh_about_z0z0r4_desc">Le lanceur utilise la source miroir d\'informations de Mod MCIM qu\'il a créée</string>
     <string name="zh_about_access_space">Accéder à l\'espace</string>
     <string name="zh_about_access_link">Accéder au lien</string>
     <string name="zh_about_version_name">Nom de la version du logiciel :</string>
