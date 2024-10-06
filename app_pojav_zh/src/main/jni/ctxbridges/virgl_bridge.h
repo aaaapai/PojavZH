@@ -12,5 +12,6 @@ void virglSwapBuffers();
 void virglMakeCurrent(void* window);
 void* virglCreateContext(void* contextSrc);
 void virglSwapInterval(int interval);
+int (*vtest_main_p)(int argc, char *argv[]);
 
 #endif //VIRGL_BRIDGE_H
