@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Personalization</string>
     <string name="zh_preference_category_download">Download</string>
     <string name="zh_preference_category_launcher">Launcher</string>
+    <string name="zh_preference_category_game_menu">Game Menu</string>
     <string name="zh_preference_category_experimental">Experimental</string>
     <string name="zh_preference_category_experimental_patches">Experimental Patches</string>
     <string name="zh_setting_java_memory_desc">Control how much memory is allocated to Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Set the opacity of the main page of the launcher</string>
     <string name="zh_setting_quit_launcher_desc">Should the launcher exit when the game officially begins running?</string>
     <string name="zh_setting_quit_launcher_title">Exit Launcher</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Display memory information in real-time on the game menu floating window. Long-press the game menu floating window to quickly toggle this option.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Real-time Memory Information</string>
+    <string name="zh_setting_game_menu_memory_text_desc">You can customize this prefix text according to your needs.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Memory Information Prefix Text</string>
+    <string name="zh_setting_game_menu_alpha_desc">Set the opacity of the game menu floating window.</string>
+    <string name="zh_setting_game_menu_alpha_title">Floating Window Opacity</string>
     <string name="zh_setting_reboot_tip">This setting has been changed, but requires the app to be restarted to take effect!</string>
+    <string name="zh_setting_zink_driver_adreno">The launcher has detected that your device has an Adreno GPU. Enabling this option may cause the Zink renderer to not function properly. Are you sure you want to enable this option?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">The application/game exited with code %d. Please refer to the log file or crash report for specific error details. If you are unable to resolve this issue yourself, please send the log file or crash report to someone who can help you!\n\nDo not just screenshot the current application interface, as no one will know what happened. Please share your log file or crash report!</string>
     <string name="zh_game_autopick_runtime_failed">Failed to find a suitable runtime environment, set to the runtime environment selected by the current instance</string>

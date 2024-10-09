@@ -8,18 +8,21 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/_12sdp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/experimental_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/background_card"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_12sdp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:text="@string/zh_preference_category_experimental_patches"
                 android:textColor="@color/settings_category" />
 

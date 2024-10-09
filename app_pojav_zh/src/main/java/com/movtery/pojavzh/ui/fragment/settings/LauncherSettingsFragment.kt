@@ -10,6 +10,7 @@ import com.movtery.pojavzh.setting.AllSettings
 import com.movtery.pojavzh.ui.fragment.CustomBackgroundFragment
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim
 import com.movtery.pojavzh.ui.fragment.settings.wrapper.BaseSettingsWrapper
+import com.movtery.pojavzh.ui.fragment.settings.wrapper.EditTextSettingsWrapper
 import com.movtery.pojavzh.ui.fragment.settings.wrapper.ListSettingsWrapper
 import com.movtery.pojavzh.ui.fragment.settings.wrapper.SeekBarSettingsWrapper
 import com.movtery.pojavzh.ui.fragment.settings.wrapper.SwitchSettingsWrapper
@@ -88,7 +89,7 @@ class LauncherSettingsFragment() : AbstractSettingsFragment(R.layout.settings_fr
         SwitchSettingsWrapper(
             context,
             "gameLanguageOverridden",
-            AllSettings.autoSetGameLanguage,
+            AllSettings.gameLanguageOverridden,
             binding.gameLanguageOverriddenLayout,
             binding.gameLanguageOverridden
         )
@@ -188,6 +189,33 @@ class LauncherSettingsFragment() : AbstractSettingsFragment(R.layout.settings_fr
         ) {
             UpdateLauncher.CheckDownloadedPackage(context, false)
         }
+
+        SwitchSettingsWrapper(
+            context,
+            "gameMenuShowMemory",
+            AllSettings.gameMenuShowMemory,
+            binding.gameMenuShowMemoryLayout,
+            binding.gameMenuShowMemory
+        )
+
+        EditTextSettingsWrapper(
+            "gameMenuMemoryText",
+            AllSettings.gameMenuMemoryText,
+            binding.gameMenuMemoryTextLayout,
+            binding.gameMenuMemoryText
+        )
+
+        SeekBarSettingsWrapper(
+            context,
+            "gameMenuAlpha",
+            AllSettings.gameMenuAlpha,
+            binding.gameMenuAlphaLayout,
+            binding.gameMenuAlphaTitle,
+            binding.gameMenuAlphaSummary,
+            binding.gameMenuAlphaValue,
+            binding.gameMenuAlpha,
+            "%"
+        )
     }
 
     override fun onChange() {

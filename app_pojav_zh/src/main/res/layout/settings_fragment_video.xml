@@ -8,18 +8,21 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/_12sdp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/video_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/background_card"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/_12sdp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_12sdp"
+                android:layout_marginHorizontal="@dimen/_12sdp"
                 android:text="@string/preference_category_video"
                 android:textColor="@color/settings_category" />
 
@@ -77,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:checked="true"/>
+                    android:checked="true" />
             </com.movtery.pojavzh.ui.layout.AnimRelativeLayout>
 
             <com.movtery.pojavzh.ui.layout.AnimRelativeLayout
