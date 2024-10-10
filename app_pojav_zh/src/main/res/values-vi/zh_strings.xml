@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Cá nhân hóa</string>
     <string name="zh_preference_category_download">Tải xuống</string>
     <string name="zh_preference_category_launcher">Trình khởi chạy</string>
+    <string name="zh_preference_category_game_menu">Menu trò chơi</string>
     <string name="zh_preference_category_experimental">Thử nghiệm</string>
     <string name="zh_preference_category_experimental_patches">Bản vá thử nghiệm</string>
     <string name="zh_setting_java_memory_desc">Kiểm soát bộ nhớ được phân bổ cho Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Cài đặt độ mờ của trang chính của trình khởi động</string>
     <string name="zh_setting_quit_launcher_desc">Có thoát trình khởi chạy khi ứng dụng bắt đầu chạy trò chơi chính thức không</string>
     <string name="zh_setting_quit_launcher_title">Thoát khỏi trình khởi động</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Hiển thị thông tin bộ nhớ theo thời gian thực trên cửa sổ nổi của menu trò chơi. Nhấn và giữ cửa sổ nổi của menu trò chơi để nhanh chóng bật hoặc tắt tùy chọn này.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Thông Tin Bộ Nhớ Theo Thời Gian Thực</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Bạn có thể tùy chỉnh văn bản tiền tố này theo nhu cầu của bạn.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Văn bản tiền tố thông tin bộ nhớ</string>
+    <string name="zh_setting_game_menu_alpha_desc">Đặt độ mờ của cửa sổ nổi của menu trò chơi.</string>
+    <string name="zh_setting_game_menu_alpha_title">Độ Mờ Của Cửa Sổ Nổi</string>
     <string name="zh_setting_reboot_tip">Cài đặt này đã được thay đổi, nhưng cần khởi động lại ứng dụng để có hiệu lực!</string>
+    <string name="zh_setting_zink_driver_adreno">Trình khởi chạy đã phát hiện rằng thiết bị của bạn có GPU Adreno. Bật tùy chọn này có thể khiến trình render Zink không hoạt động đúng cách. Bạn có chắc chắn muốn bật tùy chọn này không?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">Ứng dụng/trò chơi đã thoát với mã %d, vui lòng kiểm tra tệp nhật ký hoặc báo cáo sự cố để biết lý do chi tiết. Nếu bạn không thể tự giải quyết vấn đề này, hãy gửi tệp nhật ký hoặc báo cáo sự cố cho người có khả năng giải quyết giúp bạn!\n\nXin vui lòng không chỉ chụp màn hình ứng dụng hiện tại, vì vậy không ai biết chuyện gì đã xảy ra, hãy chia sẻ tệp nhật ký hoặc báo cáo sự cố của bạn!</string>
     <string name="zh_game_autopick_runtime_failed">Không tìm thấy môi trường chạy phù hợp, đã đặt là môi trường chạy được chọn cho thể hiện hiện tại</string>
@@ -292,8 +300,8 @@
     <string name="zh_other_login_select_role_title">Chọn vai trò</string>
     <string name="zh_other_login_select_role_message">Tài khoản hiện tại có nhiều vai trò. Vui lòng chọn vai trò bạn muốn sử dụng.</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">Trình khởi chạy cần cài đặt các thành phần này để đảm bảo Minecraft có thể chạy đúng cách. Nhấp vào nút bên dưới để bắt đầu cài đặt hoặc cập nhật các thành phần này.</string>
-    <string name="splash_screen_installing">Trình khởi chạy đang cài đặt các thành phần cần thiết. Sau khi hoàn tất cài đặt, nó sẽ tự động vào giao diện chính. Vui lòng kiên nhẫn chờ đợi.</string>
+    <string name="splash_screen_desc">Trình khởi chạy cần cài đặt các thành phần này để đảm bảo Minecraft khởi động bình thường. Các thành phần này đã được bao gồm trong ứng dụng và cần được giải nén để sử dụng bình thường. Nhấp vào nút bên dưới để bắt đầu giải nén và cập nhật các thành phần này.</string>
+    <string name="splash_screen_installing">Trình khởi chạy đang giải nén các thành phần này. Khi việc giải nén hoàn tất, nó sẽ tự động chuyển đến giao diện chính. Vui lòng kiên nhẫn.</string>
     <string name="splash_screen_lwjgl">Thư viện Trò chơi Java nhẹ, Minecraft phụ thuộc vào nó để chạy trò chơi.</string>
     <string name="splash_screen_cacio">Cung cấp giao diện đồ họa di động cho OpenJDK.</string>
     <string name="splash_screen_jre8">Môi trường Java 8, Minecraft 1.16- phụ thuộc vào Java 8.</string>
@@ -310,13 +318,14 @@
     <string name="zh_about_dec6">Dưới đây là tất cả các nhà tài trợ hỗ trợ phát triển. Cảm ơn rất nhiều!</string>
     <string name="zh_about_dec7">Thời gian và tổng số tiền</string>
     <string name="zh_about_button_support_development">Tài trợ phát triển</string>
-    <string name="zh_about_movtery_desc">Tác giả của Pojav Zenith Horizon</string>
-    <string name="zh_about_pojavlauncher_desc">Nhóm phát triển PojavLauncher, phát triển và mở mã nguồn PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon sử dụng các mod và bản dịch gói tích hợp từ MC 百科</string>
-    <string name="zh_about_verafirefly_desc">Cung cấp hỗ trợ kỹ thuật về kết xuất cho Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Cung cấp hỗ trợ kỹ thuật cho Pojav Zenith Horizon</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon sử dụng nguồn BMCLAPI do bangbang93 tạo ra</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon sử dụng nguồn thông tin MCIM Mod do z0z0r4 tạo ra</string>
+    <string name="zh_about_MovTery_desc">Tác giả chính của trình khởi chạy</string>
+    <string name="zh_about_PojavLauncher_desc">Nhóm phát triển PojavLauncher, những người đã phát triển và mã nguồn mở PojavLauncher</string>
+    <string name="zh_about_mcmod_desc">Trình khởi chạy sử dụng các bản dịch tiếng Trung của Mod và gói tích hợp từ MC Wiki</string>
+    <string name="zh_about_VeraFirefly_desc">Cung cấp hỗ trợ kỹ thuật kết xuất cho trình khởi chạy</string>
+    <string name="zh_about_LingMuQiuZhu_desc">Cung cấp hỗ trợ kỹ thuật cho trình khởi chạy</string>
+    <string name="zh_about_ShirosakiMio_desc">Cung cấp hỗ trợ kỹ thuật và sửa một số lỗi cho trình khởi chạy</string>
+    <string name="zh_about_bangbang93_desc">Trình khởi chạy sử dụng nguồn BMCLAPI mà họ đã tạo</string>
+    <string name="zh_about_z0z0r4_desc">Trình khởi chạy sử dụng nguồn thông tin Mod MCIM mà họ đã tạo</string>
     <string name="zh_about_access_space">Truy cập không gian</string>
     <string name="zh_about_access_link">Liên kết truy cập</string>
     <string name="zh_about_version_name">Tên phiên bản phần mềm:</string>

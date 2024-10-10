@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.movtery.pojavzh.feature.background.BackgroundManager.setBackgroundImage
 import com.movtery.pojavzh.feature.background.BackgroundType
 import com.movtery.pojavzh.feature.unpack.Components
@@ -13,39 +12,40 @@ import com.movtery.pojavzh.feature.unpack.Jre
 import com.movtery.pojavzh.feature.unpack.UnpackComponentsTask
 import com.movtery.pojavzh.feature.unpack.UnpackJreTask
 import com.movtery.pojavzh.feature.unpack.UnpackSingleFilesTask
-import com.movtery.pojavzh.ui.view.AnimButton
 import net.kdt.pojavlaunch.LauncherActivity
 import net.kdt.pojavlaunch.MissingStorageActivity
 import net.kdt.pojavlaunch.PojavApplication
 import net.kdt.pojavlaunch.R
 import net.kdt.pojavlaunch.Tools
+import net.kdt.pojavlaunch.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
     private var isStarted: Boolean = false
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var startButton: AnimButton
-    private lateinit var adapter: InstallableAdapter
+    private lateinit var binding: ActivitySplashBinding
+    private lateinit var installableAdapter: InstallableAdapter
     private val items: MutableList<InstallableItem> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         initItems()
 
-        setContentView(R.layout.activity_splash)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val splashText = findViewById<TextView>(R.id.splash_text)
-        startButton = findViewById(R.id.start_button)
-        recyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(this@SplashActivity)
+            adapter = installableAdapter
+        }
 
-        startButton.apply {
+        binding.startButton.apply {
             setOnClickListener {
                 if (isStarted) return@setOnClickListener
                 isStarted = true
                 splashText.setText(R.string.splash_screen_installing)
-                adapter.startAllTasks()
+                installableAdapter.startAllTasks()
             }
             isClickable = false
         }
@@ -85,18 +85,19 @@ class SplashActivity : BaseActivity() {
                 )
             }
         }
-        adapter = InstallableAdapter(items) {
+        items.sort()
+        installableAdapter = InstallableAdapter(items) {
             toMain()
         }
     }
     
     private fun checkEnd() {
-        adapter.checkAllTask()
+        installableAdapter.checkAllTask()
         PojavApplication.sExecutorService.execute {
             UnpackSingleFilesTask(this).run()
         }
 
-        startButton.isClickable = true
+        binding.startButton.isClickable = true
     }
 
     private fun toMain() {

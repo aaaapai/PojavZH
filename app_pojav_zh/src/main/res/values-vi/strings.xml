@@ -5,7 +5,7 @@
     <!-- Login strings -->
     <string name="login_online_login_label">Đăng nhập</string>
     <!-- Hint -->
-    <string name="hint_control_mapping">Nhấn vào biểu tượng bánh răng ở giữa trên cùng để mở menu ⚙\nNhấn vào một phím để tùy chỉnh: chỉnh sửa, thu nhỏ, xóa hoặc tùy chỉnh ánh xạ gắn kết</string>
+    <string name="hint_control_mapping">Nhấp vào biểu tượng bánh răng trong cửa sổ nổi để mở menu ⚙\nNhấp vào một phím để tùy chỉnh: chỉnh sửa, thay đổi kích thước, xóa hoặc tùy chỉnh ánh xạ của nó</string>
     <!-- Warnings -->
     <string name="warning_remove_account">Tài khoản này sẽ bị xóa!</string>
     <!-- Error messages -->
@@ -29,7 +29,7 @@
     <string name="mcl_setting_title_javaargs">Tham số khởi động JVM</string>
     <string name="mcl_setting_subtitle_javaargs">Cẩn thận, điều này có thể khiến trò chơi bị sập nếu sửa đổi mà không có kiến thức.</string>
     <string name="mcl_setting_category_renderer">Trình kết xuất</string>
-    <string name="mcl_setting_renderer_angle">ANGLE (chỉ 1.17+)</string>
+    <string name="mcl_setting_renderer_ltw">LTW (chỉ 1.17+)</string>
     <string name="mcl_setting_veroption_release">Phiên bản chính thức</string>
     <string name="mcl_setting_veroption_snapshot">Phiên bản ảnh chụp nhanh</string>
     <string name="mcl_setting_veroption_oldalpha">Phiên bản Alpha</string>

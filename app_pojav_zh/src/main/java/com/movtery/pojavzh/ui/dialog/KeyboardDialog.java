@@ -4,27 +4,31 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.flexbox.FlexboxLayout;
+import com.movtery.pojavzh.ui.view.AnimButton;
+
 import net.kdt.pojavlaunch.R;
+import net.kdt.pojavlaunch.databinding.DialogKeyboardBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class KeyboardDialog extends FullScreenDialog {
+    private final DialogKeyboardBinding binding = DialogKeyboardBinding.inflate(getLayoutInflater());
     private OnKeycodeSelectListener mOnKeycodeSelectListener;
     private boolean showSpecialButtons = true;
     private boolean isGamepadMapper = false;
 
     public KeyboardDialog(@NonNull Context context) {
         super(context);
-        setContentView(R.layout.dialog_keyboard);
+        setContentView(binding.getRoot());
     }
 
     public KeyboardDialog(@NonNull Context context, boolean isGamepadMapper) {
@@ -51,196 +55,118 @@ public class KeyboardDialog extends FullScreenDialog {
     }
 
     private void init(boolean showSpecialButtons) {
-        ImageView closeButton = findViewById(R.id.zh_keyboard_close);
+        binding.zhKeyboardClose.setOnClickListener(v -> this.dismiss());
 
         List<View> specialButtons = new ArrayList<>();
-        List<View> buttons = new ArrayList<>();
 
         if (isGamepadMapper) {
-            Button unspecified = findViewById(R.id.keyboard_unknown);
-            Button sec = findViewById(R.id.keyboard_special_pri);
-            Button mid = findViewById(R.id.keyboard_special_sec);
-            Button pri = findViewById(R.id.keyboard_special_menu);
-            Button scrollUp = findViewById(R.id.keyboard_special_scrolldown);
-            Button scrollDown = findViewById(R.id.keyboard_special_scrollup);
-
-            unspecified.setText(R.string.zh_keycode_unspecified);
-            sec.setText(R.string.zh_keycode_mouse_right);
-            mid.setText(R.string.zh_keycode_mouse_middle);
-            pri.setText(R.string.zh_keycode_mouse_left);
-            scrollUp.setText(R.string.zh_keycode_scroll_up);
-            scrollDown.setText(R.string.zh_keycode_scroll_down);
-
-            specialButtons.add(scrollDown);
-            specialButtons.add(scrollUp);
-            specialButtons.add(pri);
-            specialButtons.add(mid);
-            specialButtons.add(sec);
-            specialButtons.add(unspecified);
-
-            findViewById(R.id.keyboard_special_keyboard).setVisibility(View.GONE);
-            findViewById(R.id.keyboard_special_gui).setVisibility(View.GONE);
-            findViewById(R.id.keyboard_special_mouse).setVisibility(View.GONE);
-            findViewById(R.id.keyboard_special_mid).setVisibility(View.GONE);
+            specialButtons.add(getKey(getString(R.string.zh_keycode_unspecified)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_mouse_right)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_mouse_middle)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_mouse_left)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_scroll_up)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_scroll_down)));
         } else {
-            specialButtons.add(findViewById(R.id.keyboard_special_keyboard));
-            specialButtons.add(findViewById(R.id.keyboard_special_gui));
-            specialButtons.add(findViewById(R.id.keyboard_special_pri));
-            specialButtons.add(findViewById(R.id.keyboard_special_sec));
-            specialButtons.add(findViewById(R.id.keyboard_special_mouse));
-
-            specialButtons.add(findViewById(R.id.keyboard_special_mid));
-            specialButtons.add(findViewById(R.id.keyboard_special_scrollup));
-            specialButtons.add(findViewById(R.id.keyboard_special_scrolldown));
-            specialButtons.add(findViewById(R.id.keyboard_special_menu));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_keyboard)));
+            specialButtons.add(getKey("GUI"));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_pri)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_sec)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_mouse)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_mid)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_scrollup)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_scrolldown)));
+            specialButtons.add(getKey(getString(R.string.zh_keycode_special_menu)));
         }
 
-        if (!isGamepadMapper) buttons.add(findViewById(R.id.keyboard_unknown));
+        List<View> buttons = new ArrayList<>(List.of(
+                binding.keyboardHome, binding.keyboardEsc,
+                binding.keyboard0, binding.keyboard1, binding.keyboard2,
+                binding.keyboard3, binding.keyboard4, binding.keyboard5,
+                binding.keyboard6, binding.keyboard7, binding.keyboard8,
+                binding.keyboard9, binding.keyboardUp, binding.keyboardDown,
+                binding.keyboardLeft, binding.keyboardRight,
+                binding.keyboardA, binding.keyboardB, binding.keyboardC,
+                binding.keyboardD, binding.keyboardE, binding.keyboardF,
+                binding.keyboardG, binding.keyboardH, binding.keyboardI,
+                binding.keyboardJ, binding.keyboardK, binding.keyboardL,
+                binding.keyboardM, binding.keyboardN, binding.keyboardO,
+                binding.keyboardP, binding.keyboardQ, binding.keyboardR,
+                binding.keyboardS, binding.keyboardT, binding.keyboardU,
+                binding.keyboardV, binding.keyboardW, binding.keyboardX,
+                binding.keyboardY, binding.keyboardZ, binding.keyboardComma,
+                binding.keyboardPeriod, binding.keyboardLeftAlt,
+                binding.keyboardRightAlt, binding.keyboardLeftShift,
+                binding.keyboardRightShift, binding.keyboardTab,
+                binding.keyboardSpace, binding.keyboardEnter,
+                binding.keyboardBackspace, binding.keyboardGrave,
+                binding.keyboardMinus, binding.keyboardEquals,
+                binding.keyboardLeftBracket, binding.keyboardRightBracket,
+                binding.keyboardBackslash, binding.keyboardSemicolon,
+                binding.keyboardApostrophe, binding.keyboardSlash,
+                binding.keyboardKpAdd, binding.keyboardPageUp,
+                binding.keyboardPageDown, binding.keyboardLeftCtrl,
+                binding.keyboardRightCtrl, binding.keyboardCapslock,
+                binding.keyboardPause, binding.keyboardEnd,
+                binding.keyboardInsert, binding.keyboardF1, binding.keyboardF2,
+                binding.keyboardF3, binding.keyboardF4, binding.keyboardF5,
+                binding.keyboardF6, binding.keyboardF7, binding.keyboardF8,
+                binding.keyboardF9, binding.keyboardF10, binding.keyboardF11,
+                binding.keyboardF12, binding.keyboardNumLock,
+                binding.keyboardKp0, binding.keyboardKp1, binding.keyboardKp2,
+                binding.keyboardKp3, binding.keyboardKp4, binding.keyboardKp5,
+                binding.keyboardKp6, binding.keyboardKp7, binding.keyboardKp8,
+                binding.keyboardKp9, binding.keyboardKpDivide,
+                binding.keyboardKpMultiply, binding.keyboardKpSubract,
+                binding.keyboardKpDecimal, binding.keyboardKpEnter));
 
-        buttons.add(findViewById(R.id.keyboard_home));
-        buttons.add(findViewById(R.id.keyboard_esc));
-
-        buttons.add(findViewById(R.id.keyboard_0));
-        buttons.add(findViewById(R.id.keyboard_1));
-        buttons.add(findViewById(R.id.keyboard_2));
-        buttons.add(findViewById(R.id.keyboard_3));
-        buttons.add(findViewById(R.id.keyboard_4));
-        buttons.add(findViewById(R.id.keyboard_5));
-        buttons.add(findViewById(R.id.keyboard_6));
-        buttons.add(findViewById(R.id.keyboard_7));
-        buttons.add(findViewById(R.id.keyboard_8));
-        buttons.add(findViewById(R.id.keyboard_9));
-
-        buttons.add(findViewById(R.id.keyboard_up));
-        buttons.add(findViewById(R.id.keyboard_down));
-        buttons.add(findViewById(R.id.keyboard_left));
-        buttons.add(findViewById(R.id.keyboard_right));
-
-        buttons.add(findViewById(R.id.keyboard_a));
-        buttons.add(findViewById(R.id.keyboard_b));
-        buttons.add(findViewById(R.id.keyboard_c));
-        buttons.add(findViewById(R.id.keyboard_d));
-        buttons.add(findViewById(R.id.keyboard_e));
-        buttons.add(findViewById(R.id.keyboard_f));
-        buttons.add(findViewById(R.id.keyboard_g));
-        buttons.add(findViewById(R.id.keyboard_h));
-        buttons.add(findViewById(R.id.keyboard_i));
-        buttons.add(findViewById(R.id.keyboard_j));
-        buttons.add(findViewById(R.id.keyboard_k));
-        buttons.add(findViewById(R.id.keyboard_l));
-        buttons.add(findViewById(R.id.keyboard_m));
-        buttons.add(findViewById(R.id.keyboard_n));
-        buttons.add(findViewById(R.id.keyboard_o));
-        buttons.add(findViewById(R.id.keyboard_p));
-        buttons.add(findViewById(R.id.keyboard_q));
-        buttons.add(findViewById(R.id.keyboard_r));
-        buttons.add(findViewById(R.id.keyboard_s));
-        buttons.add(findViewById(R.id.keyboard_t));
-        buttons.add(findViewById(R.id.keyboard_u));
-        buttons.add(findViewById(R.id.keyboard_v));
-        buttons.add(findViewById(R.id.keyboard_w));
-        buttons.add(findViewById(R.id.keyboard_x));
-        buttons.add(findViewById(R.id.keyboard_y));
-        buttons.add(findViewById(R.id.keyboard_z));
-
-        buttons.add(findViewById(R.id.keyboard_comma));
-        buttons.add(findViewById(R.id.keyboard_period));
-
-        buttons.add(findViewById(R.id.keyboard_left_alt));
-        buttons.add(findViewById(R.id.keyboard_right_alt));
-
-        buttons.add(findViewById(R.id.keyboard_left_shift));
-        buttons.add(findViewById(R.id.keyboard_right_shift));
-
-        buttons.add(findViewById(R.id.keyboard_tab));
-        buttons.add(findViewById(R.id.keyboard_space));
-        buttons.add(findViewById(R.id.keyboard_enter));
-        buttons.add(findViewById(R.id.keyboard_backspace));
-        buttons.add(findViewById(R.id.keyboard_grave));
-        buttons.add(findViewById(R.id.keyboard_minus));
-        buttons.add(findViewById(R.id.keyboard_equals));
-        buttons.add(findViewById(R.id.keyboard_left_bracket));
-        buttons.add(findViewById(R.id.keyboard_right_bracket));
-        buttons.add(findViewById(R.id.keyboard_backslash));
-        buttons.add(findViewById(R.id.keyboard_semicolon));
-        buttons.add(findViewById(R.id.keyboard_apostrophe));
-        buttons.add(findViewById(R.id.keyboard_slash));
-
-        buttons.add(findViewById(R.id.keyboard_kp_add));
-
-        buttons.add(findViewById(R.id.keyboard_page_up));
-        buttons.add(findViewById(R.id.keyboard_page_down));
-
-        buttons.add(findViewById(R.id.keyboard_left_ctrl));
-        buttons.add(findViewById(R.id.keyboard_right_ctrl));
-
-        buttons.add(findViewById(R.id.keyboard_capslock));
-        buttons.add(findViewById(R.id.keyboard_pause));
-        buttons.add(findViewById(R.id.keyboard_end));
-        buttons.add(findViewById(R.id.keyboard_insert));
-
-        buttons.add(findViewById(R.id.keyboard_f1));
-        buttons.add(findViewById(R.id.keyboard_f2));
-        buttons.add(findViewById(R.id.keyboard_f3));
-        buttons.add(findViewById(R.id.keyboard_f4));
-        buttons.add(findViewById(R.id.keyboard_f5));
-        buttons.add(findViewById(R.id.keyboard_f6));
-        buttons.add(findViewById(R.id.keyboard_f7));
-        buttons.add(findViewById(R.id.keyboard_f8));
-        buttons.add(findViewById(R.id.keyboard_f9));
-        buttons.add(findViewById(R.id.keyboard_f10));
-        buttons.add(findViewById(R.id.keyboard_f11));
-        buttons.add(findViewById(R.id.keyboard_f12));
-
-        buttons.add(findViewById(R.id.keyboard_num_lock));
-        buttons.add(findViewById(R.id.keyboard_kp_0));
-        buttons.add(findViewById(R.id.keyboard_kp_1));
-        buttons.add(findViewById(R.id.keyboard_kp_2));
-        buttons.add(findViewById(R.id.keyboard_kp_3));
-        buttons.add(findViewById(R.id.keyboard_kp_4));
-        buttons.add(findViewById(R.id.keyboard_kp_5));
-        buttons.add(findViewById(R.id.keyboard_kp_6));
-        buttons.add(findViewById(R.id.keyboard_kp_7));
-        buttons.add(findViewById(R.id.keyboard_kp_8));
-        buttons.add(findViewById(R.id.keyboard_kp_9));
-        buttons.add(findViewById(R.id.keyboard_kp_divide));
-        buttons.add(findViewById(R.id.keyboard_kp_multiply));
-        buttons.add(findViewById(R.id.keyboard_kp_subract));
-        buttons.add(findViewById(R.id.keyboard_kp_decimal));
-        buttons.add(findViewById(R.id.keyboard_kp_enter));
-
-        closeButton.setOnClickListener(v -> this.dismiss());
+        if (!isGamepadMapper) buttons.add(0, getKey(getString(R.string.zh_keycode_unspecified)));
 
         if (showSpecialButtons) {
-            //这里的按键比较特殊，它的顺序就是反着的
-            int specialCount = specialButtons.size();
+            //此处如果不是手柄映射模式，那么将反着加入
+            int specialCount = isGamepadMapper ? 0 : specialButtons.size() - 1;
             for (View specialButton : specialButtons) {
-                specialCount -= 1;
                 int finalSpecialCount = specialCount;
                 specialButton.setOnClickListener(v -> onKeycodeSelect(finalSpecialCount));
+                if (isGamepadMapper) specialCount += 1;
+                else specialCount -= 1;
             }
         }
 
-        int buttonCount = showSpecialButtons ? isGamepadMapper ? specialButtons.size() : (specialButtons.size() - 1) : -1;
+        int buttonCount = showSpecialButtons ? (specialButtons.size() - 1) : -1;
+        if (isGamepadMapper) buttonCount++;
+
         for (View button : buttons) {
             buttonCount += 1;
             int finalButtonCount = buttonCount;
             button.setOnClickListener(v -> onKeycodeSelect(finalButtonCount));
 
             if (    //保证顺序正确
-                    Objects.equals(button, findViewById(R.id.keyboard_9)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_slash)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_page_down)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_pause)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_kp_subract)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_kp_decimal)) ||
-                            Objects.equals(button, findViewById(R.id.keyboard_kp_enter))
+                    Objects.equals(button, binding.keyboard9) ||
+                            Objects.equals(button, binding.keyboardSlash) ||
+                            Objects.equals(button, binding.keyboardPageDown) ||
+                            Objects.equals(button, binding.keyboardPause) ||
+                            Objects.equals(button, binding.keyboardKpSubract) ||
+                            Objects.equals(button, binding.keyboardKpDecimal) ||
+                            Objects.equals(button, binding.keyboardKpEnter)
             ) buttonCount += 1;
         }
 
         if (!showSpecialButtons) {
-            findViewById(R.id.layout_0).setVisibility(View.GONE);
+            findViewById(R.id.special_key).setVisibility(View.GONE);
         }
+    }
+
+    private AnimButton getKey(String text) {
+        AnimButton key = new AnimButton(getContext());
+        FlexboxLayout.LayoutParams layoutParams = new FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        key.setLayoutParams(layoutParams);
+        key.setText(text);
+        binding.specialKey.addView(key);
+        return key;
+    }
+
+    private String getString(int resId) {
+        return getContext().getString(resId);
     }
 
     private void onKeycodeSelect(int index) {

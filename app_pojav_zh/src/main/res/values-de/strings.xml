@@ -5,7 +5,7 @@
     <!-- Login strings -->
     <string name="login_online_login_label">Anmelden</string>
     <!-- Hint -->
-    <string name="hint_control_mapping">Tippe auf das Zahnrad-Symbol oben in der Mitte, um das Kontextmenü zu öffnen ⚙\nTippe auf eine Taste, um sie anzupassen: bearbeiten, vergrößern, löschen oder ihre Tastenbelegung anpassen.</string>
+    <string name="hint_control_mapping">Klicken Sie auf das Zahnradsymbol im schwebenden Fenster, um das Menü zu öffnen ⚙\nKlicken Sie auf eine Taste, um sie anzupassen: bearbeiten, skalieren, löschen oder deren Zuordnung anpassen</string>
     <!-- Warnings -->
     <string name="warning_remove_account">Dieser Account wird entfernt!</string>
     <!-- Error messages -->
@@ -29,7 +29,7 @@
     <string name="mcl_setting_title_javaargs">JVM-Startargumente</string>
     <string name="mcl_setting_subtitle_javaargs">Sei vorsichtig, dies kann das Spiel zum Absturz bringen, wenn es ohne Kenntnisse geändert wird.</string>
     <string name="mcl_setting_category_renderer">Renderer</string>
-    <string name="mcl_setting_renderer_angle">ANGLE (nur 1.17+)</string>
+    <string name="mcl_setting_renderer_ltw">LTW (nur 1.17+)</string>
     <string name="mcl_setting_veroption_release">Release</string>
     <string name="mcl_setting_veroption_snapshot">Snapshot</string>
     <string name="mcl_setting_veroption_oldalpha">Old-alpha</string>

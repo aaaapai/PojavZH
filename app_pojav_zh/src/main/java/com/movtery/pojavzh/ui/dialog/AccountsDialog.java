@@ -4,14 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.movtery.pojavzh.event.single.SelectAuthMethodEvent;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.ui.subassembly.account.AccountAdapter;
 import com.movtery.pojavzh.ui.subassembly.account.SelectAccountListener;
@@ -20,13 +18,13 @@ import com.movtery.pojavzh.utils.PathAndUrlManager;
 import net.kdt.pojavlaunch.PojavProfile;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
+import net.kdt.pojavlaunch.databinding.DialogSelectItemBinding;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
 
 import org.apache.commons.io.FileUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,29 +34,19 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
     private final AccountsManager accountsManager = AccountsManager.getInstance();
     private final List<MinecraftAccount> mData = new ArrayList<>();
     private final DialogDismissListener dismissListener;
+    private final DialogSelectItemBinding binding = DialogSelectItemBinding.inflate(getLayoutInflater());
     private AccountAdapter accountAdapter;
-    private RecyclerView recyclerView;
     private boolean isTaskRunning = false;
 
     public AccountsDialog(@NonNull Context context, DialogDismissListener dismissListener) {
         super(context);
 
         ProgressKeeper.addTaskCountListener(this);
-
-        this.setContentView(R.layout.dialog_select_item);
-
+        this.setContentView(binding.getRoot());
         this.dismissListener = dismissListener;
 
-        init();
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void init() {
-        recyclerView = findViewById(R.id.zh_select_view);
-        TextView mTitleText = findViewById(R.id.zh_select_item_title);
-        ImageButton mCloseButton = findViewById(R.id.zh_select_item_close_button);
-        mTitleText.setText(R.string.zh_account_manager);
-        mCloseButton.setOnClickListener(v -> this.dismiss());
+        binding.titleView.setText(R.string.zh_account_manager);
+        binding.closeButton.setOnClickListener(v -> this.dismiss());
 
         initView();
     }
@@ -76,7 +64,7 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
                 if (!isTaskRunning) PojavProfile.setCurrentProfile(getContext(), account.username);
                 else Tools.runOnUiThread(() -> Toast.makeText(getContext(), R.string.tasks_ongoing, Toast.LENGTH_SHORT).show());
             } else {
-                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
+                EventBus.getDefault().post(new SelectAuthMethodEvent());
             }
 
             this.dismiss();
@@ -113,9 +101,9 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
                         }).buildDialog();
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(getContext(), R.anim.fade_downwards)));
-        recyclerView.setAdapter(accountAdapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setLayoutAnimation(new LayoutAnimationController(AnimationUtils.loadAnimation(getContext(), R.anim.fade_downwards)));
+        binding.recyclerView.setAdapter(accountAdapter);
 
         refresh();
     }
@@ -133,7 +121,7 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
         loadAccounts();
 
         accountAdapter.notifyDataSetChanged();
-        recyclerView.scheduleLayoutAnimation();
+        binding.recyclerView.scheduleLayoutAnimation();
     }
 
     @Override

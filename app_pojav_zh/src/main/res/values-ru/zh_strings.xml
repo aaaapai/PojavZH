@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Персонализация</string>
     <string name="zh_preference_category_download">Загрузка</string>
     <string name="zh_preference_category_launcher">Лаунчер</string>
+    <string name="zh_preference_category_game_menu">Игровое меню</string>
     <string name="zh_preference_category_experimental">Экспериментальное</string>
     <string name="zh_preference_category_experimental_patches">Экспериментальные патчи</string>
     <string name="zh_setting_java_memory_desc">Управление объемом памяти, выделяемой для Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Установите прозрачность главной страницы лаунчера</string>
     <string name="zh_setting_quit_launcher_desc">Выйти из лаунчера при запуске игры</string>
     <string name="zh_setting_quit_launcher_title">Выход из лаунчера</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Отображение информации о памяти в реальном времени на всплывающем окне игрового меню. Долгий нажмите на всплывающее окно игрового меню, чтобы быстро переключить этот параметр.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Информация о памяти в реальном времени</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Вы можете настроить этот префиксный текст в соответствии с вашими потребностями.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Префиксный текст информации о памяти</string>
+    <string name="zh_setting_game_menu_alpha_desc">Настройка непрозрачности всплывающего окна игрового меню.</string>
+    <string name="zh_setting_game_menu_alpha_title">Непрозрачность всплывающего окна</string>
     <string name="zh_setting_reboot_tip">Этот параметр был изменен, но для его применения необходимо перезапустить приложение!</string>
+    <string name="zh_setting_zink_driver_adreno">Лаунчер обнаружил, что ваше устройство имеет GPU Adreno. Включение этой опции может привести к тому, что рендерер Zink будет работать неправильно. Вы уверены, что хотите включить эту опцию?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">Приложение/игра завершились с кодом %d. Подробности ошибки смотрите в журнале или отчете о сбое. Если вы не можете решить эту проблему самостоятельно, отправьте журнал или отчет о сбое тому, кто может помочь вам!\n\nПожалуйста, не просто делать скриншот текущего интерфейса приложения, иначе никто не поймет, что именно произошло. Поделитесь вашим журналом или отчетом о сбое!</string>
     <string name="zh_game_autopick_runtime_failed">Подходящая среда выполнения не найдена, установлена текущая среда выполнения для выбранного экземпляра</string>
@@ -292,8 +300,8 @@
     <string name="zh_other_login_select_role_title">Выбор роли</string>
     <string name="zh_other_login_select_role_message">На текущем аккаунте есть несколько ролей. Пожалуйста, выберите роль, которую хотите использовать.</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">Лаунчер должен установить эти компоненты, чтобы убедиться, что Minecraft работает правильно. Нажмите кнопку ниже, чтобы начать установку или обновление этих компонентов.</string>
-    <string name="splash_screen_installing">Лаунчер устанавливает необходимые компоненты. После завершения установки он автоматически войдет в главный интерфейс. Пожалуйста, подождите.</string>
+    <string name="splash_screen_desc">Лаунчеру необходимо установить эти компоненты, чтобы обеспечить правильный запуск Minecraft. Эти компоненты включены в приложение и должны быть извлечены для нормального использования. Нажмите на кнопку ниже, чтобы начать извлечение и обновление этих компонентов.</string>
+    <string name="splash_screen_installing">Лаунчер извлекает эти компоненты. После завершения извлечения он автоматически перейдет в главное меню. Пожалуйста, наберитесь терпения.</string>
     <string name="splash_screen_lwjgl">Легковесная библиотека Java для игр, Minecraft зависит от нее для запуска игры.</string>
     <string name="splash_screen_cacio">Предоставляет переносимый графический интерфейс для OpenJDK.</string>
     <string name="splash_screen_jre8">Среда Java 8, Minecraft 1.16- зависит от Java 8.</string>
@@ -310,13 +318,14 @@
     <string name="zh_about_dec6">Ниже перечислены все спонсоры, поддерживающие разработку. Большое спасибо!</string>
     <string name="zh_about_dec7">Дата и общая сумма</string>
     <string name="zh_about_button_support_development">Поддержать разработку</string>
-    <string name="zh_about_movtery_desc">Автор Pojav Zenith Horizon</string>
-    <string name="zh_about_pojavlauncher_desc">Команда разработчиков PojavLauncher, разработала и открыла исходный код PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon использует моды и переводы интегрированных пакетов из MC 百科</string>
-    <string name="zh_about_verafirefly_desc">Предоставляет техническую поддержку по рендерингу для Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Обеспечил техническую поддержку для Pojav Zenith Horizon</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon использует зеркало BMCLAPI, созданное bangbang93</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon использует зеркало информации о модах MCIM, созданное z0z0r4</string>
+    <string name="zh_about_MovTery_desc">Основной автор лаунчера</string>
+    <string name="zh_about_PojavLauncher_desc">Команда разработчиков PojavLauncher, которые разработали и сделали PojavLauncher с открытым исходным кодом</string>
+    <string name="zh_about_mcmod_desc">Лаунчер использует китайские переводы модов и интеграционных пакетов из MC Wiki</string>
+    <string name="zh_about_VeraFirefly_desc">Предоставил техническую поддержку рендеринга для лаунчера</string>
+    <string name="zh_about_LingMuQiuZhu_desc">Предоставил техническую поддержку для лаунчера</string>
+    <string name="zh_about_ShirosakiMio_desc">Предоставил техническую поддержку и исправил некоторые ошибки в лаунчере</string>
+    <string name="zh_about_bangbang93_desc">Лаунчер использует зеркальный источник BMCLAPI, созданный ими</string>
+    <string name="zh_about_z0z0r4_desc">Лаунчер использует зеркальный источник информации о модах MCIM, созданный ими</string>
     <string name="zh_about_access_space">Доступ к пространству</string>
     <string name="zh_about_access_link">Ссылка для доступа</string>
     <string name="zh_about_version_name">Название версии программного обеспечения:</string>

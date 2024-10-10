@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">个性化</string>
     <string name="zh_preference_category_download">下载</string>
     <string name="zh_preference_category_launcher">启动器</string>
+    <string name="zh_preference_category_game_menu">游戏菜单</string>
     <string name="zh_preference_category_experimental">实验性</string>
     <string name="zh_preference_category_experimental_patches">实验性的补丁</string>
     <string name="zh_setting_java_memory_desc">控制给 Minecraft 分配多少内存</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">设置启动器主要页面的不透明度</string>
     <string name="zh_setting_quit_launcher_desc">在应用正式开始运行游戏时，是否退出启动器</string>
     <string name="zh_setting_quit_launcher_title">退出启动器</string>
+    <string name="zh_setting_game_menu_show_memory_desc">在游戏菜单悬浮窗上实时显示内存信息，通过长按游戏菜单悬浮窗，可以快捷开关此选项</string>
+    <string name="zh_setting_game_menu_show_memory_title">实时显示内存信息</string>
+    <string name="zh_setting_game_menu_memory_text_desc">你可以按照你自己的需求，自定义这个前缀文本</string>
+    <string name="zh_setting_game_menu_memory_text_title">内存信息前缀文本</string>
+    <string name="zh_setting_game_menu_alpha_desc">设置游戏菜单悬浮窗的不透明度</string>
+    <string name="zh_setting_game_menu_alpha_title">悬浮窗不透明度</string>
     <string name="zh_setting_reboot_tip">此项设置已被更改，但是需要重启应用才能生效！</string>
+    <string name="zh_setting_zink_driver_adreno">启动器检测到你的设备为 Adreno GPU，开启这个选项可能会导致 Zink 渲染器无法正常工作，你确定要打开这个选项吗？</string>
     <!-- Game -->
     <string name="zh_game_exit_message">应用程序/游戏以代码 %d 退出，具体错误原因请查看日志文件或崩溃报告。如果你无法亲自解决此问题，请将日志文件或崩溃报告发送给有能力解决的人帮助你解决问题！\n\n请不要只是截图当前应用界面，否则没人知道究竟发生了什么事，请分享你的日志文件或崩溃报告！</string>
     <string name="zh_game_autopick_runtime_failed">未找到合适的运行环境，已设置为当前实例选择的运行环境</string>
@@ -292,8 +300,8 @@
     <string name="zh_other_login_select_role_title">选择角色</string>
     <string name="zh_other_login_select_role_message">当前账号存在多个角色，请选择想要使用的角色</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">启动器需要安装这些内容，才能够确保 Minecraft 能够正常启动。点击下方按钮，开始安装或者更新这些内容。</string>
-    <string name="splash_screen_installing">启动器正在安装需要的内容，安装完成后将自动进入主界面，请耐心等待。</string>
+    <string name="splash_screen_desc">启动器需要安装这些内容，才能够确保 Minecraft 能够正常启动。这些内容已经包含在应用中，需要解压之后才能正常使用，点击下方按钮，开始解压并更新这些内容。</string>
+    <string name="splash_screen_installing">启动器正在解压这些内容，解压完成后将自动进入主界面，请耐心等待。</string>
     <string name="splash_screen_lwjgl">轻量级 Java 游戏库，Minecraft 依赖它运行游戏。</string>
     <string name="splash_screen_cacio">为 OpenJDK 提供可移植的 GUI 后端。</string>
     <string name="splash_screen_jre8">Java 8 环境，Minecraft 1.16- 依赖 Java 8。</string>
@@ -310,13 +318,14 @@
     <string name="zh_about_dec6">以下是所有支持开发的赞助者们，万分感谢！</string>
     <string name="zh_about_dec7">时间与总金额</string>
     <string name="zh_about_button_support_development">赞助开发</string>
-    <string name="zh_about_movtery_desc">Pojav Zenith Horizon 的作者</string>
-    <string name="zh_about_pojavlauncher_desc">PojavLauncher 的开发团队，开发并开源了 PojavLauncher</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon 使用了来自 MC 百科的 Mod 以及整合包中文翻译</string>
-    <string name="zh_about_verafirefly_desc">为 Pojav Zenith Horizon 提供渲染方面的技术支持</string>
-    <string name="zh_about_lingmuqiuzhu_desc">为 Pojav Zenith Horizon 提供了技术支持</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon 使用了其创作的 BMCLAPI 镜像源</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon 使用了其创作的 MCIM Mod 信息镜像源</string>
+    <string name="zh_about_MovTery_desc">启动器的主要作者</string>
+    <string name="zh_about_PojavLauncher_desc">PojavLauncher 的开发团队，开发并开源了 PojavLauncher</string>
+    <string name="zh_about_mcmod_desc">启动器使用了来自 MC 百科的 Mod 以及整合包中文翻译</string>
+    <string name="zh_about_VeraFirefly_desc">为启动器提供渲染方面的技术支持</string>
+    <string name="zh_about_LingMuQiuZhu_desc">为启动器提供了技术支持</string>
+    <string name="zh_about_ShirosakiMio_desc">为启动器提供了技术支持，修复了一些漏洞</string>
+    <string name="zh_about_bangbang93_desc">启动器使用了其创作的 BMCLAPI 镜像源</string>
+    <string name="zh_about_z0z0r4_desc">启动器使用了其创作的 MCIM Mod 信息镜像源</string>
     <string name="zh_about_access_space">访问空间</string>
     <string name="zh_about_access_link">访问链接</string>
     <string name="zh_about_version_name">软件版本名:</string>

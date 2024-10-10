@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.movtery.pojavzh.event.sticky.LIBGLESValueEvent;
 import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.setting.AllSettings;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
@@ -24,11 +25,11 @@ import com.oracle.dalvik.*;
 import java.io.*;
 import java.util.*;
 import net.kdt.pojavlaunch.*;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.multirt.MultiRTUtils;
 import net.kdt.pojavlaunch.multirt.Runtime;
 import net.kdt.pojavlaunch.plugins.FFmpegPlugin;
+
+import org.greenrobot.eventbus.EventBus;
 import org.lwjgl.glfw.*;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -193,7 +194,8 @@ public class JREUtils {
         envMap.put("LIBGL_NORMALIZE", "1");
 
         // The OPEN GL version is changed according
-        envMap.put("LIBGL_ES", (String) ExtraCore.getValue(ExtraConstants.OPEN_GL_VERSION));
+        LIBGLESValueEvent LIBGLESEvent = EventBus.getDefault().getStickyEvent(LIBGLESValueEvent.class);
+        envMap.put("LIBGL_ES", LIBGLESEvent.getVersion());
 
         envMap.put("FORCE_VSYNC", String.valueOf(AllSettings.Companion.getForceVsync()));
 
@@ -224,9 +226,9 @@ public class JREUtils {
 
         if (LOCAL_RENDERER != null) {
             envMap.put("POJAV_RENDERER", LOCAL_RENDERER);
-            if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan")) {
+            if (LOCAL_RENDERER.equals("opengles3_ltw")) {
                 envMap.put("LIBGL_ES", "3");
-                envMap.put("POJAVEXEC_EGL","libEGL_angle.so"); // Use ANGLE EGL
+                envMap.put("POJAVEXEC_EGL","libltw.so");
             }
         }
 
@@ -477,8 +479,8 @@ public class JREUtils {
             case "gallium_panfrost":
                 renderLibrary = "libOSMesa_2300d.so";
                 break;
-            case "opengles3_desktopgl_angle_vulkan":
-                renderLibrary = "libtinywrapper.so";
+            case "opengles3_ltw":
+                renderLibrary = "libltw.so";
                 break;
             default:
                 Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");

@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Personalisierung</string>
     <string name="zh_preference_category_download">Download</string>
     <string name="zh_preference_category_launcher">Launcher</string>
+    <string name="zh_preference_category_game_menu">Spielmenü</string>
     <string name="zh_preference_category_experimental">Experimentell</string>
     <string name="zh_preference_category_experimental_patches">Experimentelle Patches</string>
     <string name="zh_setting_java_memory_desc">Steuert, wie viel Speicher Minecraft zugewiesen wird</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Legt die Opazität der Hauptseiten des Launchers fest</string>
     <string name="zh_setting_quit_launcher_desc">Legt fest, ob der Launcher beim Start des Spiels beendet werden soll</string>
     <string name="zh_setting_quit_launcher_title">Launcher beenden</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Speicherinformationen in Echtzeit im Spielmenü-Floating-Fenster anzeigen. Halten Sie das Spielmenü-Floating-Fenster gedrückt, um diese Option schnell umzuschalten.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Echtzeit-Speicherinformationen</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Sie können diesen Präfixtext nach Ihren Wünschen anpassen.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Präfixtext für Speicherinformationen</string>
+    <string name="zh_setting_game_menu_alpha_desc">Die Opazität des Spielmenü-Floating-Fensters festlegen.</string>
+    <string name="zh_setting_game_menu_alpha_title">Opazität des Floating-Fensters</string>
     <string name="zh_setting_reboot_tip">Diese Einstellung wurde geändert, aber sie wird erst nach einem Neustart der Anwendung wirksam!</string>
+    <string name="zh_setting_zink_driver_adreno">Der Launcher hat festgestellt, dass Ihr Gerät über eine Adreno-GPU verfügt. Das Aktivieren dieser Option kann dazu führen, dass der Zink-Renderer nicht richtig funktioniert. Sind Sie sicher, dass Sie diese Option aktivieren möchten?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">Die Anwendung/das Spiel wurde mit dem Code %d beendet. Bitte überprüfen Sie die Protokolldatei oder den Absturzbericht für weitere Informationen. Wenn Sie dieses Problem nicht selbst beheben können, senden Sie bitte die Protokolldatei oder den Absturzbericht an jemanden, der Ihnen dabei helfen kann!\n\nBitte machen Sie keinen Screenshot der aktuellen Anwendungsoberfläche, da sonst niemand weiß, was genau passiert ist. Bitte teilen Sie Ihre Protokolldatei oder den Absturzbericht!</string>
     <string name="zh_game_autopick_runtime_failed">Es wurde keine geeignete Laufzeitumgebung gefunden. Es wurde die für die aktuelle Instanz ausgewählte Laufzeitumgebung festgelegt.</string>
@@ -292,8 +300,8 @@
     <string name="zh_other_login_select_role_title">Rolle auswählen</string>
     <string name="zh_other_login_select_role_message">Das aktuelle Konto hat mehrere Rollen. Bitte wählen Sie die Rolle aus, die Sie verwenden möchten.</string>
     <!-- Splash -->
-    <string name="splash_screen_desc">Der Launcher muss diese Komponenten installieren, um sicherzustellen, dass Minecraft ordnungsgemäß läuft. Klicken Sie unten auf die Schaltfläche, um die Installation oder Aktualisierung dieser Komponenten zu starten.</string>
-    <string name="splash_screen_installing">Der Launcher installiert die erforderlichen Komponenten. Nach Abschluss der Installation wird automatisch die Hauptoberfläche aufgerufen. Bitte warten Sie geduldig.</string>
+    <string name="splash_screen_desc">Der Launcher muss diese Komponenten installieren, um sicherzustellen, dass Minecraft ordnungsgemäß startet. Diese Komponenten sind in der App enthalten und müssen extrahiert werden, um normal verwendet zu werden. Klicken Sie auf die Schaltfläche unten, um mit der Extraktion und Aktualisierung dieser Komponenten zu beginnen.</string>
+    <string name="splash_screen_installing">Der Launcher extrahiert diese Komponenten. Nach Abschluss der Extraktion wird automatisch die Hauptoberfläche angezeigt. Bitte haben Sie Geduld.</string>
     <string name="splash_screen_lwjgl">Leichte Java-Spielebibliothek, Minecraft benötigt sie, um das Spiel auszuführen.</string>
     <string name="splash_screen_cacio">Bietet ein portables GUI-Backend für OpenJDK.</string>
     <string name="splash_screen_jre8">Java 8 Umgebung, Minecraft 1.16- erfordert Java 8.</string>
@@ -310,13 +318,14 @@
     <string name="zh_about_dec6">Hier sind alle Sponsoren, die Entwicklung unterstützt haben, vielen Dank!</string>
     <string name="zh_about_dec7">Zeit und Gesamtbetrag</string>
     <string name="zh_about_button_support_development">Entwicklung unterstützen</string>
-    <string name="zh_about_movtery_desc">Autor von Pojav Zenith Horizon</string>
-    <string name="zh_about_pojavlauncher_desc">Entwicklerteam von PojavLauncher, das PojavLauncher entwickelt und als Open-Source veröffentlicht hat</string>
-    <string name="zh_about_mcmod_desc">Pojav Zenith Horizon verwendet Mods und Übersetzungen von Modpacks aus dem MC-Wiki</string>
-    <string name="zh_about_verafirefly_desc">Bietet technische Unterstützung für das Rendering in Pojav Zenith Horizon</string>
-    <string name="zh_about_lingmuqiuzhu_desc">Bietet technische Unterstützung für Pojav Zenith Horizon</string>
-    <string name="zh_about_bangbang93_desc">Pojav Zenith Horizon verwendet seine erstellte BMCLAPI-Mirror-Quelle</string>
-    <string name="zh_about_z0z0r4_desc">Pojav Zenith Horizon verwendet seine erstellte MCIM-Mod-Info-Mirror-Quelle</string>
+    <string name="zh_about_MovTery_desc">Der Hauptautor des Launchers</string>
+    <string name="zh_about_PojavLauncher_desc">Das Entwicklungsteam von PojavLauncher, das PojavLauncher entwickelt und als Open Source veröffentlicht hat</string>
+    <string name="zh_about_mcmod_desc">Der Launcher verwendet Mod- und Integrationspaket-Übersetzungen aus dem MC Wiki</string>
+    <string name="zh_about_VeraFirefly_desc">Bereitstellung von Rendering-technischem Support für den Launcher</string>
+    <string name="zh_about_LingMuQiuZhu_desc">Bereitstellung technischer Unterstützung für den Launcher</string>
+    <string name="zh_about_ShirosakiMio_desc">Bereitstellung technischer Unterstützung und Behebung einiger Fehler im Launcher</string>
+    <string name="zh_about_bangbang93_desc">Der Launcher verwendet die BMCLAPI-Spiegelquelle, die von ihnen erstellt wurde</string>
+    <string name="zh_about_z0z0r4_desc">Der Launcher verwendet die MCIM-Mod-Informationsspiegelquelle, die von ihnen erstellt wurde</string>
     <string name="zh_about_access_space">Zugriff auf den Raum</string>
     <string name="zh_about_access_link">Zugriff auf den Link</string>
     <string name="zh_about_version_name">Software-Versionsname:</string>

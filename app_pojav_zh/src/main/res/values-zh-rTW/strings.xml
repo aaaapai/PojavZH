@@ -5,7 +5,7 @@
     <!-- Login strings -->
     <string name="login_online_login_label">登入</string>
     <!-- Hint -->
-    <string name="hint_control_mapping">點擊頂部中央齒輪圖示打開菜單 ⚙\n點擊一個按鍵進行自訂：編輯、縮放、刪除或自訂其映射綁定</string>
+    <string name="hint_control_mapping">點擊齒輪懸浮窗打開菜單⚙\n點擊一個按鍵進行自訂：編輯、縮放、刪除或自訂其映射綁定</string>
     <!-- Warnings -->
     <string name="warning_remove_account">此帳戶將被移除！</string>
     <!-- Error messages -->
@@ -29,7 +29,7 @@
     <string name="mcl_setting_title_javaargs">JVM 啟動參數</string>
     <string name="mcl_setting_subtitle_javaargs">注意，非專業人士修改此值可能導致遊戲崩潰</string>
     <string name="mcl_setting_category_renderer">渲染器</string>
-    <string name="mcl_setting_renderer_angle">ANGLE (僅限 1.17+)</string>
+    <string name="mcl_setting_renderer_ltw">LTW (僅限 1.17+)</string>
     <string name="mcl_setting_veroption_release">正式版</string>
     <string name="mcl_setting_veroption_snapshot">快照版</string>
     <string name="mcl_setting_veroption_oldalpha">Alpha 版</string>
