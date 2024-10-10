@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.movtery.anim.AnimPlayer;
 import com.movtery.anim.animations.Animations;
+import com.movtery.pojavzh.event.single.LaunchGameEvent;
 import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
 import com.movtery.pojavzh.ui.fragment.AboutFragment;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
@@ -32,10 +33,10 @@ import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.databinding.FragmentLauncherBinding;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class MainMenuFragment extends FragmentWithAnim implements TaskCountListener, AccountUpdateListener {
     public static final String TAG = "MainMenuFragment";
@@ -90,7 +91,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
             ZHTools.swapFragmentWithAnim(this, ProfileManagerFragment.class, ProfileManagerFragment.TAG, null);
         });
 
-        binding.playButton.setOnClickListener(v -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true));
+        binding.playButton.setOnClickListener(v -> EventBus.getDefault().post(new LaunchGameEvent()));
 
         mShareLogsButton.setOnClickListener(v -> {
             ShareLogDialog shareLogDialog = new ShareLogDialog(requireContext());

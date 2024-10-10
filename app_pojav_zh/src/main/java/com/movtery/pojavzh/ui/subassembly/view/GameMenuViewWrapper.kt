@@ -42,6 +42,10 @@ class GameMenuViewWrapper(
                     updateMemoryText(this)
                 }
             }
+
+            override fun detached(view: View) {
+                cancelMemoryTimer()
+            }
         })
         setGravity(FxGravity.CENTER)
         build().toControl(activity)
@@ -64,6 +68,8 @@ class GameMenuViewWrapper(
     }
 
     private fun updateMemoryText(memoryText: TextView) {
+        cancelMemoryTimer()
+
         memoryText.apply {
             visibility = if (showMemory) {
                 timer = Timer()
@@ -80,7 +86,6 @@ class GameMenuViewWrapper(
                 }, 0, 2000)
                 View.VISIBLE
             } else {
-                cancelMemoryTimer()
                 View.GONE
             }
         }
