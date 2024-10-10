@@ -16,7 +16,7 @@
 #include "osmesa_loader.h"
 #include "renderer_config.h"
 
-int (*vtest_main_p)(int argc, char **argv);
+int (*vtest_main_p)(int argc, char *argv[]);
 void (*vtest_swap_buffers_p)(void);
 
 void *virglGetCurrentContext() {
@@ -90,7 +90,7 @@ void *egl_make_current(void *window) {
 
         printf("VirGL: vtest_main = %p\n", vtest_main_p);
         printf("VirGL: Calling VTest server's main function\n");
-        vtest_main_p(3, (const char*[]){"vtest", "--no-loop-or-fork", "--use-gles", NULL, NULL});
+        vtest_main_p(3, (char*[]){"vtest", "--no-loop-or-fork", "--use-gles", NULL, NULL});
     }
 }
 
@@ -125,7 +125,7 @@ int virglInit() {
             EGL_ALPHA_SIZE, 8,
             // Minecraft required on initial 24
             EGL_DEPTH_SIZE, 24,
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR,
             EGL_NONE
     };
 
