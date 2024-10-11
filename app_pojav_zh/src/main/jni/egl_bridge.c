@@ -41,9 +41,6 @@
 // This means that you are forced to have this function/variable for ABI compatibility
 #define ABI_COMPAT __attribute__((unused))
 
-EGLConfig config;
-struct PotatoBridge potatoBridge;
-
 
 EXTERNAL_API void pojavTerminate() {
     printf("EGLBridge: Terminating\n");

@@ -13,4 +13,3 @@ void hookExec();
 void installLinkerBugMitigation();
 void installEMUIIteratorMititgation();
 JNIEXPORT jstring JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeClipboard(JNIEnv* env, jclass clazz, jint action, jbyteArray copySrc);
-

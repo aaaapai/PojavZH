@@ -110,7 +110,7 @@ public class JREUtils {
             public void run() {
                 try {
                     if (logcatPb == null) {
-                        logcatPb = new ProcessBuilder().command("logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I", "NativeInput").redirectErrorStream(true);
+                        logcatPb = new ProcessBuilder().command("/system/bin/logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I", "NativeInput").redirectErrorStream(true);
                     }
 
                     Logging.i("jrelog-logcat","Clearing logcat");
@@ -128,8 +128,8 @@ public class JREUtils {
                     if (p.waitFor() != 0) {
                         Logging.e("jrelog-logcat", "Logcat exited with code " + p.exitValue());
                         failTime++;
-                        Logging.i("jrelog-logcat", (failTime <= 10 ? "Restarting logcat" : "Too many restart fails") + " (attempt " + failTime + "/10");
-                        if (failTime <= 10) {
+                        Logging.i("jrelog-logcat", (failTime <= 3 ? "Restarting logcat" : "Too many restart fails") + " (attempt " + failTime + "/3");
+                        if (failTime <= 3) {
                             run();
                         } else {
                             Logger.appendToLog("ERROR: Unable to get more Logging.");
@@ -181,6 +181,9 @@ public class JREUtils {
         envMap.put("HOME", PathAndUrlManager.DIR_GAME_HOME);
         envMap.put("TMPDIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
         envMap.put("LIBGL_MIPMAP", "3");
+
+        envMap.put("LIBGL_GLES", "libGLESv3.so");
+        envMap.put("LIBGL_FB", "3");
 
         // Prevent OptiFine (and other error-reporting stuff in Minecraft) from balooning the log
         envMap.put("LIBGL_NOERROR", "1");
@@ -313,18 +316,6 @@ public class JREUtils {
             setRendererConfig(graphicsLib);
 
         List<String> userArgs = getJavaArgs(runtimeHome, userArgsString);
-        //Remove arguments that can interfere with the good working of the launcher
-        purgeArg(userArgs,"-Xms");
-        purgeArg(userArgs,"-Xmx");
-        purgeArg(userArgs,"-d32");
-        purgeArg(userArgs,"-d64");
-        purgeArg(userArgs, "-Xint");
-        purgeArg(userArgs, "-XX:+UseTransparentHugePages");
-        purgeArg(userArgs, "-XX:+UseLargePagesInMetaspace");
-        purgeArg(userArgs, "-XX:+UseLargePages");
-        purgeArg(userArgs, "-Dorg.lwjgl.opengl.libname");
-        // Don't let the user specify a custom Freetype library (as the user is unlikely to specify a version compiled for Android)
-        purgeArg(userArgs, "-Dorg.lwjgl.freetype.libname");
 
         //Add automatically generated args
         userArgs.add("-Xms" + AllSettings.Companion.getRamAllocation() + "M");
@@ -503,10 +494,7 @@ public class JREUtils {
         }
 
         if (!dlopen(renderLibrary) && !dlopen(findInLdLibPath(renderLibrary))) {
-            Logging.e("RENDER_LIBRARY","Failed to load renderer " + renderLibrary + ". Falling back to GL4ES 1.1.4");
-            LOCAL_RENDERER = "opengles2";
-            renderLibrary = "libgl4es_114.so";
-            dlopen(DIR_NATIVE_LIB + "/libgl4es_114.so");
+            Logging.e("RENDER_LIBRARY","Failed to load renderer ");
         }
         return renderLibrary;
     }
