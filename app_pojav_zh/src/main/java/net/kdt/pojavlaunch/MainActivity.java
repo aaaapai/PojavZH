@@ -54,6 +54,7 @@ import com.movtery.pojavzh.feature.customprofilepath.ProfilePathManager;
 import com.movtery.pojavzh.ui.fragment.settings.VideoSettingsFragment;
 import com.movtery.pojavzh.ui.subassembly.view.GameMenuViewWrapper;
 import com.movtery.pojavzh.utils.PathAndUrlManager;
+import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.AnimUtils;
 import com.movtery.pojavzh.utils.file.FileTools;
 import com.movtery.pojavzh.utils.stringutils.StringUtils;
@@ -453,7 +454,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
                 .setMessage(R.string.mcn_exit_confirm)
                 .setConfirmClickListener(() -> {
                     try {
-                        fullyExit();
+                        ZHTools.killProcess();
                     } catch (Throwable th) {
                         Logging.w(Tools.APP_NAME, "Could not enable System.exit() method!", th);
                     }
