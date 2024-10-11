@@ -370,10 +370,6 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         return Build.VERSION.SDK_INT >= 26;
     }
     
-    public static void fullyExit() {
-        android.os.Process.killProcess(android.os.Process.myPid());
-    }
-
     private void runCraft(String versionId, JMinecraftVersionList.Version version) throws Throwable {
         if(Tools.LOCAL_RENDERER == null) {
             Tools.LOCAL_RENDERER = AllSettings.Companion.getRenderer();
