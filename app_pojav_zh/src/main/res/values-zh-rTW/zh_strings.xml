@@ -116,7 +116,7 @@
     <string name="zh_activity_java_gui_keyboard">輸入法</string>
     <!-- Install -->
     <string name="zh_install_select_jre_environment">選擇 JRE 環境</string>
-    <string name="zh_install_recommend_use_jre8">推薦使用 JRE 8</string>
+    <string name="zh_install_recommend_use_jre8">在執行環境內，請盡量使用 JRE 8 以保證穩定性</string>
     <string name="zh_install_auto_select">讓啟動器決定</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">按鍵</string>
@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">個性化</string>
     <string name="zh_preference_category_download">下載</string>
     <string name="zh_preference_category_launcher">啟動器</string>
+    <string name="zh_preference_category_game_menu">遊戲菜單</string>
     <string name="zh_preference_category_experimental">實驗性</string>
     <string name="zh_preference_category_experimental_patches">實驗性的補丁</string>
     <string name="zh_setting_java_memory_desc">控制分配給 Minecraft 的記憶體大小</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">設定啟動器主要頁面的不透明度</string>
     <string name="zh_setting_quit_launcher_desc">在應用正式開始運行遊戲時，是否退出啟動器</string>
     <string name="zh_setting_quit_launcher_title">退出啟動器</string>
+    <string name="zh_setting_game_menu_show_memory_desc">在遊戲菜單懸浮窗上實時顯示內存資訊，通過長按遊戲菜單懸浮窗，可以快捷開關此選項</string>
+    <string name="zh_setting_game_menu_show_memory_title">實時顯示內存資訊</string>
+    <string name="zh_setting_game_menu_memory_text_desc">你可以按照你自己的需求，自訂這個前綴文本</string>
+    <string name="zh_setting_game_menu_memory_text_title">內存信息前綴文本</string>
+    <string name="zh_setting_game_menu_alpha_desc">設定遊戲菜單懸浮窗的不透明度</string>
+    <string name="zh_setting_game_menu_alpha_title">懸浮窗不透明度</string>
     <string name="zh_setting_reboot_tip">這項設定已被更改，但是需要重新啟動應用程式才能生效！</string>
+    <string name="zh_setting_zink_driver_adreno">啟動器檢測到你的設備為 Adreno GPU，開啟這個選項可能會導致 Zink 渲染器無法正常工作，你確定要打開這個選項嗎？</string>
     <!-- Game -->
     <string name="zh_game_exit_message">應用程式/遊戲以代碼 %d 結束，詳細錯誤原因請查看日誌檔或崩潰報告。若您無法親自解決此問題，請將日誌檔或崩潰報告寄給能夠解決問題的人協助您處理！\n\n請不要只是截圖目前應用程式介面，否則無法得知發生了什麼事，請分享您的日誌檔或崩潰報告！</string>
     <string name="zh_game_autopick_runtime_failed">未找到合適的運行環境，已設置為當前實例選擇的運行環境</string>

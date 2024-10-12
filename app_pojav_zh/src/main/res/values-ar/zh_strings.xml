@@ -116,7 +116,7 @@
     <string name="zh_activity_java_gui_keyboard">طريقة الإدخال</string>
     <!-- Install -->
     <string name="zh_install_select_jre_environment">اختر بيئة JRE</string>
-    <string name="zh_install_recommend_use_jre8">يوصى باستخدام JRE 8</string>
+    <string name="zh_install_recommend_use_jre8">ضمن بيئة التشغيل، يرجى محاولة استخدام JRE 8 لضمان الاستقرار.</string>
     <string name="zh_install_auto_select">دع المشغل يقرر</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">زر</string>
@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">تخصيص</string>
     <string name="zh_preference_category_download">تنزيل</string>
     <string name="zh_preference_category_launcher">المشغل</string>
+    <string name="zh_preference_category_game_menu">قائمة اللعبة</string>
     <string name="zh_preference_category_experimental">تجريبي</string>
     <string name="zh_preference_category_experimental_patches">تصحيحات تجريبية</string>
     <string name="zh_setting_java_memory_desc">التحكم في كمية الذاكرة التي يتم تخصيصها لـ Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">تعيين شفافية الصفحة الرئيسية للمنطلق</string>
     <string name="zh_setting_quit_launcher_desc">ما إذا كان سيتم إغلاق المشغل عند بدء تشغيل اللعبة الرسمي</string>
     <string name="zh_setting_quit_launcher_title">إغلاق المشغل</string>
+    <string name="zh_setting_game_menu_show_memory_desc">عرض معلومات الذاكرة في الوقت الحقيقي على نافذة القائمة العائمة للعبة. اضغط باستمرار على نافذة القائمة العائمة للعبة للتبديل السريع لهذا الخيار.</string>
+    <string name="zh_setting_game_menu_show_memory_title">معلومات الذاكرة في الوقت الحقيقي</string>
+    <string name="zh_setting_game_menu_memory_text_desc">يمكنك تخصيص نص البادئة هذا وفقًا لاحتياجاتك.</string>
+    <string name="zh_setting_game_menu_memory_text_title">نص بادئة معلومات الذاكرة</string>
+    <string name="zh_setting_game_menu_alpha_desc">تعيين شفافية نافذة القائمة العائمة للعبة.</string>
+    <string name="zh_setting_game_menu_alpha_title">شفافية النافذة العائمة</string>
     <string name="zh_setting_reboot_tip">تم تغيير هذا الإعداد، ولكن يلزم إعادة تشغيل التطبيق ليتم تفعيله!</string>
+    <string name="zh_setting_zink_driver_adreno">اكتشف المشغل أن جهازك يحتوي على وحدة معالجة الرسوميات Adreno. قد يؤدي تمكين هذا الخيار إلى عدم عمل محرك Zink بشكل صحيح. هل أنت متأكد أنك تريد تمكين هذا الخيار؟</string>
     <!-- Game -->
     <string name="zh_game_exit_message">التطبيق/اللعبة انتهت بكود %d، يرجى الاطلاع على ملف السجل أو تقرير التعطل لمعرفة السبب الدقيق للخطأ. إذا لم تتمكن من حل هذه المشكلة بنفسك، يرجى إرسال ملف السجل أو تقرير التعطل إلى شخص لديه القدرة على حل المشكلة لمساعدتك!\n\nيرجى عدم الاعتماد على لقطات الشاشة فقط، وإلا لن يعرف أحد ما الذي حدث بالضبط، يرجى مشاركة ملف السجل أو تقرير التعطل!</string>
     <string name="zh_game_autopick_runtime_failed">لم يتم العثور على بيئة تشغيل مناسبة، تم تعيينها إلى بيئة التشغيل المختارة للمثيل الحالي</string>

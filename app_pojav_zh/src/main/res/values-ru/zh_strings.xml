@@ -116,7 +116,7 @@
     <string name="zh_activity_java_gui_keyboard">Метод ввода</string>
     <!-- Install -->
     <string name="zh_install_select_jre_environment">Выбрать среду JRE</string>
-    <string name="zh_install_recommend_use_jre8">Рекомендуется использовать JRE 8</string>
+    <string name="zh_install_recommend_use_jre8">В рамках среды выполнения старайтесь использовать JRE 8 для большей стабильности.</string>
     <string name="zh_install_auto_select">Пусть лаунчер решит</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">Кнопка</string>
@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Персонализация</string>
     <string name="zh_preference_category_download">Загрузка</string>
     <string name="zh_preference_category_launcher">Лаунчер</string>
+    <string name="zh_preference_category_game_menu">Игровое меню</string>
     <string name="zh_preference_category_experimental">Экспериментальное</string>
     <string name="zh_preference_category_experimental_patches">Экспериментальные патчи</string>
     <string name="zh_setting_java_memory_desc">Управление объемом памяти, выделяемой для Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Установите прозрачность главной страницы лаунчера</string>
     <string name="zh_setting_quit_launcher_desc">Выйти из лаунчера при запуске игры</string>
     <string name="zh_setting_quit_launcher_title">Выход из лаунчера</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Отображение информации о памяти в реальном времени на всплывающем окне игрового меню. Долгий нажмите на всплывающее окно игрового меню, чтобы быстро переключить этот параметр.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Информация о памяти в реальном времени</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Вы можете настроить этот префиксный текст в соответствии с вашими потребностями.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Префиксный текст информации о памяти</string>
+    <string name="zh_setting_game_menu_alpha_desc">Настройка непрозрачности всплывающего окна игрового меню.</string>
+    <string name="zh_setting_game_menu_alpha_title">Непрозрачность всплывающего окна</string>
     <string name="zh_setting_reboot_tip">Этот параметр был изменен, но для его применения необходимо перезапустить приложение!</string>
+    <string name="zh_setting_zink_driver_adreno">Лаунчер обнаружил, что ваше устройство имеет GPU Adreno. Включение этой опции может привести к тому, что рендерер Zink будет работать неправильно. Вы уверены, что хотите включить эту опцию?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">Приложение/игра завершились с кодом %d. Подробности ошибки смотрите в журнале или отчете о сбое. Если вы не можете решить эту проблему самостоятельно, отправьте журнал или отчет о сбое тому, кто может помочь вам!\n\nПожалуйста, не просто делать скриншот текущего интерфейса приложения, иначе никто не поймет, что именно произошло. Поделитесь вашим журналом или отчетом о сбое!</string>
     <string name="zh_game_autopick_runtime_failed">Подходящая среда выполнения не найдена, установлена текущая среда выполнения для выбранного экземпляра</string>

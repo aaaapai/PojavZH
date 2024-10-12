@@ -1,19 +1,18 @@
 package com.movtery.pojavzh.ui.subassembly.account
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.movtery.pojavzh.event.single.SelectAuthMethodEvent
 import com.movtery.pojavzh.feature.accounts.AccountsManager
 import com.movtery.pojavzh.ui.dialog.AccountsDialog
-import com.movtery.pojavzh.utils.PathAndUrlManager
+import com.movtery.pojavzh.utils.skin.SkinLoader
 import net.kdt.pojavlaunch.R
-import net.kdt.pojavlaunch.extra.ExtraConstants
-import net.kdt.pojavlaunch.extra.ExtraCore
+import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.value.MinecraftAccount
-import java.io.File
+import org.greenrobot.eventbus.EventBus
 
 class AccountViewWrapper(val mainView: View) {
     private val mContext: Context = mainView.context
@@ -23,7 +22,7 @@ class AccountViewWrapper(val mainView: View) {
     init {
         mainView.setOnClickListener {
             currentAccount ?: run {
-                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true)
+                EventBus.getDefault().post(SelectAuthMethodEvent())
                 return@setOnClickListener
             }
             AccountsDialog(mContext) { this.refreshAccountInfo() }.show()
@@ -37,17 +36,7 @@ class AccountViewWrapper(val mainView: View) {
             mUserNameView.setText(R.string.main_add_account)
             return
         }
-
-        var drawable: Drawable? = null
-        if (account.isMicrosoft) {
-            val iconFile = File(PathAndUrlManager.DIR_USER_ICON, account.username + ".png")
-            if (iconFile.exists()) {
-                drawable = Drawable.createFromPath(iconFile.absolutePath)
-            }
-        }
-        mUserIconView.setImageDrawable(
-            drawable ?: ContextCompat.getDrawable(mContext, R.drawable.ic_head_steve)
-        )
+        mUserIconView.setImageDrawable(SkinLoader.getAvatarDrawable(mainView.context, account, Tools.dpToPx(52f).toInt()))
         mUserNameView.text = account.username
     }
 

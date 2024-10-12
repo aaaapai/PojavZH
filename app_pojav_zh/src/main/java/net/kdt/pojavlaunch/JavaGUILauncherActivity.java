@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 
 import com.kdt.LoggerView;
+import com.movtery.pojavzh.event.value.JvmExitEvent;
 import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.launch.LaunchArgs;
 import com.movtery.pojavzh.setting.AllSettings;
@@ -35,6 +36,8 @@ import net.kdt.pojavlaunch.utils.JREUtils;
 import net.kdt.pojavlaunch.utils.MathUtils;
 
 import org.apache.commons.io.IOUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.lwjgl.glfw.CallbackBridge;
 
 import java.io.File;
@@ -51,6 +54,8 @@ import java.util.zip.ZipFile;
 
 public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouchListener {
     public static final String EXTRAS_JRE_NAME = "jre_name";
+    public static final String SUBSCRIBE_JVM_EXIT_EVENT = "subscribe_jvm_exit_event";
+    public static final String FORCE_SHOW_LOG = "force_show_log";
     private AWTCanvasView mTextureView;
     private LoggerView mLoggerView;
     private TouchCharInput mTouchCharInput;
@@ -60,7 +65,8 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
     private GestureDetector mGestureDetector;
 
     private boolean mIsVirtualMouseEnabled;
-    
+    private boolean mSubscribeJvmExitEvent;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,8 +175,13 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
                 finish();
                 return;
             }
+            mSubscribeJvmExitEvent = extras.getBoolean(SUBSCRIBE_JVM_EXIT_EVENT, false);
+            if (extras.getBoolean(FORCE_SHOW_LOG, false)) {
+                mLoggerView.forceShow(this::forceClose);
+            }
+
             final String javaArgs = extras.getString("javaArgs");
-            final Uri resourceUri = (Uri) extras.getParcelable("modUri");
+            final Uri resourceUri = extras.getParcelable("modUri");
             final String jreName = extras.getString(EXTRAS_JRE_NAME, null);
             if(extras.getBoolean("openLogOutput", false)) openLogOutput(null);
             if (javaArgs != null) {
@@ -190,9 +201,28 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
         getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                MainActivity.dialogForceClose(JavaGUILauncherActivity.this);
+                forceClose();
             }
         });
+    }
+
+    @Subscribe()
+    public void onJvmExitEvent(JvmExitEvent event) {
+        if (mSubscribeJvmExitEvent) {
+            ZHTools.killProcess();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void startModInstallerWithUri(Uri uri, String jreName) {
@@ -354,6 +384,10 @@ public class JavaGUILauncherActivity extends BaseActivity implements View.OnTouc
     }
 
     public void forceClose(View v) {
+        forceClose();
+    }
+
+    public void forceClose() {
         MainActivity.dialogForceClose(this);
     }
 

@@ -1,5 +1,7 @@
 package com.movtery.pojavzh.ui.fragment.settings
 
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -61,7 +63,9 @@ class VideoSettingsFragment : AbstractSettingsFragment(R.layout.settings_fragmen
             binding.resolutionRatioValue,
             binding.resolutionRatio,
             "%"
-        )
+        ).setOnSeekBarProgressChangeListener { progress ->
+            changeResolutionRatioPreview(progress)
+        }
 
         SwitchSettingsWrapper(
             context,
@@ -95,7 +99,12 @@ class VideoSettingsFragment : AbstractSettingsFragment(R.layout.settings_fragmen
             binding.vsyncInZink
         )
 
+        changeResolutionRatioPreview(AllSettings.resolutionRatio)
         computeVisibility()
+    }
+
+    private fun changeResolutionRatioPreview(progress: Int) {
+        binding.resolutionRatioPreview.text = getResolutionRatioPreview(resources, progress)
     }
 
     override fun onChange() {
@@ -106,6 +115,22 @@ class VideoSettingsFragment : AbstractSettingsFragment(R.layout.settings_fragmen
     private fun computeVisibility() {
         binding.apply {
             binding.forceVsyncLayout.visibility = if (AllSettings.alternateSurface) View.VISIBLE else View.GONE
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun getResolutionRatioPreview(resources: Resources, progress: Int): String {
+            val metrics = Tools.currentDisplayMetrics
+            val width = metrics.widthPixels
+            val height = metrics.heightPixels
+            val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE || width > height
+
+            val progressDouble = progress.toDouble() / 100
+            val previewWidth = ((if (isLandscape) width else height) * progressDouble).toInt()
+            val previewHeight = ((if (isLandscape) height else width) * progressDouble).toInt()
+
+            return "$previewWidth x $previewHeight"
         }
     }
 }

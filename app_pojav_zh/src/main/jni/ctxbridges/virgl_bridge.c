@@ -90,7 +90,7 @@ void *egl_make_current(void *window) {
 
         printf("VirGL: vtest_main = %p\n", vtest_main_p);
         printf("VirGL: Calling VTest server's main function\n");
-        vtest_main_p(3, (char*[]){"vtest", "--no-loop-or-fork", "--use-gles", NULL, NULL});
+        vtest_main_p(3, (char*[]){"vtest", NULL, "--use-gles", NULL, NULL});
     }
 }
 

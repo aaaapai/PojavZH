@@ -28,7 +28,8 @@ public class LoggerView extends ConstraintLayout {
     private ToggleButton mLogToggle;
     private DefocusableScrollView mScrollView;
     private TextView mLogTextView;
-
+    private ImageButton mCancelButton;
+    private boolean isShowing = false;
 
     public LoggerView(@NonNull Context context) {
         this(context, null);
@@ -47,11 +48,22 @@ public class LoggerView extends ConstraintLayout {
     }
 
     public void setVisibilityWithAnim(boolean visibility) {
+        if (isShowing == visibility) return;
+        isShowing = visibility;
+
         ViewAnimUtils.setViewAnim(this,
                 visibility ? Animations.BounceInUp : Animations.SlideOutDown,
                 (long) (AllSettings.Companion.getAnimationSpeed() * 0.7),
                 () -> setVisibility(VISIBLE),
                 () -> setVisibility(visibility ? VISIBLE : GONE));
+    }
+
+    /**
+     * 强制展示日志，如果点击关闭按钮，那么将进行回调
+     */
+    public void forceShow(OnCloseClickListener listener) {
+        setVisibilityWithAnim(true);
+        mCancelButton.setOnClickListener(v -> listener.onClick());
     }
 
     /**
@@ -82,8 +94,8 @@ public class LoggerView extends ConstraintLayout {
         mLogToggle.setChecked(false);
 
         // Remove the loggerView from the user View
-        ImageButton cancelButton = findViewById(R.id.log_view_cancel);
-        cancelButton.setOnClickListener(view -> setVisibilityWithAnim(false));
+        mCancelButton = findViewById(R.id.log_view_cancel);
+        mCancelButton.setOnClickListener(view -> setVisibilityWithAnim(false));
 
         // Set the scroll view
         mScrollView = findViewById(R.id.content_log_scroll);
@@ -108,5 +120,9 @@ public class LoggerView extends ConstraintLayout {
             });
 
         };
+    }
+
+    public interface OnCloseClickListener {
+        void onClick();
     }
 }

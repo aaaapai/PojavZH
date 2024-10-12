@@ -14,7 +14,8 @@ import androidx.annotation.Nullable;
 
 import com.movtery.anim.AnimPlayer;
 import com.movtery.anim.animations.Animations;
-import com.movtery.pojavzh.feature.accounts.AccountUpdateListener;
+import com.movtery.pojavzh.event.single.AccountUpdateEvent;
+import com.movtery.pojavzh.event.single.LaunchGameEvent;
 import com.movtery.pojavzh.ui.fragment.AboutFragment;
 import com.movtery.pojavzh.ui.fragment.FragmentWithAnim;
 import com.movtery.pojavzh.ui.fragment.ControlButtonFragment;
@@ -32,12 +33,13 @@ import com.movtery.pojavzh.utils.ZHTools;
 import com.movtery.pojavzh.utils.anim.ViewAnimUtils;
 
 import net.kdt.pojavlaunch.databinding.FragmentLauncherBinding;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 
-public class MainMenuFragment extends FragmentWithAnim implements TaskCountListener, AccountUpdateListener {
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+public class MainMenuFragment extends FragmentWithAnim implements TaskCountListener {
     public static final String TAG = "MainMenuFragment";
     private FragmentLauncherBinding binding;
     private AccountViewWrapper accountViewWrapper;
@@ -90,7 +92,7 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
             ZHTools.swapFragmentWithAnim(this, ProfileManagerFragment.class, ProfileManagerFragment.TAG, null);
         });
 
-        binding.playButton.setOnClickListener(v -> ExtraCore.setValue(ExtraConstants.LAUNCH_GAME, true));
+        binding.playButton.setOnClickListener(v -> EventBus.getDefault().post(new LaunchGameEvent()));
 
         mShareLogsButton.setOnClickListener(v -> {
             ShareLogDialog shareLogDialog = new ShareLogDialog(requireContext());
@@ -110,6 +112,23 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
         binding.mcVersionSpinner.reloadProfiles();
     }
 
+    @Subscribe()
+    public void onAccountUpdate(AccountUpdateEvent event) {
+        if (accountViewWrapper != null) accountViewWrapper.refreshAccountInfo();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void runInstallerWithConfirmation(boolean isCustomArgs) {
         if (ProgressKeeper.getTaskCount() == 0)
             Tools.installMod(requireActivity(), isCustomArgs);
@@ -120,11 +139,6 @@ public class MainMenuFragment extends FragmentWithAnim implements TaskCountListe
     @Override
     public void onUpdateTaskCount(int taskCount) {
         mTasksRunning = taskCount != 0;
-    }
-
-    @Override
-    public void onUpdate() {
-        if (accountViewWrapper != null) accountViewWrapper.refreshAccountInfo();
     }
 
     @Override

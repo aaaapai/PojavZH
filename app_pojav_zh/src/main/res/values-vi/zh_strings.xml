@@ -116,7 +116,7 @@
     <string name="zh_activity_java_gui_keyboard">Bàn phím</string>
     <!-- Install -->
     <string name="zh_install_select_jre_environment">Chọn môi trường JRE</string>
-    <string name="zh_install_recommend_use_jre8">Khuyến nghị sử dụng JRE 8</string>
+    <string name="zh_install_recommend_use_jre8">Trong môi trường thực thi, hãy cố gắng sử dụng JRE 8 để đảm bảo tính ổn định.</string>
     <string name="zh_install_auto_select">Để trình khởi chạy quyết định</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">Nút</string>
@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Cá nhân hóa</string>
     <string name="zh_preference_category_download">Tải xuống</string>
     <string name="zh_preference_category_launcher">Trình khởi chạy</string>
+    <string name="zh_preference_category_game_menu">Menu trò chơi</string>
     <string name="zh_preference_category_experimental">Thử nghiệm</string>
     <string name="zh_preference_category_experimental_patches">Bản vá thử nghiệm</string>
     <string name="zh_setting_java_memory_desc">Kiểm soát bộ nhớ được phân bổ cho Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Cài đặt độ mờ của trang chính của trình khởi động</string>
     <string name="zh_setting_quit_launcher_desc">Có thoát trình khởi chạy khi ứng dụng bắt đầu chạy trò chơi chính thức không</string>
     <string name="zh_setting_quit_launcher_title">Thoát khỏi trình khởi động</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Hiển thị thông tin bộ nhớ theo thời gian thực trên cửa sổ nổi của menu trò chơi. Nhấn và giữ cửa sổ nổi của menu trò chơi để nhanh chóng bật hoặc tắt tùy chọn này.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Thông Tin Bộ Nhớ Theo Thời Gian Thực</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Bạn có thể tùy chỉnh văn bản tiền tố này theo nhu cầu của bạn.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Văn bản tiền tố thông tin bộ nhớ</string>
+    <string name="zh_setting_game_menu_alpha_desc">Đặt độ mờ của cửa sổ nổi của menu trò chơi.</string>
+    <string name="zh_setting_game_menu_alpha_title">Độ Mờ Của Cửa Sổ Nổi</string>
     <string name="zh_setting_reboot_tip">Cài đặt này đã được thay đổi, nhưng cần khởi động lại ứng dụng để có hiệu lực!</string>
+    <string name="zh_setting_zink_driver_adreno">Trình khởi chạy đã phát hiện rằng thiết bị của bạn có GPU Adreno. Bật tùy chọn này có thể khiến trình render Zink không hoạt động đúng cách. Bạn có chắc chắn muốn bật tùy chọn này không?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">Ứng dụng/trò chơi đã thoát với mã %d, vui lòng kiểm tra tệp nhật ký hoặc báo cáo sự cố để biết lý do chi tiết. Nếu bạn không thể tự giải quyết vấn đề này, hãy gửi tệp nhật ký hoặc báo cáo sự cố cho người có khả năng giải quyết giúp bạn!\n\nXin vui lòng không chỉ chụp màn hình ứng dụng hiện tại, vì vậy không ai biết chuyện gì đã xảy ra, hãy chia sẻ tệp nhật ký hoặc báo cáo sự cố của bạn!</string>
     <string name="zh_game_autopick_runtime_failed">Không tìm thấy môi trường chạy phù hợp, đã đặt là môi trường chạy được chọn cho thể hiện hiện tại</string>

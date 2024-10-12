@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.movtery.pojavzh.event.single.SelectAuthMethodEvent;
 import com.movtery.pojavzh.feature.accounts.AccountsManager;
 import com.movtery.pojavzh.ui.subassembly.account.AccountAdapter;
 import com.movtery.pojavzh.ui.subassembly.account.SelectAccountListener;
@@ -18,13 +19,12 @@ import net.kdt.pojavlaunch.PojavProfile;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.databinding.DialogSelectItemBinding;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.progresskeeper.ProgressKeeper;
 import net.kdt.pojavlaunch.progresskeeper.TaskCountListener;
 import net.kdt.pojavlaunch.value.MinecraftAccount;
 
 import org.apache.commons.io.FileUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
                 if (!isTaskRunning) PojavProfile.setCurrentProfile(getContext(), account.username);
                 else Tools.runOnUiThread(() -> Toast.makeText(getContext(), R.string.tasks_ongoing, Toast.LENGTH_SHORT).show());
             } else {
-                ExtraCore.setValue(ExtraConstants.SELECT_AUTH_METHOD, true);
+                EventBus.getDefault().post(new SelectAuthMethodEvent());
             }
 
             this.dismiss();
@@ -94,9 +94,9 @@ public class AccountsDialog extends FullScreenDialog implements TaskCountListene
                         .setConfirm(R.string.global_delete)
                         .setConfirmClickListener(() -> {
                             File accountFile = new File(PathAndUrlManager.DIR_ACCOUNT_NEW, account.username + ".json");
-                            File userIconFile = new File(PathAndUrlManager.DIR_USER_ICON, account.username + ".png");
+                            File userSkinFile = new File(PathAndUrlManager.DIR_USER_SKIN, account.username + ".png");
                             if (accountFile.exists()) FileUtils.deleteQuietly(accountFile);
-                            if (userIconFile.exists()) FileUtils.deleteQuietly(userIconFile);
+                            if (userSkinFile.exists()) FileUtils.deleteQuietly(userSkinFile);
                             refresh();
                         }).buildDialog();
             }

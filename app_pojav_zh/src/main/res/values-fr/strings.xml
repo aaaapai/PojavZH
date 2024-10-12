@@ -5,7 +5,7 @@
     <!-- Login strings -->
     <string name="login_online_login_label">Connexion</string>
     <!-- Hint -->
-    <string name="hint_control_mapping">Appuyez sur l\'icône en forme de roue dentée en haut au centre pour ouvrir le menu contextuel ⚙\nAppuyez sur un bouton pour le personnaliser : éditer, redimensionner, supprimer ou personnaliser sa liaison de touche.</string>
+    <string name="hint_control_mapping">Cliquez sur l\'icône d\'engrenage flottante pour ouvrir le menu ⚙\nCliquez sur une touche pour la personnaliser : modifier, redimensionner, supprimer ou personnaliser son attribution</string>
     <!-- Warnings -->
     <string name="warning_remove_account">Ce compte sera supprimé !</string>
     <!-- Error messages -->
@@ -196,11 +196,10 @@
     <string name="preference_force_big_core_title">Forcer le rendu à s\'exécuter sur le grand cœur</string>
     <string name="preference_force_big_core_desc">Force le thread de rendu de Minecraft à s\'exécuter sur le cœur avec la fréquence maximale la plus élevée.</string>
     <string name="version_select_hint">Sélectionnez une version</string>
-    <string name="forge_dl_progress">Téléchargement de l\'installateur pour %s</string>
+    <string name="modloader_dl_progress">Téléchargement de l\'installateur pour %s</string>
     <string name="forge_dl_searching">Recherche du numéro de version de Forge</string>
     <string name="modloader_dl_failed_to_load_list">Échec du chargement de la liste des versions !</string>
     <string name="forge_dl_no_installer">Désolé, mais cette version de Forge n\'a pas d\'installateur, ce qui n\'est pas encore pris en charge.</string>
-    <string name="fabric_dl_progress">Téléchargement des métadonnées du chargeur %s</string>
     <string name="fabric_dl_cant_read_meta">Échec de la lecture des métadonnées du chargeur %s. Veuillez réessayer plus tard.</string>
     <string name="modloader_dl_install_fabric">Créer un profil Fabric</string>
     <string name="modloader_dl_install_quilt">Créer un profil Quilt</string>

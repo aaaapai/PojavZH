@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.movtery.pojavzh.event.value.JvmExitEvent;
+import com.movtery.pojavzh.event.sticky.LIBGLESValueEvent;
 import com.movtery.pojavzh.feature.log.Logging;
 import com.movtery.pojavzh.setting.AllSettings;
 import com.movtery.pojavzh.ui.activity.ErrorActivity;
@@ -24,11 +26,11 @@ import com.oracle.dalvik.*;
 import java.io.*;
 import java.util.*;
 import net.kdt.pojavlaunch.*;
-import net.kdt.pojavlaunch.extra.ExtraConstants;
-import net.kdt.pojavlaunch.extra.ExtraCore;
 import net.kdt.pojavlaunch.multirt.MultiRTUtils;
 import net.kdt.pojavlaunch.multirt.Runtime;
 import net.kdt.pojavlaunch.plugins.FFmpegPlugin;
+
+import org.greenrobot.eventbus.EventBus;
 import org.lwjgl.glfw.*;
 
 import javax.microedition.khronos.egl.EGL10;
@@ -193,7 +195,11 @@ public class JREUtils {
         envMap.put("LIBGL_NORMALIZE", "1");
 
         // The OPEN GL version is changed according
-        envMap.put("LIBGL_ES", (String) ExtraCore.getValue(ExtraConstants.OPEN_GL_VERSION));
+        LIBGLESValueEvent LIBGLESEvent = EventBus.getDefault().getStickyEvent(LIBGLESValueEvent.class);
+        if (LIBGLESEvent != null) {
+            envMap.put("LIBGL_ES", LIBGLESEvent.getVersion());
+            EventBus.getDefault().removeStickyEvent(LIBGLESEvent);
+        }
 
         envMap.put("FORCE_VSYNC", String.valueOf(AllSettings.Companion.getForceVsync()));
 
@@ -335,6 +341,7 @@ public class JREUtils {
             File crashReportPath = new File(gameDirectory, "crash-reports");
             ErrorActivity.showExitMessage(activity, exitCode, crashReportPath.getAbsolutePath());
         }
+        EventBus.getDefault().post(new JvmExitEvent(exitCode));
     }
 
     /**

@@ -116,7 +116,7 @@
     <string name="zh_activity_java_gui_keyboard">Méthode de saisie</string>
     <!-- Install -->
     <string name="zh_install_select_jre_environment">Sélectionner l\'environnement JRE</string>
-    <string name="zh_install_recommend_use_jre8">Recommandé d\'utiliser JRE 8</string>
+    <string name="zh_install_recommend_use_jre8">Dans l\'environnement d\'exécution, essayez d\'utiliser JRE 8 pour une meilleure stabilité.</string>
     <string name="zh_install_auto_select">Laisser le lanceur décider</string>
     <!-- Custom Controls -->
     <string name="zh_controls_add_control_button">Touche</string>
@@ -213,6 +213,7 @@
     <string name="zh_preference_category_personalization">Personnalisation</string>
     <string name="zh_preference_category_download">Téléchargement</string>
     <string name="zh_preference_category_launcher">Lanceur</string>
+    <string name="zh_preference_category_game_menu">Menu du jeu</string>
     <string name="zh_preference_category_experimental">Expérimental</string>
     <string name="zh_preference_category_experimental_patches">Patchs expérimentaux</string>
     <string name="zh_setting_java_memory_desc">Contrôle la quantité de mémoire allouée à Minecraft</string>
@@ -240,7 +241,14 @@
     <string name="zh_setting_page_opacity_desc">Définir l\'opacité des pages principales du lanceur</string>
     <string name="zh_setting_quit_launcher_desc">Quitter le lanceur lorsque l\'application commence à exécuter le jeu</string>
     <string name="zh_setting_quit_launcher_title">Quitter le lanceur</string>
+    <string name="zh_setting_game_menu_show_memory_desc">Afficher les informations de mémoire en temps réel sur la fenêtre flottante du menu de jeu. Appuyez longuement sur la fenêtre flottante du menu de jeu pour basculer rapidement cette option.</string>
+    <string name="zh_setting_game_menu_show_memory_title">Informations sur la mémoire en temps réel</string>
+    <string name="zh_setting_game_menu_memory_text_desc">Vous pouvez personnaliser ce texte de préfixe selon vos besoins.</string>
+    <string name="zh_setting_game_menu_memory_text_title">Texte de préfixe pour les informations sur la mémoire</string>
+    <string name="zh_setting_game_menu_alpha_desc">Définir l\'opacité de la fenêtre flottante du menu de jeu.</string>
+    <string name="zh_setting_game_menu_alpha_title">Opacité de la fenêtre flottante</string>
     <string name="zh_setting_reboot_tip">Ce paramètre a été modifié, mais il nécessite un redémarrage de l\'application pour prendre effet !</string>
+    <string name="zh_setting_zink_driver_adreno">Le lanceur a détecté que votre appareil dispose d\'un GPU Adreno. Activer cette option peut entraîner un dysfonctionnement du rendu Zink. Êtes-vous sûr de vouloir activer cette option ?</string>
     <!-- Game -->
     <string name="zh_game_exit_message">L\'application/jeu s\'est terminé avec le code %d, veuillez consulter le fichier journal ou le rapport de crash pour plus de détails. Si vous ne pouvez pas résoudre ce problème vous-même, veuillez envoyer le fichier journal ou le rapport de crash à quelqu\'un qui peut vous aider à résoudre le problème !\n\nVeuillez ne pas simplement prendre une capture d\'écran de l\'interface actuelle de l\'application, sinon personne ne saura ce qui s\'est réellement passé, veuillez partager votre fichier journal ou votre rapport de crash !</string>
     <string name="zh_game_autopick_runtime_failed">Aucun environnement d\'exécution approprié n\'a été trouvé, il a été défini sur l\'environnement d\'exécution sélectionné pour l\'instance actuelle</string>
