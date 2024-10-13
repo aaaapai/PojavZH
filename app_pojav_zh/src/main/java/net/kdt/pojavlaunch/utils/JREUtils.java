@@ -234,6 +234,10 @@ public class JREUtils {
                 envMap.put("LIBGL_ES", "3");
                 envMap.put("POJAVEXEC_EGL","libltw.so");
             }
+            if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan_ltw")) {
+                envMap.put("LIBGL_ES", "3");
+                envMap.put("POJAVEXEC_EGL","libEGL_angle.so");
+            }
         }
 
         File customEnvFile = new File(PathAndUrlManager.DIR_GAME_HOME, "custom_env.txt");
@@ -471,7 +475,7 @@ public class JREUtils {
         if (LOCAL_RENDERER == null) return null;
         String renderLibrary;
         switch (LOCAL_RENDERER){
-            case "opengles2":
+            case "opengles3":
                 renderLibrary = "libgl4es_114.so";
                 break;
             case "vulkan_zink":
@@ -486,6 +490,9 @@ public class JREUtils {
                 break;
             case "opengles3_ltw":
                 renderLibrary = "libltw.so";
+                break;
+            case "opengles3_desktopgl_angle_vulkan_ltw":
+                renderLibrary = "libltw_angle.so";
                 break;
             default:
                 Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
