@@ -8,6 +8,24 @@ HERE_PATH := $(LOCAL_PATH)
 
 LOCAL_PATH := $(HERE_PATH)
 
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := angle_gles2
+LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libGLESv2_angle.so
+include $(PREBUILT_SHARED_LIBRARY)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := EGL_angle
+LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libEGL_angle.so
+include $(PREBUILT_SHARED_LIBRARY)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := ltw
+LOCAL_SHARED_LIBRARIES := angle_gles2 EGL_angle
+LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libltw.so
+include $(BUILD_SHARED_LIBRARY)
+
 include $(CLEAR_VARS)
 # Link GLESv2 for test
 LOCAL_LDLIBS := -ldl -llog -landroid
