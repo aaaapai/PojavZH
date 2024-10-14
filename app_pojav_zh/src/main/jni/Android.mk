@@ -27,7 +27,7 @@ include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := ltw_angle
-LOCAL_SHARED_LIBRARIES := GLESv2_angle EGL_angle ltw
+LOCAL_SHARED_LIBRARIES := GLESv2_angle ltw
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
