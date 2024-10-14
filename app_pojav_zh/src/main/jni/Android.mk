@@ -11,7 +11,12 @@ LOCAL_PATH := $(HERE_PATH)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := angle_gles2
+LOCAL_MODULE := ltw
+LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libltw.so
+include $(PREBUILT_SHARED_LIBRARY)
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := GLESv2_angle
 LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libGLESv2_angle.so
 include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
@@ -21,9 +26,8 @@ LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libEGL_angle.so
 include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := ltw
-LOCAL_SHARED_LIBRARIES := angle_gles2 EGL_angle
-LOCAL_SRC_FILES := angle/$(TARGET_ARCH_ABI)/libltw.so
+LOCAL_MODULE := ltw_angle
+LOCAL_SHARED_LIBRARIES := GLESv2_angle EGL_angle ltw
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
