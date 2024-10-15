@@ -60,15 +60,15 @@ struct pojav_environ_s {
     int savedWidth, savedHeight;
 #define ADD_CALLBACK_WWIN(NAME) \
     GLFW_invoke_##NAME##_func* GLFW_invoke_##NAME;
-    ADD_CALLBACK_WWIN(Char);
-    ADD_CALLBACK_WWIN(CharMods);
-    ADD_CALLBACK_WWIN(CursorEnter);
-    ADD_CALLBACK_WWIN(CursorPos);
-    ADD_CALLBACK_WWIN(FramebufferSize);
-    ADD_CALLBACK_WWIN(Key);
-    ADD_CALLBACK_WWIN(MouseButton);
-    ADD_CALLBACK_WWIN(Scroll);
-    ADD_CALLBACK_WWIN(WindowSize);
+    ADD_CALLBACK_WWIN(Char)
+    ADD_CALLBACK_WWIN(CharMods)
+    ADD_CALLBACK_WWIN(CursorEnter)
+    ADD_CALLBACK_WWIN(CursorPos)
+    ADD_CALLBACK_WWIN(FramebufferSize)
+    ADD_CALLBACK_WWIN(Key)
+    ADD_CALLBACK_WWIN(MouseButton)
+    ADD_CALLBACK_WWIN(Scroll)
+    ADD_CALLBACK_WWIN(WindowSize)
 
 #undef ADD_CALLBACK_WWIN
 };
