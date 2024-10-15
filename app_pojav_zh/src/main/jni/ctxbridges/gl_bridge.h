@@ -16,7 +16,7 @@ typedef struct {
     EGLSurface surface;
 } gl_render_window_t;
 
-bool gl_init(bool);
+bool* gl_init(void);
 gl_render_window_t* gl_get_current(void);
 gl_render_window_t* gl_init_context(gl_render_window_t* share);
 void gl_make_current(gl_render_window_t* bundle);
