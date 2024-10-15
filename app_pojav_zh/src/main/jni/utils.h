@@ -10,6 +10,6 @@ void free_char_array(JNIEnv *env, jobjectArray jstringArray, const char **charAr
 jstring convertStringJVM(JNIEnv* srcEnv, JNIEnv* dstEnv, jstring srcStr);
 
 void hookExec(JNIEnv *env);
-void installLinkerBugMitigation();
-void installEMUIIteratorMititgation();
+void installLinkerBugMitigation(void);
+void installEMUIIteratorMititgation(void);
 JNIEXPORT jstring JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeClipboard(JNIEnv* env, jclass clazz, jint action, jbyteArray copySrc);
