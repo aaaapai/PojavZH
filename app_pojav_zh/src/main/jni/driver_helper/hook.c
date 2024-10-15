@@ -4,6 +4,8 @@
 #include <android/dlext.h>
 #include <string.h>
 #include <stdio.h>
+
+#include "hook.h"
 // Silence the warnings about using reserved identifiers (we need to link to these to not pollute the global symtab)
 static void* ready_handle;
 
