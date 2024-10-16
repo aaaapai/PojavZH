@@ -221,7 +221,7 @@ int pojavInitOpenGL(int) {
         if (!strcmp(getenv("OSMESA_NO_FLUSH_FRONTBUFFER"), "1"))
             printf("VirGL: OSMesa buffer flush is DISABLED!\n");
         loadSymbolsVirGL();
-        virglInit(int);
+        virglInit;
         return 0;
     }
 
@@ -235,7 +235,7 @@ EXTERNAL_API int pojavInit(int) {
     pojav_environ->savedWidth = ANativeWindow_getWidth(pojav_environ->pojavWindow);
     pojav_environ->savedHeight = ANativeWindow_getHeight(pojav_environ->pojavWindow);
     ANativeWindow_setBuffersGeometry(pojav_environ->pojavWindow,pojav_environ->savedWidth,pojav_environ->savedHeight,AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM);
-    pojavInitOpenGL();
+    pojavInitOpenGL;
     return 1;
 }
 
