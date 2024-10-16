@@ -46,7 +46,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, __attribute((unused)) void* reserved) {
     return JNI_VERSION_1_4;
 }
 
-static void *logger_thread() {
+static void *logger_thread(void) {
     JNIEnv *env;
     jstring writeString;
     (*stdiois_jvm)->AttachCurrentThread(stdiois_jvm, &env, NULL);
@@ -96,7 +96,7 @@ Java_net_kdt_pojavlaunch_Logger_begin(JNIEnv *env, __attribute((unused)) jclass 
     (*env)->ReleaseStringUTFChars(env, logPath, logFilePath);
 
     /* spawn the logging thread */
-    int result = pthread_create(&logger, 0, logger_thread, 0);
+    int result = pthread_create(&logger, 0, (void*)logger_thread, 0);
     if(result != 0) {
         close(latestlog_fd);
         (*env)->ThrowNew(env, ioeClass, strerror(result));
@@ -159,7 +159,7 @@ static void custom_exit(int code) {
     BYTEHOOK_POP_STACK();
 }
 
-static void custom_atexit() {
+static void custom_atexit(void) {
     // Same as custom_exit, but without the code or the exit passthrough.
     if(exit_tripped) {
         return;
