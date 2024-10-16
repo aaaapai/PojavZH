@@ -8,7 +8,7 @@
 void* virglGetCurrentContext(void*);
 void loadSymbolsVirGL(void);
 int virglInit(int);
-void virglSwapBuffers(void*);
+void virglSwapBuffers(void);
 void virglMakeCurrent(void* window);
 void* virglCreateContext(void* contextSrc);
 void virglSwapInterval(int interval);
