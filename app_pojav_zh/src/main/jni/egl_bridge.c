@@ -42,7 +42,7 @@
 #define ABI_COMPAT __attribute__((unused))
 
 
-EXTERNAL_API void pojavTerminate() {
+EXTERNAL_API void pojavTerminate(void) {
     printf("EGLBridge: Terminating\n");
 
     switch (pojav_environ->config_renderer) {
@@ -75,9 +75,9 @@ Java_net_kdt_pojavlaunch_utils_JREUtils_releaseBridgeWindow(ABI_COMPAT JNIEnv *e
     ANativeWindow_release(pojav_environ->pojavWindow);
 }
 
-EXTERNAL_API void* pojavGetCurrentContext() {
+EXTERNAL_API void* pojavGetCurrentContext(void*) {
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
-        return virglGetCurrentContext();
+        return virglGetCurrentContext(void*);
 
     return br_get_current();
 }
@@ -85,7 +85,7 @@ EXTERNAL_API void* pojavGetCurrentContext() {
 //#define ADRENO_POSSIBLE
 #ifdef ADRENO_POSSIBLE
 //Checks if your graphics are Adreno. Returns true if your graphics are Adreno, false otherwise or if there was an error
-bool checkAdrenoGraphics() {
+bool checkAdrenoGraphics(void) {
     EGLDisplay eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if(eglDisplay == EGL_NO_DISPLAY || eglInitialize(eglDisplay, NULL, NULL) != EGL_TRUE) return false;
     EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_SURFACE_TYPE, EGL_PBUFFER_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL_NONE };
@@ -117,7 +117,7 @@ bool checkAdrenoGraphics() {
     eglTerminate(eglDisplay);
     return is_adreno;
 }
-void* load_turnip_vulkan() {
+void* load_turnip_vulkan(void) {
     if(!checkAdrenoGraphics()) return NULL;
     const char* native_dir = getenv("POJAV_NATIVEDIR");
     const char* cache_dir = getenv("TMPDIR");
@@ -156,7 +156,7 @@ static void set_vulkan_ptr(void* ptr) {
     setenv("VULKAN_PTR", envval, 1);
 }
 
-void load_vulkan() {
+void load_vulkan(void) {
     if(getenv("POJAV_ZINK_PREFER_SYSTEM_DRIVER") == NULL &&
         android_get_device_api_level() >= 28) { // the loader does not support below that
 #ifdef ADRENO_POSSIBLE
@@ -174,7 +174,7 @@ void load_vulkan() {
     set_vulkan_ptr(vulkan_ptr);
 }
 
-int pojavInitOpenGL() {
+int pojavInitOpenGL(int) {
     const char *forceVsync = getenv("FORCE_VSYNC");
     if (!strcmp(forceVsync, "true"))
         pojav_environ->force_vsync = true;
@@ -221,7 +221,7 @@ int pojavInitOpenGL() {
         if (!strcmp(getenv("OSMESA_NO_FLUSH_FRONTBUFFER"), "1"))
             printf("VirGL: OSMesa buffer flush is DISABLED!\n");
         loadSymbolsVirGL();
-        virglInit();
+        virglInit(int);
         return 0;
     }
 
@@ -230,7 +230,7 @@ int pojavInitOpenGL() {
     return 0;
 }
 
-EXTERNAL_API int pojavInit() {
+EXTERNAL_API int pojavInit(int) {
     ANativeWindow_acquire(pojav_environ->pojavWindow);
     pojav_environ->savedWidth = ANativeWindow_getWidth(pojav_environ->pojavWindow);
     pojav_environ->savedHeight = ANativeWindow_getHeight(pojav_environ->pojavWindow);
@@ -257,7 +257,7 @@ EXTERNAL_API void pojavSetWindowHint(int hint, int value) {
     }
 }
 
-EXTERNAL_API void pojavSwapBuffers() {
+EXTERNAL_API void pojavSwapBuffers(void) {
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
