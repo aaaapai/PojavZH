@@ -32,7 +32,7 @@ void set_osm_bridge_tbl(void) {
     br_swap_interval = osm_swap_interval;
 }
 
-void set_gl_bridge_tbl() {
+void set_gl_bridge_tbl(void) {
     br_init = gl_init;
     br_init_context = (br_init_context_t) gl_init_context;
     br_make_current = (br_make_current_t) gl_make_current;
