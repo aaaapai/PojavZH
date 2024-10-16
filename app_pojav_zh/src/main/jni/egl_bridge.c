@@ -77,7 +77,7 @@ Java_net_kdt_pojavlaunch_utils_JREUtils_releaseBridgeWindow(ABI_COMPAT JNIEnv *e
 
 EXTERNAL_API void* pojavGetCurrentContext(void*) {
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
-        return virglGetCurrentContext(void*);
+        return virglGetCurrentContext;
 
     return br_get_current();
 }
