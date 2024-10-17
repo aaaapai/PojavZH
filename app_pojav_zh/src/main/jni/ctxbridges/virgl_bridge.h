@@ -5,9 +5,9 @@
 #ifndef VIRGL_BRIDGE_H
 #define VIRGL_BRIDGE_H
 
-void* virglGetCurrentContext(void*);
+void* virglGetCurrentContext(void);
 void loadSymbolsVirGL(void);
-int virglInit(int);
+int virglInit(void);
 void virglSwapBuffers(void);
 void virglMakeCurrent(void* window);
 void* virglCreateContext(void* contextSrc);
