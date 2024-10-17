@@ -75,7 +75,7 @@ Java_net_kdt_pojavlaunch_utils_JREUtils_releaseBridgeWindow(ABI_COMPAT JNIEnv *e
     ANativeWindow_release(pojav_environ->pojavWindow);
 }
 
-EXTERNAL_API void* pojavGetCurrentContext(void*) {
+EXTERNAL_API void* pojavGetCurrentContext(void) {
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
         return virglGetCurrentContext;
 
@@ -174,7 +174,7 @@ void load_vulkan(void) {
     set_vulkan_ptr(vulkan_ptr);
 }
 
-int pojavInitOpenGL(int) {
+int pojavInitOpenGL(void) {
     const char *forceVsync = getenv("FORCE_VSYNC");
     if (!strcmp(forceVsync, "true"))
         pojav_environ->force_vsync = true;
@@ -221,7 +221,7 @@ int pojavInitOpenGL(int) {
         if (!strcmp(getenv("OSMESA_NO_FLUSH_FRONTBUFFER"), "1"))
             printf("VirGL: OSMesa buffer flush is DISABLED!\n");
         loadSymbolsVirGL();
-        virglInit;
+        virglInit();
         return 0;
     }
 
@@ -230,12 +230,12 @@ int pojavInitOpenGL(int) {
     return 0;
 }
 
-EXTERNAL_API int pojavInit(int) {
+EXTERNAL_API int pojavInit(void) {
     ANativeWindow_acquire(pojav_environ->pojavWindow);
     pojav_environ->savedWidth = ANativeWindow_getWidth(pojav_environ->pojavWindow);
     pojav_environ->savedHeight = ANativeWindow_getHeight(pojav_environ->pojavWindow);
     ANativeWindow_setBuffersGeometry(pojav_environ->pojavWindow,pojav_environ->savedWidth,pojav_environ->savedHeight,AHARDWAREBUFFER_FORMAT_R8G8B8X8_UNORM);
-    pojavInitOpenGL;
+    pojavInitOpenGL();
     return 1;
 }
 
