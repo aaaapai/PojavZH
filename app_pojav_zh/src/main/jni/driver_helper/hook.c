@@ -53,6 +53,6 @@ __attribute__((visibility("default"), used)) void *android_load_sphal_library(co
 // This is done for older android versions which don't
 // export this function. Technically this is wrong
 // but for our usage it's fine enough
-__attribute__((visibility("default"), used)) uint64_t atrace_get_enabled_tags(uint64_t) {
+__attribute__((visibility("default"), used)) uint64_t atrace_get_enabled_tags(void) {
     return 0;
 }
