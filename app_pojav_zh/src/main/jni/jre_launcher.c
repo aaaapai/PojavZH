@@ -42,6 +42,8 @@
 
 // PojavLancher: fixme: are these wrong?
 #define TRY_SIG2JVM
+#define FULL_VERSION "1.8.0-internal"
+#define DOT_VERSION "1.8"
 
 static const char** const_jargs = NULL;
 static const char** const_appclasspath = NULL;
