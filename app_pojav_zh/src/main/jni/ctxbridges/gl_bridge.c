@@ -19,11 +19,11 @@ static const char* g_LogTag = "GLBridge";
 static __thread gl_render_window_t* currentBundle;
 static EGLDisplay g_EglDisplay;
 
-bool gl_init() {
+bool gl_init(void) {
     dlsym_EGL();
     g_EglDisplay = eglGetDisplay_p(EGL_DEFAULT_DISPLAY);
     if (g_EglDisplay == EGL_NO_DISPLAY) {
-        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "%s",
+        __android_log_print(ANDROID_LOG_INFO, g_LogTag, "%s",
                             "eglGetDisplay_p(EGL_DEFAULT_DISPLAY) returned EGL_NO_DISPLAY");
         return false;
     }
@@ -35,7 +35,7 @@ bool gl_init() {
     return true;
 }
 
-gl_render_window_t* gl_get_current() {
+gl_render_window_t* gl_get_current(void) {
     return currentBundle;
 }
 
@@ -64,8 +64,14 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
 
     {
         EGLBoolean bindResult;
-        printf("EGLBridge: Binding to OpenGL ES\n");
-        bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
+        if (strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19) == 0)
+        {
+            printf("EGLBridge: Binding to desktop OpenGL\n");
+            bindResult = eglBindAPI_p(EGL_OPENGL_API);
+        } else {
+            printf("EGLBridge: Binding to OpenGL ES\n");
+            bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
+        }
         if (!bindResult) printf("EGLBridge: bind failed: %p\n", eglGetError_p());
     }
 
@@ -75,7 +81,7 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     bundle->context = eglCreateContext_p(g_EglDisplay, bundle->config, share == NULL ? EGL_NO_CONTEXT : share->context, egl_context_attributes);
 
     if (bundle->context == EGL_NO_CONTEXT) {
-        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "eglCreateContext_p() finished with error: %04x",
+        __android_log_print(ANDROID_LOG_INFO, g_LogTag, "eglCreateContext_p() finished with error: %04x",
                             eglGetError_p());
         free(bundle);
         return NULL;
@@ -107,7 +113,7 @@ void gl_swap_surface(gl_render_window_t* bundle) {
 void gl_make_current(gl_render_window_t* bundle) {
     if(bundle == NULL) {
         if(eglMakeCurrent_p(g_EglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT)) {
-            currentBundle = NULL;
+            currentBundle = bundle;
         }
         return;
     }
@@ -130,12 +136,12 @@ void gl_make_current(gl_render_window_t* bundle) {
             gl_swap_surface((gl_render_window_t*)pojav_environ->mainWindowBundle);
             pojav_environ->mainWindowBundle = NULL;
         }
-        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "eglMakeCurrent returned with error: %04x", eglGetError_p());
+        __android_log_print(ANDROID_LOG_INFO, g_LogTag, "eglMakeCurrent returned with error: %04x", eglGetError_p());
     }
 
 }
 
-void gl_swap_buffers() {
+void gl_swap_buffers(void) {
     if(currentBundle->state == STATE_RENDERER_NEW_WINDOW) {
         eglMakeCurrent_p(g_EglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT); //detach everything to destroy the old EGLSurface
         gl_swap_surface(currentBundle);
@@ -153,7 +159,7 @@ void gl_swap_buffers() {
 
 }
 
-void gl_setup_window() {
+void gl_setup_window(void) {
     if(pojav_environ->mainWindowBundle != NULL) {
         __android_log_print(ANDROID_LOG_INFO, g_LogTag, "Main window bundle is not NULL, changing state");
         pojav_environ->mainWindowBundle->state = STATE_RENDERER_NEW_WINDOW;

@@ -4,7 +4,7 @@
 #include <android/dlext.h>
 #include <string.h>
 #include <stdio.h>
-// Silence the warnings about using reserved identifiers (we need to link to these to not pollute the global symtab)
+
 //NOLINTBEGIN
 static void* (*android_dlopen_ext_p)(const char* filename,
                                   int flags,
@@ -12,6 +12,7 @@ static void* (*android_dlopen_ext_p)(const char* filename,
                                   const void* caller_addr);
 static struct android_namespace_t* (*android_get_exported_namespace_p)(const char* name);
 //NOLINTEND
+// Silence the warnings about using reserved identifiers (we need to link to these to not pollute the global symtab)
 static void* ready_handle;
 
 static const char *sphal_namespaces[3] = {
@@ -52,6 +53,6 @@ __attribute__((visibility("default"), used)) void *android_load_sphal_library(co
 // This is done for older android versions which don't
 // export this function. Technically this is wrong
 // but for our usage it's fine enough
-__attribute__((visibility("default"), used)) uint64_t atrace_get_enabled_tags() {
+__attribute__((visibility("default"), used)) uint64_t atrace_get_enabled_tags(void) {
     return 0;
 }

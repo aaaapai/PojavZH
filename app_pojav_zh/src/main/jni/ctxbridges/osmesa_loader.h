@@ -18,5 +18,5 @@ extern void (*glFinish_p) (void);
 extern void (*glClearColor_p) (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha);
 extern void (*glClear_p) (GLbitfield mask);
 extern void (*glReadPixels_p) (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, void * data);
-void dlsym_OSMesa();
+void dlsym_OSMesa(void);
 #endif //POJAVLAUNCHER_OSMESA_LOADER_H

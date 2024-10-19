@@ -24,6 +24,6 @@ extern EGLContext (*eglCreateContext_p) (EGLDisplay dpy, EGLConfig config, EGLCo
 extern EGLBoolean (*eglSwapInterval_p) (EGLDisplay dpy, EGLint interval);
 extern EGLSurface (*eglGetCurrentSurface_p) (EGLint readdraw);
 
-void dlsym_EGL();
+void dlsym_EGL(void);
 
 #endif //POJAVLAUNCHER_EGL_LOADER_H

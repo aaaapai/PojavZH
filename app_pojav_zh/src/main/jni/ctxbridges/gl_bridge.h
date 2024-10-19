@@ -16,12 +16,12 @@ typedef struct {
     EGLSurface surface;
 } gl_render_window_t;
 
-bool gl_init();
-gl_render_window_t* gl_get_current();
+bool gl_init(void);
+gl_render_window_t* gl_get_current(void);
 gl_render_window_t* gl_init_context(gl_render_window_t* share);
 void gl_make_current(gl_render_window_t* bundle);
-void gl_swap_buffers();
-void gl_setup_window();
+void gl_swap_buffers(void);
+void gl_setup_window(void);
 void gl_swap_interval(int swapInterval);
 
 

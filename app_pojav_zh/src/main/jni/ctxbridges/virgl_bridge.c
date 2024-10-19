@@ -19,11 +19,11 @@
 int (*vtest_main_p)(int argc, char *argv[]);
 void (*vtest_swap_buffers_p)(void);
 
-void *virglGetCurrentContext() {
+void *virglGetCurrentContext(void) {
     return (void *)OSMesaGetCurrentContext_p();
 }
 
-void loadSymbolsVirGL() {
+void loadSymbolsVirGL(void) {
     dlsym_OSMesa();
     dlsym_EGL();
 
@@ -41,7 +41,7 @@ void loadSymbolsVirGL() {
     free(fileName);
 }
 
-void virglSwapBuffers() {
+void virglSwapBuffers(void) {
     glFinish_p();
     vtest_swap_buffers_p();
 }
@@ -90,7 +90,7 @@ void *egl_make_current(void *window) {
 
         printf("VirGL: vtest_main = %p\n", vtest_main_p);
         printf("VirGL: Calling VTest server's main function\n");
-        vtest_main_p(3, (char*[]){"vtest", NULL, "--use-gles", NULL, NULL});
+        vtest_main_p(3, (char*[]){"vtest", "--use-gles", "--no-loop-or-fork", NULL, NULL});
     }
 }
 
