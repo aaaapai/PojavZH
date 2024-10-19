@@ -58,11 +58,10 @@ void (*__old_sa)(int signal, siginfo_t *info, void *reserved);
 int (*JVM_handle_linux_signal)(int signo, siginfo_t* siginfo, void* ucontext, int abort_if_unrecognized);
 
 void android_sigaction(int signal, siginfo_t *info, void *reserved) {
-  printf("process killed with signal %d code %p addr %p\n", signal,info->si_code,info->si_addr);
   if (JVM_handle_linux_signal == NULL) { // should not happen, but still
       __old_sa = old_sa[signal].sa_sigaction;
       __old_sa(signal,info,reserved);
-      exit(1);
+      exit(0);
   } else {
       // Based on https://github.com/PojavLauncherTeam/openjdk-multiarch-jdk8u/blob/aarch64-shenandoah-jdk8u272-b10/hotspot/src/os/linux/vm/os_linux.cpp#L4688-4693
       int orig_errno = errno;  // Preserve errno value over signal handler.
