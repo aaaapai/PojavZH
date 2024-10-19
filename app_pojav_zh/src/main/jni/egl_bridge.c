@@ -41,6 +41,7 @@
 // This means that you are forced to have this function/variable for ABI compatibility
 #define ABI_COMPAT __attribute__((unused))
 
+void* gbuffer;
 
 EXTERNAL_API void pojavTerminate(void) {
     printf("EGLBridge: Terminating\n");
@@ -319,3 +320,14 @@ EXTERNAL_API void pojavSwapInterval(int interval) {
 
 }
 
+JNIEXPORT JNICALL jlong
+Java_org_lwjgl_opengl_GL_getGraphicsBufferAddr(JNIEnv *env, jobject thiz) {
+    return (jlong) &gbuffer;
+}
+JNIEXPORT JNICALL jintArray
+Java_org_lwjgl_opengl_GL_getNativeWidthHeight(JNIEnv *env, jobject thiz) {
+    jintArray ret = (*env)->NewIntArray(env,2);
+    jint arr[] = {savedWidth, savedHeight};
+    (*env)->SetIntArrayRegion(env,ret,0,2,arr);
+    return ret;
+}
