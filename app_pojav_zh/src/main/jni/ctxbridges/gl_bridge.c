@@ -113,7 +113,7 @@ void gl_swap_surface(gl_render_window_t* bundle) {
 void gl_make_current(gl_render_window_t* bundle) {
     if(bundle == NULL) {
         if(eglMakeCurrent_p(g_EglDisplay, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT)) {
-            currentBundle = NULL;
+            currentBundle = bundle;
         }
         return;
     }
