@@ -204,6 +204,7 @@ public class JREUtils {
         envMap.put("FORCE_VSYNC", String.valueOf(AllSettings.Companion.getForceVsync()));
 
         envMap.put("MESA_GLSL_CACHE_DIR", PathAndUrlManager.DIR_CACHE.getAbsolutePath());
+        envMap.put("GALLIUM_THREAD", "0");
         envMap.put("force_glsl_extensions_warn", "true");
         envMap.put("allow_higher_compat_version", "true");
         envMap.put("allow_glsl_extension_directive_midshader", "true");
