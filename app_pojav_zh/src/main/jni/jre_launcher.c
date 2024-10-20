@@ -46,7 +46,7 @@
 #define DOT_VERSION "1.8"
 
 static const char** const_jargs = NULL;
-static const char** (void)const_appclasspath = NULL;
+static const char** const_appclasspath = NULL;
 static const jboolean const_javaw = JNI_FALSE;
 static const jboolean const_cpwildcard = JNI_TRUE;
 static const jint const_ergo_class = 0; // DEFAULT_POLICY
