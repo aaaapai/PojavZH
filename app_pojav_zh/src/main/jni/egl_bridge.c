@@ -327,7 +327,7 @@ Java_org_lwjgl_opengl_GL_getGraphicsBufferAddr(JNIEnv *env, jobject thiz) {
 JNIEXPORT JNICALL jintArray
 Java_org_lwjgl_opengl_GL_getNativeWidthHeight(JNIEnv *env, jobject thiz) {
     jintArray ret = (*env)->NewIntArray(env,2);
-    jint arr[] = {savedWidth, savedHeight};
+    jint arr[] = {pojav_environ->savedWidth, pojav_environ->savedHeight};
     (*env)->SetIntArrayRegion(env,ret,0,2,arr);
     return ret;
 }
