@@ -378,7 +378,6 @@ public class JREUtils {
                 "-Dglfwstub.windowWidth=" + Tools.getDisplayFriendlyRes(currentDisplayMetrics.widthPixels, AllSettings.Companion.getResolutionRatio() / 100F),
                 "-Dglfwstub.windowHeight=" + Tools.getDisplayFriendlyRes(currentDisplayMetrics.heightPixels, AllSettings.Companion.getResolutionRatio() / 100F),
                 "-Dglfwstub.initEgl=false",
-                "-XX:+AllowUserSignalHandlers",
                 "-Dext.net.resolvPath=" +resolvFile,
                 "-Dlog4j2.formatMsgNoLookups=true", //Log4j RCE mitigation
 
