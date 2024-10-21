@@ -45,8 +45,10 @@
 #define FULL_VERSION "1.8.0-internal"
 #define DOT_VERSION "1.8"
 
+__attribute__((unused)) static const char* const_progname = "java";
+__attribute__((unused)) static const char* const_launcher = "openjdk";
 static const char** const_jargs = NULL;
-static const char** const_appclasspath = NULL;
+__attribute__((unused)) static const char** const_appclasspath = NULL;
 static const jboolean const_javaw = JNI_FALSE;
 static const jboolean const_cpwildcard = JNI_TRUE;
 static const jint const_ergo_class = 0; // DEFAULT_POLICY
