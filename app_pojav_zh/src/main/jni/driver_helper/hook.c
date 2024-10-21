@@ -15,7 +15,7 @@ static struct android_namespace_t *(*android_get_exported_namespace_ptr)(const c
 static void *ready_handle;
 
 // List of namespaces
-static const char *sphal_namespaces[] = {
+static const char *sphal_namespaces[3] = {
         "sphal", "vendor", "default"
 };
 
