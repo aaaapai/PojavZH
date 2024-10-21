@@ -17,6 +17,8 @@
 #include <sys/stat.h>
 #include <elf.h>
 
+#define PAGE_SIZE 4096
+
 /* upper 6 bits of an ARM64 instruction are the instruction name */
 #define OP_MS 0b11111100000000000000000000000000
 /* Branch Label instruction opcode and immediate mask */
