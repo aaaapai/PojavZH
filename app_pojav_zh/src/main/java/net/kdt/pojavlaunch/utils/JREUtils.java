@@ -237,6 +237,7 @@ public class JREUtils {
             }
             if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan_ltw")) {
                 envMap.put("LIBGL_ES", "3");
+                envMap.put("POJAVEXEC_ltw","libltw.so");
                 envMap.put("POJAVEXEC_EGL","libEGL_angle.so");
                 envMap.put("POJAVEXEC_GLES","libGLESv2_angle.so");
             }
