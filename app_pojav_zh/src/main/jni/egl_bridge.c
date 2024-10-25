@@ -331,9 +331,3 @@ Java_org_lwjgl_opengl_GL_getNativeWidthHeight(JNIEnv *env, jobject thiz) {
     (*env)->SetIntArrayRegion(env,ret,0,2,arr);
     return ret;
 }
-
-void dlsym_GLES(void) {
-    void* dl_handle = NULL;
-    if(getenv("POJAVEXEC_GLES")) dl_handle = dlopen(getenv("POJAVEXEC_GLES"), RTLD_LAZY);
-    if(getenv("POJAVEXEC_ltw")) dl_handle = dlopen(getenv("POJAVEXEC_ltw"), RTLD_LAZY);
-}
