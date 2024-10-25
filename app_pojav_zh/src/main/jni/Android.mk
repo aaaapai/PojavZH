@@ -11,21 +11,6 @@ LOCAL_PATH := $(HERE_PATH)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := ltw
-LOCAL_SRC_FILES := angle/libltw.so
-include $(PREBUILT_SHARED_LIBRARY)
-include $(CLEAR_VARS)
-
-LOCAL_MODULE := GLESv2_angle
-LOCAL_SRC_FILES := angle/libGLESv2_angle.so
-include $(PREBUILT_SHARED_LIBRARY)
-include $(CLEAR_VARS)
-
-LOCAL_MODULE := ltw_angle
-LOCAL_SRC_FILES := angle/libltw.so
-LOCAL_SHARED_LIBRARIES := GLESv2_angle
-include $(BUILD_SHARED_LIBRARY)
-
 include $(CLEAR_VARS)
 # Link GLESv2 for test
 LOCAL_LDLIBS := -ldl -llog -landroid
