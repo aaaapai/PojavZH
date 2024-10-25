@@ -10,8 +10,6 @@ LOCAL_PATH := $(HERE_PATH)
 
 
 include $(CLEAR_VARS)
-
-include $(CLEAR_VARS)
 # Link GLESv2 for test
 LOCAL_LDLIBS := -ldl -llog -landroid
 # -lGLESv2
