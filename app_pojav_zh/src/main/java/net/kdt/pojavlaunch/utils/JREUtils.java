@@ -238,6 +238,7 @@ public class JREUtils {
             if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan_ltw")) {
                 envMap.put("LIBGL_ES", "3");
                 envMap.put("POJAVEXEC_EGL","libEGL_angle.so");
+                envMap.put("POJAVEXEC_GLES","libGLESv2_angle.so");
             }
         }
 
@@ -491,7 +492,7 @@ public class JREUtils {
                 renderLibrary = "libltw.so";
                 break;
             case "opengles3_desktopgl_angle_vulkan_ltw":
-                renderLibrary = "libltw_angle.so";
+                renderLibrary = "libltw.so";
                 break;
             default:
                 Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
