@@ -8,7 +8,7 @@ const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 char* gl4es_resize_if_needed(char* pBuffer, int *size, int addsize);
 
-char* ReplaceWord(const char* S, const char* oldW, const char* newW)
+char* replace_word(const char* S, const char* oldW, const char* newW)
 {
     char* result;
     int i, cnt = 0;
