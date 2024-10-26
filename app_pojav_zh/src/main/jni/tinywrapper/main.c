@@ -137,12 +137,12 @@ void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, 
 
     int convertedLen = strlen(converted);
 
-#ifdef __APPLE__
+//#ifdef __APPLE__
     // patch OptiFine 1.17.x
     if (gl4es_find_string(converted, "\nuniform mat4 textureMatrix = mat4(1.0);")) {
         gl4es_inplace_replace(converted, &convertedLen, "\nuniform mat4 textureMatrix = mat4(1.0);", "\n#define textureMatrix mat4(1.0)");
     }
-#endif
+//#endif
 
     // some needed exts
     const char* extensions =
@@ -155,6 +155,9 @@ void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, 
 
     free(source);
     free(converted);
+
+    converted = replace_word(converted, "#version 300 es", "#version 320 es");
+    // printf("Output GLSL ES:\n%s", converted);
 }
 
 int isProxyTexture(GLenum target) {
