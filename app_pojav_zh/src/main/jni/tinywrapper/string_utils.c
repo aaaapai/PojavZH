@@ -8,8 +8,7 @@ const char* AllSeparators = " \t\n\r.,;()[]{}-<>+*/%&\\\"'^$=!:?";
 
 char* gl4es_resize_if_needed(char* pBuffer, int *size, int addsize);
 
-char* ReplaceWord(const char* S, const char* oldW,
-                  const char* newW)
+char* ReplaceWord(const char* S, const char* oldW, const char* newW)
 {
     char* result;
     int i, cnt = 0;
@@ -18,8 +17,8 @@ char* ReplaceWord(const char* S, const char* oldW,
 
     // Counting the number of times old word
     // occur in the string
-    for (i = 0; s[i] != '\0'; i++) {
-        if (strstr(&s[i], oldW) == &s[i]) {
+    for (i = 0; S[i] != '\0'; i++) {
+        if (strstr(&S[i], oldW) == &S[i]) {
             cnt++;
 
             // Jumping to index after the old word.
@@ -31,15 +30,15 @@ char* ReplaceWord(const char* S, const char* oldW,
     result = (char*)malloc(i + cnt * (newWlen - oldWlen) + 1);
 
     i = 0;
-    while (*s) {
+    while (*S) {
         // compare the substring with the result
-        if (strstr(s, oldW) == s) {
+        if (strstr(S, oldW) == S) {
             strcpy(&result[i], newW);
             i += newWlen;
-            s += oldWlen;
+            S += oldWlen;
         }
         else
-            result[i++] = *s++;
+            result[i++] = *S++;
     }
 
     result[i] = '\0';
