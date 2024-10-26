@@ -289,9 +289,9 @@ const GLubyte * glGetString(GLenum name) {
 
     switch (name) {
         case GL_VERSION:
-            return "4.6";
+            return (const GLubyte *)"4.6";
         case GL_SHADING_LANGUAGE_VERSION:
-            return "4.5";
+            return (const GLubyte *)"4.5";
         default:
             return gles_glGetString(name);
     }
