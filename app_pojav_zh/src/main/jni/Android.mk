@@ -20,6 +20,7 @@ LOCAL_SHARED_LIBRARIES := shaderc
 LOCAL_LDLIBS := -lGLESv3
 LOCAL_SRC_FILES := tinywrapper/main.c tinywrapper/string_utils.c
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/tinywrapper
+LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -pedantic -std=gnu23
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
