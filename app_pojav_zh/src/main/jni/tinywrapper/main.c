@@ -147,7 +147,7 @@ void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, 
 
     const char* converted = result;
 
-    converted = ReplaceWord(converted, "#version 300 es", "#version 320 es");
+    converted = replace_word(converted, "#version 300 es", "#version 320 es");
     // printf("Output GLSL ES:\n%s", converted);
 
     gles_glShaderSource(shader, 1, &converted, NULL);
@@ -256,7 +256,7 @@ void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei widt
 }
 
 // Sodium
-void glMultiDrawElementsBaseVertex(	GLenum mode,
+const void *const glMultiDrawElementsBaseVertex(	GLenum mode,
                                        const GLsizei *count,
                                        GLenum type,
                                        const void * const *indices,
