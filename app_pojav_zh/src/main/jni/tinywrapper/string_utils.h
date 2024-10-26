@@ -4,6 +4,7 @@
 extern const char* AllSeparators;
 
 const char* gl4es_find_string(const char* pBuffer, const char* S);
+char* replace_word(const char* S, const char* oldW, const char* newW);
 char* gl4es_find_string_nc(char* pBuffer, const char* S);
 int gl4es_count_string(const char* pBuffer, const char* S);
 char* gl4es_resize_if_needed(char* pBuffer, int *size, int addsize);
