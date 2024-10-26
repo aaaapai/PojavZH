@@ -87,72 +87,76 @@ GLuint glCreateShader(GLenum shaderType) {
     return gles_glCreateShader(shaderType);
 }
 
-static spvc_context context = NULL;
-static shaderc_compiler_t compiler = NULL;
-
-void error_callback(void* context, const char* str) {
-    printf("SPVC Error! \n%s\n", str);
-}
-
 void glShaderSource(GLuint shader, GLsizei count, const GLchar * const *string, const GLint *length) {
     LOOKUP_FUNC(glShaderSource)
-    if(context == NULL) {
-        spvc_context_create(&context);
-        if(context == NULL) {
-            printf("SPVC Context could not be created!\n");
+
+    // DBG(printf("glShaderSource(%d, %d, %p, %p)\n", shader, count, string, length);)
+    char *source = NULL;
+    char *converted;
+
+    // get the size of the shader sources and than concatenate in a single string
+    int l = 0;
+    for (int i=0; i<count; i++) l+=(length && length[i] >= 0)?length[i]:strlen(string[i]);
+    if (source) free(source);
+    source = calloc(1, l+1);
+    if(length) {
+        for (int i=0; i<count; i++) {
+            if(length[i] >= 0)
+                strncat(source, string[i], length[i]);
+            else
+                strcat(source, string[i]);
         }
+    } else {
+        for (int i=0; i<count; i++)
+            strcat(source, string[i]);
     }
-    if(compiler == NULL) {
-        compiler = shaderc_compiler_initialize();
-        if(compiler == NULL) {
-            printf("Compiler could not be created!\n");
+
+    char *source2 = strchr(source, '#');
+    if (!source2) {
+        source2 = source;
+    }
+    // are there #version?
+    if (!strncmp(source2, "#version ", 9)) {
+        converted = strdup(source2);
+        if (converted[9] == '1') {
+            if (converted[10] - '0' < 2) {
+                // 100, 110 -> 120
+                converted[10] = '2';
+            } else if (converted[10] - '0' < 6) {
+                // 130, 140, 150 -> 330
+                converted[9] = converted[10] = '3';
+            }
         }
+        // remove "core", is it safe?
+        if (!strncmp(&converted[13], "core", 4)) {
+            strncpy(&converted[13], "\n//c", 4);
+        }
+    } else {
+        converted = calloc(1, strlen(source) + 13);
+        strcpy(converted, "#version 120\n");
+        strcpy(&converted[13], strdup(source));
     }
 
-    // printf("Input GLSL:\n%s", *string);
+    int convertedLen = strlen(converted);
 
-    shaderc_compile_options_t opts = shaderc_compile_options_initialize();
-    shaderc_compile_options_set_forced_version_profile(opts, 450, shaderc_profile_core);
-    shaderc_compile_options_set_auto_map_locations(opts, true);
-    shaderc_compile_options_set_auto_bind_uniforms(opts, true);
-    shaderc_compile_options_set_target_env(opts, shaderc_target_env_opengl, shaderc_env_version_opengl_4_5);
-
-    shaderc_compilation_result_t outSPIRVRes = shaderc_compile_into_spv(compiler, *string,
-                                                                        strlen(*string),
-                                                                        currShaderType == GL_VERTEX_SHADER ?
-                                                                        shaderc_glsl_vertex_shader : shaderc_glsl_fragment_shader,
-                                                                        "qcxr_shader", "main", opts);
-    if(shaderc_result_get_compilation_status(outSPIRVRes) != shaderc_compilation_status_success) {
-        printf("GLSL to SPIRV comp failed!\n%s\n", shaderc_result_get_error_message(outSPIRVRes));
+#ifdef __APPLE__
+    // patch OptiFine 1.17.x
+    if (gl4es_find_string(converted, "\nuniform mat4 textureMatrix = mat4(1.0);")) {
+        gl4es_inplace_replace(converted, &convertedLen, "\nuniform mat4 textureMatrix = mat4(1.0);", "\n#define textureMatrix mat4(1.0)");
     }
+#endif
 
-    spvc_parsed_ir ir = NULL;
-    spvc_context_set_error_callback(context, &error_callback, NULL);
-    spvc_context_parse_spirv(context, (const SpvId *) shaderc_result_get_bytes(outSPIRVRes),
-                             shaderc_result_get_length(outSPIRVRes) / sizeof(SpvId), &ir);
+    // some needed exts
+    const char* extensions =
+        "#extension GL_EXT_blend_func_extended : enable\n"
+        // For OptiFine (see patch above)
+        "#extension GL_EXT_shader_non_constant_global_initializers : enable\n";
+    converted = gl4es_inplace_insert(gl4es_getline(converted, 1), extensions, converted, &convertedLen);
 
-    shaderc_result_release(outSPIRVRes);
+    gles_glShaderSource(shader, 1, (const GLchar * const*)((converted)?(&converted):(&source)), NULL);
 
-    spvc_compiler compiler_glsl = NULL;
-    spvc_context_create_compiler(context, SPVC_BACKEND_GLSL, ir, SPVC_CAPTURE_MODE_TAKE_OWNERSHIP, &compiler_glsl);
-
-    spvc_compiler_options options = NULL;
-    spvc_compiler_create_compiler_options(compiler_glsl, &options);
-    spvc_compiler_options_set_uint(options, SPVC_COMPILER_OPTION_GLSL_VERSION, 300);
-    spvc_compiler_options_set_bool(options, SPVC_COMPILER_OPTION_GLSL_ENABLE_420PACK_EXTENSION, SPVC_FALSE);
-    spvc_compiler_options_set_bool(options, SPVC_COMPILER_OPTION_GLSL_ES, SPVC_TRUE);
-    spvc_compiler_install_compiler_options(compiler_glsl, options);
-    const char *result = NULL;
-    spvc_compiler_compile(compiler_glsl, &result);
-
-    const char* converted = result;
-
-    converted = replace_word(converted, "#version 300 es", "#version 320 es");
-    // printf("Output GLSL ES:\n%s", converted);
-
-    gles_glShaderSource(shader, 1, &converted, NULL);
-
-    spvc_context_release_allocations(context);
+    free(source);
+    free(converted);
 }
 
 int isProxyTexture(GLenum target) {
