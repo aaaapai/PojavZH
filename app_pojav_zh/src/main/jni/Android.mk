@@ -15,8 +15,13 @@ LOCAL_SRC_FILES := tinywrapper/shaderc/libshaderc.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
+LOCAL_MODULE := SPIRV-Tools-shared
+LOCAL_SRC_FILES := tinywrapper/spirv_cross/libSPIRV-Tools-shared.so
+include $(PREBUILT_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
 LOCAL_MODULE := tinywrapper
-LOCAL_SHARED_LIBRARIES := shaderc
+LOCAL_SHARED_LIBRARIES := shaderc SPIRV-Tools-shared
 LOCAL_LDLIBS := -lGLESv3
 LOCAL_SRC_FILES := tinywrapper/main.c tinywrapper/string_utils.c
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/tinywrapper
