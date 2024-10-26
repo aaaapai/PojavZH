@@ -5,7 +5,7 @@
 #include <malloc.h>
 
 #include "GL/gl.h"
-#include "SPIRVCross/include/spirv_cross_c.h"
+#include "spirv_cross/include/spirv_cross_c.h"
 #include "shaderc/include/shaderc.h"
 #include "string_utils.h"
 
