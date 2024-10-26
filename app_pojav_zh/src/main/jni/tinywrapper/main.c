@@ -195,13 +195,7 @@ void glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint *p
                 break;
         }
     } else {
-        gles_glGetTexLevelParameteriv(target, level, pname, fparams);
-	  if(pname==GL_TEXTURE_BORDER_COLOR) {
-            for(int i=0; i<4; ++i)
-                params[i] = fparams[i];
-          } else
-	        (*params)=fparams[0];
-	     return;
+        gles_glGetTexLevelParameteriv(target, level, pname, params);
     }
 }
 
