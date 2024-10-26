@@ -7,7 +7,7 @@
         <item name="4">Freedreno (Adreno)</item>
         <item name="5">Panfrost (Mali)</item>
         <item name="6">@string/mcl_setting_renderer_ltw</item>
-        <item name="7">@string/mcl_setting_renderer_gl4es_angle</item>
+        <item name="7">@string/mcl_setting_renderer_angle</item>
     </string-array>
 
     <string-array name="renderer_values">
@@ -17,7 +17,7 @@
         <item>gallium_freedreno</item> <!-- freedreno with Adreno GPU -->
         <item>gallium_panfrost</item> <!-- panfrost with Mali GPU -->
         <item>opengles3_ltw</item> <!-- tinywrapper with OpenGL ES 3 -->
-        <item>opengles3_desktopgl_angle_vulkan_gl4es</item> <!-- tinywrapper with Angle -->
+        <item>opengles3_desktopgl_angle_vulkan</item> <!-- tinywrapper with Angle -->
     </string-array>
 
     <string-array name="menu_customcontrol">
