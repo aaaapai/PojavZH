@@ -44,7 +44,7 @@ gl_render_window_t* gl_get_current(void) {
 gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     gl_render_window_t* bundle = malloc(sizeof(gl_render_window_t));
     memset(bundle, 0, sizeof(gl_render_window_t));
-    EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR, EGL_NONE };
+    EGLint egl_attributes[] = { EGL_BUFFER_SIZE, 32, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_BIND_TO_TEXTURE_RGB, EGL_TRUE, EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE, EGL_COLOR_BUFFER_TYPE, EGL_RGB_BUFFER, EGL_CONFIG_CAVEAT, EGL_NONE, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT, EGL_NONE };
     EGLint num_configs = 0;
 
     if (eglChooseConfig_p(g_EglDisplay, egl_attributes, NULL, 0, &num_configs) != EGL_TRUE) {
@@ -66,14 +66,8 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
 
     {
         EGLBoolean bindResult;
-        if (strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19) == 0)
-        {
-            printf("EGLBridge: Binding to desktop OpenGL\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_API);
-        } else {
-            printf("EGLBridge: Binding to OpenGL ES\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
-        }
+        printf("EGLBridge: Binding to OpenGL ES\n");
+        bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
         if (!bindResult) printf("EGLBridge: bind failed: %p\n", (void*)eglGetError_p());
     }
 
