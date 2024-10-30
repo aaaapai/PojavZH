@@ -85,27 +85,28 @@ void *egl_make_current(void *window) {
         );
 
         if (success == EGL_FALSE)
-            printf("EGLBridge: Error: eglMakeCurrent() failed: %p\n", eglGetError_p());
+            printf("EGLBridge: Error: eglMakeCurrent() failed: %p\n", (void*)eglGetError_p());
         else printf("EGLBridge: eglMakeCurrent() succeed!\n");
 
         printf("VirGL: vtest_main = %p\n", vtest_main_p);
         printf("VirGL: Calling VTest server's main function\n");
-        vtest_main_p(2, (char**){"vtest", "--use-gles", NULL, NULL, NULL});
+        vtest_main_p(2, (char*[]){"vtest", "--use-gles", NULL, NULL, NULL});
     }
+    return 0;
 }
 
 void virglSwapInterval(int interval) {
     eglSwapInterval_p(potatoBridge.eglDisplay, interval);
 }
 
-int virglInit() {
+int virglInit(void) {
     if (pojav_environ->config_renderer != RENDERER_VIRGL)
         return 0;
 
     if (potatoBridge.eglDisplay == NULL || potatoBridge.eglDisplay == EGL_NO_DISPLAY) {
         potatoBridge.eglDisplay = eglGetDisplay_p(EGL_DEFAULT_DISPLAY);
         if (potatoBridge.eglDisplay == EGL_NO_DISPLAY) {
-            printf("EGLBridge: Error eglGetDefaultDisplay() failed: %p\n", eglGetError_p());
+            printf("EGLBridge: Error eglGetDefaultDisplay() failed: %p\n", (void*)eglGetError_p());
             return 0;
         }
     }
@@ -114,7 +115,7 @@ int virglInit() {
     // printf("EGLBridge: ANativeWindow pointer = %p\n", pojav_environ->pojavWindow);
     //(*env)->ThrowNew(env,(*env)->FindClass(env,"java/lang/Exception"),"Trace exception");
     if (!eglInitialize_p(potatoBridge.eglDisplay, NULL, NULL)) {
-        printf("EGLBridge: Error eglInitialize() failed: %s\n", eglGetError_p());
+        printf("EGLBridge: Error eglInitialize() failed: %s\n", (void*)eglGetError_p());
         return 0;
     }
 
@@ -133,7 +134,7 @@ int virglInit() {
     EGLint vid;
 
     if (!eglChooseConfig_p(potatoBridge.eglDisplay, attribs, &config, 1, &num_configs)) {
-        printf("EGLBridge: Error couldn't get an EGL visual config: %s\n", eglGetError_p());
+        printf("EGLBridge: Error couldn't get an EGL visual config: %s\n", (void*)eglGetError_p());
         return 0;
     }
 
@@ -141,7 +142,7 @@ int virglInit() {
     assert(num_configs > 0);
 
     if (!eglGetConfigAttrib_p(potatoBridge.eglDisplay, config, EGL_NATIVE_VISUAL_ID, &vid)) {
-        printf("EGLBridge: Error eglGetConfigAttrib() failed: %s\n", eglGetError_p());
+        printf("EGLBridge: Error eglGetConfigAttrib() failed: %s\n", (void*)eglGetError_p());
         return 0;
     }
 
@@ -152,7 +153,7 @@ int virglInit() {
     potatoBridge.eglSurface = eglCreateWindowSurface_p(potatoBridge.eglDisplay, config, pojav_environ->pojavWindow, NULL);
 
     if (!potatoBridge.eglSurface) {
-        printf("EGLBridge: Error eglCreateWindowSurface failed: %p\n", eglGetError_p());
+        printf("EGLBridge: Error eglCreateWindowSurface failed: %p\n", (void*)eglGetError_p());
         //(*env)->ThrowNew(env,(*env)->FindClass(env,"java/lang/Exception"),"Trace exception");
         return 0;
     }

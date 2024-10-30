@@ -10,24 +10,17 @@ LOCAL_PATH := $(HERE_PATH)
 
 
 include $(CLEAR_VARS)
-
-LOCAL_MODULE := ltw
-LOCAL_SRC_FILES := angle/libltw.so
-include $(PREBUILT_SHARED_LIBRARY)
-include $(CLEAR_VARS)
-
 LOCAL_MODULE := GLESv2_angle
-LOCAL_SRC_FILES := angle/libGLESv2_angle.so
+LOCAL_SRC_FILES := tinywrapper/angle/libGLESv2_angle.so
 include $(PREBUILT_SHARED_LIBRARY)
-include $(CLEAR_VARS)
 
-LOCAL_MODULE := EGL_angle
-LOCAL_SRC_FILES := angle/libEGL_angle.so
-include $(PREBUILT_SHARED_LIBRARY)
 include $(CLEAR_VARS)
-
-LOCAL_MODULE := ltw_angle
-LOCAL_SHARED_LIBRARIES := GLESv2_angle ltw
+LOCAL_MODULE := tinywrapper
+LOCAL_SHARED_LIBRARIES := GLESv2_angle
+LOCAL_LDLIBS := -lGLESv3
+LOCAL_SRC_FILES := tinywrapper/main.c tinywrapper/string_utils.c
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/tinywrapper
+LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -pedantic -std=gnu23
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
@@ -56,8 +49,8 @@ LOCAL_SRC_FILES := \
     driver_helper/nsbypass.c
 
 ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
-LOCAL_CFLAGS += -DADRENO_POSSIBLE
-LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x
+#LOCAL_CFLAGS += -DADRENO_POSSIBLE
+LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -pedantic -std=c2x
 LOCAL_LDLAGS += -flto=thin
 LOCAL_LDLIBS += -lEGL -lGLESv3
 endif
@@ -68,7 +61,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := linkerhook
 LOCAL_SRC_FILES := driver_helper/hook.c
 LOCAL_LDFLAGS := -z global
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -pedantic -std=c2x
 LOCAL_LDLAGS += -flto=thin
 include $(BUILD_SHARED_LIBRARY)
 #endif
@@ -81,7 +74,7 @@ LOCAL_MODULE := istdio
 LOCAL_SHARED_LIBRARIES := bytehook
 LOCAL_SRC_FILES := \
     stdio_is.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -pedantic -std=c2x
 LOCAL_LDLAGS += -flto=thin
 include $(BUILD_SHARED_LIBRARY)
 
@@ -89,7 +82,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := pojavexec_awt
 LOCAL_SRC_FILES := \
     awt_bridge.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wno-int-conversion -Wall -std=c2x
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wno-int-conversion -Wall -pedantic -std=c2x
 LOCAL_LDLAGS += -flto=thin
 include $(BUILD_SHARED_LIBRARY)
 
@@ -112,6 +105,6 @@ LOCAL_MODULE := awt_xawt
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := awt_headless
 LOCAL_SRC_FILES := xawt_fake.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -pedantic
 LOCAL_LDLAGS += -flto=thin
 include $(BUILD_SHARED_LIBRARY)
