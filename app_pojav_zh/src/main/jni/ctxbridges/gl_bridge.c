@@ -42,7 +42,7 @@ gl_render_window_t* gl_get_current(void) {
 gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     gl_render_window_t* bundle = malloc(sizeof(gl_render_window_t));
     memset(bundle, 0, sizeof(gl_render_window_t));
-    EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_BIND_TO_TEXTURE_RGB, EGL_TRUE, EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE, EGL_COLOR_BUFFER_TYPE, EGL_RGB_BUFFER, EGL_CONFIG_CAVEAT, EGL_NONE, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT, EGL_NONE };
+    EGLint egl_attributes[] = { EGL_BUFFER_SIZE, 32, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_BIND_TO_TEXTURE_RGB, EGL_TRUE, EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE, EGL_COLOR_BUFFER_TYPE, EGL_RGB_BUFFER, EGL_CONFIG_CAVEAT, EGL_NONE, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT, EGL_NONE };
     EGLint num_configs = 0;
 
     if (eglChooseConfig_p(g_EglDisplay, egl_attributes, NULL, 0, &num_configs) != EGL_TRUE) {
@@ -131,21 +131,6 @@ void gl_make_current(gl_render_window_t* bundle) {
             pojav_environ->mainWindowBundle = NULL;
         }
         __android_log_print(ANDROID_LOG_INFO, g_LogTag, "eglMakeCurrent returned with error: %04x", eglGetError_p());
-    }
-
-}
-
-void gl_swap_buffers(void) {
-    if(currentBundle->state == STATE_RENDERER_NEW_WINDOW) {
-        gl_swap_surface(currentBundle);
-        eglMakeCurrent_p(g_EglDisplay, currentBundle->surface, currentBundle->surface, currentBundle->context);
-        currentBundle->state = STATE_RENDERER_ALIVE;
-    }
-    if(currentBundle->surface != NULL)
-        if(!eglSwapBuffers_p(g_EglDisplay, currentBundle->surface) && eglGetError_p() == EGL_BAD_SURFACE) {
-            gl_swap_surface(currentBundle);
-            eglMakeCurrent_p(g_EglDisplay, currentBundle->surface, currentBundle->surface, currentBundle->context);
-            __android_log_print(ANDROID_LOG_INFO, g_LogTag, "The window has died, awaiting window change");
     }
 
 }
