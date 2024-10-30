@@ -42,7 +42,7 @@ gl_render_window_t* gl_get_current(void) {
 gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     gl_render_window_t* bundle = malloc(sizeof(gl_render_window_t));
     memset(bundle, 0, sizeof(gl_render_window_t));
-    EGLint egl_attributes[] = { EGL_BUFFER_SIZE, 32, EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_BIND_TO_TEXTURE_RGB, EGL_TRUE, EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE, EGL_COLOR_BUFFER_TYPE, EGL_RGB_BUFFER, EGL_CONFIG_CAVEAT, EGL_NONE, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT, EGL_NONE };
+    EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT, EGL_NONE };
     EGLint num_configs = 0;
 
     if (eglChooseConfig_p(g_EglDisplay, egl_attributes, NULL, 0, &num_configs) != EGL_TRUE) {
@@ -81,6 +81,27 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
         return NULL;
     }
     return bundle;
+}
+
+void gl_swap_surface(gl_render_window_t* bundle) {
+    if(bundle->nativeSurface != NULL) {
+        ANativeWindow_release(bundle->nativeSurface);
+    }
+    if(bundle->surface != NULL) eglDestroySurface_p(g_EglDisplay, bundle->surface);
+    if(bundle->newNativeSurface != NULL) {
+        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "Switching to new native surface");
+        bundle->nativeSurface = bundle->newNativeSurface;
+        bundle->newNativeSurface = NULL;
+        ANativeWindow_acquire(bundle->nativeSurface);
+        ANativeWindow_setBuffersGeometry(bundle->nativeSurface, 0, 0, bundle->format);
+        bundle->surface = eglCreateWindowSurface_p(g_EglDisplay, bundle->config, bundle->nativeSurface, NULL);
+    }else{
+        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "No new native surface, switching to 1x1 pbuffer");
+        bundle->nativeSurface = NULL;
+        const EGLint pbuffer_attrs[] = {EGL_WIDTH, 1 , EGL_HEIGHT, 1, EGL_NONE};
+        bundle->surface = eglCreatePbufferSurface_p(g_EglDisplay, bundle->config, pbuffer_attrs);
+    }
+    //eglMakeCurrent_p(g_EglDisplay, bundle->surface, bundle->surface, bundle->context);
 }
 
 void gl_swap_surface(gl_render_window_t* bundle) {
