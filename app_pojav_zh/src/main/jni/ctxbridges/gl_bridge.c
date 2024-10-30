@@ -104,25 +104,19 @@ void gl_swap_surface(gl_render_window_t* bundle) {
     //eglMakeCurrent_p(g_EglDisplay, bundle->surface, bundle->surface, bundle->context);
 }
 
-void gl_swap_surface(gl_render_window_t* bundle) {
-    if(bundle->nativeSurface != NULL) {
-        ANativeWindow_release(bundle->nativeSurface);
+void gl_swap_buffers(void) {
+    if(currentBundle->state == STATE_RENDERER_NEW_WINDOW) {
+        gl_swap_surface(currentBundle);
+        eglMakeCurrent_p(g_EglDisplay, currentBundle->surface, currentBundle->surface, currentBundle->context);
+        currentBundle->state = STATE_RENDERER_ALIVE;
     }
-    if(bundle->surface != NULL) eglDestroySurface_p(g_EglDisplay, bundle->surface);
-    if(bundle->newNativeSurface != NULL) {
-        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "Switching to new native surface");
-        bundle->nativeSurface = bundle->newNativeSurface;
-        bundle->newNativeSurface = NULL;
-        ANativeWindow_acquire(bundle->nativeSurface);
-        ANativeWindow_setBuffersGeometry(bundle->nativeSurface, 0, 0, bundle->format);
-        bundle->surface = eglCreateWindowSurface_p(g_EglDisplay, bundle->config, bundle->nativeSurface, NULL);
-    }else{
-        __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "No new native surface, switching to 1x1 pbuffer");
-        bundle->nativeSurface = NULL;
-        const EGLint pbuffer_attrs[] = {EGL_WIDTH, 1 , EGL_HEIGHT, 1, EGL_NONE};
-        bundle->surface = eglCreatePbufferSurface_p(g_EglDisplay, bundle->config, pbuffer_attrs);
+    if(currentBundle->surface != NULL)
+        if(!eglSwapBuffers_p(g_EglDisplay, currentBundle->surface) && eglGetError_p() == EGL_BAD_SURFACE) {
+            gl_swap_surface(currentBundle);
+            eglMakeCurrent_p(g_EglDisplay, currentBundle->surface, currentBundle->surface, currentBundle->context);
+            __android_log_print(ANDROID_LOG_INFO, g_LogTag, "The window has died, awaiting window change");
     }
-    //eglMakeCurrent_p(g_EglDisplay, bundle->surface, bundle->surface, bundle->context);
+
 }
 
 void gl_make_current(gl_render_window_t* bundle) {
