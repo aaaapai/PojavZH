@@ -16,7 +16,7 @@
 #include "osmesa_loader.h"
 #include "renderer_config.h"
 
-int (*vtest_main_p)(int argc, char *argv[]);
+int (*vtest_main_p)(int argc, char** argv);
 void (*vtest_swap_buffers_p)(void);
 
 void *virglGetCurrentContext(void) {
