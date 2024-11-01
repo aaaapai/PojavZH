@@ -233,7 +233,6 @@ public class JREUtils {
             envMap.put("POJAV_RENDERER", LOCAL_RENDERER);
             if (LOCAL_RENDERER.equals("opengles3_ltw")) {
                 envMap.put("LIBGL_ES", "3");
-                envMap.put("POJAVEXEC_EGL","libltw.so");
             }
             if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle_vulkan")) {
                 envMap.put("LIBGL_ES", "3");
