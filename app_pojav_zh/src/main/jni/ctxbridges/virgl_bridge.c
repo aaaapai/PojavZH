@@ -90,7 +90,7 @@ void *egl_make_current(void *window) {
 
         printf("VirGL: vtest_main = %p\n", vtest_main_p);
         printf("VirGL: Calling VTest server's main function\n");
-        vtest_main_p(2, (char*[]){"vtest", "--use-gles", NULL, NULL, NULL});
+        vtest_main_p(3, (char*[]){"vtest", "--use-gles", "--no-loop-or-fork", NULL, NULL});
     }
     return 0;
 }
@@ -124,6 +124,9 @@ int virglInit(void) {
             EGL_GREEN_SIZE, 8,
             EGL_BLUE_SIZE, 8,
             EGL_ALPHA_SIZE, 8,
+            EGL_ALPHA_MASK_SIZE, 8,
+            EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT,
+            EGL_CONFORMANT, EGL_OPENGL_ES3_BIT,
             // Minecraft required on initial 24
             EGL_DEPTH_SIZE, 24,
             EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT,
