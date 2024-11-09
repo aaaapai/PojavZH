@@ -3,7 +3,7 @@ package org.lwjgl.input;
 import net.java.openjdk.cacio.ctc.ExternalMouseReader;
 import net.java.openjdk.cacio.ctc.InfdevGrabHandler;
 
-public class InfdevMouse implements ExternalMouseReader, Mouse.EmptyCursorGrabListener {
+public final class InfdevMouse implements ExternalMouseReader, Mouse.EmptyCursorGrabListener {
     static {
         InfdevGrabHandler.setMouseReader(new InfdevMouse());
     }
