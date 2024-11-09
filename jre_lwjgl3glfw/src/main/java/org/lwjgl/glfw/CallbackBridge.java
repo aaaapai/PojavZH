@@ -1,6 +1,6 @@
 package org.lwjgl.glfw;
 
-public final class CallbackBridge {
+public class CallbackBridge {
     public static final int CLIPBOARD_COPY = 2000;
     public static final int CLIPBOARD_PASTE = 2001;
     
