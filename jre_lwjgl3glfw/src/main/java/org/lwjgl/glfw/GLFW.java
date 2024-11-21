@@ -1386,8 +1386,6 @@ public class GLFW
 
     /** Unsafe version of: {@link #glfwGetMonitorPhysicalSize GetMonitorPhysicalSize} */
     public static void nglfwGetMonitorPhysicalSize(long monitor, long widthMM, long heightMM) {
-        long __functionAddress = Functions.GetMonitorPhysicalSize;
-        invokePPPV(monitor, widthMM, heightMM, __functionAddress);
     }
 
     /**
