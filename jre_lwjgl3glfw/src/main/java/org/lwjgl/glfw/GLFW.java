@@ -1390,6 +1390,6 @@ public class GLFW
             checkSafe(widthMM, 1);
             checkSafe(heightMM, 1);
         }
-        invokePPPV(monitor, widthMM, heightMM);
+        invokePPPV(monitor, widthMM, heightMM, __functionAddress);
     }
 }
