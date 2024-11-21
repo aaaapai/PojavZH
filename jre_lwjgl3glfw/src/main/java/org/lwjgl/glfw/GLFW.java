@@ -1381,4 +1381,15 @@ public class GLFW
         // Fast path, but will return true if one has the same prefix
         return glGetString(GL_EXTENSIONS).contains(ext);
     }
+
+    /** Array version of: {@link #glfwGetMonitorPhysicalSize GetMonitorPhysicalSize} */
+    public static void glfwGetMonitorPhysicalSize(@NativeType("GLFWmonitor *") long monitor, @NativeType("int *") int @Nullable [] widthMM, @NativeType("int *") int @Nullable [] heightMM) {
+        long __functionAddress = Functions.GetMonitorPhysicalSize;
+        if (CHECKS) {
+            // check(monitor);
+            checkSafe(widthMM, 1);
+            checkSafe(heightMM, 1);
+        }
+        invokePPPV(monitor, widthMM, heightMM);
+    }
 }
