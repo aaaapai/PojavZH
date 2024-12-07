@@ -9,7 +9,7 @@ import android.util.*;
 import java.lang.reflect.*;
 import java.nio.*;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import org.lwjgl.*;
 import org.lwjgl.system.*;
@@ -863,8 +863,8 @@ public class GLFW
         return 1L;
     }
 
-    public static void glfwGetMonitorPos(@NativeType("GLFWmonitor *") long monitor, @Nullable @NativeType("int *") IntBuffer xpos, @Nullable @NativeType("int *") IntBuffer ypos) {
-        if (CHECKS) {
+    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos) {
+	    if (CHECKS) {
             checkSafe(xpos, 1);
             checkSafe(ypos, 1);
         }
@@ -1160,8 +1160,8 @@ public class GLFW
     public static int glfwGetMouseButton(@NativeType("GLFWwindow *") long window, int button) {
         return mouseDownBuffer.get(button);
     }
-    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") DoubleBuffer xpos, @Nullable @NativeType("double *") DoubleBuffer ypos) {
-        if (CHECKS) {
+    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") double @Nullable [] xpos, @NativeType("double *") double @Nullable [] ypos) {
+	    if (CHECKS) {
             checkSafe(xpos, 1);
             checkSafe(ypos, 1);
         }
