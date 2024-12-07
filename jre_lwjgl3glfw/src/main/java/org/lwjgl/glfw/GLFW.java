@@ -22,7 +22,6 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import java.util.*;
 
-@SuppressWarnings("unchecked");
 public class GLFW
 {
     static FloatBuffer joystickData = (FloatBuffer)FloatBuffer.allocate(8).flip();
