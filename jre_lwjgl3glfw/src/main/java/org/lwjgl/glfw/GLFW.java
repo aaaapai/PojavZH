@@ -926,7 +926,7 @@ public class GLFW
     }
 
     @NativeType("GLFWvidmode const *")
-    public static @Nullable GLFWVidMode.Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
+    public static GLFWVidMode.@Nullable Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
         MemoryStack stack = stackGet(); int stackPointer = stack.getPointer();
         try {
             // long __result = nglfwGetVideoModes(monitor, memAddress(count));
@@ -1083,8 +1083,7 @@ public class GLFW
         internalGetWindow(window).title = title;
     }
 
-    @Nullable
-    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @NativeType("GLFWimage const *") GLFWImage.Buffer images) {}
+    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @NativeType("GLFWimage const *") GLFWImage.@Nullable Buffer images) {}
 
     public static void glfwPollEvents() {
         if (!mGLFWIsInputReady) {
