@@ -38,7 +38,7 @@ jobs:
         run: |
           chmod +x gradlew
           mkdir out
-          ./gradlew jre_lwjgl3glfw:build -Xlint
+          ./gradlew jre_lwjgl3glfw:build -Xlint:unchecked
 
       - name: Upload lwjgl
         uses: actions/upload-artifact@main
