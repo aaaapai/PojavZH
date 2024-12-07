@@ -8,9 +8,8 @@ import android.util.*;
 
 import java.lang.reflect.*;
 import java.nio.*;
-import static java.nio.DoubleBuffer.*;
 
-import org.jspecify.annotations.*;
+import javax.annotation.*;
 
 import org.lwjgl.*;
 import org.lwjgl.system.*;
@@ -23,7 +22,8 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import java.util.*;
 
-public class GLFW {
+public class GLFW
+{
     static FloatBuffer joystickData = (FloatBuffer)FloatBuffer.allocate(8).flip();
     static ByteBuffer buttonData = (ByteBuffer)ByteBuffer.allocate(8).flip();
     /** The major version number of the GLFW library. This is incremented when the API is changed in non-compatible ways. */
@@ -925,8 +925,9 @@ public class GLFW {
         return GLFW_NO_ERROR;
     }
 
+    @Nullable
     @NativeType("GLFWvidmode const *")
-    public static GLFWVidMode.@Nullable Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
+    public static GLFWVidMode.Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
         MemoryStack stack = stackGet(); int stackPointer = stack.getPointer();
         try {
             // long __result = nglfwGetVideoModes(monitor, memAddress(count));
@@ -1083,7 +1084,7 @@ public class GLFW {
         internalGetWindow(window).title = title;
     }
 
-    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @NativeType("GLFWimage const *") GLFWImage.@Nullable Buffer images) {}
+    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("GLFWimage const *") GLFWImage.Buffer images) {}
 
     public static void glfwPollEvents() {
         if (!mGLFWIsInputReady) {
