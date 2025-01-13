@@ -1159,17 +1159,18 @@ public class GLFW
     public static int glfwGetMouseButton(@NativeType("GLFWwindow *") long window, int button) {
         return mouseDownBuffer.get(button);
     }
-    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") DoubleBuffer xpos, @Nullable @NativeType("double *") DoubleBuffer ypos) {
+
+    /** {@code void glfwGetCursorPos(GLFWwindow * window, double * xpos, double * ypos)} */
+    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos) {
         if (CHECKS) {
             checkSafe(xpos, 1);
             checkSafe(ypos, 1);
         }
-        nglfwGetCursorPos(window, xpos, ypos);
+        nglfwGetCursorPos(window, memAddressSafe(xpos), memAddressSafe(ypos));
     }
 
-
-    public static native void nglfwGetCursorPos(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") DoubleBuffer xpos, @Nullable @NativeType("double *") DoubleBuffer ypos);
-    public static native void nglfwGetCursorPosA(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") double[] xpos, @Nullable @NativeType("double *") double[] ypos);
+    public static native void nglfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos);
+    public static native void nglfwGetCursorPosA(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable double[] xpos, @NativeType("double *")  @Nullable double[] ypos);
 
     public static native void glfwSetCursorPos(@NativeType("GLFWwindow *") long window, double xpos, double ypos); /*{
         mGLFWCursorX = mGLFWCursorLastX = xpos;
