@@ -628,7 +628,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
         if (index > 0 && mHashes[index-1] > hash) {
             RuntimeException e = new RuntimeException("here");
             e.fillInStackTrace();
-            Log.w("New hash " + hash
+            System.out.println("New hash " + hash
                     + " is before end of array hash " + mHashes[index-1]
                     + " at index " + index + (DEBUG ? " key " + key : ""));
             put(key, value);
