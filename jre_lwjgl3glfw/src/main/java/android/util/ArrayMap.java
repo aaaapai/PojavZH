@@ -369,36 +369,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * Retrieve a value from the array.
-     * @param key The key of the value to retrieve.
-     * @return Returns the value associated with the given key,
-     * or null if there is no such key.
-     */
-    @Override
-    public V get(Object key) {
-        final int index = indexOfKey(key);
-        return index >= 0 ? (V)mArray[(index<<1)+1] : null;
-    }
-
-    /**
-     * Return the key at the given index in the array.
-     * @param index The desired index, must be between 0 and {@link #size()}-1.
-     * @return Returns the key stored at the given index.
-     */
-    public K keyAt(int index) {
-        return (K)mArray[index << 1];
-    }
-
-    /**
-     * Return the value at the given index in the array.
-     * @param index The desired index, must be between 0 and {@link #size()}-1.
-     * @return Returns the value stored at the given index.
-     */
-    public V valueAt(int index) {
-        return (V)mArray[(index << 1) + 1];
-    }
-
-    /**
      * Set the value at a given index in the array.
      * @param index The desired index, must be between 0 and {@link #size()}-1.
      * @param value The new value to store at this index.
@@ -417,66 +387,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     @Override
     public boolean isEmpty() {
         return mSize <= 0;
-    }
-
-    /**
-     * Add a new value to the array map.
-     * @param key The key under which to store the value.  If
-     * this key already exists in the array, its value will be replaced.
-     * @param value The value to store for the given key.
-     * @return Returns the old value that was stored for the given key, or null if there
-     * was no such key.
-     */
-    @Override
-    public V put(K key, V value) {
-        final int hash;
-        int index;
-        if (key == null) {
-            hash = 0;
-            index = indexOfNull();
-        } else {
-            hash = key.hashCode();
-            index = indexOf(key, hash);
-        }
-        if (index >= 0) {
-            index = (index<<1) + 1;
-            final V old = (V)mArray[index];
-            mArray[index] = value;
-            return old;
-        }
-
-        index = ~index;
-        if (mSize >= mHashes.length) {
-            final int n = mSize >= (BASE_SIZE*2) ? (mSize+(mSize>>1))
-                    : (mSize >= BASE_SIZE ? (BASE_SIZE*2) : BASE_SIZE);
-
-            if (DEBUG) System.out.println("put: grow from " + mHashes.length + " to " + n);
-
-            final int[] ohashes = mHashes;
-            final Object[] oarray = mArray;
-            allocArrays(n);
-
-            if (mHashes.length > 0) {
-                if (DEBUG) System.out.println("put: copy 0-" + mSize + " to 0");
-                System.arraycopy(ohashes, 0, mHashes, 0, ohashes.length);
-                System.arraycopy(oarray, 0, mArray, 0, oarray.length);
-            }
-
-            freeArrays(ohashes, oarray, mSize);
-        }
-
-        if (index < mSize) {
-            if (DEBUG) System.out.println("put: move " + index + "-" + (mSize-index)
-                    + " to " + (index+1));
-            System.arraycopy(mHashes, index, mHashes, index + 1, mSize - index);
-            System.arraycopy(mArray, index << 1, mArray, (index + 1) << 1, (mSize - index) << 1);
-        }
-
-        mHashes[index] = hash;
-        mArray[index<<1] = key;
-        mArray[(index<<1)+1] = value;
-        mSize++;
-        return null;
     }
 
     /**
