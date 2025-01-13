@@ -630,7 +630,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
             e.fillInStackTrace();
             Log.w("New hash " + hash
                     + " is before end of array hash " + mHashes[index-1]
-                    + " at index " + index + (DEBUG ? " key " + key : ""), e);
+                    + " at index " + index + (DEBUG ? " key " + key : ""));
             put(key, value);
             return;
         }
