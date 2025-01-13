@@ -16,9 +16,17 @@
 
 package android.util;
 
+import org.jspecify.annotations.*;
+
+import com.android.internal.util.ArrayUtils;
+
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 /**
  * ArrayMap is a generic key->value mapping data structure that is
@@ -41,10 +49,25 @@ import java.util.Set;
  * you have no control over this shrinking -- if you set a capacity and then remove an
  * item, it may reduce the capacity to better match the current size.  In the future an
  * explicit call to set the capacity should turn off this aggressive shrinking behavior.</p>
+ *
+ * <p>This structure is <b>NOT</b> thread-safe.</p>
  */
+
 public final class ArrayMap<K, V> implements Map<K, V> {
     private static final boolean DEBUG = false;
     private static final String TAG = "ArrayMap";
+
+    /**
+     * Attempt to spot concurrent modifications to this data structure.
+     *
+     * It's best-effort, but any time we can throw something more diagnostic than an
+     * ArrayIndexOutOfBoundsException deep in the ArrayMap internals it's going to
+     * save a lot of development time.
+     *
+     * Good times to look for CME include after any allocArrays() call and at the end of
+     * functions that change mSize (put/remove/clear).
+     */
+    private static final boolean CONCURRENT_MODIFICATION_EXCEPTIONS = true;
 
     /**
      * The minimum amount by which the capacity of a ArrayMap will increase.
@@ -55,16 +78,19 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     /**
      * Maximum number of entries to have in array caches.
      */
+
     private static final int CACHE_SIZE = 10;
 
     /**
      * Special hash array value that indicates the container is immutable.
      */
+
     static final int[] EMPTY_IMMUTABLE_INTS = new int[0];
 
     /**
      * @hide Special immutable empty ArrayMap.
      */
+
     public static final ArrayMap EMPTY = new ArrayMap<>(-1);
 
     /**
@@ -73,15 +99,41 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * The first entry in the array is a pointer to the next array in the
      * list; the second entry is a pointer to the int[] hash code array for it.
      */
+
     static Object[] mBaseCache;
+
     static int mBaseCacheSize;
+
     static Object[] mTwiceBaseCache;
+
     static int mTwiceBaseCacheSize;
+    /**
+     * Separate locks for each cache since each can be accessed independently of the other without
+     * risk of a deadlock.
+     */
+    private static final Object sBaseCacheLock = new Object();
+    private static final Object sTwiceBaseCacheLock = new Object();
+
+    private final boolean mIdentityHashCode;
 
     int[] mHashes;
+
     Object[] mArray;
+
     int mSize;
-    MapCollections<K, V> mCollections;
+    private MapCollections<K, V> mCollections;
+
+    private static int binarySearchHashes(int[] hashes, int N, int hash) {
+        try {
+            return ContainerHelpers.binarySearch(hashes, N, hash);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            if (CONCURRENT_MODIFICATION_EXCEPTIONS) {
+                throw new ConcurrentModificationException();
+            } else {
+                throw e; // the cache is poisoned at this point, there's not much we can do
+            }
+        }
+    }
 
     int indexOf(Object key, int hash) {
         final int N = mSize;
@@ -91,7 +143,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
             return ~0;
         }
 
-        int index = ContainerHelpers.binarySearch(mHashes, N, hash);
+        int index = binarySearchHashes(mHashes, N, hash);
 
         // If the hash code wasn't found, then we have no entry for this key.
         if (index < 0) {
@@ -120,7 +172,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
         // need to be copied when inserting.
         return ~end;
     }
-
     int indexOfNull() {
         final int N = mSize;
 
@@ -129,7 +180,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
             return ~0;
         }
 
-        int index = ContainerHelpers.binarySearch(mHashes, N, 0);
+        int index = binarySearchHashes(mHashes, N, 0);
 
         // If the hash code wasn't found, then we have no entry for this key.
         if (index < 0) {
@@ -159,36 +210,63 @@ public final class ArrayMap<K, V> implements Map<K, V> {
         return ~end;
     }
 
+
     private void allocArrays(final int size) {
         if (mHashes == EMPTY_IMMUTABLE_INTS) {
             throw new UnsupportedOperationException("ArrayMap is immutable");
         }
         if (size == (BASE_SIZE*2)) {
-            synchronized (ArrayMap.class) {
+            synchronized (sTwiceBaseCacheLock) {
                 if (mTwiceBaseCache != null) {
                     final Object[] array = mTwiceBaseCache;
                     mArray = array;
-                    mTwiceBaseCache = (Object[])array[0];
-                    mHashes = (int[])array[1];
-                    array[0] = array[1] = null;
-                    mTwiceBaseCacheSize--;
-                    if (DEBUG) System.out.println("Retrieving 2x cache " + mHashes
-                            + " now have " + mTwiceBaseCacheSize + " entries");
-                    return;
+                    try {
+                        mTwiceBaseCache = (Object[]) array[0];
+                        mHashes = (int[]) array[1];
+                        if (mHashes != null) {
+                            array[0] = array[1] = null;
+                            mTwiceBaseCacheSize--;
+                            if (DEBUG) {
+                                Log.d(TAG, "Retrieving 2x cache " + Arrays.toString(mHashes)
+                                        + " now have " + mTwiceBaseCacheSize + " entries");
+                            }
+                            return;
+                        }
+                    } catch (ClassCastException e) {
+                    }
+                    // Whoops!  Someone trampled the array (probably due to not protecting
+                    // their access with a lock).  Our cache is corrupt; report and give up.
+                    Slog.wtf(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
+                            + " [1]=" + array[1]);
+                    mTwiceBaseCache = null;
+                    mTwiceBaseCacheSize = 0;
                 }
             }
         } else if (size == BASE_SIZE) {
-            synchronized (ArrayMap.class) {
+            synchronized (sBaseCacheLock) {
                 if (mBaseCache != null) {
                     final Object[] array = mBaseCache;
                     mArray = array;
-                    mBaseCache = (Object[])array[0];
-                    mHashes = (int[])array[1];
-                    array[0] = array[1] = null;
-                    mBaseCacheSize--;
-                    if (DEBUG) System.out.println("Retrieving 1x cache " + mHashes
-                            + " now have " + mBaseCacheSize + " entries");
-                    return;
+                    try {
+                        mBaseCache = (Object[]) array[0];
+                        mHashes = (int[]) array[1];
+                        if (mHashes != null) {
+                            array[0] = array[1] = null;
+                            mBaseCacheSize--;
+                            if (DEBUG) {
+                                Log.d(TAG, "Retrieving 1x cache " + Arrays.toString(mHashes)
+                                        + " now have " + mBaseCacheSize + " entries");
+                            }
+                            return;
+                        }
+                    } catch (ClassCastException e) {
+                    }
+                    // Whoops!  Someone trampled the array (probably due to not protecting
+                    // their access with a lock).  Our cache is corrupt; report and give up.
+                    Slog.wtf(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
+                            + " [1]=" + array[1]);
+                    mBaseCache = null;
+                    mBaseCacheSize = 0;
                 }
             }
         }
@@ -197,9 +275,14 @@ public final class ArrayMap<K, V> implements Map<K, V> {
         mArray = new Object[size<<1];
     }
 
+    /**
+     * Make sure <b>NOT</b> to call this method with arrays that can still be modified. In other
+     * words, don't pass mHashes or mArray in directly.
+     */
+
     private static void freeArrays(final int[] hashes, final Object[] array, final int size) {
         if (hashes.length == (BASE_SIZE*2)) {
-            synchronized (ArrayMap.class) {
+            synchronized (sTwiceBaseCacheLock) {
                 if (mTwiceBaseCacheSize < CACHE_SIZE) {
                     array[0] = mTwiceBaseCache;
                     array[1] = hashes;
@@ -208,12 +291,14 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     }
                     mTwiceBaseCache = array;
                     mTwiceBaseCacheSize++;
-                    if (DEBUG) System.out.println("Storing 2x cache " + array
-                            + " now have " + mTwiceBaseCacheSize + " entries");
+                    if (DEBUG) {
+                        Log.d(TAG, "Storing 2x cache " + Arrays.toString(array)
+                                + " now have " + mTwiceBaseCacheSize + " entries");
+                    }
                 }
             }
         } else if (hashes.length == BASE_SIZE) {
-            synchronized (ArrayMap.class) {
+            synchronized (sBaseCacheLock) {
                 if (mBaseCacheSize < CACHE_SIZE) {
                     array[0] = mBaseCache;
                     array[1] = hashes;
@@ -222,8 +307,10 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     }
                     mBaseCache = array;
                     mBaseCacheSize++;
-                    if (DEBUG) System.out.println("Storing 1x cache " + array
-                            + " now have " + mBaseCacheSize + " entries");
+                    if (DEBUG) {
+                        Log.d(TAG, "Storing 1x cache " + Arrays.toString(array)
+                                + " now have " + mBaseCacheSize + " entries");
+                    }
                 }
             }
         }
@@ -234,30 +321,32 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * will grow once items are added to it.
      */
     public ArrayMap() {
-        mHashes = EmptyArray.INT;
-        mArray = EmptyArray.OBJECT;
-        mSize = 0;
+        this(0, false);
     }
 
     /**
      * Create a new ArrayMap with a given initial capacity.
      */
     public ArrayMap(int capacity) {
-        if (capacity == 0) {
+        this(capacity, false);
+    }
+
+    /** {@hide} */
+    public ArrayMap(int capacity, boolean identityHashCode) {
+        mIdentityHashCode = identityHashCode;
+
+        // If this is immutable, use the sentinal EMPTY_IMMUTABLE_INTS
+        // instance instead of the usual EmptyArray.INT. The reference
+        // is checked later to see if the array is allowed to grow.
+        if (capacity < 0) {
+            mHashes = EMPTY_IMMUTABLE_INTS;
+            mArray = EmptyArray.OBJECT;
+        } else if (capacity == 0) {
             mHashes = EmptyArray.INT;
             mArray = EmptyArray.OBJECT;
         } else {
             allocArrays(capacity);
         }
-        mSize = 0;
-    }
-
-    private ArrayMap(boolean immutable) {
-        // If this is immutable, use the sentinal EMPTY_IMMUTABLE_INTS
-        // instance instead of the usual EmptyArray.INT. The reference
-        // is checked later to see if the array is allowed to grow.
-        mHashes = immutable ? EMPTY_IMMUTABLE_INTS : EmptyArray.INT;
-        mArray = EmptyArray.OBJECT;
         mSize = 0;
     }
 
@@ -277,10 +366,16 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     @Override
     public void clear() {
         if (mSize > 0) {
-            freeArrays(mHashes, mArray, mSize);
+            final int[] ohashes = mHashes;
+            final Object[] oarray = mArray;
+            final int osize = mSize;
             mHashes = EmptyArray.INT;
             mArray = EmptyArray.OBJECT;
             mSize = 0;
+            freeArrays(ohashes, oarray, osize);
+        }
+        if (CONCURRENT_MODIFICATION_EXCEPTIONS && mSize > 0) {
+            throw new ConcurrentModificationException();
         }
     }
 
@@ -304,15 +399,19 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * items.
      */
     public void ensureCapacity(int minimumCapacity) {
+        final int osize = mSize;
         if (mHashes.length < minimumCapacity) {
             final int[] ohashes = mHashes;
             final Object[] oarray = mArray;
             allocArrays(minimumCapacity);
             if (mSize > 0) {
-                System.arraycopy(ohashes, 0, mHashes, 0, mSize);
-                System.arraycopy(oarray, 0, mArray, 0, mSize<<1);
+                System.arraycopy(ohashes, 0, mHashes, 0, osize);
+                System.arraycopy(oarray, 0, mArray, 0, osize<<1);
             }
-            freeArrays(ohashes, oarray, mSize);
+            freeArrays(ohashes, oarray, osize);
+        }
+        if (CONCURRENT_MODIFICATION_EXCEPTIONS && mSize != osize) {
+            throw new ConcurrentModificationException();
         }
     }
 
@@ -334,10 +433,19 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * @return Returns the index of the key if it exists, else a negative integer.
      */
     public int indexOfKey(Object key) {
-        return key == null ? indexOfNull() : indexOf(key, key.hashCode());
+        return key == null ? indexOfNull()
+                : indexOf(key, mIdentityHashCode ? System.identityHashCode(key) : key.hashCode());
     }
 
-    int indexOfValue(Object value) {
+    /**
+     * Returns an index for which {@link #valueAt} would return the
+     * specified value, or a negative number if no keys map to the
+     * specified value.
+     * Beware that this is a linear search, unlike lookups by key,
+     * and that multiple keys can map to the same value and this will
+     * find only one of them.
+     */
+    public int indexOfValue(Object value) {
         final int N = mSize*2;
         final Object[] array = mArray;
         if (value == null) {
@@ -369,12 +477,75 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     }
 
     /**
+     * Retrieve a value from the array.
+     * @param key The key of the value to retrieve.
+     * @return Returns the value associated with the given key,
+     * or null if there is no such key.
+     */
+    @Override
+    public V get(Object key) {
+        final int index = indexOfKey(key);
+        return index >= 0 ? (V)mArray[(index<<1)+1] : null;
+    }
+
+    /**
+     * Return the key at the given index in the array.
+     *
+     * <p>For indices outside of the range <code>0...size()-1</code>, the behavior is undefined for
+     * apps targeting {@link android.os.Build.VERSION_CODES#P} and earlier, and an
+     * {@link ArrayIndexOutOfBoundsException} is thrown for apps targeting
+     * {@link android.os.Build.VERSION_CODES#Q} and later.</p>
+     *
+     * @param index The desired index, must be between 0 and {@link #size()}-1.
+     * @return Returns the key stored at the given index.
+     */
+    public K keyAt(int index) {
+        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
+            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
+            // Check if exception should be thrown outside of the critical path.
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return (K)mArray[index << 1];
+    }
+
+    /**
+     * Return the value at the given index in the array.
+     *
+     * <p>For indices outside of the range <code>0...size()-1</code>, the behavior is undefined for
+     * apps targeting {@link android.os.Build.VERSION_CODES#P} and earlier, and an
+     * {@link ArrayIndexOutOfBoundsException} is thrown for apps targeting
+     * {@link android.os.Build.VERSION_CODES#Q} and later.</p>
+     *
+     * @param index The desired index, must be between 0 and {@link #size()}-1.
+     * @return Returns the value stored at the given index.
+     */
+    public V valueAt(int index) {
+        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
+            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
+            // Check if exception should be thrown outside of the critical path.
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+        return (V)mArray[(index << 1) + 1];
+    }
+
+    /**
      * Set the value at a given index in the array.
+     *
+     * <p>For indices outside of the range <code>0...size()-1</code>, the behavior is undefined for
+     * apps targeting {@link android.os.Build.VERSION_CODES#P} and earlier, and an
+     * {@link ArrayIndexOutOfBoundsException} is thrown for apps targeting
+     * {@link android.os.Build.VERSION_CODES#Q} and later.</p>
+     *
      * @param index The desired index, must be between 0 and {@link #size()}-1.
      * @param value The new value to store at this index.
      * @return Returns the previous value at the given index.
      */
     public V setValueAt(int index, V value) {
+        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
+            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
+            // Check if exception should be thrown outside of the critical path.
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
         index = (index << 1) + 1;
         V old = (V)mArray[index];
         mArray[index] = value;
@@ -390,23 +561,93 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     }
 
     /**
+     * Add a new value to the array map.
+     * @param key The key under which to store the value.  If
+     * this key already exists in the array, its value will be replaced.
+     * @param value The value to store for the given key.
+     * @return Returns the old value that was stored for the given key, or null if there
+     * was no such key.
+     */
+    @Override
+    public V put(K key, V value) {
+        final int osize = mSize;
+        final int hash;
+        int index;
+        if (key == null) {
+            hash = 0;
+            index = indexOfNull();
+        } else {
+            hash = mIdentityHashCode ? System.identityHashCode(key) : key.hashCode();
+            index = indexOf(key, hash);
+        }
+        if (index >= 0) {
+            index = (index<<1) + 1;
+            final V old = (V)mArray[index];
+            mArray[index] = value;
+            return old;
+        }
+
+        index = ~index;
+        if (osize >= mHashes.length) {
+            final int n = osize >= (BASE_SIZE*2) ? (osize+(osize>>1))
+                    : (osize >= BASE_SIZE ? (BASE_SIZE*2) : BASE_SIZE);
+
+            if (DEBUG) Log.d(TAG, "put: grow from " + mHashes.length + " to " + n);
+
+            final int[] ohashes = mHashes;
+            final Object[] oarray = mArray;
+            allocArrays(n);
+
+            if (CONCURRENT_MODIFICATION_EXCEPTIONS && osize != mSize) {
+                throw new ConcurrentModificationException();
+            }
+
+            if (mHashes.length > 0) {
+                if (DEBUG) Log.d(TAG, "put: copy 0-" + osize + " to 0");
+                System.arraycopy(ohashes, 0, mHashes, 0, ohashes.length);
+                System.arraycopy(oarray, 0, mArray, 0, oarray.length);
+            }
+
+            freeArrays(ohashes, oarray, osize);
+        }
+
+        if (index < osize) {
+            if (DEBUG) Log.d(TAG, "put: move " + index + "-" + (osize-index)
+                    + " to " + (index+1));
+            System.arraycopy(mHashes, index, mHashes, index + 1, osize - index);
+            System.arraycopy(mArray, index << 1, mArray, (index + 1) << 1, (mSize - index) << 1);
+        }
+
+        if (CONCURRENT_MODIFICATION_EXCEPTIONS) {
+            if (osize != mSize || index >= mHashes.length) {
+                throw new ConcurrentModificationException();
+            }
+        }
+        mHashes[index] = hash;
+        mArray[index<<1] = key;
+        mArray[(index<<1)+1] = value;
+        mSize++;
+        return null;
+    }
+
+    /**
      * Special fast path for appending items to the end of the array without validation.
      * The array must already be large enough to contain the item.
      * @hide
      */
     public void append(K key, V value) {
         int index = mSize;
-        final int hash = key == null ? 0 : key.hashCode();
+        final int hash = key == null ? 0
+                : (mIdentityHashCode ? System.identityHashCode(key) : key.hashCode());
         if (index >= mHashes.length) {
             throw new IllegalStateException("Array is full");
         }
         if (index > 0 && mHashes[index-1] > hash) {
             RuntimeException e = new RuntimeException("here");
             e.fillInStackTrace();
-            System.out.println("New hash " + hash
+            Log.w(TAG, "New hash " + hash
                     + " is before end of array hash " + mHashes[index-1]
-                    + " at index " + index + " key " + key);
-            e.printStackTrace();
+                    + " at index " + index + (DEBUG ? " key " + key : ""), e);
             put(key, value);
             return;
         }
@@ -493,57 +734,80 @@ public final class ArrayMap<K, V> implements Map<K, V> {
 
     /**
      * Remove the key/value mapping at the given index.
+     *
+     * <p>For indices outside of the range <code>0...size()-1</code>, the behavior is undefined for
+     * apps targeting {@link android.os.Build.VERSION_CODES#P} and earlier, and an
+     * {@link ArrayIndexOutOfBoundsException} is thrown for apps targeting
+     * {@link android.os.Build.VERSION_CODES#Q} and later.</p>
+     *
      * @param index The desired index, must be between 0 and {@link #size()}-1.
      * @return Returns the value that was stored at this index.
      */
     public V removeAt(int index) {
+        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
+            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
+            // Check if exception should be thrown outside of the critical path.
+            throw new ArrayIndexOutOfBoundsException(index);
+        }
+
         final Object old = mArray[(index << 1) + 1];
-        if (mSize <= 1) {
+        final int osize = mSize;
+        final int nsize;
+        if (osize <= 1) {
             // Now empty.
-            if (DEBUG) System.out.println("remove: shrink from " + mHashes.length + " to 0");
-            freeArrays(mHashes, mArray, mSize);
+            if (DEBUG) Log.d(TAG, "remove: shrink from " + mHashes.length + " to 0");
+            final int[] ohashes = mHashes;
+            final Object[] oarray = mArray;
             mHashes = EmptyArray.INT;
             mArray = EmptyArray.OBJECT;
-            mSize = 0;
+            freeArrays(ohashes, oarray, osize);
+            nsize = 0;
         } else {
+            nsize = osize - 1;
             if (mHashes.length > (BASE_SIZE*2) && mSize < mHashes.length/3) {
                 // Shrunk enough to reduce size of arrays.  We don't allow it to
                 // shrink smaller than (BASE_SIZE*2) to avoid flapping between
                 // that and BASE_SIZE.
-                final int n = mSize > (BASE_SIZE*2) ? (mSize + (mSize>>1)) : (BASE_SIZE*2);
+                final int n = osize > (BASE_SIZE*2) ? (osize + (osize>>1)) : (BASE_SIZE*2);
 
-                if (DEBUG) System.out.println("remove: shrink from " + mHashes.length + " to " + n);
+                if (DEBUG) Log.d(TAG, "remove: shrink from " + mHashes.length + " to " + n);
 
                 final int[] ohashes = mHashes;
                 final Object[] oarray = mArray;
                 allocArrays(n);
 
-                mSize--;
+                if (CONCURRENT_MODIFICATION_EXCEPTIONS && osize != mSize) {
+                    throw new ConcurrentModificationException();
+                }
+
                 if (index > 0) {
-                    if (DEBUG) System.out.println("remove: copy from 0-" + index + " to 0");
+                    if (DEBUG) Log.d(TAG, "remove: copy from 0-" + index + " to 0");
                     System.arraycopy(ohashes, 0, mHashes, 0, index);
                     System.arraycopy(oarray, 0, mArray, 0, index << 1);
                 }
-                if (index < mSize) {
-                    if (DEBUG) System.out.println("remove: copy from " + (index+1) + "-" + mSize
+                if (index < nsize) {
+                    if (DEBUG) Log.d(TAG, "remove: copy from " + (index+1) + "-" + nsize
                             + " to " + index);
-                    System.arraycopy(ohashes, index + 1, mHashes, index, mSize - index);
+                    System.arraycopy(ohashes, index + 1, mHashes, index, nsize - index);
                     System.arraycopy(oarray, (index + 1) << 1, mArray, index << 1,
-                            (mSize - index) << 1);
+                            (nsize - index) << 1);
                 }
             } else {
-                mSize--;
-                if (index < mSize) {
-                    if (DEBUG) System.out.println("remove: move " + (index+1) + "-" + mSize
+                if (index < nsize) {
+                    if (DEBUG) Log.d(TAG, "remove: move " + (index+1) + "-" + nsize
                             + " to " + index);
-                    System.arraycopy(mHashes, index + 1, mHashes, index, mSize - index);
+                    System.arraycopy(mHashes, index + 1, mHashes, index, nsize - index);
                     System.arraycopy(mArray, (index + 1) << 1, mArray, index << 1,
-                            (mSize - index) << 1);
+                            (nsize - index) << 1);
                 }
-                mArray[mSize << 1] = null;
-                mArray[(mSize << 1) + 1] = null;
+                mArray[nsize << 1] = null;
+                mArray[(nsize << 1) + 1] = null;
             }
         }
+        if (CONCURRENT_MODIFICATION_EXCEPTIONS && osize != mSize) {
+            throw new ConcurrentModificationException();
+        }
+        mSize = nsize;
         return (V)old;
     }
 
@@ -564,7 +828,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * equal, the method returns false, otherwise it returns true.
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(@Nullable Object object) {
         if (this == object) {
             return true;
         }
@@ -717,6 +981,28 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     }
 
     /**
+     * Performs the given action for all elements in the stored order. This implementation overrides
+     * the default implementation to avoid iterating using the {@link #entrySet()} and iterates in
+     * the key-value order consistent with {@link #keyAt(int)} and {@link #valueAt(int)}.
+     *
+     * @param action The action to be performed for each element
+     */
+    @Override
+    public void forEach(BiConsumer<? super K, ? super V> action) {
+        if (action == null) {
+            throw new NullPointerException("action must not be null");
+        }
+
+        final int size = mSize;
+        for (int i = 0; i < size; ++i) {
+            if (size != mSize) {
+                throw new ConcurrentModificationException();
+            }
+            action.accept(keyAt(i), valueAt(i));
+        }
+    }
+
+    /**
      * Perform a {@link #put(Object, Object)} of all key/value pairs in <var>map</var>
      * @param map The map whose contents are to be retrieved.
      */
@@ -735,6 +1021,36 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      */
     public boolean removeAll(Collection<?> collection) {
         return MapCollections.removeAllHelper(this, collection);
+    }
+
+    /**
+     * Replaces each entry's value with the result of invoking the given function on that entry
+     * until all entries have been processed or the function throws an exception. Exceptions thrown
+     * by the function are relayed to the caller. This implementation overrides
+     * the default implementation to avoid iterating using the {@link #entrySet()} and iterates in
+     * the key-value order consistent with {@link #keyAt(int)} and {@link #valueAt(int)}.
+     *
+     * @param function The function to apply to each entry
+     */
+    @Override
+    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+        if (function == null) {
+            throw new NullPointerException("function must not be null");
+        }
+
+        final int size = mSize;
+        try {
+            for (int i = 0; i < size; ++i) {
+                final int valIndex = (i << 1) + 1;
+                //noinspection unchecked
+                mArray[valIndex] = function.apply((K) mArray[i << 1], (V) mArray[valIndex]);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new ConcurrentModificationException();
+        }
+        if (size != mSize) {
+            throw new ConcurrentModificationException();
+        }
     }
 
     /**
