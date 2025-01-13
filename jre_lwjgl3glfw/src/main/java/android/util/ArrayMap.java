@@ -65,7 +65,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
     /**
      * @hide Special immutable empty ArrayMap.
      */
-    public static final ArrayMap EMPTY = new ArrayMap(true);
+    public static final ArrayMap EMPTY = new ArrayMap<>(-1);
 
     /**
      * Caches of small array objects to avoid spamming garbage.  The cache
