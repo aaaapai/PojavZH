@@ -18,8 +18,6 @@ package android.util;
 
 import org.jspecify.annotations.*;
 
-import com.android.internal.util.ArrayUtils;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -227,7 +225,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                             array[0] = array[1] = null;
                             mTwiceBaseCacheSize--;
                             if (DEBUG) {
-                                Log.d(TAG, "Retrieving 2x cache " + Arrays.toString(mHashes)
+                                System.out.println(TAG, "Retrieving 2x cache " + Arrays.toString(mHashes)
                                         + " now have " + mTwiceBaseCacheSize + " entries");
                             }
                             return;
@@ -236,7 +234,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     }
                     // Whoops!  Someone trampled the array (probably due to not protecting
                     // their access with a lock).  Our cache is corrupt; report and give up.
-                    Slog.wtf(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
+                    System.out.println(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
                             + " [1]=" + array[1]);
                     mTwiceBaseCache = null;
                     mTwiceBaseCacheSize = 0;
@@ -254,7 +252,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                             array[0] = array[1] = null;
                             mBaseCacheSize--;
                             if (DEBUG) {
-                                Log.d(TAG, "Retrieving 1x cache " + Arrays.toString(mHashes)
+                                System.out.println(TAG, "Retrieving 1x cache " + Arrays.toString(mHashes)
                                         + " now have " + mBaseCacheSize + " entries");
                             }
                             return;
@@ -263,7 +261,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     }
                     // Whoops!  Someone trampled the array (probably due to not protecting
                     // their access with a lock).  Our cache is corrupt; report and give up.
-                    Slog.wtf(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
+                    System.out.println(TAG, "Found corrupt ArrayMap cache: [0]=" + array[0]
                             + " [1]=" + array[1]);
                     mBaseCache = null;
                     mBaseCacheSize = 0;
@@ -292,7 +290,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     mTwiceBaseCache = array;
                     mTwiceBaseCacheSize++;
                     if (DEBUG) {
-                        Log.d(TAG, "Storing 2x cache " + Arrays.toString(array)
+                        System.out.println(TAG, "Storing 2x cache " + Arrays.toString(array)
                                 + " now have " + mTwiceBaseCacheSize + " entries");
                     }
                 }
@@ -308,7 +306,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                     mBaseCache = array;
                     mBaseCacheSize++;
                     if (DEBUG) {
-                        Log.d(TAG, "Storing 1x cache " + Arrays.toString(array)
+                        System.out.println(TAG, "Storing 1x cache " + Arrays.toString(array)
                                 + " now have " + mBaseCacheSize + " entries");
                     }
                 }
@@ -500,11 +498,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * @return Returns the key stored at the given index.
      */
     public K keyAt(int index) {
-        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
-            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
-            // Check if exception should be thrown outside of the critical path.
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
         return (K)mArray[index << 1];
     }
 
@@ -520,11 +513,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * @return Returns the value stored at the given index.
      */
     public V valueAt(int index) {
-        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
-            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
-            // Check if exception should be thrown outside of the critical path.
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
         return (V)mArray[(index << 1) + 1];
     }
 
@@ -541,11 +529,6 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * @return Returns the previous value at the given index.
      */
     public V setValueAt(int index, V value) {
-        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
-            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
-            // Check if exception should be thrown outside of the critical path.
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
         index = (index << 1) + 1;
         V old = (V)mArray[index];
         mArray[index] = value;
@@ -592,7 +575,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
             final int n = osize >= (BASE_SIZE*2) ? (osize+(osize>>1))
                     : (osize >= BASE_SIZE ? (BASE_SIZE*2) : BASE_SIZE);
 
-            if (DEBUG) Log.d(TAG, "put: grow from " + mHashes.length + " to " + n);
+            if (DEBUG) System.out.println(TAG, "put: grow from " + mHashes.length + " to " + n);
 
             final int[] ohashes = mHashes;
             final Object[] oarray = mArray;
@@ -603,7 +586,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
             }
 
             if (mHashes.length > 0) {
-                if (DEBUG) Log.d(TAG, "put: copy 0-" + osize + " to 0");
+                if (DEBUG) System.out.println(TAG, "put: copy 0-" + osize + " to 0");
                 System.arraycopy(ohashes, 0, mHashes, 0, ohashes.length);
                 System.arraycopy(oarray, 0, mArray, 0, oarray.length);
             }
@@ -612,7 +595,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
         }
 
         if (index < osize) {
-            if (DEBUG) Log.d(TAG, "put: move " + index + "-" + (osize-index)
+            if (DEBUG) System.out.println(TAG, "put: move " + index + "-" + (osize-index)
                     + " to " + (index+1));
             System.arraycopy(mHashes, index, mHashes, index + 1, osize - index);
             System.arraycopy(mArray, index << 1, mArray, (index + 1) << 1, (mSize - index) << 1);
@@ -744,18 +727,13 @@ public final class ArrayMap<K, V> implements Map<K, V> {
      * @return Returns the value that was stored at this index.
      */
     public V removeAt(int index) {
-        if (index >= mSize && UtilConfig.sThrowExceptionForUpperArrayOutOfBounds) {
-            // The array might be slightly bigger than mSize, in which case, indexing won't fail.
-            // Check if exception should be thrown outside of the critical path.
-            throw new ArrayIndexOutOfBoundsException(index);
-        }
 
         final Object old = mArray[(index << 1) + 1];
         final int osize = mSize;
         final int nsize;
         if (osize <= 1) {
             // Now empty.
-            if (DEBUG) Log.d(TAG, "remove: shrink from " + mHashes.length + " to 0");
+            if (DEBUG) System.out.println(TAG, "remove: shrink from " + mHashes.length + " to 0");
             final int[] ohashes = mHashes;
             final Object[] oarray = mArray;
             mHashes = EmptyArray.INT;
@@ -770,7 +748,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                 // that and BASE_SIZE.
                 final int n = osize > (BASE_SIZE*2) ? (osize + (osize>>1)) : (BASE_SIZE*2);
 
-                if (DEBUG) Log.d(TAG, "remove: shrink from " + mHashes.length + " to " + n);
+                if (DEBUG) System.out.println(TAG, "remove: shrink from " + mHashes.length + " to " + n);
 
                 final int[] ohashes = mHashes;
                 final Object[] oarray = mArray;
@@ -781,12 +759,12 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                 }
 
                 if (index > 0) {
-                    if (DEBUG) Log.d(TAG, "remove: copy from 0-" + index + " to 0");
+                    if (DEBUG) System.out.println(TAG, "remove: copy from 0-" + index + " to 0");
                     System.arraycopy(ohashes, 0, mHashes, 0, index);
                     System.arraycopy(oarray, 0, mArray, 0, index << 1);
                 }
                 if (index < nsize) {
-                    if (DEBUG) Log.d(TAG, "remove: copy from " + (index+1) + "-" + nsize
+                    if (DEBUG) System.out.println(TAG, "remove: copy from " + (index+1) + "-" + nsize
                             + " to " + index);
                     System.arraycopy(ohashes, index + 1, mHashes, index, nsize - index);
                     System.arraycopy(oarray, (index + 1) << 1, mArray, index << 1,
@@ -794,7 +772,7 @@ public final class ArrayMap<K, V> implements Map<K, V> {
                 }
             } else {
                 if (index < nsize) {
-                    if (DEBUG) Log.d(TAG, "remove: move " + (index+1) + "-" + nsize
+                    if (DEBUG) System.out.println(TAG, "remove: move " + (index+1) + "-" + nsize
                             + " to " + index);
                     System.arraycopy(mHashes, index + 1, mHashes, index, nsize - index);
                     System.arraycopy(mArray, (index + 1) << 1, mArray, index << 1,
