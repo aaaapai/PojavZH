@@ -541,12 +541,12 @@ public class GLFW
         mGLFWWindowMap = new ArrayMap<>();
 
         mGLFWVideoMode = new GLFWVidMode(ByteBuffer.allocateDirect(GLFWVidMode.SIZEOF));
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.WIDTH, mGLFWWindowWidth);
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.HEIGHT, mGLFWWindowHeight);
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.REDBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.GREENBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.BLUEBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.REFRESHRATE, 60);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.WIDTH, mGLFWWindowWidth);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.HEIGHT, mGLFWWindowHeight);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.REDBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.GREENBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.BLUEBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.REFRESHRATE, 60);
 
         // A way to generate key code names
         Field[] thisFieldArr = GLFW.class.getFields();
