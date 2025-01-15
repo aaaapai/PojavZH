@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.lwjgl'
+group = 'org.lwjgl.glfw'
 
 configurations.default.setCanBeResolved(true)
 
