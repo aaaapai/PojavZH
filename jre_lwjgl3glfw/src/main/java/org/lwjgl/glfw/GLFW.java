@@ -541,12 +541,12 @@ public class GLFW
         mGLFWWindowMap = new ArrayMap<>();
 
         mGLFWVideoMode = new GLFWVidMode(ByteBuffer.allocateDirect(GLFWVidMode.SIZEOF));
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.WIDTH, mGLFWWindowWidth);
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.HEIGHT, mGLFWWindowHeight);
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.REDBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.GREENBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.BLUEBITS, 8);
-        memPutInt(mGLFWVideoMode.address() + org.lwjgl.glfw.GLFWVidMode.REFRESHRATE, 60);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.WIDTH, mGLFWWindowWidth);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.HEIGHT, mGLFWWindowHeight);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.REDBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.GREENBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.BLUEBITS, 8);
+        memPutInt(mGLFWVideoMode.address() + mGLFWVideoMode.REFRESHRATE, 60);
 
         // A way to generate key code names
         Field[] thisFieldArr = GLFW.class.getFields();
@@ -638,8 +638,8 @@ public class GLFW
         mGLFWWindowWidth = width;
         mGLFWWindowHeight = height;
         if (mGLFWVideoMode == null) return;
-        memPutInt(mGLFWVideoMode.address() + (long) org.lwjgl.glfw.GLFWVidMode.WIDTH, mGLFWWindowWidth);
-        memPutInt(mGLFWVideoMode.address() + (long) org.lwjgl.glfw.GLFWVidMode.HEIGHT, mGLFWWindowHeight);
+        memPutInt(mGLFWVideoMode.address() + (long) mGLFWVideoMode.WIDTH, mGLFWWindowWidth);
+        memPutInt(mGLFWVideoMode.address() + (long) mGLFWVideoMode.HEIGHT, mGLFWWindowHeight);
     }
 
     public static GLFWWindowProperties internalGetWindow(long window) {
@@ -925,8 +925,9 @@ public class GLFW
         return GLFW_NO_ERROR;
     }
 
+    @Nullable
     @NativeType("GLFWvidmode const *")
-    public static GLFWVidMode.@Nullable Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
+    public static GLFWVidMode.Buffer glfwGetVideoModes(@NativeType("GLFWmonitor *") long monitor) {
         MemoryStack stack = stackGet(); int stackPointer = stack.getPointer();
         try {
             // long __result = nglfwGetVideoModes(monitor, memAddress(count));
@@ -1083,7 +1084,7 @@ public class GLFW
         internalGetWindow(window).title = title;
     }
 
-    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @NativeType("GLFWimage const *") GLFWImage.@Nullable Buffer images) {}
+    public static void glfwSetWindowIcon(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("GLFWimage const *") GLFWImage.Buffer images) {}
 
     public static void glfwPollEvents() {
         if (!mGLFWIsInputReady) {
@@ -1159,9 +1160,7 @@ public class GLFW
     public static int glfwGetMouseButton(@NativeType("GLFWwindow *") long window, int button) {
         return mouseDownBuffer.get(button);
     }
-
-    /** {@code void glfwGetCursorPos(GLFWwindow * window, double * xpos, double * ypos)} */
-    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos) {
+    public static void glfwGetCursorPos(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") DoubleBuffer xpos, @Nullable @NativeType("double *") DoubleBuffer ypos) {
         if (CHECKS) {
             checkSafe(xpos, 1);
             checkSafe(ypos, 1);
@@ -1169,8 +1168,9 @@ public class GLFW
         nglfwGetCursorPos(window, xpos, ypos);
     }
 
-    public static native void nglfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos);
-    public static native void nglfwGetCursorPosA(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable double[] xpos, @NativeType("double *")  @Nullable double[] ypos);
+
+    public static native void nglfwGetCursorPos(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") DoubleBuffer xpos, @Nullable @NativeType("double *") DoubleBuffer ypos);
+    public static native void nglfwGetCursorPosA(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("double *") double[] xpos, @Nullable @NativeType("double *") double[] ypos);
 
     public static native void glfwSetCursorPos(@NativeType("GLFWwindow *") long window, double xpos, double ypos); /*{
         mGLFWCursorX = mGLFWCursorLastX = xpos;
