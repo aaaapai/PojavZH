@@ -9,7 +9,7 @@ import android.util.*;
 import java.lang.reflect.*;
 import java.nio.*;
 
-import org.jspecify.annotations.*;
+import javax.annotation.*;
 
 import org.lwjgl.*;
 import org.lwjgl.system.*;
