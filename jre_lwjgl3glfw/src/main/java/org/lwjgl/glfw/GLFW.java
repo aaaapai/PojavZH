@@ -1166,7 +1166,7 @@ public class GLFW
             checkSafe(xpos, 1);
             checkSafe(ypos, 1);
         }
-        nglfwGetCursorPos(window, memAddressSafe(xpos), memAddressSafe(ypos));
+        nglfwGetCursorPos(window, xpos, ypos);
     }
 
     public static native void nglfwGetCursorPos(@NativeType("GLFWwindow *") long window, @NativeType("double *") @Nullable DoubleBuffer xpos, @NativeType("double *") @Nullable DoubleBuffer ypos);
