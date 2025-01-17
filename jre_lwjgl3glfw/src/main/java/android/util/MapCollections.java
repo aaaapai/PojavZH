@@ -16,10 +16,14 @@
 
 package android.util;
 
+import org.jspecify.annotations.*;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -50,6 +54,7 @@ abstract class MapCollections<K, V> {
 
         @Override
         public T next() {
+            if (!hasNext()) throw new NoSuchElementException();
             Object res = colGetEntry(mIndex, mOffset);
             mIndex++;
             mCanRemove = true;
@@ -85,6 +90,7 @@ abstract class MapCollections<K, V> {
 
         @Override
         public Map.Entry<K, V> next() {
+            if (!hasNext()) throw new NoSuchElementException();
             mIndex++;
             mEntryValid = true;
             return this;
@@ -138,8 +144,8 @@ abstract class MapCollections<K, V> {
                 return false;
             }
             Map.Entry<?, ?> e = (Map.Entry<?, ?>) o;
-            return Objects.equal(e.getKey(), colGetEntry(mIndex, 0))
-                    && Objects.equal(e.getValue(), colGetEntry(mIndex, 1));
+            return Objects.equals(e.getKey(), colGetEntry(mIndex, 0))
+                    && Objects.equals(e.getValue(), colGetEntry(mIndex, 1));
         }
 
         @Override
@@ -190,7 +196,7 @@ abstract class MapCollections<K, V> {
                 return false;
             }
             Object foundVal = colGetEntry(index, 1);
-            return Objects.equal(foundVal, e.getValue());
+            return Objects.equals(foundVal, e.getValue());
         }
 
         @Override
@@ -245,7 +251,7 @@ abstract class MapCollections<K, V> {
         }
 
         @Override
-        public boolean equals(Object object) {
+        public boolean equals(@Nullable Object object) {
             return equalsSetHelper(this, object);
         }
 
@@ -335,7 +341,7 @@ abstract class MapCollections<K, V> {
         }
 
         @Override
-        public boolean equals(Object object) {
+        public boolean equals(@Nullable Object object) {
             return equalsSetHelper(this, object);
         }
 
