@@ -638,8 +638,8 @@ public class GLFW
         mGLFWWindowWidth = width;
         mGLFWWindowHeight = height;
         if (mGLFWVideoMode == null) return;
-        memPutInt(mGLFWVideoMode.address() + (long) mGLFWVideoMode.WIDTH, mGLFWWindowWidth);
-        memPutInt(mGLFWVideoMode.address() + (long) mGLFWVideoMode.HEIGHT, mGLFWWindowHeight);
+        memPutInt(mGLFWVideoMode.address() + (long) org.lwjgl.glfw.GLFWVidMode.WIDTH, mGLFWWindowWidth);
+        memPutInt(mGLFWVideoMode.address() + (long) org.lwjgl.glfw.GLFWVidMode.HEIGHT, mGLFWWindowHeight);
     }
 
     public static GLFWWindowProperties internalGetWindow(long window) {
