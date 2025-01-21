@@ -167,7 +167,6 @@ android {
         }
         pickFirst '**/libbytehook.so'
         exclude '**/awt_headless.so'
-        exclude '**/libGLESv3.so'
     }
 
     buildFeatures {
