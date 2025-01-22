@@ -273,16 +273,6 @@ public class JREUtils {
         }
 
         if (LOCAL_RENDERER.equals("opengles3_gl4es_plus")) {
-            envMap.put("LIBGL_ES", "3");
-            envMap.put("LIBGL_FB", "3");
-            envMap.put("LIBGL_USEVBO", "1");
-            envMap.put("LIBGL_GL", "32");
-            envMap.put("LIBGL_SHADERCONVERTER", "1");
-            envMap.put("LIBGL_NOINTOVLHACK", "1");
-            envMap.put("LIBGL_NORMALIZE", "1");
-            envMap.put("LIBGL_MIPMAP", "3");
-            envMap.put("POJAVEXEC_EGL", "libEGL.so");
-            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES2_BIT");
         }
 
         if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle")) {
