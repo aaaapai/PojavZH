@@ -51,7 +51,7 @@ android {
 
     defaultConfig {
         applicationId nameId
-        minSdkVersion 26
+        minSdkVersion 21
         targetSdkVersion 35
         versionCode 139702
         versionName "1.3.9.7"
