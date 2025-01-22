@@ -1,5 +1,4 @@
 #include <EGL/egl.h>
-#include <EGL/eglext.h>
 #include <android/log.h>
 #include <android/native_window.h>
 #include <android/native_window_jni.h>
@@ -15,6 +14,8 @@
 //
 // Created by maks on 17.09.2022.
 //
+
+#define EGL_OPENGL_ES3_BIT_KHR 0x00000040
 
 static const char* g_LogTag = "GLBridge";
 static __thread gl_render_window_t* currentBundle;
@@ -46,14 +47,8 @@ gl_render_window_t* gl_get_current(void) {
 gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     gl_render_window_t* bundle = malloc(sizeof(gl_render_window_t));
     memset(bundle, 0, sizeof(gl_render_window_t));
-    EGLint egl_attributes[] = { EGL_NONE };
-    if (!strcmp(getenv("POJAV_RENDERER"), "opengles3_gl4es_plus")
-     || !strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19))
-    {
-      EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES2_BIT, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, EGL_NONE };
-    } else {
-      EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, EGL_OPENGL_ES3_BIT_KHR, EGL_RENDERABLE_TYPE, EGL_OPENGL_ES3_BIT_KHR, EGL_NONE };
-    }
+    int ZL_GLES_BIT = strtol(getenv("ZL_GLES_BIT"), NULL, 0);
+    EGLint egl_attributes[] = { EGL_BLUE_SIZE, 8, EGL_GREEN_SIZE, 8, EGL_RED_SIZE, 8, EGL_ALPHA_SIZE, 8, EGL_DEPTH_SIZE, 24, EGL_ALPHA_MASK_SIZE, 8, EGL_SURFACE_TYPE, EGL_WINDOW_BIT|EGL_PBUFFER_BIT, EGL_CONFORMANT, ZL_GLES_BIT, EGL_RENDERABLE_TYPE, ZL_GLES_BIT, EGL_NONE };
     EGLint num_configs = 0;
 
     if (eglChooseConfig_p(g_EglDisplay, egl_attributes, NULL, 0, &num_configs) != EGL_TRUE)
@@ -92,7 +87,7 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
 
     int libgl_es = strtol(getenv("LIBGL_ES"), NULL, 0);
     if (libgl_es < 0 || libgl_es > INT16_MAX) libgl_es = 2;
-    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE };
+    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, libgl_es, EGL_NONE };
     bundle->context = eglCreateContext_p(g_EglDisplay, bundle->config, share == NULL ? EGL_NO_CONTEXT : share->context, egl_context_attributes);
 
     if (bundle->context == EGL_NO_CONTEXT)
