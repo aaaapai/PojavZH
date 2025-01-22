@@ -111,7 +111,6 @@ public class JREUtils {
         dlopen(findInLdLibPath("libawt_headless.so"));
         dlopen(findInLdLibPath("libfreetype.so"));
         dlopen(findInLdLibPath("libfontmanager.so"));
-        dlopen(findInLdLibPath("libjspawnhelper.so"));
         for (File f : locateLibs(new File(jreHome, Tools.DIRNAME_HOME_JRE))) {
             dlopen(f.getAbsolutePath());
         }
@@ -248,6 +247,7 @@ public class JREUtils {
             envMap.put("LIBGL_NORMALIZE", "1");
             envMap.put("LIBGL_GLES", "libGLESv3.so");
             envMap.put("LIBGL_FB", "3");
+            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES3_BIT_KHR");
         }
 
         String eglName = null;
@@ -275,6 +275,7 @@ public class JREUtils {
         if (LOCAL_RENDERER.equals("opengles3_ltw_in_launcher")) {
             envMap.put("LIBGL_ES", "3");
             envMap.put("POJAVEXEC_EGL", "libltw_in_launcher.so");
+            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES3_BIT_KHR");
         }
 
         if (LOCAL_RENDERER.equals("opengles3_gl4es_plus")) {
@@ -289,11 +290,13 @@ public class JREUtils {
             envMap.put("LIBGL_GLES", "libGLESv3.so");
             envMap.put("LIBGL_EGL", "libEGL.so");
             envMap.put("POJAVEXEC_EGL", "libEGL.so");
+            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES2_BIT");
         }
 
         if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle")) {
             envMap.put("LIBGL_ES", "3");
             envMap.put("POJAVEXEC_EGL", "libEGL_angle.so");
+            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES2_BIT");
         }
 
         if (eglName != null) envMap.put("POJAVEXEC_EGL", eglName);
