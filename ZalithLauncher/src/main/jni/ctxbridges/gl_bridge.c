@@ -73,22 +73,21 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
 
     {
         EGLBoolean bindResult;
-
+        EGLBoolean ZL_bindAPI;
+        bindResult = eglBindAPI_p(ZL_bindAPI);
         if (!strcmp(getenv("POJAV_RENDERER"), "opengles3_angle")
          || !strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19))
         {
             printf("EGLBridge: Binding to OpenGL\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_API);
+            ZL_bindAPI = EGL_OPENGL_API;
         } else {
             printf("EGLBridge: Binding to OpenGL ES\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
+            ZL_bindAPI = EGL_OPENGL_ES_API;
         }
         if (!bindResult) printf("EGLBridge: bind failed: %d\n", eglGetError_p());
     }
 
-    int libgl_es = strtol(getenv("LIBGL_ES"), NULL, 0);
-    if (libgl_es < 0 || libgl_es > INT16_MAX) libgl_es = 2;
-    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, libgl_es, EGL_NONE };
+    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE };
     bundle->context = eglCreateContext_p(g_EglDisplay, bundle->config, share == NULL ? EGL_NO_CONTEXT : share->context, egl_context_attributes);
 
     if (bundle->context == EGL_NO_CONTEXT)
@@ -96,7 +95,7 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
         __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "eglCreateContext_p() finished with error: %04x",
                             eglGetError_p());
         free(bundle);
-        return bundle;
+        return NULL;
     }
     return bundle;
 }
