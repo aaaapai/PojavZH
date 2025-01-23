@@ -15,6 +15,8 @@
 // Created by maks on 17.09.2022.
 //
 
+#define EGL_OPENGL_ES_API 0x30A0
+#define EGL_OPENGL_API 0x30A2
 #define EGL_OPENGL_ES3_BIT_KHR 0x00000040
 
 static const char* g_LogTag = "GLBridge";
