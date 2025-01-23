@@ -42,6 +42,8 @@
 // This means that you are forced to have this function/variable for ABI compatibility
 #define ABI_COMPAT __attribute__((unused))
 
+#define RENDERER_GL4ES 1
+
 EGLConfig config;
 struct PotatoBridge potatoBridge;
 
