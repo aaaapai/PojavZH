@@ -40,6 +40,7 @@ import net.kdt.pojavlaunch.customcontrols.mouse.InGameEventProcessor;
 import net.kdt.pojavlaunch.customcontrols.mouse.TouchEventProcessor;
 import net.kdt.pojavlaunch.utils.JREUtils;
 import net.kdt.pojavlaunch.utils.MCOptionUtils;
+import net.kdt.pojavlaunch.Tools;
 
 import org.greenrobot.eventbus.EventBus;
 import org.lwjgl.glfw.CallbackBridge;
@@ -109,7 +110,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
      *                 when the cursor is not grabbed
      */
     public void start(boolean isAlreadyRunning, AbstractTouchpad touchpad){
-        if(MainActivity.isAndroid8OrHigher()) setUpPointerCapture(touchpad);
+        if(Tools.isAndroid8OrHigher()) setUpPointerCapture(touchpad);
         mInGUIProcessor.setAbstractTouchpad(touchpad);
         if(AllSettings.getAlternateSurface().getValue()){
             SurfaceView surfaceView = new SurfaceView(getContext());

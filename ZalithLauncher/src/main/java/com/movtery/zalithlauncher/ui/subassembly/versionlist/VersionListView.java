@@ -22,8 +22,9 @@ import net.kdt.pojavlaunch.utils.FilteredSubList;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,12 +93,11 @@ public class VersionListView extends LinearLayout {
             JMinecraftVersionList.Version version = versions.get(i);
             Date date;
             try {
-                DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-                ZonedDateTime zonedDateTime = ZonedDateTime.parse(version.releaseTime, formatter);
-                date = Date.from(zonedDateTime.toInstant());
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                date = formatter.parseDateTime(version.releaseTime).toDate();
             } catch (Exception e) {
                 Logging.e("Version List", Tools.printToString(e));
-                date = null;
+                date = new Date();
             }
             pairList.add(new Pair<>(version.id, date));
         }
