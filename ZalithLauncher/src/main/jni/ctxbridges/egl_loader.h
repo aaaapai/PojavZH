@@ -30,7 +30,6 @@ extern EGLBoolean (*eglQuerySurface_p)( 	EGLDisplay display,
                                       EGLint attribute,
                                       EGLint * value);
 
-extern __eglMustCastToProperFunctionPointerType (*eglGetProcAddress_p) (const char *procname);
 
 void dlsym_EGL(void);
 
