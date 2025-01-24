@@ -75,16 +75,14 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
 
     {
         EGLBoolean bindResult;
-        EGLBoolean ZL_bindAPI;
-        bindResult = eglBindAPI_p(ZL_bindAPI);
         if (!strcmp(getenv("POJAV_RENDERER"), "opengles3_angle")
          || !strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19))
         {
             printf("EGLBridge: Binding to OpenGL\n");
-            ZL_bindAPI = EGL_OPENGL_API;
+            bindResult = eglBindAPI_p(EGL_OPENGL_API);
         } else {
             printf("EGLBridge: Binding to OpenGL ES\n");
-            ZL_bindAPI = EGL_OPENGL_ES_API;
+            bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
         }
         if (!bindResult) printf("EGLBridge: bind failed: %d\n", eglGetError_p());
     }
