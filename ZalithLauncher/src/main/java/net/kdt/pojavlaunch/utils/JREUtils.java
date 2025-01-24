@@ -247,7 +247,6 @@ public class JREUtils {
             envMap.put("LIBGL_NORMALIZE", "1");
             envMap.put("LIBGL_GLES", "libGLESv3.so");
             envMap.put("LIBGL_FB", "3");
-            envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES3_BIT_KHR");
         }
 
         String eglName = null;
