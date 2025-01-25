@@ -127,7 +127,7 @@ public class JREUtils {
             public void run() {
                 try {
                     if (logcatPb == null) {
-                        logcatPb = new ProcessBuilder().command("logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I", "NativeInput").redirectErrorStream(true);
+                        logcatPb = new ProcessBuilder().command("/system/bin/logcat", /* "-G", "1mb", */ "-v", "brief", "-s", "jrelog:I", "LIBGL:I", "NativeInput").redirectErrorStream(true);
                     }
 
                     Logging.i("jrelog-logcat","Clearing logcat");
@@ -247,6 +247,7 @@ public class JREUtils {
             envMap.put("LIBGL_NORMALIZE", "1");
             envMap.put("LIBGL_GLES", "libGLESv3.so");
             envMap.put("LIBGL_FB", "3");
+            envMap.put("ZL_GLES_BIT", "EGL_OEPNGL_ES3_BIT_KHR");
         }
 
         String eglName = null;
@@ -276,7 +277,7 @@ public class JREUtils {
 
         if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle")) {
             envMap.put("LIBGL_ES", "3");
-            envMap.put("POJAVEXEC_EGL", "libEGL_angle.so");
+            eglName = libEGL_angle.so;
             envMap.put("ZL_GLES_BIT", "EGL_OPENGL_ES2_BIT");
         }
 
@@ -358,9 +359,8 @@ public class JREUtils {
 
         JREUtils.relocateLibPath(runtime, runtimeHome);
 
-        if (runtime.javaVersion > 8) {
-            String libName = runtime.javaVersion == 17 ? "/libjsph17.so" : "/libjsph21.so";
-            Os.setenv("JSP", DIR_NATIVE_LIB + libName, true);
+        if (runtime.javaVersion = 8) {
+            Os.setenv("isJava8", true);
         }
         setCustomEnv();
         setJavaEnv(runtimeHome);
@@ -539,7 +539,7 @@ public class JREUtils {
                 }
             });
         } else {
-            switch (LOCAL_RENDERER){
+            switch (LOCAL_RENDERER) {
                 case "opengles3":
                     renderLibrary = "libgl4es_114.so";
                     break;
@@ -555,9 +555,6 @@ public class JREUtils {
                     break;
                 case "opengles3_gl4es_plus":
                     renderLibrary = "libgl4es_plus.so";
-                    break;
-                case "opengles3_ltw_in_launcher":
-                    renderLibrary = "libltw_in_launcher.so";
                     break;
                 default:
                     Logging.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles3");
