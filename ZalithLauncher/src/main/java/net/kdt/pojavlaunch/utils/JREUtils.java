@@ -359,7 +359,7 @@ public class JREUtils {
 
         JREUtils.relocateLibPath(runtime, runtimeHome);
 
-        if (runtime.javaVersion = 8) {
+        if (runtime.javaVersion < 8) {
             Os.setenv("isJava8", "isJava8", true);
         }
         setCustomEnv();
