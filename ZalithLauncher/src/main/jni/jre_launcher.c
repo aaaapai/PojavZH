@@ -44,6 +44,13 @@
 #define FULL_VERSION "1.8.0-internal"
 #define DOT_VERSION "1.8"
 
+void ZL_check_java8(void) {
+    if (getenv("ZL_isJava8") != NULL) {
+    } else {
+        #define TRY_SIG2JVM
+    }
+}
+
 __attribute__((unused)) static const char* const_progname = "java";
 __attribute__((unused)) static const char* const_launcher = "openjdk";
 static const char** const_jargs = NULL;
