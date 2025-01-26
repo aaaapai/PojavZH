@@ -73,19 +73,10 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
     eglChooseConfig_p(g_EglDisplay, egl_attributes, &bundle->config, 1, &num_configs);
     eglGetConfigAttrib_p(g_EglDisplay, bundle->config, EGL_NATIVE_VISUAL_ID, &bundle->format);
 
-    {
-        EGLBoolean bindResult;
-        if (!strcmp(getenv("POJAV_RENDERER"), "opengles3_angle")
-         || !strncmp(getenv("POJAV_RENDERER"), "opengles3_desktopgl", 19))
-        {
-            printf("EGLBridge: Binding to OpenGL\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_API);
-        } else {
-            printf("EGLBridge: Binding to OpenGL ES\n");
-            bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
-        }
-        if (!bindResult) printf("EGLBridge: bind failed: %d\n", eglGetError_p());
-    }
+    EGLBoolean bindResult;
+    printf("EGLBridge: Binding to OpenGL ES\n");
+    bindResult = eglBindAPI_p(EGL_OPENGL_ES_API);
+    if (!bindResult) printf("EGLBridge: bind failed: %d\n", eglGetError_p());
 
     const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE };
     bundle->context = eglCreateContext_p(g_EglDisplay, bundle->config, share == NULL ? EGL_NO_CONTEXT : share->context, egl_context_attributes);
