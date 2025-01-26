@@ -5,7 +5,6 @@
         <item name="2">Vulkan Zink</item>
         <item name="3">VirGLRenderer</item>
         <item name="6">@string/setting_renderer_name_angle</item>
-        <item name="7">LTW</item>
         <item name="7">GL4ES+</item>
     </string-array>
 
@@ -14,7 +13,6 @@
         <item>vulkan_zink</item> <!-- zink renderer with vulkan -->
         <item>gallium_virgl</item> <!-- virgl renderer with OpenGL ES 3 -->
         <item>opengles3_desktopgl_angle</item> <!-- Angle with OpenGL 3 -->
-        <item>opengles3_ltw_in_launcher</item> <!-- LTW with OpenGL 3 -->
         <item>opengles3_gl4es_plus</item> <!-- LTW with OpenGL 3 -->
     </string-array>
 
