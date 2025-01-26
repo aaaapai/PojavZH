@@ -111,6 +111,7 @@ public class JREUtils {
         dlopen(findInLdLibPath("libawt_headless.so"));
         dlopen(findInLdLibPath("libfreetype.so"));
         dlopen(findInLdLibPath("libfontmanager.so"));
+        dlopen(findInLdLibPath("jspawnhelper"));
         for (File f : locateLibs(new File(jreHome, Tools.DIRNAME_HOME_JRE))) {
             dlopen(f.getAbsolutePath());
         }
@@ -359,9 +360,6 @@ public class JREUtils {
 
         JREUtils.relocateLibPath(runtime, runtimeHome);
 
-        if (runtime.javaVersion < 8) {
-            Os.setenv("isJava8", "isJava8", true);
-        }
         setCustomEnv();
         setJavaEnv(runtimeHome);
         if (LOCAL_RENDERER != null) setRendererEnv();
