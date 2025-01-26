@@ -112,7 +112,7 @@ _Noreturn static void abort_waiter_handler(int signal) {
     while(1) {}
 }
 
-static void abort_waiter_setup() {
+static void abort_waiter_setup(void) {
     const static int tracked_signals[] = {SIGABRT};
     const static int ntracked = (sizeof(tracked_signals) / sizeof(tracked_signals[0]));
     struct sigaction sigactions[ntracked];
