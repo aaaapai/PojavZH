@@ -104,7 +104,7 @@ public class JREUtils {
         }
         dlopen(findInLdLibPath("libverify.so"));
         dlopen(findInLdLibPath("libjava.so"));
-        // dlopen(findInLdLibPath("libjsig.so"));
+        dlopen(findInLdLibPath("libjsig.so"));
         dlopen(findInLdLibPath("libnet.so"));
         dlopen(findInLdLibPath("libnio.so"));
         dlopen(findInLdLibPath("libawt.so"));
