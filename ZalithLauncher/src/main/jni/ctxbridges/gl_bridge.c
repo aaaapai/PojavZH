@@ -87,7 +87,7 @@ gl_render_window_t* gl_init_context(gl_render_window_t *share) {
         if (!bindResult) printf("EGLBridge: bind failed: %d\n", eglGetError_p());
     }
 
-    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, 3, EGL_NONE };
+    const EGLint egl_context_attributes[] = { EGL_CONTEXT_CLIENT_VERSION, 5, EGL_NONE };
     bundle->context = eglCreateContext_p(g_EglDisplay, bundle->config, share == NULL ? EGL_NO_CONTEXT : share->context, egl_context_attributes);
 
     if (bundle->context == EGL_NO_CONTEXT)
@@ -115,7 +115,7 @@ static void gl_swap_surface(gl_render_window_t* bundle) {
     }else{
         __android_log_print(ANDROID_LOG_ERROR, g_LogTag, "No new native surface, switching to 2x2 pbuffer");
         bundle->nativeSurface = NULL;
-        const EGLint pbuffer_attrs[] = {EGL_WIDTH, 2 , EGL_HEIGHT, 2, EGL_NONE};
+        const EGLint pbuffer_attrs[] = {EGL_WIDTH, 1 , EGL_HEIGHT, 1, EGL_NONE};
         bundle->surface = eglCreatePbufferSurface_p(g_EglDisplay, bundle->config, pbuffer_attrs);
     }
     // eglMakeCurrent_p(g_EglDisplay, bundle->surface, bundle->surface, bundle->context);
