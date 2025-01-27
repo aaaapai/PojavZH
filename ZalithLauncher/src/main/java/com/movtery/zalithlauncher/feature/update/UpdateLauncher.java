@@ -39,6 +39,7 @@ public final class UpdateLauncher {
     private final Call call;
     private ProgressDialog dialog;
     private Timer timer;
+    private boolean isCanceled = false;
 
     public UpdateLauncher(Context context, LauncherVersion launcherVersion, UpdateSource updateSource) {
         this.context = context;
@@ -135,6 +136,11 @@ public final class UpdateLauncher {
     }
 
     private void handleDownloadError(Exception e) {
+        if (isCanceled) {
+            //已经取消了下载，不处理取消带来的任何异常
+            return;
+        }
+
         runInUIThread(() -> {
             UpdateLauncher.this.dialog.dismiss();
             Tools.showError(context, R.string.update_fail, e);
@@ -145,6 +151,7 @@ public final class UpdateLauncher {
     }
 
     private void stop() {
+        this.isCanceled = true;
         this.call.cancel();
         this.timer.cancel();
         FileUtils.deleteQuietly(UpdateUtils.sApkFile);

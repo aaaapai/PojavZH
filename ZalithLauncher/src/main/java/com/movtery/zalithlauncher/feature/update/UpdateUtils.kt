@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.content.FileProvider
-import com.movtery.zalithlauncher.BuildConfig
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.feature.log.Logging
 import com.movtery.zalithlauncher.feature.update.LauncherVersion.FileSize
@@ -41,7 +40,7 @@ class UpdateUtils {
          */
         @JvmStatic
         fun checkDownloadedPackage(context: Context, force: Boolean, ignore: Boolean) {
-            val isRelease = BuildConfig.BUILD_TYPE == "release"
+            val isRelease = (ZHTools.isRelease() || ZHTools.isPreRelease()) && !ZHTools.isDebug()
 
             if (sApkFile.exists()) {
                 val packageManager = context.packageManager
@@ -102,7 +101,11 @@ class UpdateUtils {
                             if (ignore && versionName == ignoreUpdate.getValue()) return  //忽略此版本
 
                             val versionCode = launcherVersion.versionCode
-                            if (ZHTools.getVersionCode() < versionCode) {
+                            fun checkPreRelease(): Boolean {
+                                return if (!launcherVersion.isPreRelease) true
+                                else ZHTools.isPreRelease() || AllSettings.acceptPreReleaseUpdates.getValue()
+                            }
+                            if (checkPreRelease() && ZHTools.getVersionCode() < versionCode) {
                                 runInUIThread {
                                     UpdateDialog(context, launcherVersion).show()
                                 }
