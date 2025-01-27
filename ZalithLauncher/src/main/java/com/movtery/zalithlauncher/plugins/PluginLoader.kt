@@ -14,7 +14,8 @@ import org.apache.commons.io.FileUtils
  */
 object PluginLoader {
     private var isInitialized: Boolean = false
-    private const val PACKAGE_FLAGS = PackageManager.GET_META_DATA or PackageManager.GET_SHARED_LIBRARY_FILES
+    private const val PACKAGE_FLAGS =
+        PackageManager.GET_META_DATA or PackageManager.GET_SHARED_LIBRARY_FILES
 
     @JvmStatic
     @SuppressLint("QueryPermissionsNeeded")
@@ -25,18 +26,14 @@ object PluginLoader {
         DriverPluginManager.initDriver(context)
 
         val queryIntentActivities =
-            context.packageManager.queryIntentActivities(Intent("android.intent.action.MAIN"), PACKAGE_FLAGS)
+            context.packageManager.queryIntentActivities(
+                Intent("android.intent.action.MAIN"),
+                PACKAGE_FLAGS
+            )
         queryIntentActivities.forEach {
-            val activityInfo = it.activityInfo
-            val packageName = activityInfo.packageName
-            if (
-                packageName.startsWith("com.movtery.zalithplugin.renderer") ||
-                packageName.startsWith("com.mio.plugin.renderer")
-            ) {
-                val applicationInfo = activityInfo.applicationInfo
-                DriverPluginManager.parsePlugin(applicationInfo)
-                RendererPluginManager.parseApkPlugin(context, applicationInfo)
-            }
+            val applicationInfo = it.activityInfo.applicationInfo
+            DriverPluginManager.parsePlugin(applicationInfo)
+            RendererPluginManager.parseApkPlugin(context, applicationInfo)
         }
 
         //尝试解析本地渲染器插件
