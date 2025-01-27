@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import com.movtery.zalithlauncher.InfoCenter
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.databinding.ActivityErrorBinding
@@ -31,60 +32,71 @@ class ErrorActivity : BaseActivity() {
         }
         binding.shareLog.setOnClickListener { ZHTools.shareLogs(this) }
 
-        if (extras.getBoolean(BUNDLE_IS_ERROR, true)) {
-            showError(extras)
+        if (extras.getBoolean(BUNDLE_IS_LAUNCHER_CRASH, true)) {
+            showLauncherCrash(extras)
         } else {
             //如果不是应用崩溃，那么这个页面就不允许截图
             window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
-            showCrash(extras)
+            showGameCrash(extras)
         }
     }
 
-    private fun showCrash(extras: Bundle) {
-        val code = extras.getInt(BUNDLE_CODE, 0)
-        if (code == 0) {
-            finish()
-            return
-        }
-
-        binding.errorTitle.setText(R.string.generic_wrong_tip)
-
-        val message = if (extras.getBoolean(BUNDLE_IS_SIGNAL)) R.string.game_singnal_message else R.string.game_exit_message
-
-        binding.errorText.apply {
-            text = getString(message, code)
-            textSize = 14f
-        }
-        binding.errorTip.visibility = View.VISIBLE
-        binding.errorNoScreenshot.visibility = View.VISIBLE
-    }
-
-    private fun showError(extras: Bundle) {
-        binding.errorTitle.text = InfoCenter.replaceName(this, R.string.error_fatal)
+    private fun showLauncherCrash(extras: Bundle) {
+        val context = this
 
         val throwable = extras.getSerializable(BUNDLE_THROWABLE) as Throwable?
         val stackTrace = if (throwable != null) Tools.printToString(throwable) else "<null>"
         val strSavePath = extras.getString(BUNDLE_SAVE_PATH)
         val errorText = "$strSavePath :\r\n\r\n$stackTrace"
 
-        binding.errorText.text = errorText
+        binding.apply {
+            this.errorTitle.text = InfoCenter.replaceName(context, R.string.error_fatal)
+            this.errorText.text = errorText
+
+            this.topView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_menu_top_error))
+            this.background.setBackgroundColor(ContextCompat.getColor(context, R.color.background_app_error))
+        }
+    }
+
+    private fun showGameCrash(extras: Bundle) {
+        val code = extras.getInt(BUNDLE_CODE, 0)
+        if (code == 0) {
+            finish()
+            return
+        }
+        val errorText = if (extras.getBoolean(BUNDLE_IS_SIGNAL)) R.string.game_singnal_message else R.string.game_exit_message
+
+        val context = this
+
+        binding.apply {
+            this.errorTitle.setText(R.string.generic_wrong_tip)
+            this.errorText.apply {
+                text = getString(errorText, code)
+                textSize = 14f
+            }
+            this.errorTip.visibility = View.VISIBLE
+            this.errorNoScreenshot.visibility = View.VISIBLE
+
+            this.topView.setBackgroundColor(ContextCompat.getColor(context, R.color.background_menu_top))
+            this.background.setBackgroundColor(ContextCompat.getColor(context, R.color.background_app))
+        }
     }
 
     companion object {
-        private const val BUNDLE_IS_ERROR = "is_error"
+        private const val BUNDLE_IS_LAUNCHER_CRASH = "is_error"
         private const val BUNDLE_IS_SIGNAL = "is_signal"
         private const val BUNDLE_CODE = "code"
         private const val BUNDLE_THROWABLE = "throwable"
         private const val BUNDLE_SAVE_PATH = "save_path"
 
         @JvmStatic
-        fun showError(ctx: Context, savePath: String?, th: Throwable?) {
+        fun showLauncherCrash(ctx: Context, savePath: String?, th: Throwable?) {
             val intent = Intent(ctx, ErrorActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra(BUNDLE_THROWABLE, th)
             intent.putExtra(BUNDLE_SAVE_PATH, savePath)
-            intent.putExtra(BUNDLE_IS_ERROR, true)
+            intent.putExtra(BUNDLE_IS_LAUNCHER_CRASH, true)
             ctx.startActivity(intent)
         }
 
@@ -98,7 +110,7 @@ class ErrorActivity : BaseActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra(BUNDLE_CODE, code)
-            intent.putExtra(BUNDLE_IS_ERROR, false)
+            intent.putExtra(BUNDLE_IS_LAUNCHER_CRASH, false)
             intent.putExtra(BUNDLE_IS_SIGNAL, isSignal)
             ctx.startActivity(intent)
         }
