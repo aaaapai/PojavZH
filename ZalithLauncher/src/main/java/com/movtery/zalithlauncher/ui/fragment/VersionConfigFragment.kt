@@ -34,6 +34,7 @@ import com.movtery.zalithlauncher.utils.ZHTools
 import com.movtery.zalithlauncher.utils.file.FileTools.Companion.copyFileInBackground
 import com.skydoves.powerspinner.DefaultSpinnerAdapter
 import com.skydoves.powerspinner.OnSpinnerItemSelectedListener
+import com.skydoves.powerspinner.PowerSpinnerView
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.multirt.MultiRTUtils
 import net.kdt.pojavlaunch.multirt.Runtime
@@ -109,6 +110,8 @@ class VersionConfigFragment : FragmentWithAnim(R.layout.fragment_version_config)
             jvmArgsEdit.addTextChangedListener(SimpleTextWatcher { s: Editable? ->
                 mTempConfig?.setJavaArgs(getEditableValue(s))
             })
+
+            initSpinners(isolationType, rendererSpinner, driverSpinner, runtimeSpinner)
         }
 
         val versionConfig = currentVersion.getVersionConfig()
@@ -127,10 +130,20 @@ class VersionConfigFragment : FragmentWithAnim(R.layout.fragment_version_config)
         binding.resetCustomPath.isEnabled = !disable
     }
 
+    private fun initSpinners(vararg spinners: PowerSpinnerView) {
+        spinners.forEach { spinner ->
+            spinner.apply {
+                setIsFocusable(true)
+                lifecycleOwner = this@VersionConfigFragment
+            }
+        }
+    }
+
     private fun closeSpinner() {
-        binding.runtimeSpinner.dismiss()
-        binding.rendererSpinner.dismiss()
         binding.isolationType.dismiss()
+        binding.rendererSpinner.dismiss()
+        binding.driverSpinner.dismiss()
+        binding.runtimeSpinner.dismiss()
     }
 
     override fun onClick(v: View?) {
@@ -184,8 +197,13 @@ class VersionConfigFragment : FragmentWithAnim(R.layout.fragment_version_config)
     }
 
     override fun onPause() {
-        super.onPause()
         closeSpinner()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        closeSpinner()
+        super.onDestroyView()
     }
 
     override fun onBackPressed(): Boolean {

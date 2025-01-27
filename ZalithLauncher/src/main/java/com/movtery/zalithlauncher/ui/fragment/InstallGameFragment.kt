@@ -273,7 +273,7 @@ class InstallGameFragment : FragmentWithAnim(R.layout.fragment_install_game), Vi
                     val endTask: InstallTaskItem.EndTask = if (mapSize < 2) { //安装为一个版本
                         InstallTaskItem.EndTask { activity, file ->
                             installInGUITask(activity, addon.addonName, taskPair.first) { intent, argUtils ->
-                                argUtils.setOptiFine(intent, file)
+                                argUtils.setOptiFine(intent, file, customVersionName)
                             }
                         }
                     } else {
