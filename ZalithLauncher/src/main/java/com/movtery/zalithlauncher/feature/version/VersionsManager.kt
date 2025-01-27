@@ -6,11 +6,9 @@ import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.event.single.RefreshVersionsEvent
 import com.movtery.zalithlauncher.event.single.RefreshVersionsEvent.MODE.END
 import com.movtery.zalithlauncher.event.single.RefreshVersionsEvent.MODE.START
-import com.movtery.zalithlauncher.event.sticky.InstallingVersionEvent
 import com.movtery.zalithlauncher.feature.customprofilepath.ProfilePathHome
 import com.movtery.zalithlauncher.feature.log.Logging
 import com.movtery.zalithlauncher.feature.version.favorites.FavoritesVersionUtils
-import com.movtery.zalithlauncher.feature.version.install.GameInstaller
 import com.movtery.zalithlauncher.feature.version.utils.VersionInfoUtils
 import com.movtery.zalithlauncher.task.Task
 import com.movtery.zalithlauncher.task.TaskExecutors
@@ -55,58 +53,49 @@ object VersionsManager {
      * 异步刷新当前的版本列表，刷新完成后，将使用一个事件进行通知，不过这个事件并不会在UI线程执行
      * @see com.movtery.zalithlauncher.event.single.RefreshVersionsEvent
      */
-    fun refresh() {
-        //如果版本正在安装中，则禁止刷新版本列表，这可能会提前触发版本文件夹合并机制，引发不必要的Bug
-        EventBus.getDefault().getStickyEvent(InstallingVersionEvent::class.java)?.let { return }
-
+    fun refresh(refreshVersionInfo: Boolean = false) {
         coroutineScope.launch {
-            refreshWithMutex()
-        }
-    }
+            refreshMutex.withLock {
+                EventBus.getDefault().post(RefreshVersionsEvent(START))
 
-    private suspend fun refreshWithMutex() {
-        refreshMutex.withLock {
-            EventBus.getDefault().post(RefreshVersionsEvent(START))
+                try {
+                    versions.clear()
 
-            try {
-                versions.clear()
+                    val versionsHome = ProfilePathHome.getVersionsHome()
+                    File(versionsHome).listFiles()?.forEach { versionFile ->
+                        runCatching {
+                            if (versionFile.exists() && versionFile.isDirectory) {
+                                var isVersion = false
 
-                val versionsHome = ProfilePathHome.getVersionsHome()
-                File(versionsHome).listFiles()?.forEach { versionFile ->
-                    runCatching {
-                        if (versionFile.exists() && versionFile.isDirectory) {
-                            var isVersion = false
-
-                            //通过判断是否存在版本的.json文件，来确定其是否为一个版本
-                            val jsonFile = File(versionFile, "${versionFile.name}.json")
-                            if (jsonFile.exists() && jsonFile.isFile) {
-                                isVersion = true
-                                if (!File(getZalithVersionPath(versionFile), "VersionInfo.json").exists()) {
-                                    VersionInfoUtils.parseJson(jsonFile)?.save(versionFile)
+                                //通过判断是否存在版本的.json文件，来确定其是否为一个版本
+                                val jsonFile = File(versionFile, "${versionFile.name}.json")
+                                if (jsonFile.exists() && jsonFile.isFile) {
+                                    isVersion = true
+                                    val versionInfoFile = File(getZalithVersionPath(versionFile), "VersionInfo.json")
+                                    if (refreshVersionInfo) FileUtils.deleteQuietly(versionInfoFile)
+                                    if (!versionInfoFile.exists()) {
+                                        VersionInfoUtils.parseJson(jsonFile)?.save(versionFile)
+                                    }
                                 }
-                            }
 
-                            val versionConfig = VersionConfig.parseConfig(versionFile)
+                                val versionConfig = VersionConfig.parseConfig(versionFile)
 
-                            versions.add(
-                                Version(
-                                    versionsHome,
-                                    versionFile.absolutePath,
-                                    versionConfig,
-                                    isVersion
+                                versions.add(
+                                    Version(
+                                        versionsHome,
+                                        versionFile.absolutePath,
+                                        versionConfig,
+                                        isVersion
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
+                    CurrentGameInfo.refreshCurrentInfo()
+                } finally {
+                    //使用事件通知版本已刷新
+                    EventBus.getDefault().post(RefreshVersionsEvent(END))
                 }
-                CurrentGameInfo.refreshCurrentInfo()
-
-                Task.runTask {
-                    GameInstaller.moveVersionFiles()
-                }.execute()
-            } finally {
-                //使用事件通知版本已刷新
-                EventBus.getDefault().post(RefreshVersionsEvent(END))
             }
         }
     }

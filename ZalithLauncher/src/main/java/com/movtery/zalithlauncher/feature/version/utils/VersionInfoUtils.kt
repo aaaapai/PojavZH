@@ -1,5 +1,6 @@
 package com.movtery.zalithlauncher.feature.version.utils
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import com.movtery.zalithlauncher.feature.log.Logging
 import com.movtery.zalithlauncher.feature.version.VersionInfo
@@ -66,7 +67,7 @@ class VersionInfoUtils {
                     //所以这里用检查inheritsFrom是否存在的方式来判断是否为ModLoader
                     val modloaderInfo = if (jsonObject.has("inheritsFrom")) {
                         //这里需要使用它们自定义的id进行解析
-                        val info = parseLoader(id)
+                        val info = parseLoader(id, jsonObject.takeIf { it.has("libraries") }?.getAsJsonArray("libraries"))
                         Logging.i("Parse version info", info.toString())
                         id = jsonObject.get("inheritsFrom").asString
                         arrayOf(info)
@@ -81,12 +82,29 @@ class VersionInfoUtils {
         }
 
         /**
+         * 通过库中是否有optifine来判断当前版本是否为一个OptiFine版本
+         */
+        private fun JsonArray.takeIfOptiFine(): Pair<String, String>? {
+            return firstOrNull { library ->
+                runCatching {
+                    library.asJsonObject.get("name").asString
+                }.getOrNull()?.split(":")?.takeIf { it.size == 3 }?.let { libs ->
+                    libs[0] == "optifine" && libs[1] == "OptiFine"
+                } == true
+            }?.let {
+                val libs = it.asJsonObject.get("name").asString.split(":")
+                Pair("OptiFine", libs[2])
+            }
+        }
+
+        /**
          * 通过Id判断ModLoader信息：ModLoader名称、版本
          */
-        private fun parseLoader(id: String): VersionInfo.LoaderInfo {
+        private fun parseLoader(id: String, libraries: JsonArray?): VersionInfo.LoaderInfo {
             val pair = LOADER_PAIR.entries
                 .firstOrNull { id.contains(it.key, true) }
-                ?.value?.invoke(id) ?: UNKNOWN
+                ?.value?.invoke(id)
+                ?: libraries?.takeIfOptiFine() ?: UNKNOWN
 
             return VersionInfo.LoaderInfo(
                 pair.first,

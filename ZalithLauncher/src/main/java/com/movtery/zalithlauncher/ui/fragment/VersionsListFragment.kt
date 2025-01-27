@@ -159,7 +159,7 @@ class VersionsListFragment : FragmentWithAnim(R.layout.fragment_versions_list) {
 
             refreshButton.setOnClickListener {
                 if (checkLastRefreshTime()) return@setOnClickListener
-                refresh()
+                refresh(true)
             }
             createPathButton.setOnClickListener {
                 StoragePermissionsUtils.checkPermissions(requireActivity(), R.string.profiles_path_create_new) {
@@ -176,8 +176,8 @@ class VersionsListFragment : FragmentWithAnim(R.layout.fragment_versions_list) {
         refresh()
     }
 
-    private fun refresh() {
-        VersionsManager.refresh()
+    private fun refresh(refreshVersionInfo: Boolean = false) {
+        VersionsManager.refresh(refreshVersionInfo)
 
         profilePathData.clear()
         profilePathData.add(ProfileItem("default", getString(R.string.profiles_path_default), PathManager.DIR_GAME_HOME))
