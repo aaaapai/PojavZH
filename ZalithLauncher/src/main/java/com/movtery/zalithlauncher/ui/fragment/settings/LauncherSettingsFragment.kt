@@ -172,6 +172,13 @@ class LauncherSettingsFragment() : AbstractSettingsFragment(R.layout.settings_fr
             UpdateUtils.checkDownloadedPackage(context, force = true, ignore = false)
         }
 
+        SwitchSettingsWrapper(
+            context,
+            AllSettings.acceptPreReleaseUpdates,
+            binding.acceptPreReleaseUpdatesLayout,
+            binding.acceptPreReleaseUpdates
+        )
+
         val notificationPermissionRequest = SwitchSettingsWrapper(
             context,
             AllSettings.notificationPermissionRequest,

@@ -48,7 +48,6 @@ class VideoSettingsFragment : AbstractSettingsFragment(R.layout.settings_fragmen
                     val pluginFiles = mutableListOf<File>()
                     uriList.forEach { uri ->
                         val file = FileTools.copyFileInBackground(requireActivity(), uri, PathManager.DIR_CACHE.absolutePath)
-                        println(file.absolutePath)
                         pluginFiles.add(file)
                     }
                     pluginFiles.takeIf { it.isNotEmpty() }
@@ -72,9 +71,9 @@ class VideoSettingsFragment : AbstractSettingsFragment(R.layout.settings_fragmen
                                 TipDialog.Builder(requireActivity())
                                     .setTitle(R.string.generic_warning)
                                     .setMessage(R.string.setting_renderer_local_import_restart)
+                                    .setWarning()
                                     .setConfirmClickListener { ZHTools.killProcess() }
                                     .showDialog()
-
                             } else {
                                 TipDialog.Builder(requireActivity())
                                     .setTitle(R.string.generic_tip)
