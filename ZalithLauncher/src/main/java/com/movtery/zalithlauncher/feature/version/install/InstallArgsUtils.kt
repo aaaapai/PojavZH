@@ -23,6 +23,7 @@ class InstallArgsUtils(private val mcVersion: String, private val loaderVersion:
         intent.putExtra(JavaGUILauncherActivity.FORCE_SHOW_LOG, true)
     }
 
+    @Deprecated("不支持JRE 8进行安装，更高的JRE环境安装时，不会自动退出，因此暂时不使用这个函数进行配置安装")
     fun setQuilt(intent: Intent, jarFile: File) {
         val args = "-jar ${jarFile.absolutePath} install client \"$mcVersion\" \"$loaderVersion\" --install-dir=\"${ProfilePathHome.getGameHome()}\""
         intent.putExtra("javaArgs", args)
@@ -48,8 +49,10 @@ class InstallArgsUtils(private val mcVersion: String, private val loaderVersion:
         intent.putExtra(JavaGUILauncherActivity.FORCE_SHOW_LOG, true)
     }
 
-    fun setOptiFine(intent: Intent, jarFile: File) {
-        val args = "-javaagent:${LibPath.FORGE_INSTALLER.absolutePath}=OFNPS -jar ${jarFile.absolutePath}"
+    fun setOptiFine(intent: Intent, jarFile: File, customName: String) {
+        val args = "-javaagent:${LibPath.FORGE_INSTALLER.absolutePath}=OFNPS " +
+                "-javaagent:${LibPath.OPTIFINE_RENAMER.absolutePath}=\"$customName\" " +
+                "-jar ${jarFile.absolutePath}"
         intent.putExtra("javaArgs", args)
     }
 
