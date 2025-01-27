@@ -4,7 +4,6 @@ import android.content.Context
 import com.kdt.mcgui.ProgressLayout
 import com.movtery.zalithlauncher.R
 import com.movtery.zalithlauncher.context.ContextExecutor
-import com.movtery.zalithlauncher.event.sticky.InstallingVersionEvent
 import com.movtery.zalithlauncher.feature.download.Filters
 import com.movtery.zalithlauncher.feature.download.enums.Classify
 import com.movtery.zalithlauncher.feature.download.item.InfoItem
@@ -24,7 +23,6 @@ import com.movtery.zalithlauncher.utils.ZHTools
 import net.kdt.pojavlaunch.Tools
 import net.kdt.pojavlaunch.modloaders.modpacks.api.ApiHandler
 import net.kdt.pojavlaunch.utils.DownloadUtils
-import org.greenrobot.eventbus.EventBus
 import org.jackhuang.hmcl.ui.versions.ModTranslations
 import java.io.File
 
@@ -85,9 +83,7 @@ abstract class AbstractPlatformHelper(val api: ApiHandler) {
 
                             if (!isTaskRunning(ProgressLayout.INSTALL_RESOURCE)) {
                                 ProgressLayout.setProgress(ProgressLayout.INSTALL_RESOURCE, 0, R.string.generic_waiting)
-                                val installingVersionEvent = InstallingVersionEvent()
                                 Task.runTask {
-                                    EventBus.getDefault().postSticky(installingVersionEvent)
                                     val modloader = installModPack(version, customName) ?: return@runTask null
 
                                     val versionPath = VersionsManager.getVersionPath(customName)
@@ -109,8 +105,6 @@ abstract class AbstractPlatformHelper(val api: ApiHandler) {
                                     }
                                 }.onThrowable { e ->
                                     Tools.showErrorRemote(context, R.string.modpack_install_download_failed, e)
-                                }.finallyTask {
-                                    EventBus.getDefault().removeStickyEvent(installingVersionEvent)
                                 }.execute()
                             }
 
