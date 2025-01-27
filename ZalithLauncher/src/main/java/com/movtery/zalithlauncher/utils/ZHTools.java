@@ -210,11 +210,32 @@ public final class ZHTools {
         }
     }
 
+    /**
+     * @return 启动器是否为预发布版
+     */
+    public static boolean isPreRelease() {
+        return BuildConfig.IS_PRE_RELEASE;
+    }
+
+    /**
+     * @return 启动器是否为正式版
+     */
+    public static boolean isRelease() {
+        return Objects.equals(BuildConfig.BUILD_TYPE, "release");
+    }
+
+    /**
+     * @return 启动器是否为测试版
+     */
+    public static boolean isDebug() {
+        return Objects.equals(BuildConfig.BUILD_TYPE, "debug");
+    }
+
     //获取版本状态信息
     public static String getVersionStatus(Context context) {
         String status;
-        if (getVersionName().contains("pre-release")) status = context.getString(R.string.generic_pre_release);
-        else if (Objects.equals(BuildConfig.BUILD_TYPE, "release")) status = context.getString(R.string.generic_release);
+        if (isPreRelease()) status = context.getString(R.string.generic_pre_release);
+        else if (isRelease()) status = context.getString(R.string.generic_release);
         else status = context.getString(R.string.generic_debug);
 
         return status;
