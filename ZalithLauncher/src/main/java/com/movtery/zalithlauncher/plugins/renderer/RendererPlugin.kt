@@ -6,5 +6,6 @@ data class RendererPlugin(
     val glName: String,
     val eglName: String,
     val path: String,
-    val env: List<Pair<String, String>>
+    val env: List<Pair<String, String>>,
+    val dlopen: List<String>
 )
