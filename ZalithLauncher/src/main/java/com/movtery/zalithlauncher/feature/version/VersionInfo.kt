@@ -14,15 +14,19 @@ class VersionInfo(
      * @return 用", "分割的信息字符串
      */
     fun getInfoString(): String {
-        val infoList: MutableList<String> = ArrayList()
-
-        infoList.add(minecraftVersion)
-        loaderInfo?.forEach { info ->
-            infoList.add("${info.name} - ${info.version}")
+        val infoList = mutableListOf<String>().apply {
+            add(minecraftVersion)
+            loaderInfo?.forEach { info ->
+                when {
+                    info.name.isNotBlank() && info.version.isNotBlank() -> add("${info.name} - ${info.version}")
+                    info.name.isNotBlank() -> add(info.name)
+                    info.version.isNotBlank() -> add(info.version)
+                }
+            }
         }
-
         return infoList.joinToString(", ")
     }
+
 
     class LoaderInfo(
         val name: String,
