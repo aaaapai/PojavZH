@@ -2,6 +2,7 @@ package com.movtery.zalithlauncher.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -48,7 +49,13 @@ public class KeyboardDialog extends FullScreenDialog {
 
         Window window = getWindow();
         if (window != null) {
-            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+            int dimension = (int) Tools.dpToPx(getContext().getResources().getDimension(R.dimen._12sdp));
+
+            WindowManager.LayoutParams params = window.getAttributes();
+            params.width = Tools.currentDisplayMetrics.widthPixels - 2 * dimension;
+            params.height = Tools.currentDisplayMetrics.heightPixels - 2 * dimension;
+            window.setAttributes(params);
+
             window.setGravity(Gravity.CENTER);
         }
 

@@ -14,14 +14,14 @@ import com.movtery.zalithlauncher.feature.download.ModDependenciesAdapter
 import com.movtery.zalithlauncher.feature.download.item.DependenciesInfoItem
 import com.movtery.zalithlauncher.feature.download.item.InfoItem
 import com.movtery.zalithlauncher.feature.log.Logging
+import net.kdt.pojavlaunch.Tools
 
 class ModDependenciesDialog(
     context: Context,
     private val infoItem: InfoItem,
     private val dependenciesData: List<DependenciesInfoItem>,
     private val install: () -> Unit
-) :
-    FullScreenDialog(context) {
+) : FullScreenDialog(context) {
     private val binding = DialogModDependenciesBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +31,10 @@ class ModDependenciesDialog(
         setContentView(binding.root)
 
         window?.apply {
-            setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT
-            )
+            val dimension = Tools.dpToPx(context.resources.getDimension(R.dimen._12sdp)).toInt()
+            attributes.width = Tools.currentDisplayMetrics.widthPixels - 2 * dimension
+            attributes.height = Tools.currentDisplayMetrics.heightPixels - 2 * dimension
+
             setGravity(Gravity.CENTER)
 
             //隐藏状态栏
@@ -41,10 +42,6 @@ class ModDependenciesDialog(
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
         }
 
         runCatching {

@@ -46,6 +46,7 @@ class LocalRendererPluginDialog(
                         TipDialog.Builder(binding.root.context)
                             .setTitle(R.string.generic_warning)
                             .setMessage(R.string.setting_renderer_local_delete)
+                            .setWarning()
                             .setConfirmClickListener {
                                 FileUtils.deleteQuietly(renderer.folderPath)
                                 RendererPluginManager.markLocalRendererDeleted(position)

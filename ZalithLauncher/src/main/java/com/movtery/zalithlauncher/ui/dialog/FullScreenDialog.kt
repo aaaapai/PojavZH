@@ -24,6 +24,10 @@ abstract class FullScreenDialog(context: Context) : Dialog(context, R.style.Cust
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                 WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
             )
+            setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
 
             setSystemUiVisibility(decorView)
         }
