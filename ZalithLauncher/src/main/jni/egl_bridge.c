@@ -87,6 +87,9 @@ EXTERNAL_API void* pojavGetCurrentContext() {
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
         return virglGetCurrentContext();
 
+    if (pojav_environ->config_renderer == RENDERER_GL4ES)
+        return (void *)eglGetCurrentContext_p();
+
     return br_get_current();
 }
 
@@ -192,7 +195,7 @@ static int pojavInitOpenGL(void) {
     if (strncmp("opengles", renderer, 8) == 0)
     {
         pojav_environ->config_renderer = RENDERER_GL4ES;
-        set_gl_bridge_tbl();
+        // set_gl_bridge_tbl();
     }
 
     if (strcmp(renderer, "vulkan_zink") == 0)
@@ -243,9 +246,19 @@ static int pojavInitOpenGL(void) {
         return 0;
     }
 
-    if(br_init()) {
-        br_setup_window();
+    if (pojav_environ->config_renderer == RENDERER_GL4ES)
+    {
+        if (SpareBridge())
+        {
+            if (gl_init()) gl_setup_window();
+        } else {
+            if (br_init()) br_setup_window();
+        }
+    } else {
+        if(br_init()) {
+           br_setup_window();
     }
+    
     return 0;
 }
 
@@ -280,7 +293,7 @@ EXTERNAL_API void pojavSwapBuffers(void) {
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
-        br_swap_buffers();
+        gl_swap_buffers();
     }
 
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
@@ -294,7 +307,8 @@ EXTERNAL_API void pojavMakeCurrent(void* window) {
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
-        br_make_current((basic_render_window_t*)window);
+        gl_make_current((gl_render_window_t*)window);
+        // br_make_current((basic_render_window_t*)window);
     }
 
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
@@ -307,6 +321,9 @@ EXTERNAL_API void pojavMakeCurrent(void* window) {
 EXTERNAL_API void* pojavCreateContext(void* contextSrc) {
     if (pojav_environ->config_renderer == RENDERER_VULKAN)
         return (void *) pojav_environ->pojavWindow;
+
+    if (pojav_environ->config_renderer == RENDERER_GL4ES)
+        return gl_init_context(contextSrc);
 
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
         return virglCreateContext(contextSrc);
@@ -332,7 +349,8 @@ EXTERNAL_API void pojavSwapInterval(int interval) {
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
-        br_swap_interval(interval);
+        gl_swap_interval(interval);
+        // br_swap_interval(interval);
     }
 
     if (pojav_environ->config_renderer == RENDERER_VIRGL)
