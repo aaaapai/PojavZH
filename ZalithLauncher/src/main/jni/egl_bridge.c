@@ -185,7 +185,8 @@ static void load_vulkan(void) {
     set_vulkan_ptr(vulkan_ptr);
 }
 
-static int pojavInitOpenGL(void) {
+static int pojavInitOpenGL(void)
+{
     const char *forceVsync = getenv("FORCE_VSYNC");
     if (!strcmp(forceVsync, "true") == 0)
         pojav_environ->force_vsync = true;
@@ -248,15 +249,9 @@ static int pojavInitOpenGL(void) {
 
     if (pojav_environ->config_renderer == RENDERER_GL4ES)
     {
-        if (SpareBridge())
-        {
-            if (gl_init()) gl_setup_window();
-        } else {
-            if (br_init()) br_setup_window();
-        }
+        if (gl_init()) gl_setup_window();
     } else {
-        if(br_init()) {
-           br_setup_window();
+        if (br_init()) br_setup_window();
     }
     
     return 0;
@@ -289,7 +284,8 @@ EXTERNAL_API void pojavSetWindowHint(int hint, int value) {
     }
 }
 
-EXTERNAL_API void pojavSwapBuffers(void) {
+EXTERNAL_API void pojavSwapBuffers(void)
+{
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
@@ -303,7 +299,8 @@ EXTERNAL_API void pojavSwapBuffers(void) {
 
 }
 
-EXTERNAL_API void pojavMakeCurrent(void* window) {
+EXTERNAL_API void pojavMakeCurrent(void* window)
+{
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
@@ -318,7 +315,8 @@ EXTERNAL_API void pojavMakeCurrent(void* window) {
 
 }
 
-EXTERNAL_API void* pojavCreateContext(void* contextSrc) {
+EXTERNAL_API void* pojavCreateContext(void* contextSrc)
+{
     if (pojav_environ->config_renderer == RENDERER_VULKAN)
         return (void *) pojav_environ->pojavWindow;
 
@@ -345,7 +343,8 @@ Java_org_lwjgl_vulkan_VK_getVulkanDriverHandle(ABI_COMPAT JNIEnv *env, ABI_COMPA
     return (jlong) maybe_load_vulkan();
 }
 
-EXTERNAL_API void pojavSwapInterval(int interval) {
+EXTERNAL_API void pojavSwapInterval(int interval)
+{
     if (pojav_environ->config_renderer == RENDERER_VK_ZINK
      || pojav_environ->config_renderer == RENDERER_GL4ES)
     {
