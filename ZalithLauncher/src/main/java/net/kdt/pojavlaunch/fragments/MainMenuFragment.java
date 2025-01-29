@@ -104,7 +104,7 @@ public class MainMenuFragment extends FragmentWithAnim {
     @Override
     public void onResume() {
         super.onResume();
-        VersionsManager.INSTANCE.refresh();
+        VersionsManager.INSTANCE.refresh(false);
     }
 
     @Subscribe()
