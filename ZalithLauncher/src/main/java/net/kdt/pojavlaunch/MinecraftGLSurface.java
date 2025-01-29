@@ -42,6 +42,8 @@ import net.kdt.pojavlaunch.utils.MCOptionUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.lwjgl.glfw.CallbackBridge;
 
+import java.util.Locale;
+
 import fr.spse.gamepad_remapper.RemapperManager;
 import fr.spse.gamepad_remapper.RemapperView;
 
@@ -248,7 +250,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
                 CallbackBridge.sendCursorPos(CallbackBridge.mouseX, CallbackBridge.mouseY);
                 return true;
             case MotionEvent.ACTION_SCROLL:
-                CallbackBridge.sendScroll((double) event.getAxisValue(MotionEvent.AXIS_HSCROLL), (double) event.getAxisValue(MotionEvent.AXIS_VSCROLL));
+                CallbackBridge.sendScroll(event.getAxisValue(MotionEvent.AXIS_HSCROLL), event.getAxisValue(MotionEvent.AXIS_VSCROLL));
                 return true;
             case MotionEvent.ACTION_BUTTON_PRESS:
                 return sendMouseButtonUnconverted(event.getActionButton(),true);
@@ -346,9 +348,15 @@ public class MinecraftGLSurface extends View implements GrabListener {
 
 
     /** Called when the size need to be set at any point during the surface lifecycle **/
-    public void refreshSize(){
-        windowWidth = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.widthPixels, AllStaticSettings.scaleFactor);
-        windowHeight = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.heightPixels, AllStaticSettings.scaleFactor);
+    public void refreshSize() {
+        int newWidth = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.widthPixels, AllStaticSettings.scaleFactor);
+        int newHeight = Tools.getDisplayFriendlyRes(Tools.currentDisplayMetrics.heightPixels, AllStaticSettings.scaleFactor);
+        if (newHeight < 1 || newWidth < 1) {
+            Logging.e("MGLSurface", String.format(Locale.getDefault(), "Impossible resolution : %dx%d", newWidth, newHeight));
+            return;
+        }
+        windowWidth = newWidth;
+        windowHeight = newHeight;
         if(mSurface == null){
             Logging.w("MGLSurface", "Attempt to refresh size on null surface");
             return;

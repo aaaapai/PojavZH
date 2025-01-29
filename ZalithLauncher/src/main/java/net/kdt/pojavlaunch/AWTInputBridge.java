@@ -35,7 +35,6 @@ public class AWTInputBridge {
     }
     
     static {
-        System.loadLibrary("pojavexec");
         System.loadLibrary("pojavexec_awt");
     }
     

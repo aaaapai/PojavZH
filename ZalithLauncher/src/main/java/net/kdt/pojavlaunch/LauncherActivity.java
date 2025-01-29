@@ -33,7 +33,6 @@ import com.movtery.zalithlauncher.event.single.LaunchGameEvent;
 import com.movtery.zalithlauncher.event.single.MainBackgroundChangeEvent;
 import com.movtery.zalithlauncher.event.single.PageOpacityChangeEvent;
 import com.movtery.zalithlauncher.event.single.SwapToLoginEvent;
-import com.movtery.zalithlauncher.event.sticky.InstallingVersionEvent;
 import com.movtery.zalithlauncher.event.sticky.MinecraftVersionValueEvent;
 import com.movtery.zalithlauncher.event.value.AddFragmentEvent;
 import com.movtery.zalithlauncher.event.value.DownloadProgressKeyEvent;
@@ -270,9 +269,7 @@ public class LauncherActivity extends BaseActivity {
                         return false;
                     }
 
-                    InstallingVersionEvent installingVersionEvent = new InstallingVersionEvent();
                     Task.runTask(() -> {
-                        EventBus.getDefault().postSticky(installingVersionEvent);
                         ModLoaderWrapper modLoaderWrapper = InstallLocalModPack.installModPack(this, type, dirGameModpackFile, customName);
                         if (modLoaderWrapper != null) {
                             InstallTask downloadTask = modLoaderWrapper.getDownloadTask();
@@ -295,10 +292,8 @@ public class LauncherActivity extends BaseActivity {
                             }
                         }
                     }).onThrowable(TaskExecutors.getAndroidUI(), e -> Tools.showErrorRemote(this, R.string.modpack_install_download_failed, e))
-                    .finallyTask(TaskExecutors.getAndroidUI(), () -> {
-                        ProgressLayout.clearProgress(ProgressLayout.INSTALL_RESOURCE);
-                        EventBus.getDefault().removeStickyEvent(installingVersionEvent);
-                    }).execute();
+                    .finallyTask(TaskExecutors.getAndroidUI(), () -> ProgressLayout.clearProgress(ProgressLayout.INSTALL_RESOURCE))
+                    .execute();
 
                     return true;
                 }).showDialog();

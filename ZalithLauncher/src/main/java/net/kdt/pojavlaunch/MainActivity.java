@@ -110,6 +110,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
     private ViewGameMenuBinding mGameMenuBinding;
     private ViewControlMenuBinding mControlSettingsBinding;
+    private MenuSettingsInitListener mMenuSettingsInitListener;
     boolean isInEditor;
 
     private SimpleTextWatcher mInputWatcher;
@@ -206,12 +207,12 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
             // Menu
             mGameMenuBinding = ViewGameMenuBinding.inflate(getLayoutInflater());
-            MenuSettingsInitListener menuSettingsInitListener = new MenuSettingsInitListener(mGameMenuBinding);
+            mMenuSettingsInitListener = new MenuSettingsInitListener(mGameMenuBinding);
 
             binding.mainNavigationView.removeAllViews();
             binding.mainNavigationView.addView(mGameMenuBinding.getRoot());
 
-            binding.mainDrawerOptions.addDrawerListener(menuSettingsInitListener);
+            binding.mainDrawerOptions.addDrawerListener(mMenuSettingsInitListener);
             binding.mainDrawerOptions.closeDrawers();
 
             binding.mainGameRenderView.setSurfaceReadyListener(() -> {
@@ -316,6 +317,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().removeStickyEvent(runningVersionEvent);
+        mMenuSettingsInitListener.closeSpinner();
         CallbackBridge.removeGrabListener(binding.mainTouchpad);
         CallbackBridge.removeGrabListener(binding.mainGameRenderView);
         getWindow().getDecorView().getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -611,6 +613,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
             );
             hotbarTypeAdapter.setItems(HotbarType.getEntries());
             this.binding.hotbarType.setSpinnerAdapter(hotbarTypeAdapter);
+            this.binding.hotbarType.setIsFocusable(true);
             this.binding.hotbarType.setOnSpinnerItemSelectedListener(this);
             this.binding.hotbarType.selectItemByIndex(HotbarUtils.getCurrentTypeIndex());
 
@@ -772,6 +775,10 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
         @Override public void onDrawerStateChanged(int newState) {
             //需要在菜单状态改变的时候，关闭Hotbar类型的Spinner，这个库并没有自动关闭的功能，所以需要这么做
             //关掉！关掉！一定要关掉！
+            closeSpinner();
+        }
+
+        public void closeSpinner() {
             binding.hotbarType.dismiss();
         }
     }
