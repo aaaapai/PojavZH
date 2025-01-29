@@ -22,6 +22,8 @@ import com.movtery.zalithlauncher.R;
 import com.movtery.zalithlauncher.feature.log.Logging;
 import com.movtery.zalithlauncher.utils.path.PathManager;
 
+import net.kdt.pojavlaunch.Tools;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -47,7 +49,7 @@ public class FolderProvider extends DocumentsProvider {
 
     private static final String ALL_MIME_TYPES = "*/*";
 
-    private static final File BASE_DIR = new File(PathManager.DIR_GAME_HOME);
+    private File BASE_DIR;
 
     private ContentResolver mContentResolver;
     private String mStorageProviderAuthortiy;
@@ -136,6 +138,12 @@ public class FolderProvider extends DocumentsProvider {
 
     @Override
     public boolean onCreate() {
+        if (Tools.checkStorageRoot()) {
+            PathManager.initContextConstants(getContext());
+        } else {
+            return false;
+        }
+        BASE_DIR = new File(PathManager.DIR_GAME_HOME);
         mContentResolver = getContext().getContentResolver();
         mStorageProviderAuthortiy = getContext().getString(R.string.storageProviderAuthorities);
         return true;
