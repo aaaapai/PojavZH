@@ -24,5 +24,8 @@ class LibPath {
         @JvmField val LOG4J_XML_1_7 = File(COMPONENTS_DIR, "log4j-rce-patch-1.7.xml")
         @JvmField val LOG4J_XML_1_12 = File(COMPONENTS_DIR, "log4j-rce-patch-1.12.xml")
         @JvmField val PRO_GRADE = File(COMPONENTS_DIR, "pro-grade.jar")
+
+        @JvmField val CACIO_17_AGENT = File(CACIO_17, "cacio-agent.jar")
+
     }
 }
