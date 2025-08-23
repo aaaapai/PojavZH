@@ -153,18 +153,9 @@ class LaunchArgs(
                 argsList.add("-Djava.awt.graphicsenv=net.java.openjdk.cacio.ctc.CTCGraphicsEnvironment")
                 argsList.add("-Djava.awt.headless=false")
             } else {
-                if (isJava17) {
                 argsList.add("-Dawt.toolkit=com.github.caciocavallosilano.cacio.ctc.CTCToolkit")
                 argsList.add("-Djava.awt.graphicsenv=com.github.caciocavallosilano.cacio.ctc.CTCGraphicsEnvironment")
-                argsList.add("-Djava.system.class.loader=com.github.caciocavallosilano.cacio.ctc.CTCPreloadClassLoader")
                 argsList.add("-Djava.awt.headless=false")
-                }
-                if (isJava21) {
-                argsList.add("-Dawt.toolkit=com.github.caciocavallosilano.cacio.ctc.CTCToolkit")
-                argsList.add("-Djava.awt.graphicsenv=com.github.caciocavallosilano.cacio.ctc.CTCGraphicsEnvironment")
-                argsList.add("-Djava.system.class.loader=com.github.caciocavallosilano.cacio.ctc.CTCPreloadClassLoader")
-                argsList.add("-Djava.awt.headless=false")
-                }
                 argsList.add("--add-exports=java.desktop/java.awt=ALL-UNNAMED")
                 argsList.add("--add-exports=java.desktop/java.awt.peer=ALL-UNNAMED")
                 argsList.add("--add-exports=java.desktop/sun.awt.image=ALL-UNNAMED")
@@ -192,17 +183,7 @@ class LaunchArgs(
                 if (it.name.endsWith(".jar")) cacioClassPath.append(":").append(it.absolutePath)
             }
 
-            if (isJava8) {
-               argsList.add(cacioClassPath.toString())
-            }
-
-            if (isJava17) {
-               argsList.add(cacioClassPath.toString())
-            }
-
-            if (isJava21) {
-               argsList.add(cacioClassPath.toString())
-            }
+            argsList.add(cacioClassPath.toString())
             
             return argsList
         }
