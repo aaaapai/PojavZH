@@ -368,7 +368,8 @@ public class JREUtils {
 
         //禁用flite缺失、lwjgl兼容性警告的日志输出
         userArgs.add("-javaagent:" + LibPath.MIO_LIB_FIXER.getAbsolutePath());
-
+        userArgs.add("-javaagent:" + LibPath.CACIO_17_AGENT.getAbsolutePath());
+        
         //Add automatically generated args
         userArgs.add("-Xms" + AllSettings.getRamAllocation().getValue().getValue() + "M");
         userArgs.add("-Xmx" + AllSettings.getRamAllocation().getValue().getValue() + "M");
