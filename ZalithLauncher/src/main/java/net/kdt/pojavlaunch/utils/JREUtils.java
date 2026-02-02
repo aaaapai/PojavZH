@@ -291,9 +291,9 @@ public class JREUtils {
             envMap.put("POJAVEXEC_EGL", "libEGL.so");
         }
 
-        if (LOCAL_RENDERER.equals("opengles3_desktopgl_angle")) {
+        if (LOCAL_RENDERER.equals("opengles3_mgl_espryt")) {
             envMap.put("LIBGL_ES", "3");
-            envMap.put("POJAVEXEC_EGL", "libEGL_angle.so");
+            envMap.put("POJAVEXEC_EGL", "libMobileGL.so");
         }
 
         if (eglName != null) envMap.put("POJAVEXEC_EGL", eglName);
