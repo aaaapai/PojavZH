@@ -42,7 +42,6 @@ ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_CFLAGS += -DADRENO_POSSIBLE
 LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
-LOCAL_LDLIBS += -lEGL -lGLESv3
 endif
 include $(BUILD_SHARED_LIBRARY)
 
