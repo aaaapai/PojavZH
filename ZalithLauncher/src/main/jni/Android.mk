@@ -12,21 +12,6 @@ $(call import-module,prefab/bytehook)
 LOCAL_PATH := $(HERE_PATH)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := angle_gles2
-LOCAL_SRC_FILES := angle/angle-gles/$(TARGET_ARCH_ABI)/libGLESv2_angle.so
-include $(PREBUILT_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := Angle
-LOCAL_SRC_FILES := angle/main.c angle/string_utils.c
-LOCAL_SHARED_LIBRARIES := angle_gles2
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/angle
-LOCAL_CFLAGS += -rdynamic
-LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
-LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
 # Link GLESv2 for test
 LOCAL_LDLIBS := -ldl -llog -landroid
 # -lGLESv2
