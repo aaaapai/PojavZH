@@ -22,7 +22,7 @@ LOCAL_SRC_FILES := angle/main.c angle/string_utils.c
 LOCAL_SHARED_LIBRARIES := angle_gles2
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/angle
 LOCAL_CFLAGS += -rdynamic
-LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 include $(BUILD_SHARED_LIBRARY)
 
@@ -55,7 +55,7 @@ LOCAL_SRC_FILES := \
 
 ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_CFLAGS += -DADRENO_POSSIBLE
-LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O3 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 LOCAL_LDLIBS += -lEGL -lGLESv3
 endif
@@ -66,7 +66,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := linkerhook
 LOCAL_SRC_FILES := driver_helper/hook.c
 LOCAL_LDFLAGS := -z global
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 include $(BUILD_SHARED_LIBRARY)
 #endif
@@ -75,7 +75,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := pojavexec_awt
 LOCAL_SRC_FILES := \
     awt_bridge.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 include $(BUILD_SHARED_LIBRARY)
 
@@ -85,7 +85,7 @@ LOCAL_SHARED_LIBRARIES := pojavexec
 LOCAL_LDLIBS := -llog -landroid
 LOCAL_SRC_FILES := \
     jre_launcher.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 include $(BUILD_SHARED_LIBRARY)
 
@@ -108,6 +108,6 @@ LOCAL_MODULE := awt_xawt
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_SHARED_LIBRARIES := awt_headless
 LOCAL_SRC_FILES := xawt_fake.c
-LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -mcpu=cortex-a53 -fdata-sections -ffunction-sections -fmerge-all-constants
+LOCAL_CFLAGS += -O2 -fPIC -DPIC -flto=thin -fwhole-program-vtables -mllvm -polly -pthread -Wall -std=c2x -femulated-tls -march=armv8-a+simd -fdata-sections -ffunction-sections -fmerge-all-constants
 LOCAL_LDLAGS += -flto=thin -Wl,-plugin-opt=-emulated-tls -fuse-ld=lld
 include $(BUILD_SHARED_LIBRARY)
