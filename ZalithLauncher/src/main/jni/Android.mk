@@ -13,7 +13,7 @@ LOCAL_PATH := $(HERE_PATH)
 
 include $(CLEAR_VARS)
 # Link GLESv2 for test
-LOCAL_LDLIBS := -ldl -llog -landroid
+LOCAL_LDLIBS := -ldl -llog -landroid -lEGL -lGLESv2
 # -lGLESv2
 LOCAL_MODULE := pojavexec
 LOCAL_SHARED_LIBRARIES := bytehook
