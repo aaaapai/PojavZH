@@ -566,8 +566,8 @@ public class JREUtils {
                 case "gallium_virgl":
                     renderLibrary = "libOSMesa_2121.so";
                     break;
-                case "opengles3_desktopgl_angle":
-                    renderLibrary = "libAngle.so";
+                case "opengles3_mgl_espryt":
+                    renderLibrary = "libMobileGL.so";
                     break;
                 case "opengles3_gl4es_plus":
                     renderLibrary = "libgl4es_plus.so";
